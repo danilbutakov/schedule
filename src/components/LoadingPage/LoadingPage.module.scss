@@ -1,0 +1,51 @@
+@import '../../styles/_variables.scss';
+
+.container {
+	background-color: $blue;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	.imgContainer {
+		flex: 1;
+		margin-top: 20vh;
+
+		.img {
+			animation: spin 3s infinite;
+			animation-delay: 1.5s;
+			width: 350px;
+			height: 350px;
+
+			@media (max-width: 440px) {
+				width: 250px;
+				height: 250px;
+			}
+		}
+	}
+
+	.textContainer {
+		margin-bottom: 70px;
+		cursor: pointer;
+		.text {
+			color: $white;
+			font-weight: 600;
+			font-size: 19px;
+			line-height: 24px;
+			text-align: center;
+			letter-spacing: -0.494px;
+		}
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+		transition-delay: 0;
+	}
+}

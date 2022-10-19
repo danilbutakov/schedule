@@ -1,0 +1,67 @@
+@import '../../styles/_variables.scss';
+
+.con {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 0 20px;
+
+	.swiper {
+		width: 100%;
+		.innerSwiper {
+			margin-top: 150px;
+
+			.slide {
+				margin-bottom: 70px;
+
+				.conText {
+					margin-top: 80px;
+					.title {
+						color: $primary;
+						font-weight: 700;
+						font-size: 27px;
+						line-height: 32px;
+						margin-bottom: 16px;
+
+						display: flex;
+						align-items: center;
+						text-align: center;
+						letter-spacing: 0.35px;
+					}
+					.subTitle {
+						color: $secondary;
+						font-weight: 400;
+						font-size: 17px;
+						line-height: 24px;
+						letter-spacing: -0.408px;
+					}
+				}
+			}
+		}
+	}
+
+	.btn {
+		padding: 16px 140px;
+		@media (max-width: 375px) {
+			padding: 16px 120px;
+		}
+		background: $blue;
+		border-radius: 16px;
+		font-size: 17px;
+		line-height: 24px;
+		cursor: pointer;
+		margin-top: 20px;
+
+		text-align: center;
+		letter-spacing: -0.408px;
+		color: $white;
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			opacity: 0.7;
+		}
+	}
+}
