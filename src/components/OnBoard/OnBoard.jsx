@@ -1,87 +1,65 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-// import Swiper core and required modules
-import { Pagination, A11y } from 'swiper';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import React, { useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 import styles from './OnBoard.module.scss';
-import logo1 from '../../assets/LogoOnboarding.svg';
-import logo2 from '../../assets/LogoOnboarding2.svg';
+import Login from '../Login/Login.jsx';
+import SwiperComponent from '../Swiper/SwiperComponent';
 
 const OnBoard = () => {
-	// const slides = [
-	// 	{
-	// 		img: logo1,
-	// 		title: 'Привет! Это новое приложение Schedule',
-	// 		subTitle: 'Просматривайте расписание занятий без ошибок Вуза',
-	// 	},
-	// 	{
-	// 		img: logo2,
-	// 		title: 'Быстрый поиск по университету',
-	// 		subTitle:
-	// 			'Узнавайте информацию о группах, преподавателях и свободных аудиториях',
-	// 	},
-	// ];
+	const [showLogin, setShowLogin] = useState(false);
+	const [showSwiper, setShowSwiper] = useState(true);
 
 	return (
-		<div className={styles.con}>
-			<div className={styles.swiper}>
-				<Swiper
-					modules={[Pagination, A11y]}
-					slidesPerView={1}
-					pagination={{ clickable: true }}
-					className={styles.innerSwiper}>
-					<SwiperSlide className={styles.slide}>
-						<div className={styles.conImg}>
-							<img src={logo1} alt='LogoOnboarding' />
-						</div>
-						<div className={styles.conText}>
-							<h1 className={styles.title}>
-								Привет! Это новое приложение Schedule
-							</h1>
-							<h2 className={styles.subTitle}>
-								Просматривайте расписание занятий без ошибок Вуза
-							</h2>
-						</div>
-					</SwiperSlide>
-					<SwiperSlide className={styles.slide}>
-						<div className={styles.conImg}>
-							<img src={logo2} alt='LogoOnboarding' />
-						</div>
-						<div className={styles.conText}>
-							<h1 className={styles.title}>
-								Быстрый поиск по университету
-							</h1>
-							<h2 className={styles.subTitle}>
-								Узнавайте информацию о группах, преподавателях и
-								свободных аудиториях
-							</h2>
-						</div>
-					</SwiperSlide>
-					{/* {slides.map((slide, index) => (
-						<SwiperSlide key={index} className={styles.slide}>
-							<div className={styles.conImg}>
-								<img src={slide.img} alt='LogoOnboarding' />
+		<>
+			<CSSTransition
+				classNames={{
+					enter: styles.enterSwiper,
+					enterDone: styles.enterActiveSwiper,
+					exit: styles.exitSwiper,
+					exitActive: styles.exitActiveSwiper,
+				}}
+				in={showSwiper}
+				timeout={300}
+				unmountOnExit>
+				<div className={styles.con}>
+					{!showLogin && (
+						<>
+							<div className={styles.swiper}>
+								<SwiperComponent />
 							</div>
-							<div className={styles.conText}>
-								<h1 className={styles.title}>{slide.title}</h1>
-								<h2 className={styles.subTitle}>{slide.subTitle}</h2>
-							</div>
-						</SwiperSlide>
-					))} */}
-				</Swiper>
-			</div>
-			<Link to='/'>
-				<button className={styles.btn}>Войти</button>
-			</Link>
-		</div>
+							<button
+								onClick={() => {
+									setShowLogin(!showLogin);
+									setShowSwiper(false);
+								}}
+								className={styles.btn}>
+								Войти
+							</button>
+						</>
+					)}
+				</div>
+			</CSSTransition>
+
+			<CSSTransition
+				classNames={{
+					enter: styles.enter,
+					enterDone: styles.enterActive,
+					exit: styles.exit,
+					exitActive: styles.exitActive,
+				}}
+				in={showLogin}
+				timeout={300}
+				unmountOnExit>
+				<div className={styles.loginShape}>
+					<div className={styles.loginMain}>
+						<Login
+							setShowLogin={setShowLogin}
+							setShowSwiper={setShowSwiper}
+						/>
+					</div>
+				</div>
+			</CSSTransition>
+		</>
 	);
 };
 

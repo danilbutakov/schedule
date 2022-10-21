@@ -4,6 +4,7 @@ import { animated, useTransition } from 'react-spring';
 
 import LoadingPage from './components/LoadingPage/LoadingPage';
 import OnBoard from './components/OnBoard/OnBoard';
+import Schedule from './components/Schedule/Schedule';
 
 function App() {
 	const location = useLocation();
@@ -11,10 +12,10 @@ function App() {
 	const [transitionStage, setTransistionStage] = useState('fadeIn');
 
 	useEffect(() => {
-		if (location !== displayLocation) setTransistionStage('fadeOut');
+		if (location.pathname !== displayLocation.pathname)
+			setTransistionStage('fadeOut');
+		console.log(location);
 	}, [location, displayLocation]);
-
-	console.log(location);
 
 	return (
 		<div
@@ -25,12 +26,11 @@ function App() {
 					setDisplayLocation(location);
 				}
 			}}>
-			<div className='App'>
-				<Routes location={displayLocation}>
-					<Route path='/' element={<LoadingPage />} />
-					<Route path='/onBoard' element={<OnBoard />} />
-				</Routes>
-			</div>
+			<Routes location={displayLocation}>
+				<Route path='/' element={<LoadingPage />} />
+				<Route path='/onBoard' element={<OnBoard />} />
+				<Route path='/schedule' element={<Schedule />} />
+			</Routes>
 		</div>
 	);
 }

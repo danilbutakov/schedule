@@ -65,3 +65,54 @@
 		}
 	}
 }
+
+.loginShape {
+	padding-top: 20px;
+	background-color: $primary;
+	.loginMain {
+		margin-top: 0px;
+		align-items: center;
+	}
+}
+
+.enter {
+	opacity: 0;
+	transform: translateY(650px);
+}
+
+.enterActive {
+	opacity: 1;
+	transform: translateY(0px);
+	transition: opacity 400ms, transform 400ms;
+}
+
+.exit {
+	opacity: 1;
+	transform: scale(0.9), translateY(650px);
+	transition: opacity 400ms, transform 400ms;
+}
+
+.exitActive {
+	opacity: 0;
+}
+
+.enterSwiper {
+	opacity: 0;
+	transform: translateX(-650px);
+}
+
+.enterActiveSwiper {
+	opacity: 1;
+	transform: translateX(0px);
+	transition: opacity 400ms, transform 400ms;
+}
+
+.exitSwiper {
+	opacity: 1;
+	transform: scale(0.9), translateX(-650px);
+	transition: opacity 400ms, transform 400ms;
+}
+
+.exitActiveSwiper {
+	opacity: 0;
+}
