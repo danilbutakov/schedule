@@ -1,7 +1,4 @@
 import { CapacitorConfig } from '@capacitor/cli';
-import { SplashScreen } from '@capacitor/splash-screen';
-
-await SplashScreen.hide();
 
 const config: CapacitorConfig = {
   appId: 'com.example.app',
