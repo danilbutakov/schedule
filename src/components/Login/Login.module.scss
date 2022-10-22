@@ -6,9 +6,35 @@
 	background-color: $white;
 	height: 100%;
 
+	.header {
+		display: flex;
+		padding: 20px 20px 0px 20px;
+		.headerCancel {
+			display: flex;
+			flex: 3.5;
+			color: $blue;
+			font-weight: 400;
+			font-size: 15px;
+			line-height: 20px;
+			cursor: pointer;
+			&:hover {
+				opacity: 0.5;
+			}
+		}
+		.headerTitle {
+			display: flex;
+			flex: 4;
+			justify-content: stretch;
+			font-size: 16px;
+			line-height: 20px;
+			color: $primary;
+			cursor: pointer;
+		}
+	}
+
 	.upLine {
-		padding: 30px 0px 15px 0px;
-		margin-bottom: 30px;
+		padding: 10px 0px 15px 0px;
+		margin-bottom: 20px;
 		border-bottom: 0.5px solid rgba(60, 60, 67, 0.13);
 	}
 

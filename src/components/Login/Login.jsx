@@ -6,6 +6,17 @@ import styles from './Login.module.scss';
 const Login = ({ setShowSwiper, setShowLogin }) => {
 	return (
 		<div className={styles.loginContainer}>
+			<div className={styles.header}>
+				<h2
+					onClick={() => {
+						setShowSwiper(true);
+						setShowLogin(false);
+					}}
+					className={styles.headerCancel}>
+					Отменить
+				</h2>
+				<div className={styles.headerTitle}>Вход</div>
+			</div>
 			<div className={styles.upLine}></div>
 			<div className={styles.main}>
 				<div className={styles.mainContent}>
