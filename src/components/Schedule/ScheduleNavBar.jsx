@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import portfel from '../../assets/portfel.svg';
 import lupa from '../../assets/lupa.svg';
@@ -11,16 +12,18 @@ const ScheduleNavBar = () => {
 		<div>
 			<div className={styles.navBar}>
 				<div className={styles.navItems}>
-					<div className={styles.navItem}>
-						<img
-							className={styles.navBarImg}
-							width={30}
-							height={30}
-							src={portfel}
-							alt=''
-						/>
-						<span className={styles.navBarActive}>Расписание</span>
-					</div>
+					<Link to={'/schedule'}>
+						<div className={styles.navItem}>
+							<img
+								className={styles.navBarImg}
+								width={30}
+								height={30}
+								src={portfel}
+								alt=''
+							/>
+							<span className={styles.navBarActive}>Расписание</span>
+						</div>
+					</Link>
 					<div className={styles.navItem}>
 						<img
 							className={styles.navBarImg}

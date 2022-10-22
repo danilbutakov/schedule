@@ -43,7 +43,7 @@ export const SchedulePairs = () => {
 	const [showInfo, setShowInfo] = useState(false);
 
 	return (
-		<div>
+		<div className={styles.mainContentContainer}>
 			<h2 className={styles.headline}>Понедельник 14 Мая</h2>
 			{pairs.map((pair, index) => (
 				<div key={index} className={styles.pairsContainer}>

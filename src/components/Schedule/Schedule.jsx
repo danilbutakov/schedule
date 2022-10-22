@@ -37,7 +37,6 @@ const Schedule = () => {
 					unmountOnExit>
 					<div className={styles.mainContent}>
 						{showSchedule && <SchedulePairs />}
-
 						{showInfo && <ScheduleInfo />}
 					</div>
 				</CSSTransition>
