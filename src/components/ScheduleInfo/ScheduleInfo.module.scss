@@ -1,0 +1,79 @@
+@import '../../styles/variables';
+
+.infoContainer {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+
+	.header {
+		display: flex;
+		align-items: center;
+		color: $blue;
+		font-weight: 400;
+		font-size: 17px;
+		line-height: 24px;
+		padding: 30px 5px 0px 5px;
+	}
+	.upLine {
+		padding: 0px 0px 10px 0px;
+		margin-bottom: 20px;
+		border-bottom: 0.5px solid rgba(60, 60, 67, 0.13);
+		width: 100%;
+	}
+	.mainContent {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		padding: 0px 20px;
+
+		.type {
+			font-size: 15px;
+			line-height: 15px;
+			color: $blue;
+			margin-bottom: 10px;
+		}
+		.name {
+			font-size: 17px;
+			line-height: 24px;
+			color: $primary;
+			margin-bottom: 15px;
+		}
+		.infoPair {
+			display: flex;
+			font-weight: 400;
+			font-size: 15px;
+			line-height: 18px;
+			margin-bottom: 40px;
+		}
+
+		.node {
+			.nodeTitle {
+				font-size: 15px;
+				line-height: 16px;
+				color: $secondary;
+			}
+			.nodeInfo {
+				margin-top: 20px;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 18px;
+				margin-bottom: 15px;
+			}
+			.addNode {
+				display: flex;
+				align-items: center;
+				cursor: pointer;
+				span {
+					font-weight: 400;
+					font-size: 14px;
+					line-height: 18px;
+					color: $blue;
+					flex: 2;
+				}
+				img {
+					transform: rotate(180deg);
+				}
+			}
+		}
+	}
+}

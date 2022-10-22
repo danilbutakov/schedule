@@ -1,0 +1,20 @@
+.enterComponent {
+	opacity: 0;
+	transform: translateY(-650px);
+}
+
+.enterActiveComponent {
+	opacity: 1;
+	transform: translateY(0px);
+	transition: opacity 400ms, transform 400ms;
+}
+
+.exitComponent {
+	opacity: 1;
+	transform: scale(0.9), translateY(-650px);
+	transition: opacity 400ms, transform 400ms;
+}
+
+.exitActiveComponent {
+	opacity: 0;
+}
