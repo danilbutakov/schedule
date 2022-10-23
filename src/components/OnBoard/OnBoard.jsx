@@ -21,7 +21,7 @@ const OnBoard = () => {
 					exitActive: styles.exitActiveSwiper,
 				}}
 				in={showSwiper}
-				timeout={0}
+				timeout={100}
 				unmountOnExit>
 				<div className={styles.con}>
 					{!showLogin && (
