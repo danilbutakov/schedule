@@ -1,5 +1,26 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import {
+	EmailShareButton,
+	FacebookShareButton,
+	HatenaShareButton,
+	InstapaperShareButton,
+	LineShareButton,
+	LinkedinShareButton,
+	LivejournalShareButton,
+	MailruShareButton,
+	OKShareButton,
+	PinterestShareButton,
+	PocketShareButton,
+	RedditShareButton,
+	TelegramShareButton,
+	TumblrShareButton,
+	TwitterShareButton,
+	ViberShareButton,
+	VKShareButton,
+	WhatsappShareButton,
+	WorkplaceShareButton,
+} from 'react-share';
 
 import styles from './Login.module.scss';
 
