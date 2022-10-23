@@ -10,13 +10,13 @@ import './index.css';
 
 function App() {
 	const location = useLocation();
-	const [displayLocation, setDisplayLocation] = useState(location);
+	const [displayLocation, setDisplayLocation] = useState(location.pathname);
 	const [transitionStage, setTransistionStage] = useState('fadeIn');
 
 	useEffect(() => {
 		if (location.pathname !== displayLocation.pathname)
 			setTransistionStage('fadeOut');
-		console.log(location);
+		console.log(location.pathname);
 	}, [location.pathname, displayLocation.pathname]);
 
 	return (
@@ -26,10 +26,10 @@ function App() {
 				onAnimationEnd={() => {
 					if (transitionStage === 'fadeOut') {
 						setTransistionStage('fadeIn');
-						setDisplayLocation(location);
+						setDisplayLocation(location.pathname);
 					}
 				}}>
-				<Routes location={displayLocation}>
+				<Routes location={displayLocation.pathname}>
 					<Route path='/' element={<LoadingPage />} />
 					<Route path='/onBoard' element={<OnBoard />} />
 					<Route path='/onBoardLogin' element={<Login />} />
