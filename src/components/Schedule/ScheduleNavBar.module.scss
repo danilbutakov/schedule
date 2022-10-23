@@ -6,6 +6,11 @@
 	width: 100%;
 	margin-bottom: 5px;
 	display: flex;
+	background-color: $white;
+	position: -webkit-sticky;
+	z-index: 99;
+	bottom: 0;
+	position: sticky;
 	.navItems {
 		padding: 0 20px;
 		display: flex;

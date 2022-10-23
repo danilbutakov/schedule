@@ -32,9 +32,11 @@ const Schedule = () => {
 				}}
 				in={showSchedule}
 				timeout={100}>
-				<div className={styles.mainContent}>
-					{showSchedule && <SchedulePairs />}
-					{showInfo && <ScheduleInfo />}
+				<div className={styles.mainContentContainer}>
+					<div className={styles.mainContent}>
+						{showSchedule && <SchedulePairs />}
+						{showInfo && <ScheduleInfo />}
+					</div>
 				</div>
 			</CSSTransition>
 			<ScheduleNavBar />

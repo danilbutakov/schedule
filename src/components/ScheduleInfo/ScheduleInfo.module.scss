@@ -1,18 +1,26 @@
 @import '../../styles/variables';
 
 .infoContainer {
-	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	height: 100%;
 
 	.header {
-		display: flex;
-		align-items: center;
-		color: $blue;
-		font-weight: 400;
-		font-size: 17px;
-		line-height: 24px;
-		padding: 30px 5px 0px 5px;
+		background-color: $white;
+		position: -webkit-sticky;
+		z-index: 99;
+		top: 0;
+		position: sticky;
+		padding-bottom: 10px;
+		.headContainer {
+			display: flex;
+			align-items: center;
+			color: $blue;
+			font-weight: 400;
+			font-size: 17px;
+			line-height: 24px;
+			padding: 30px 5px 0px 5px;
+		}
 	}
 	.upLine {
 		padding: 0px 0px 10px 0px;
@@ -25,8 +33,6 @@
 		flex-direction: column;
 		flex: 1;
 		padding: 0px 20px;
-		overflow-y: scroll;
-		flex: 0.25em;
 
 		.type {
 			font-size: 15px;

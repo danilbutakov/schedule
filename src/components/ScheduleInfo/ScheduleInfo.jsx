@@ -9,14 +9,21 @@ import backIcon from '../../assets/backIcon.svg';
 const ScheduleInfo = () => {
 	return (
 		<div className={styles.infoContainer}>
-			<Link to={'/schedule'}>
-				<div className={styles.header}>
-					<div className={styles.title}>
-						<img width={18} height={24} src={backIcon} alt='backIcon' />
+			<div className={styles.header}>
+				<Link to={'/schedule'}>
+					<div className={styles.headContainer}>
+						<div className={styles.title}>
+							<img
+								width={18}
+								height={24}
+								src={backIcon}
+								alt='backIcon'
+							/>
+						</div>
+						<h2>Расписание</h2>
 					</div>
-					<h2>Расписание</h2>
-				</div>
-			</Link>
+				</Link>
+			</div>
 
 			<div className={styles.upLine}></div>
 

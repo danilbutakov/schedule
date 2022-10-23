@@ -5,6 +5,7 @@ import LoadingPage from './components/LoadingPage/LoadingPage';
 import OnBoard from './components/OnBoard/OnBoard';
 import Schedule from './components/Schedule/Schedule';
 import ScheduleInfo from './components/ScheduleInfo/ScheduleInfo';
+import './index.css';
 
 function App() {
 	const location = useLocation();
@@ -18,20 +19,22 @@ function App() {
 	}, [location, displayLocation]);
 
 	return (
-		<div
-			className={`${transitionStage}`}
-			onAnimationEnd={() => {
-				if (transitionStage === 'fadeOut') {
-					setTransistionStage('fadeIn');
-					setDisplayLocation(location);
-				}
-			}}>
-			<Routes location={displayLocation}>
-				<Route path='/' element={<LoadingPage />} />
-				<Route path='/onBoard' element={<OnBoard />} />
-				<Route path='/schedule' element={<Schedule />} />
-				<Route path='/scheduleInfo:id' element={<ScheduleInfo />} />
-			</Routes>
+		<div className='App'>
+			<div
+				className={`${transitionStage}`}
+				onAnimationEnd={() => {
+					if (transitionStage === 'fadeOut') {
+						setTransistionStage('fadeIn');
+						setDisplayLocation(location);
+					}
+				}}>
+				<Routes location={displayLocation}>
+					<Route path='/' element={<LoadingPage />} />
+					<Route path='/onBoard' element={<OnBoard />} />
+					<Route path='/schedule' element={<Schedule />} />
+					<Route path='/scheduleInfo:id' element={<ScheduleInfo />} />
+				</Routes>
+			</div>
 		</div>
 	);
 }
