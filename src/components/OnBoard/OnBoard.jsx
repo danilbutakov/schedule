@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { useSwipeable } from 'react-swipeable';
 
 import styles from './OnBoard.module.scss';
 import Login from '../Login/Login.jsx';
 import SwiperComponent from '../Swiper/SwiperComponent';
+import { Link } from 'react-router-dom';
 
 const OnBoard = () => {
 	const [showLogin, setShowLogin] = useState(false);
@@ -19,7 +21,7 @@ const OnBoard = () => {
 					exitActive: styles.exitActiveSwiper,
 				}}
 				in={showSwiper}
-				timeout={300}
+				timeout={0}
 				unmountOnExit>
 				<div className={styles.con}>
 					{!showLogin && (
@@ -27,14 +29,16 @@ const OnBoard = () => {
 							<div className={styles.swiper}>
 								<SwiperComponent />
 							</div>
-							<button
-								onClick={() => {
-									setShowLogin(!showLogin);
-									setShowSwiper(false);
-								}}
-								className={styles.btn}>
-								Войти
-							</button>
+							<Link to={'/onBoardLogin'}>
+								<button
+									onClick={() => {
+										setShowLogin(!showLogin);
+										setShowSwiper(false);
+									}}
+									className={styles.btn}>
+									Войти
+								</button>
+							</Link>
 						</>
 					)}
 				</div>
@@ -42,13 +46,13 @@ const OnBoard = () => {
 
 			<CSSTransition
 				classNames={{
-					enter: styles.enter,
-					enterDone: styles.enterActive,
-					exit: styles.exit,
-					exitActive: styles.exitActive,
+					enter: styles.enterLogin,
+					enterDone: styles.enterActiveLogin,
+					exit: styles.exitLogin,
+					exitActive: styles.exitActiveLogin,
 				}}
 				in={showLogin}
-				timeout={300}
+				timeout={100}
 				unmountOnExit>
 				<div className={styles.loginShape}>
 					<div className={styles.loginMain}>

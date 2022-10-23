@@ -5,10 +5,20 @@
 	border-radius: 15px 15px 0px 0px;
 	background-color: $white;
 	height: 100%;
+	align-items: center;
+
+	.upperLine {
+		padding: 5px 0px 5px 0px;
+		border-bottom: 5px solid rgba(60, 60, 67, 0.13);
+		border-radius: 4px;
+		width: 80px;
+		margin: 0 auto 10px auto;
+		cursor: default;
+	}
 
 	.header {
 		display: flex;
-		padding: 20px 20px 0px 20px;
+		padding: 0px 20px 0px 20px;
 		.headerCancel {
 			display: flex;
 			flex: 3.5;

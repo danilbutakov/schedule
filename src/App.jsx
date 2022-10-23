@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 
 import LoadingPage from './components/LoadingPage/LoadingPage';
 import OnBoard from './components/OnBoard/OnBoard';
+import Login from './components/Login/Login';
 import Schedule from './components/Schedule/Schedule';
 import ScheduleInfo from './components/ScheduleInfo/ScheduleInfo';
 import './index.css';
@@ -31,6 +32,7 @@ function App() {
 				<Routes location={displayLocation}>
 					<Route path='/' element={<LoadingPage />} />
 					<Route path='/onBoard' element={<OnBoard />} />
+					<Route path='/onBoardLogin' element={<Login />} />
 					<Route path='/schedule' element={<Schedule />} />
 					<Route path='/scheduleInfo:id' element={<ScheduleInfo />} />
 				</Routes>

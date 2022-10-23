@@ -75,25 +75,26 @@
 	}
 }
 
-.enter {
+.enterLogin {
 	opacity: 0;
 	transform: translateY(650px);
 }
 
-.enterActive {
+.enterActiveLogin {
 	opacity: 1;
 	transform: translateY(0px);
 	transition: opacity 400ms, transform 400ms;
 }
 
-.exit {
-	opacity: 1;
-	transform: scale(0.9), translateY(650px);
-	transition: opacity 400ms, transform 400ms;
+.exitLogin {
+	opacity: 0;
+	transform: translateY(300px);
+	transition: opacity 800ms, transform 800ms;
 }
 
-.exitActive {
-	opacity: 0;
+.exitActiveLogin {
+	opacity: 1;
+	transform: translateY(650px);
 }
 
 .enterSwiper {
