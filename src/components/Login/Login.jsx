@@ -38,7 +38,7 @@ const Login = ({ setShowSwiper, setShowLogin }) => {
 					<div className={styles.upperLine}></div>
 				</div>
 				<div className={styles.header}>
-					<Link to={'/onBoard'}>
+					{/* <Link className={styles.headerCancelContainer} to={'/onBoard'}>
 						<h2
 							onClick={() => {
 								setShowSwiper(true);
@@ -47,7 +47,7 @@ const Login = ({ setShowSwiper, setShowLogin }) => {
 							className={styles.headerCancel}>
 							Отменить
 						</h2>
-					</Link>
+					</Link> */}
 					<div className={styles.headerTitle}>Вход</div>
 				</div>
 			</div>

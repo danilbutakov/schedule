@@ -105,13 +105,13 @@
 .enterActiveSwiper {
 	opacity: 1;
 	transform: translateX(0px);
-	transition: opacity 400ms, transform 400ms;
+	transition: opacity 800ms, transform 800ms;
 }
 
 .exitSwiper {
 	opacity: 1;
 	transform: scale(0.9), translateX(-650px);
-	transition: opacity 400ms, transform 400ms;
+	transition: opacity 800ms, transform 800ms;
 }
 
 .exitActiveSwiper {

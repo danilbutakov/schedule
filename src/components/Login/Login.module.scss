@@ -17,24 +17,23 @@
 	}
 
 	.header {
-		display: flex;
 		padding: 0px 20px 0px 20px;
-		.headerCancel {
-			display: flex;
-			flex: 3.5;
-			color: $blue;
-			font-weight: 400;
-			font-size: 15px;
-			line-height: 20px;
-			cursor: pointer;
-			&:hover {
-				opacity: 0.5;
+
+		.headerCancelContainer {
+			.headerCancel {
+				color: $blue;
+				font-weight: 400;
+				font-size: 15px;
+				line-height: 20px;
+				cursor: pointer;
+				&:hover {
+					opacity: 0.5;
+				}
 			}
 		}
 		.headerTitle {
-			display: flex;
-			flex: 4;
-			justify-content: stretch;
+			text-align: center;
+			align-items: center;
 			font-size: 16px;
 			line-height: 20px;
 			color: $primary;

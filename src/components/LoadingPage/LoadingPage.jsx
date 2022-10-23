@@ -1,15 +1,16 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import styles from './LoadingPage.module.scss';
 import logo from '../../assets/logo.svg';
 
 const LoadingPage = () => {
 	const [state, setSate] = React.useState(true);
+	const location = useLocation();
 
 	const navigate = useNavigate();
 
-	if (state) {
+	if (location.pathname === location.pathname) {
 		setTimeout(() => {
 			navigate('/onBoard');
 		}, 3500);
