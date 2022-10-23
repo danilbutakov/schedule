@@ -13,34 +13,32 @@ const Schedule = () => {
 	const [showInfo, setShowInfo] = useState(false);
 
 	return (
-		<>
-			<div className={styles.con}>
-				<div className={styles.header}>
-					<div className={styles.titleContainer}>
-						<h1 className={styles.title}>Расписание</h1>
-					</div>
-					<div className={styles.calendarSchedule}>
-						<img src={calendar} alt='calendar' />
-					</div>
+		<div className={styles.con}>
+			<div className={styles.header}>
+				<div className={styles.titleContainer}>
+					<h1 className={styles.title}>Расписание</h1>
 				</div>
-				<div className={styles.upLine}></div>
-				<CSSTransition
-					classNames={{
-						enter: styles.enter,
-						enterDone: styles.enterActive,
-						exit: styles.exit,
-						exitActive: styles.exitActive,
-					}}
-					in={showSchedule}
-					timeout={100}>
-					<div className={styles.mainContent}>
-						{showSchedule && <SchedulePairs />}
-						{showInfo && <ScheduleInfo />}
-					</div>
-				</CSSTransition>
-				<ScheduleNavBar />
+				<div className={styles.calendarSchedule}>
+					<img src={calendar} alt='calendar' />
+				</div>
 			</div>
-		</>
+			<div className={styles.upLine}></div>
+			<CSSTransition
+				classNames={{
+					enter: styles.enter,
+					enterDone: styles.enterActive,
+					exit: styles.exit,
+					exitActive: styles.exitActive,
+				}}
+				in={showSchedule}
+				timeout={100}>
+				<div className={styles.mainContent}>
+					{showSchedule && <SchedulePairs />}
+					{showInfo && <ScheduleInfo />}
+				</div>
+			</CSSTransition>
+			<ScheduleNavBar />
+		</div>
 	);
 };
 
