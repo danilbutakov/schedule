@@ -134,13 +134,13 @@
 .enterActive {
 	opacity: 1;
 	transform: translateY(0px);
-	transition: opacity 50ms, transform 50ms;
+	transition: opacity 800ms, transform 800ms;
 }
 
 .exit {
 	opacity: 1;
 	transform: scale(0.9), translateY(650px);
-	transition: opacity 50ms, transform 50ms;
+	transition: opacity 800ms, transform 800ms;
 }
 
 .exitActive {

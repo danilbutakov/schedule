@@ -31,7 +31,7 @@ const Schedule = () => {
 					exitActive: styles.exitActive,
 				}}
 				in={showSchedule}
-				timeout={0}>
+				timeout={800}>
 				<div className={styles.mainContentContainer}>
 					<div className={styles.mainContent}>
 						{showSchedule && <SchedulePairs />}

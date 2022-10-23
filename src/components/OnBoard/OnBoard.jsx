@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useSwipeable } from 'react-swipeable';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import styles from './OnBoard.module.scss';
 import Login from '../Login/Login.jsx';
@@ -29,16 +30,14 @@ const OnBoard = () => {
 							<div className={styles.swiper}>
 								<SwiperComponent />
 							</div>
-							<Link to={'/onBoardLogin'}>
-								<button
-									onClick={() => {
-										setShowLogin(!showLogin);
-										setShowSwiper(false);
-									}}
-									className={styles.btn}>
-									Войти
-								</button>
-							</Link>
+							<button
+								onClick={() => {
+									setShowLogin(!showLogin);
+									setShowSwiper(false);
+								}}
+								className={styles.btn}>
+								Войти
+							</button>
 						</>
 					)}
 				</div>

@@ -24,7 +24,8 @@ const Login = ({ setShowSwiper, setShowLogin }) => {
 		const diff = touchDown - currentTouch;
 
 		if (diff < -8) {
-			navigate('/onBoard');
+			setShowLogin(false);
+			setShowSwiper(true);
 			console.log('diff < 8');
 		}
 
@@ -38,7 +39,7 @@ const Login = ({ setShowSwiper, setShowLogin }) => {
 					<div className={styles.upperLine}></div>
 				</div>
 				<div className={styles.header}>
-					<Link className={styles.headerCancelContainer} to={'/onBoard'}>
+					{/* <Link className={styles.headerCancelContainer} to={'/onBoard'}>
 						<h2
 							onClick={() => {
 								setShowSwiper(true);
@@ -47,7 +48,7 @@ const Login = ({ setShowSwiper, setShowLogin }) => {
 							className={styles.headerCancel}>
 							Отменить
 						</h2>
-					</Link>
+					</Link> */}
 					<div className={styles.headerTitle}>Вход</div>
 				</div>
 			</div>
@@ -65,14 +66,7 @@ const Login = ({ setShowSwiper, setShowLogin }) => {
 					/>
 				</div>
 				<Link to='/schedule'>
-					<button
-						onClick={() => {
-							setShowSwiper(true);
-							setShowLogin(false);
-						}}
-						className={styles.btn}>
-						Войти
-					</button>
+					<button className={styles.btn}>Войти</button>
 				</Link>
 			</div>
 		</div>
