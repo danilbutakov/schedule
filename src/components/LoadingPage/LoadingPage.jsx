@@ -12,7 +12,7 @@ const LoadingPage = () => {
 	if (state) {
 		setTimeout(() => {
 			navigate('/onBoard');
-		}, 5500);
+		}, 6666665500);
 	}
 
 	return (

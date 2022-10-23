@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { Link } from 'react-router-dom';
 
 import styles from './Schedule.module.scss';
 import calendar from '../../assets/calendar.svg';
@@ -33,8 +32,7 @@ const Schedule = () => {
 						exitActive: styles.exitActive,
 					}}
 					in={showSchedule}
-					timeout={100}
-					unmountOnExit>
+					timeout={100}>
 					<div className={styles.mainContent}>
 						{showSchedule && <SchedulePairs />}
 						{showInfo && <ScheduleInfo />}

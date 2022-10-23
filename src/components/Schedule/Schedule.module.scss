@@ -1,11 +1,10 @@
 @import '../../styles/variables';
 
 .con {
-	min-height: 100vh;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-
+	height: 100vh;
 	.upLine {
 		padding: 0px 0px 10px 0px;
 		margin-bottom: 30px;
@@ -46,7 +45,6 @@
 		flex-direction: column;
 		flex: 1;
 		overflow-y: scroll;
-		flex: 0.25em;
 		.headline {
 			color: $primary;
 			font-weight: 500;
