@@ -22,7 +22,7 @@ function App() {
 					classNames='page'
 					timeout={500}>
 					<Routes>
-						<Route path='/' element={<LoadingPage />} exact />
+						<Route path='/' element={<LoadingPage />} />
 						<Route path='/onBoard' element={<OnBoard />} />
 						<Route path={'/login'} element={<LoginContainer />} />
 						<Route path='/schedule' element={<Schedule />} />
