@@ -1,51 +1,62 @@
 @import '../../styles/_variables.scss';
 
 .container {
-	background-color: $blue;
+	background-color: $white;
 	height: 100vh;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	margin: auto auto;
 
 	.imgContainer {
-		flex: 1;
-		margin-top: 20%;
-
 		.img {
-			animation: spin 3s infinite;
+			animation: logo 1.5s ease-in-out infinite;
 			animation-delay: 1.5s;
-			width: 350px;
-			height: 350px;
+			width: 102px;
+			height: 125px;
 
 			@media (max-width: 440px) {
-				width: 250px;
-				height: 250px;
+				width: 102px;
+				height: 125px;
 			}
 		}
 	}
 
 	.textContainer {
-		margin-bottom: 70px;
 		cursor: pointer;
+		margin-top: 10px;
 		.text {
-			color: $white;
-			font-weight: 600;
-			font-size: 19px;
+			cursor: default;
+			font-weight: 400;
+			font-size: 23px;
 			line-height: 24px;
 			text-align: center;
-			letter-spacing: -0.494px;
+
+			background: linear-gradient(
+				261.39deg,
+				#09c0a9 32.48%,
+				#5f7de6 50.11%,
+				#bd01ff 67.89%
+			);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
 		}
 	}
 }
 
-@keyframes spin {
-	from {
-		transform: rotate(0deg);
+@keyframes logo {
+	0% {
+		transform: scale(0.8);
+		transition: transform 500ms;
 	}
-	to {
-		transform: rotate(360deg);
-		transition-delay: 0;
+	50% {
+		transform: scale(1);
+		transition: transform 500ms;
+	}
+	100% {
+		transform: scale(0.8);
+		transition: transform 500ms;
 	}
 }

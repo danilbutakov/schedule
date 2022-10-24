@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import styles from './Login.module.scss';
 
-const Login = ({ setShowSwiper, setShowLogin }) => {
+const Login = () => {
+	const navigate = useNavigate();
 	const [touchPosition, setTouchPosition] = useState(null);
 	// ...
 	const handleTouchStart = (e) => {
@@ -22,9 +23,8 @@ const Login = ({ setShowSwiper, setShowLogin }) => {
 		const diff = touchDown - currentTouch;
 
 		if (diff < -8) {
-			setShowLogin(false);
-			setShowSwiper(true);
-			console.log('diff < 8');
+			navigate('/onBoard');
+			console.log('diff < -8');
 		}
 
 		setTouchPosition(null);
@@ -37,16 +37,6 @@ const Login = ({ setShowSwiper, setShowLogin }) => {
 					<div className={styles.upperLine}></div>
 				</div>
 				<div className={styles.header}>
-					{/* <Link className={styles.headerCancelContainer} to={'/onBoard'}>
-						<h2
-							onClick={() => {
-								setShowSwiper(true);
-								setShowLogin(false);
-							}}
-							className={styles.headerCancel}>
-							Отменить
-						</h2>
-					</Link> */}
 					<div className={styles.headerTitle}>Вход</div>
 				</div>
 			</div>
