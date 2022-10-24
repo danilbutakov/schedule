@@ -85,7 +85,7 @@ body {
 }
 
 .fadeOut {
-	animation: 0.3s fadeOut forwards;
+	animation: 0.5s fadeOut forwards;
 	height: 100vh;
 }
 
@@ -103,13 +103,14 @@ body {
 
 @keyframes fadeOut {
 	from {
-		opacity: 1;
-		transform: scale(0.9), translateX(650px);
-		transition: opacity 100ms, transform 100ms;
+		opacity: 0;
+		transform: scale(0.9), translateX(0px);
+		transition: opacity 600ms, transform 600ms;
 	}
 	to {
-		opacity: 0;
+		opacity: 1;
 		transform: translateX(650px);
+		transition: transform 600ms;
 	}
 }
 

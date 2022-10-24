@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import styles from './LoadingPage.module.scss';
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/LogoShapes.svg';
 
 const LoadingPage = () => {
 	const [state, setSate] = React.useState(true);

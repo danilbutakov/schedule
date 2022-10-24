@@ -2,3 +2,26 @@
 	width: 100%;
 	min-height: 100vh;
 }
+
+.swiper-pagination-bullet-active {
+	background: linear-gradient(180deg, #007aff 0%, #ba00fc 100%) !important;
+}
+
+.login-enter {
+	opacity: 0;
+	transform: scale(0.9);
+	transform: translateY(650px);
+}
+.login-enter-active {
+	opacity: 1;
+	transform: translateY(0px);
+	transition: opacity 400ms, transform 400ms;
+}
+.login-exit {
+	opacity: 1;
+}
+.login-exit-active {
+	opacity: 0;
+	transform: translateY(0px), scale(0.9);
+	transition: transform 400ms, opacity 400ms;
+}

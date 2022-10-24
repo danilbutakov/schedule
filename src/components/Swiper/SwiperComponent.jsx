@@ -12,21 +12,20 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 import styles from '../OnBoard/OnBoard.module.scss';
-import logo1 from '../../assets/LogoOnboarding.svg';
-import logo2 from '../../assets/LogoOnboarding2.svg';
+import logo from '../../assets/logo.svg';
 
 const SwiperComponent = () => {
 	const slides = [
 		{
-			img: logo1,
-			title: 'Привет! Это новое приложение Schedule',
-			subTitle: 'Просматривайте расписание занятий без ошибок Вуза',
+			img: logo,
+			title: 'Расписание занятий в твоем кармане',
+			subTitle: 'Просматривайте расписание занятий',
 		},
 		{
-			img: logo2,
+			img: logo,
 			title: 'Быстрый поиск по университету',
 			subTitle:
-				'Узнавайте информацию о группах, преподавателях и свободных аудиториях',
+				'Узнавайте информацию о группах, преподавателях и аудиториях',
 		},
 	];
 
@@ -40,7 +39,15 @@ const SwiperComponent = () => {
 				{slides.map((slide, index) => (
 					<SwiperSlide key={index} className={styles.slide}>
 						<div className={styles.conImg}>
-							<img src={slide.img} alt='LogoOnboarding' />
+							<div className={styles.LogoShape}>
+								<img
+									width={142}
+									height={142}
+									src={slide.img}
+									alt='Logo'
+									className={styles.shapeImg}
+								/>
+							</div>
 						</div>
 						<div className={styles.conText}>
 							<h1 className={styles.title}>{slide.title}</h1>
