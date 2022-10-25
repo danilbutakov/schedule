@@ -3,7 +3,6 @@ import { CSSTransition } from 'react-transition-group';
 
 import styles from './OnBoard.module.scss';
 import '../../index.css';
-import Login from '../Login/Login.jsx';
 import SwiperComponent from '../Swiper/SwiperComponent';
 import { Link } from 'react-router-dom';
 

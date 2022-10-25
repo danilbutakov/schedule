@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './Schedule.module.scss';
@@ -8,75 +8,109 @@ export const SchedulePairs = () => {
 		{
 			day: 'Понедельник 1 сентября',
 			timeStart: '08:30',
-			timeFinish: '10:00',
-			type: 'Лекция',
-			name: 'Информационные технологии в PreMedia',
-			classRoom: 'Ауд. 2-210, пр. Мира, д. 11, корп. 2',
+			timeEnd: '10:00',
+			time: '08:30-10:00',
+			type: 'Лабораторная',
+			name: 'Программирование',
+			teacher: 'Замятин В.М.',
+			classRoom: 'Д-508',
+			group: 1,
 		},
 		{
 			day: 'Понедельник 1 сентября',
 			timeStart: '10:10',
-			timeFinish: '11:40',
-			type: 'Лабораторные работы',
-			name: 'Безопасность жизнедеятельности',
-			classRoom: 'Ауд. 6-420, пр. Мира, д. 11, корп. 6',
+			timeEnd: '11:40',
+			type: 'Лекция',
+			name: 'Программирование',
+			teacher: 'Димов А.В.',
+			classRoom: 'Д-521',
+			group: 1,
 		},
 		{
 			day: 'Понедельник 1 сентября',
 			timeStart: '12:10',
-			timeFinish: '13:40',
-			type: 'Лабораторные работы',
-			name: 'Информационные технологии в PreMedia',
-			classRoom: 'Ауд. 2-214, пр. Мира, д. 11, корп. 2',
+			timeEnd: '13:40',
+			type: 'Практика',
+			name: 'ООП',
+			teacher: 'Молчанова Е.И.',
+			classRoom: 'Д-518',
+			group: 1,
 		},
 		{
 			day: 'Понедельник 1 сентября',
 			timeStart: '13:50',
-			timeFinish: '15:20',
-			type: 'Лекция',
-			name: 'Безопасность жизнедеятельности',
-			classRoom: 'Ауд. 2-210, пр. Мира, д. 11, корп. 2',
+			timeEnd: '15:20',
+			type: 'Лабораторная',
+			name: 'ООП',
+			teacher: 'Молчанова Е.И.',
+			classRoom: 'Д-501',
+			group: 2,
 		},
 		{
 			day: 'Понедельник 1 сентября',
-			timeStart: '13:50',
-			timeFinish: '15:20',
-			type: 'Лекция',
-			name: 'Безопасность жизнедеятельности',
-			classRoom: 'Ауд. 2-210, пр. Мира, д. 11, корп. 2',
+			timeStart: '15:30',
+			timeEnd: '17:00',
+			type: 'Лабораторная',
+			name: 'Программирование',
+			classRoom: 'Д-508',
+			teacher: 'Замятин В.М.',
+			group: 2,
 		},
 		{
 			day: 'Понедельник 1 сентября',
-			timeStart: '13:50',
-			timeFinish: '15:20',
-			type: 'Лекция',
-			name: 'Безопасность жизнедеятельности',
-			classRoom: 'Ауд. 2-210, пр. Мира, д. 11, корп. 2',
-		},
-		{
-			day: 'Понедельник 1 сентября',
-			timeStart: '13:50',
-			timeFinish: '15:20',
-			type: 'Лекция',
-			name: 'Безопасность жизнедеятельности',
-			classRoom: 'Ауд. 2-210, пр. Мира, д. 11, корп. 2',
-		},
-		{
-			day: 'Понедельник 1 сентября',
-			timeStart: '13:50',
-			timeFinish: '15:20',
-			type: 'Лекция',
-			name: 'Безопасность жизнедеятельности',
-			classRoom: 'Ауд. 2-210, пр. Мира, д. 11, корп. 2',
+			timeStart: '17:10',
+			timeEnd: '18:40',
+			type: 'Практика',
+			name: 'ООП',
+			teacher: 'Молчанова Е.И.',
+			classRoom: 'Д-501',
+			group: 2,
 		},
 	];
 
 	const [showSchedule, setShowSchedule] = useState(true);
 	const [showInfo, setShowInfo] = useState(false);
+	const [currentPair, setCurrentPair] = useState(false);
+	const [showCurrentPair, setShowCurrentPair] = useState();
+	const [hiddenCurrentPair, setHiddenCurrentPair] = useState();
+
+	const Data = new Date();
+	const Hour = Data.getHours();
+	const Minutes = Data.getMinutes();
+	const currentData = Hour * 60 + Minutes;
+
+	useEffect(() => {
+		pairs.forEach((pair) => {
+			const pairStartHour = pair.timeStart[0] + pair.timeStart[1];
+			const pairStartMinutes = pair.timeStart[3] + pair.timeStart[4];
+
+			const pairEndHour = pair.timeEnd[0] + pair.timeEnd[1];
+			const pairEndMinutes = pair.timeEnd[3] + pair.timeEnd[4];
+
+			const pairTimeStart =
+				Number(pairStartHour) * 60 + Number(pairStartMinutes);
+
+			const pairTimeEnd = Number(pairEndHour) * 60 + Number(pairEndMinutes);
+
+			console.log(pairTimeStart);
+			console.log(pairTimeEnd);
+			console.log(currentData);
+
+			if (pairTimeStart <= currentData <= pairTimeEnd) {
+				setCurrentPair(true);
+				setShowCurrentPair(styles.currentPair);
+			} else {
+				setCurrentPair(false);
+				setHiddenCurrentPair(styles.numPair);
+			}
+		});
+	}, []);
+
+	console.log(showCurrentPair);
+	console.log(hiddenCurrentPair);
 
 	return (
 		<div className={styles.mainContentContainer}>
-			<h2 className={styles.headline}>Понедельник 14 Мая</h2>
 			{pairs.map((pair, index) => (
 				<div key={index} className={styles.pairsContainer}>
 					<Link to={'/scheduleInfo:id' + index}>
@@ -86,15 +120,30 @@ export const SchedulePairs = () => {
 								setShowInfo(true);
 							}}
 							className={styles.pair}>
-							<div className={styles.time}>
-								<span className={styles.start}>{pair.timeStart}</span>
-								<span className={styles.finish}>{pair.timeFinish}</span>
+							<div className={styles.headPair}>
+								<div className={styles.headLeft}>
+									<span
+										className={
+											currentPair
+												? showCurrentPair
+												: hiddenCurrentPair
+										}>
+										{index + 1}
+									</span>
+									<h3 className={styles.type}>{pair.type}</h3>
+								</div>
+								<span className={styles.time}>
+									{pair.timeStart} - {pair.timeEnd}
+								</span>
 							</div>
 							<div className={styles.infoPair}>
-								<div className={styles.typePair}>{pair.type}</div>
 								<div className={styles.namePair}>{pair.name}</div>
+								<div className={styles.teachPair}>{pair.teacher}</div>
 								<div className={styles.classRoomPair}>
 									{pair.classRoom}
+								</div>
+								<div className={styles.groupPair}>
+									{pair.group} подгруппа
 								</div>
 							</div>
 						</div>
