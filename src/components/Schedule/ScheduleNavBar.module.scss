@@ -26,22 +26,20 @@
 			text-align: center;
 			cursor: pointer;
 
-			&:hover {
-				color: $blue;
-				.navBarImg {
-					filter: invert(32%) sepia(73%) saturate(3876%) hue-rotate(201deg)
-						brightness(103%) contrast(104%);
-				}
+			.navBarActive {
+				font-weight: 500;
+				font-size: 14px;
+				line-height: 8px;
+				color: linear-gradient(225deg, #00fccf 0%, #bd01ff 100%);
+				margin-top: 5px;
 			}
 
-			.navBarActive {
-				color: $blue;
-			}
 			.navBarSpan {
-				font-weight: 500;
-				font-size: 15px;
-				line-height: 12px;
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 8px;
 				color: $secondary;
+				margin-top: 5px;
 			}
 		}
 	}

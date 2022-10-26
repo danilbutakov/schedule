@@ -71,20 +71,26 @@ export const SchedulePairs = () => {
 	const [showSchedule, setShowSchedule] = useState(true);
 	const [showInfo, setShowInfo] = useState(false);
 	const [currentPair, setCurrentPair] = useState(false);
+	const [h, setH] = useState();
+	const [m, setM] = useState();
 
 	// const Data = new Date();
 	// const Hour = Data.getHours();
 	// const Minutes = Data.getMinutes();
 	// const currentData = Hour * 60 + Minutes;
 
+	useEffect(() => {
+		const now = new Date();
+		setH(now.getHours());
+		setM(now.getMinutes());
+	}, []);
+
 	/**
 	 * @param {string} start
 	 * @param {string} end
 	 */
+
 	function checkDate(start, end) {
-		const now = new Date();
-		const h = now.getHours();
-		const m = now.getMinutes();
 		const startTime = start.split(':').map((i) => Number(i));
 		if (startTime[0] > h) return styles.inactive;
 		if (startTime[1] > h) return styles.inactive;

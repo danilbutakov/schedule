@@ -8,7 +8,7 @@ import Schedule from './components/Schedule/Schedule';
 import ScheduleInfo from './components/ScheduleInfo/ScheduleInfo';
 import './styles/index.scss';
 import './index.css';
-import Login from './components/Login/Login';
+import Menu from './components/Menu/Menu';
 import { LoginContainer } from './components/Login/LoginContainer';
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
 						<Route path={'/login'} element={<LoginContainer />} />
 						<Route path='/schedule' element={<Schedule />} />
 						<Route path='/scheduleInfo:id' element={<ScheduleInfo />} />
+						<Route path='/menu' element={<Menu />} />
 					</Routes>
 				</CSSTransition>
 			</TransitionGroup>
