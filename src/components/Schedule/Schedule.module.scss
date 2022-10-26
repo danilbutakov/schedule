@@ -99,7 +99,7 @@
 						.headLeft {
 							display: flex;
 							align-items: center;
-							.numPair {
+							.inactive {
 								background: linear-gradient(
 									270deg,
 									#00fccf 0%,
@@ -110,7 +110,7 @@
 								font-size: 14px;
 								color: $primary;
 							}
-							.currentPair {
+							.active {
 								background: linear-gradient(
 									270deg,
 									#00fccf 0%,
@@ -119,7 +119,7 @@
 								border-radius: 0px 10px 10px 0px;
 								padding: 6px 38px 6px 18px;
 								font-size: 14px;
-								color: $primary;
+								color: $white;
 							}
 							.type {
 								padding-left: 12px;

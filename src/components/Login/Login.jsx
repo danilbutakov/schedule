@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 
 import styles from './Login.module.scss';
+import '../../styles/index.scss';
+
+import LoginFirst from './LoginFirst';
+import LoginSecond from './LoginSecond';
 
 const Login = () => {
+	const [showFirst, setShowFirst] = useState(true);
+	const [showSecond, setShowSecond] = useState(false);
+	const [showLogins, setShowLogins] = useState(true);
+
 	const navigate = useNavigate();
 	const [touchPosition, setTouchPosition] = useState(null);
 	// ...
@@ -41,22 +50,19 @@ const Login = () => {
 				</div>
 			</div>
 			<div className={styles.upLine}></div>
-			<div className={styles.main}>
-				<div className={styles.mainContent}>
-					<h1 className={styles.title}>Введите номер зачетки</h1>
-					<h2 className={styles.subTitle}>
-						Номер зачетной книжки находится на первой странице.
-					</h2>
-					<input
-						className={styles.input}
-						type='text'
-						placeholder='Номер зачетки'
+			<CSSTransition classNames='login' in={showSecond} timeout={500}>
+				{showFirst ? (
+					<LoginFirst
+						setShowFirst={setShowFirst}
+						setShowSecond={setShowSecond}
 					/>
-				</div>
-				<Link to='/schedule'>
-					<button className={styles.btn}>Войти</button>
-				</Link>
-			</div>
+				) : (
+					<LoginSecond
+						setShowFirst={setShowFirst}
+						setShowSecond={setShowSecond}
+					/>
+				)}
+			</CSSTransition>
 		</div>
 	);
 };

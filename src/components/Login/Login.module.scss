@@ -59,11 +59,10 @@
 			flex-direction: column;
 			flex: 1;
 			.title {
-				font-weight: 700;
+				font-weight: 600;
 				font-size: 27px;
-				line-height: 32px;
-				letter-spacing: 0.35px;
 				margin-bottom: 15px;
+				line-height: 32px;
 				color: $primary;
 			}
 			.subTitle {
@@ -85,9 +84,9 @@
 		.btn {
 			padding: 16px 140px;
 			@media (max-width: 375px) {
-				padding: 16px 120px;
+				padding: 16px 80px;
 			}
-			background: $blue;
+			background: linear-gradient(270deg, #bd01ff 0%, #007aff 100%);
 			border-radius: 16px;
 			font-size: 17px;
 			line-height: 24px;
@@ -97,6 +96,41 @@
 			letter-spacing: -0.408px;
 			color: $white;
 			transition: all 0.2s ease-in-out;
+		}
+		.btns {
+			.btn1 {
+				padding: 16px 20px;
+				@media (max-width: 375px) {
+					padding: 16px 20px;
+				}
+				background: linear-gradient(270deg, #bd01ff 0%, #007aff 100%);
+				border-radius: 16px;
+				font-size: 17px;
+				line-height: 24px;
+				cursor: pointer;
+
+				text-align: center;
+				letter-spacing: -0.408px;
+				color: $white;
+				transition: all 0.2s ease-in-out;
+			}
+			.btn2 {
+				padding: 16px 20px;
+				margin-right: 40px;
+				@media (max-width: 375px) {
+					padding: 16px 20px;
+				}
+				background: #f2f2f7;
+				border-radius: 16px;
+				font-size: 17px;
+				line-height: 24px;
+				cursor: pointer;
+
+				text-align: center;
+				letter-spacing: -0.408px;
+				color: rgba(60, 60, 67, 0.6);
+				transition: all 0.2s ease-in-out;
+			}
 		}
 	}
 }

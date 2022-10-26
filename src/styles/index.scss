@@ -84,7 +84,7 @@ body {
 	opacity: 0;
 	transform: translateX(650px);
 }
-.page-enter.page-enter-active {
+.page-enter-active {
 	opacity: 1;
 	transform: translateX(0px);
 
@@ -101,30 +101,26 @@ body {
 	transition: opacity 550ms ease-out, transform 600ms ease;
 }
 
-@keyframes fade-in {
-	0% {
-		opacity: 0;
-		transform: translateX(-650px);
-		transition: transform 600ms, opacity 600ms;
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0px);
-		transition: opacity 600ms, transform 600ms;
-	}
+/* Transitions for Login */
+.login-enter {
+	opacity: 0;
+	transform: translateX(650px);
 }
+.login-enter.login-enter-active {
+	opacity: 1;
+	transform: translateX(0px);
 
-@keyframes fade-out {
-	0% {
-		opacity: 1;
-		transform: translateX(0px);
-		transition: opacity 600ms, transform 600ms;
-	}
-	100% {
-		opacity: 0;
-		transform: translateX(0px);
-		transition: transform 600ms, opacity 600ms;
-	}
+	transition: opacity 550ms ease-out, transform 600ms ease;
+}
+.login-exit {
+	opacity: 0;
+	transform: translateX(0);
+}
+.login-exit.login-exit-active {
+	opacity: 0;
+	transform: translateX(0px);
+
+	transition: opacity 550ms ease-out, transform 600ms ease;
 }
 
 @import '_variables.scss';

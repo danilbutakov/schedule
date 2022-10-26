@@ -71,43 +71,81 @@ export const SchedulePairs = () => {
 	const [showSchedule, setShowSchedule] = useState(true);
 	const [showInfo, setShowInfo] = useState(false);
 	const [currentPair, setCurrentPair] = useState(false);
-	const [showCurrentPair, setShowCurrentPair] = useState();
-	const [hiddenCurrentPair, setHiddenCurrentPair] = useState();
 
-	const Data = new Date();
-	const Hour = Data.getHours();
-	const Minutes = Data.getMinutes();
-	const currentData = Hour * 60 + Minutes;
+	// const Data = new Date();
+	// const Hour = Data.getHours();
+	// const Minutes = Data.getMinutes();
+	// const currentData = Hour * 60 + Minutes;
 
-	useEffect(() => {
-		pairs.forEach((pair) => {
-			const pairStartHour = pair.timeStart[0] + pair.timeStart[1];
-			const pairStartMinutes = pair.timeStart[3] + pair.timeStart[4];
+	/**
+	 * @param {string} start
+	 * @param {string} end
+	 */
+	function checkDate(start, end) {
+		const now = new Date();
+		const h = now.getHours();
+		const m = now.getMinutes();
+		const startTime = start.split(':').map((i) => Number(i));
+		if (startTime[0] > h) return styles.inactive;
+		if (startTime[1] > h) return styles.inactive;
+		if (startTime[2] > h) return styles.inactive;
+		if (startTime[3] > h) return styles.inactive;
+		if (startTime[4] > h) return styles.inactive;
+		if (startTime[5] > h) return styles.inactive;
+		if (startTime[6] > h) return styles.inactive;
+		const endTime = end.split(':').map((i) => Number(i));
+		if (endTime[0] <= h) {
+			if (startTime[1] < m) return styles.inactive;
+			if (startTime[1] >= m && endTime[1] <= m) return styles.active;
+		}
+		if (endTime[1] <= h) {
+			if (startTime[2] < m) return styles.inactive;
+			if (startTime[2] >= m && endTime[2] <= m) return styles.active;
+		}
+		if (endTime[2] <= h) {
+			if (startTime[3] < m) return styles.inactive;
+			if (startTime[3] >= m && endTime[3] <= m) return styles.active;
+		}
+		if (endTime[3] <= h) {
+			if (startTime[4] < m) return styles.inactive;
+			if (startTime[4] >= m && endTime[4] <= m) return styles.active;
+		}
+		if (endTime[4] <= h) {
+			if (startTime[5] < m) return styles.inactive;
+			if (startTime[5] >= m && endTime[5] <= m) return styles.active;
+		}
+		if (endTime[5] <= h) {
+			if (startTime[6] < m) return styles.inactive;
+			if (startTime[6] >= m && endTime[6] <= m) return styles.active;
+		}
 
-			const pairEndHour = pair.timeEnd[0] + pair.timeEnd[1];
-			const pairEndMinutes = pair.timeEnd[3] + pair.timeEnd[4];
+		return styles.active;
+	}
 
-			const pairTimeStart =
-				Number(pairStartHour) * 60 + Number(pairStartMinutes);
+	// useEffect(() => {
+	// 	pairs.forEach((pair) => {
+	// 		const pairStartHour = pair.timeStart[0] + pair.timeStart[1];
+	// 		const pairStartMinutes = pair.timeStart[3] + pair.timeStart[4];
 
-			const pairTimeEnd = Number(pairEndHour) * 60 + Number(pairEndMinutes);
+	// 		const pairEndHour = pair.timeEnd[0] + pair.timeEnd[1];
+	// 		const pairEndMinutes = pair.timeEnd[3] + pair.timeEnd[4];
 
-			console.log(pairTimeStart);
-			console.log(pairTimeEnd);
-			console.log(currentData);
+	// 		const pairTimeStart =
+	// 			Number(pairStartHour) * 60 + Number(pairStartMinutes);
 
-			if (pairTimeStart <= currentData <= pairTimeEnd) {
-				setCurrentPair(true);
-				setShowCurrentPair(styles.currentPair);
-			} else {
-				setCurrentPair(false);
-				setHiddenCurrentPair(styles.numPair);
-			}
-		});
-	}, []);
+	// 		const pairTimeEnd = Number(pairEndHour) * 60 + Number(pairEndMinutes);
 
-	console.log(showCurrentPair);
-	console.log(hiddenCurrentPair);
+	// 		console.log(pairTimeStart);
+	// 		console.log(pairTimeEnd);
+	// 		console.log(currentData);
+
+	// 		if (pairTimeStart <= currentData) {
+	// 			setCurrentPair(true);
+	// 		} else {
+	// 			setCurrentPair(false);
+	// 		}
+	// 	});
+	// }, []);
 
 	return (
 		<div className={styles.mainContentContainer}>
@@ -122,14 +160,14 @@ export const SchedulePairs = () => {
 							className={styles.pair}>
 							<div className={styles.headPair}>
 								<div className={styles.headLeft}>
-									<span
-										className={
-											currentPair
-												? showCurrentPair
-												: hiddenCurrentPair
-										}>
+									<div
+										key={index}
+										className={checkDate(
+											pair.timeStart,
+											pair.timeEnd,
+										)}>
 										{index + 1}
-									</span>
+									</div>
 									<h3 className={styles.type}>{pair.type}</h3>
 								</div>
 								<span className={styles.time}>
@@ -150,9 +188,6 @@ export const SchedulePairs = () => {
 					</Link>
 				</div>
 			))}
-			<Link to={'/'}>
-				<button className={styles.btn}>Выйти</button>
-			</Link>
 		</div>
 	);
 };
