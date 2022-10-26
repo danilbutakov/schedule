@@ -54,7 +54,6 @@
 						line-height: 32px;
 						margin-bottom: 16px;
 
-						display: flex;
 						align-items: center;
 						text-align: center;
 						letter-spacing: 0.35px;
@@ -80,7 +79,7 @@
 			padding: 16px 120px;
 			display: flex;
 		}
-		background: $blue;
+		background: linear-gradient(270deg, #bd01ff 0%, #007aff 100%);
 		border-radius: 16px;
 		font-size: 17px;
 		line-height: 24px;

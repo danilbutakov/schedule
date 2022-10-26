@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Route, useLocation, Routes } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -10,11 +10,14 @@ import './styles/index.scss';
 import './index.css';
 import Menu from './components/Menu/Menu';
 import { LoginContainer } from './components/Login/LoginContainer';
+import Home from './pages/Home';
+import Search from './components/Search/Search';
 
 function App() {
 	const AnimatedSwitch = () => {
 		const location = useLocation();
 		console.log('location', location.pathname);
+
 		return (
 			<TransitionGroup>
 				<CSSTransition
@@ -24,9 +27,9 @@ function App() {
 					<Routes>
 						<Route path='/' element={<LoadingPage />} />
 						<Route path='/onBoard' element={<OnBoard />} />
+						<Route path='/home' element={<Home />} />
 						<Route path={'/login'} element={<LoginContainer />} />
-						<Route path='/schedule' element={<Schedule />} />
-						<Route path='/scheduleInfo:id' element={<ScheduleInfo />} />
+						<Route path={'/search'} element={<Search />} />
 						<Route path='/menu' element={<Menu />} />
 					</Routes>
 				</CSSTransition>

@@ -27,7 +27,7 @@ const LoginSecond = ({ setShowFirst, setShowSecond }) => {
 				</button>
 				<button
 					onClick={() => {
-						navigate('/schedule');
+						navigate('/home');
 					}}
 					className={styles.btn1}>
 					Продолжить

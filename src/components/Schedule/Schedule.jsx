@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
+import ScheduleInfo from '../ScheduleInfo/ScheduleInfo';
+
 import styles from './Schedule.module.scss';
+import '../../index.css';
+import error from '../../assets/error.svg';
+import errorKrest from '../../assets/errorKrest.svg';
 
 import ScheduleNavBar from './ScheduleNavBar';
-import ScheduleInfo from '../ScheduleInfo/ScheduleInfo';
-import { SchedulePairs } from './SchedulePairs';
+import SchedulePairs from './SchedulePairs';
 
 const Schedule = () => {
-	const [showSchedule, setShowSchedule] = useState(true);
 	const [showInfo, setShowInfo] = useState(false);
+	const [showSchedule, setShowSchedule] = useState(true);
+	const [showError, setShowError] = useState(true);
 	const [showCalendar, setShowCalendar] = useState(false);
+	const [pairActive, setPair] = useState();
 
 	return (
 		<div className={styles.con}>
@@ -20,22 +26,62 @@ const Schedule = () => {
 				</div>
 			</div>
 			<div className={styles.upLine}></div>
-			<CSSTransition
-				classNames={{
-					enter: styles.enter,
-					enterDone: styles.enterActive,
-					exit: styles.exit,
-					exitActive: styles.exitActive,
-				}}
-				in={showSchedule}
-				timeout={800}>
-				<div className={styles.mainContentContainer}>
-					<div className={styles.mainContent}>
-						{showSchedule && <SchedulePairs />}
-						{showInfo && <ScheduleInfo />}
+
+			<div className={styles.mainContentContainer}>
+				<CSSTransition
+					classNames='info'
+					timeout={500}
+					in={showInfo}
+					mountOnEnter
+					unmountOnExit>
+					<div className={styles.info}>
+						{showInfo ? (
+							<ScheduleInfo
+								setShowSchedule={setShowSchedule}
+								pairActive={pairActive}
+								setPair={setPair}
+								setShowInfo={setShowInfo}
+								showInfo={showInfo}
+							/>
+						) : (
+							''
+						)}
 					</div>
+				</CSSTransition>
+				<div className={styles.mainContent}>
+					{showSchedule && (
+						<SchedulePairs
+							setShowSchedule={setShowSchedule}
+							pairActive={pairActive}
+							setPair={setPair}
+							showInfo={showInfo}
+							setShowInfo={setShowInfo}
+						/>
+					)}
+
+					{/* {showError ? (
+						<div className={styles.error}>
+							<div className={styles.errorLeft}>
+								<img src={error} alt='error' />
+								<span className={styles.errorSpan}>
+									Ошибка в расписании? <br />
+									Напишите нам{' '}
+								</span>
+							</div>
+							<div className={styles.errorRight}>
+								<img
+									onClick={() => setShowError(!showError)}
+									className={styles.errorKrest}
+									src={errorKrest}
+									alt='errorKrest'
+								/>
+							</div>
+						</div>
+					) : (
+						''
+					)} */}
 				</div>
-			</CSSTransition>
+			</div>
 			<ScheduleNavBar />
 		</div>
 	);

@@ -6,7 +6,9 @@
 	width: 100%;
 	margin-bottom: 5px;
 	display: flex;
-	background-color: $white;
+	background: #ffffff10;
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
 	position: -webkit-sticky;
 	z-index: 99;
 	bottom: 0;
@@ -28,16 +30,25 @@
 
 			.navBarActive {
 				font-weight: 500;
-				font-size: 14px;
-				line-height: 8px;
+				font-size: 13px;
+				line-height: 15px;
 				color: linear-gradient(225deg, #00fccf 0%, #bd01ff 100%);
+
 				margin-top: 5px;
+			}
+
+			.navBarActiveImg {
+				color: linear-gradient(225deg, #00fccf 0%, #bd01ff 100%);
+			}
+
+			.navBarHiddenImg {
+				color: $secondary;
 			}
 
 			.navBarSpan {
 				font-weight: 400;
-				font-size: 14px;
-				line-height: 8px;
+				font-size: 12px;
+				line-height: 15px;
 				color: $secondary;
 				margin-top: 5px;
 			}

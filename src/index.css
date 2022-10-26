@@ -25,3 +25,28 @@
 	transform: translateY(0px), scale(0.9);
 	transition: transform 400ms, opacity 400ms;
 }
+
+@keyframes show {
+	0% {
+		opacity: 0;
+		transform: translateY(-650px);
+		transition: all 1000ms;
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0px);
+		transition: all 1000ms;
+	}
+}
+
+.info-enter-active {
+	animation: show 0.5s forwards;
+}
+
+.info-exit {
+	animation: show 0.5s reverse;
+}
+
+.info-exit-active {
+	animation: show 0.5s reverse;
+}

@@ -1,54 +1,69 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef } from 'react';
 
 import styles from './ScheduleInfo.module.scss';
-import ScheduleNavBar from '../Schedule/ScheduleNavBar';
 
 import backIcon from '../../assets/backIcon.svg';
 
-const ScheduleInfo = () => {
+const ScheduleInfo = ({
+	setShowInfo,
+	showInfo,
+	pairActive,
+	setShowSchedule,
+}) => {
 	return (
 		<div className={styles.infoContainer}>
-			<div className={styles.header}>
-				<Link to={'/schedule'}>
-					<div className={styles.headContainer}>
-						<div className={styles.title}>
-							<img
-								width={18}
-								height={24}
-								src={backIcon}
-								alt='backIcon'
-							/>
-						</div>
-						<h2>Расписание</h2>
-					</div>
-				</Link>
-			</div>
-
-			<div className={styles.upLine}></div>
-
+			<img
+				className={styles.icon}
+				onClick={() => {
+					setShowInfo(!showInfo);
+					setShowSchedule(true);
+				}}
+				width={16}
+				height={30}
+				src={backIcon}
+				alt='backIcon'
+			/>
 			<div className={styles.mainContent}>
-				<h3 className={styles.type}>Лекция</h3>
-				<h1 className={styles.name}>
-					Информационные технологии в PreMedia
-				</h1>
-				<div className={styles.infoPair}>
-					<span className={styles.day}>Понедельник,</span>
-					<span className={styles.date}>18 мая,</span>
-					<span className={styles.time}>08:30-10:00</span>
+				<div className={styles.titles}>
+					<span className={styles.type}>{pairActive.pair.type}</span>
+					<span className={styles.name}>{pairActive.pair.name}</span>
 				</div>
-				<div className={styles.node}>
-					<span className={styles.nodeTitle}>Заметки</span>
-					<div className={styles.nodeInfo}>
-						Сдать до 1 июня ЛР-1, ЛР-2, ЛР-5
+				<div className={styles.infContainer}>
+					<div className={styles.inf}>
+						<span className={styles.info}>
+							{pairActive.pair.day}, {pairActive.pair.time}
+						</span>
+						<div className={styles.downLine}></div>
 					</div>
-					<div className={styles.addNode}>
-						<span>Добавить заметку</span>
-						<img width={18} height={18} src={backIcon} alt='backIcon' />
+					<div className={styles.inf}>
+						<span className={styles.info}>
+							{pairActive.pair.classRoom}
+						</span>
+						<div className={styles.downLine}></div>
+					</div>
+					<div className={styles.inf}>
+						<span className={styles.info}>{pairActive.pair.teacher}</span>
+						<div className={styles.downLine}></div>
+					</div>
+				</div>
+				<div className={styles.notesContainer}>
+					<div className={styles.notesTitle}>
+						<span className={styles.noteTitle}>Заметки</span>
+					</div>
+					<div className={styles.infContainerLast}>
+						<div className={styles.inf}>
+							<span className={styles.info}>
+								Разработать алгоритм для решения задачи №2
+							</span>
+							<div className={styles.downLine}></div>
+						</div>
+						<div className={styles.inf}>
+							<span className={styles.info}>Дописать конспект</span>
+							<div className={styles.downLine}></div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<ScheduleNavBar />
 		</div>
 	);
 };
