@@ -28,10 +28,6 @@ const ScheduleNavBar = () => {
 						src={location.pathname === '/notes' ? notesActive : notes}
 						alt=''
 					/>
-					<span
-						className={location.pathname === '/notes' ? active : hidden}>
-						Заметки
-					</span>
 				</div>
 
 				<Link to={'/home'}>
@@ -40,18 +36,12 @@ const ScheduleNavBar = () => {
 							width={25}
 							height={25}
 							src={
-								location.pathname === '/schedule'
+								location.pathname === '/home'
 									? scheduleActive
 									: schedule
 							}
 							alt=''
 						/>
-						<span
-							className={
-								location.pathname === '/home' ? active : hidden
-							}>
-							Расписание
-						</span>
 					</div>
 				</Link>
 				<Link to={'/search'}>
@@ -62,12 +52,6 @@ const ScheduleNavBar = () => {
 							src={location.pathname === '/search' ? lupaActive : lupa}
 							alt=''
 						/>
-						<span
-							className={
-								location.pathname === '/search' ? active : hidden
-							}>
-							Поиск
-						</span>
 					</div>
 				</Link>
 				<Link to={'/menu'}>
@@ -78,12 +62,6 @@ const ScheduleNavBar = () => {
 							src={location.pathname === '/menu' ? menuActive : menu}
 							alt=''
 						/>
-						<span
-							className={
-								location.pathname === '/menu' ? active : hidden
-							}>
-							Меню
-						</span>
 					</div>
 				</Link>
 			</div>
