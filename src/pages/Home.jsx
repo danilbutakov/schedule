@@ -3,10 +3,22 @@ import Schedule from '../components/Schedule/Schedule';
 
 import styles from './Home.module.scss';
 
-const Home = () => {
+const Home = ({
+	notes,
+	setNotes,
+	onChangeSearchInput,
+	addNote,
+	searchValue,
+}) => {
 	return (
 		<div className={styles.homeContainer}>
-			<Schedule />
+			<Schedule
+				notes={notes}
+				setNotes={setNotes}
+				addNote={addNote}
+				searchValue={searchValue}
+				onChangeSearchInput={onChangeSearchInput}
+			/>
 		</div>
 	);
 };

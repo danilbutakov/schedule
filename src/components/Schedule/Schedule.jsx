@@ -11,7 +11,13 @@ import errorKrest from '../../assets/errorKrest.svg';
 import ScheduleNavBar from './ScheduleNavBar';
 import SchedulePairs from './SchedulePairs';
 
-const Schedule = () => {
+const Schedule = ({
+	notes,
+	setNotes,
+	addNote,
+	onChangeSearchInput,
+	searchValue,
+}) => {
 	const [showInfo, setShowInfo] = useState(false);
 	const [showSchedule, setShowSchedule] = useState(true);
 	const [showError, setShowError] = useState(true);
@@ -37,6 +43,11 @@ const Schedule = () => {
 					<div className={styles.info}>
 						{showInfo ? (
 							<ScheduleInfo
+								notes={notes}
+								setNotes={setNotes}
+								addNote={addNote}
+								searchValue={searchValue}
+								onChangeSearchInput={onChangeSearchInput}
 								setShowSchedule={setShowSchedule}
 								pairActive={pairActive}
 								setPair={setPair}

@@ -5,7 +5,6 @@ import styles from './LoadingPage.module.scss';
 import logo from '../../assets/LogoShapes.svg';
 
 const LoadingPage = () => {
-	const [state, setSate] = React.useState(true);
 	const location = useLocation();
 
 	const navigate = useNavigate();

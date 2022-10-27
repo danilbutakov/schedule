@@ -1,15 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 
 import styles from './ScheduleInfo.module.scss';
 
 import backIcon from '../../assets/backIcon.svg';
+import plus from '../../assets/plus.svg';
 
 const ScheduleInfo = ({
 	setShowInfo,
 	showInfo,
 	pairActive,
 	setShowSchedule,
+	notes,
+	setNotes,
+	addNote,
+	onChangeSearchInput,
+	searchValue,
 }) => {
+	const [show, setShow] = useState(false);
+	const [showNotes, setShowNotes] = useState(false);
+
 	return (
 		<div className={styles.infoContainer}>
 			<img
@@ -49,21 +58,58 @@ const ScheduleInfo = ({
 				<div className={styles.notesContainer}>
 					<div className={styles.notesTitle}>
 						<span className={styles.noteTitle}>Заметки</span>
+						<img
+							onClick={() => setShow(!show)}
+							className={styles.plus}
+							src={plus}
+							alt='plus'
+						/>
 					</div>
-					<div className={styles.infContainerLast}>
-						<div className={styles.inf}>
-							<span className={styles.info}>
-								Разработать алгоритм для решения задачи №2
-							</span>
-							<div className={styles.downLine}></div>
+					{showNotes && (
+						<div className={styles.infContainerLast}>
+							{notes.map((note) => (
+								<div key={note.id} className={styles.inf}>
+									<span className={styles.info}>{note}</span>
+									<div className={styles.downLine}></div>
+								</div>
+							))}
 						</div>
-						<div className={styles.inf}>
-							<span className={styles.info}>Дописать конспект</span>
-							<div className={styles.downLine}></div>
-						</div>
-					</div>
+					)}
 				</div>
 			</div>
+			{show && (
+				<div className={styles.note}>
+					<div className={styles.header}>
+						<span
+							className={styles.headerTitle}
+							onClick={() => {
+								setShow(!show);
+							}}>
+							Отменить
+						</span>
+						<span className={styles.headerTitleNon}>Заметка</span>
+						<span
+							className={styles.headerTitle}
+							onClick={() => {
+								setShow(!show);
+								addNote();
+								setShowNotes(!showNotes);
+							}}>
+							Готово
+						</span>
+					</div>
+					<div className={styles.underLine}></div>
+					<div className={styles.noteInput}>
+						<input
+							onChange={onChangeSearchInput}
+							value={searchValue.text}
+							className={styles.input}
+							type='text'
+							placeholder='Введите текст'
+						/>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

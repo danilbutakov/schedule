@@ -17,6 +17,21 @@ function App() {
 	const AnimatedSwitch = () => {
 		const location = useLocation();
 		console.log('location', location.pathname);
+		const [searchValue, setSearchValue] = React.useState({ text: '' });
+		const [notes, setNotes] = useState([]);
+
+		const onChangeSearchInput = (event) => {
+			const value = event.target.value;
+			setSearchValue({ ...searchValue, value });
+		};
+
+		const addNote = () => {
+			setNotes((prev) => [...prev, searchValue]);
+			setSearchValue({ text: '' });
+		};
+
+		console.log(searchValue);
+		console.log(notes);
 
 		return (
 			<TransitionGroup>
@@ -27,7 +42,17 @@ function App() {
 					<Routes>
 						<Route path='/' element={<LoadingPage />} />
 						<Route path='/onBoard' element={<OnBoard />} />
-						<Route path='/home' element={<Home />} />
+						<Route
+							path='/home'
+							element={
+								<Home
+									notes={notes}
+									setNotes={setNotes}
+									addNote={addNote}
+									onChangeSearchInput={onChangeSearchInput}
+								/>
+							}
+						/>
 						<Route path={'/login'} element={<LoginContainer />} />
 						<Route path={'/search'} element={<Search />} />
 						<Route path='/menu' element={<Menu />} />
