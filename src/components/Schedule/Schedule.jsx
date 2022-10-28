@@ -17,6 +17,7 @@ const Schedule = ({
 	addNote,
 	onChangeSearchInput,
 	searchValue,
+	charLeft,
 }) => {
 	const [showInfo, setShowInfo] = useState(false);
 	const [showSchedule, setShowSchedule] = useState(true);
@@ -48,6 +49,7 @@ const Schedule = ({
 								addNote={addNote}
 								searchValue={searchValue}
 								onChangeSearchInput={onChangeSearchInput}
+								charLeft={charLeft}
 								setShowSchedule={setShowSchedule}
 								pairActive={pairActive}
 								setPair={setPair}

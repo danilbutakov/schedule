@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import styles from './ScheduleInfo.module.scss';
 
@@ -15,9 +15,34 @@ const ScheduleInfo = ({
 	addNote,
 	onChangeSearchInput,
 	searchValue,
+	charLeft,
 }) => {
 	const [show, setShow] = useState(false);
 	const [showNotes, setShowNotes] = useState(false);
+
+	const showingNotes = () => {
+		if (notes) {
+			setShowNotes(true);
+		} else {
+			setShowNotes(false);
+		}
+	};
+
+	//apply the save and get functions using useEffect
+	//get the saved notes and add them to the array
+	useEffect(() => {
+		const data = JSON.parse(localStorage.getItem('Notes'));
+		if (data) {
+			setNotes(data);
+		}
+		console.log(notes);
+	}, []);
+
+	//saving data to local storage
+	useEffect(() => {
+		localStorage.setItem('Notes', JSON.stringify(notes));
+		console.log(notes);
+	}, [notes]);
 
 	return (
 		<div className={styles.infoContainer}>
@@ -65,11 +90,11 @@ const ScheduleInfo = ({
 							alt='plus'
 						/>
 					</div>
-					{showNotes && (
+					{showingNotes && (
 						<div className={styles.infContainerLast}>
 							{notes.map((note) => (
-								<div key={note.id} className={styles.inf}>
-									<span className={styles.info}>{note}</span>
+								<div key={note.id} id={note.id} className={styles.inf}>
+									<span className={styles.info}>{note.text}</span>
 									<div className={styles.downLine}></div>
 								</div>
 							))}
@@ -93,16 +118,17 @@ const ScheduleInfo = ({
 							onClick={() => {
 								setShow(!show);
 								addNote();
-								setShowNotes(!showNotes);
+								setShowNotes(true);
 							}}>
 							Готово
 						</span>
 					</div>
 					<div className={styles.underLine}></div>
 					<div className={styles.noteInput}>
+						<span className={styles.label}>{charLeft} left</span>
 						<input
 							onChange={onChangeSearchInput}
-							value={searchValue.text}
+							value={searchValue}
 							className={styles.input}
 							type='text'
 							placeholder='Введите текст'

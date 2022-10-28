@@ -9,6 +9,7 @@ const Home = ({
 	onChangeSearchInput,
 	addNote,
 	searchValue,
+	charLeft,
 }) => {
 	return (
 		<div className={styles.homeContainer}>
@@ -18,6 +19,7 @@ const Home = ({
 				addNote={addNote}
 				searchValue={searchValue}
 				onChangeSearchInput={onChangeSearchInput}
+				charLeft={charLeft}
 			/>
 		</div>
 	);

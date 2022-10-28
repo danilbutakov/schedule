@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, useLocation, Routes } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { v4 as uuid } from 'uuid';
 
 import LoadingPage from './components/LoadingPage/LoadingPage';
 import OnBoard from './components/OnBoard/OnBoard';
-import Schedule from './components/Schedule/Schedule';
-import ScheduleInfo from './components/ScheduleInfo/ScheduleInfo';
 import './styles/index.scss';
 import './index.css';
 import Menu from './components/Menu/Menu';
@@ -16,22 +15,35 @@ import Search from './components/Search/Search';
 function App() {
 	const AnimatedSwitch = () => {
 		const location = useLocation();
-		console.log('location', location.pathname);
-		const [searchValue, setSearchValue] = React.useState({ text: '' });
+		const [searchValue, setSearchValue] = React.useState('');
 		const [notes, setNotes] = useState([]);
 
 		const onChangeSearchInput = (event) => {
-			const value = event.target.value;
-			setSearchValue({ ...searchValue, value });
+			setSearchValue(event.target.value);
 		};
 
+		// add new note to the state array
 		const addNote = () => {
-			setNotes((prev) => [...prev, searchValue]);
-			setSearchValue({ text: '' });
+			setNotes((prevState) => [
+				...prevState,
+				{
+					id: uuid(),
+					text: searchValue,
+				},
+			]);
+			//clear the textarea
+			setSearchValue('');
 		};
 
-		console.log(searchValue);
-		console.log(notes);
+		//delete note function
+		const deleteNote = (id) => {
+			const filteredNotes = notes.filter((note) => note.id !== id);
+			setNotes(filteredNotes);
+		};
+
+		//character limit
+		const charLimit = 100;
+		const charLeft = charLimit - searchValue.length;
 
 		return (
 			<TransitionGroup>
@@ -46,10 +58,12 @@ function App() {
 							path='/home'
 							element={
 								<Home
+									addNote={addNote}
 									notes={notes}
 									setNotes={setNotes}
-									addNote={addNote}
+									searchValue={searchValue}
 									onChangeSearchInput={onChangeSearchInput}
+									charLeft={charLeft}
 								/>
 							}
 						/>
