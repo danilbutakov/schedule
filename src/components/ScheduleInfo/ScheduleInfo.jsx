@@ -1,24 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { CSSTransition } from 'react-transition-group';
 
 import styles from './ScheduleInfo.module.scss';
 
 import backIcon from '../../assets/backIcon.svg';
 import plus from '../../assets/plus.svg';
+import ProgressBarComponent from '../ProgressBar/ProgressBarComponent';
+import AppContext from '../../Context';
 
-const ScheduleInfo = ({
-	setShowInfo,
-	showInfo,
-	pairActive,
-	setShowSchedule,
-	notes,
-	setNotes,
-	addNote,
-	onChangeSearchInput,
-	searchValue,
-	charLeft,
-}) => {
+const ScheduleInfo = () => {
+	const {
+		notes,
+		setNotes,
+		showInfo,
+		setShowInfo,
+		setShowSchedule,
+		pairActive,
+		addNote,
+		deleteNote,
+		charLeft,
+		onChangeSearchInput,
+		searchValue,
+	} = useContext(AppContext);
+
 	const [show, setShow] = useState(false);
 	const [showNotes, setShowNotes] = useState(false);
+	const [showDelete, setShowDelete] = useState(false);
 
 	const showingNotes = () => {
 		if (notes) {
@@ -90,11 +97,65 @@ const ScheduleInfo = ({
 							alt='plus'
 						/>
 					</div>
+					{show && (
+						<div className={styles.note}>
+							<div className={styles.header}>
+								<span
+									className={styles.headerTitle}
+									onClick={() => {
+										setShow(!show);
+									}}>
+									Отменить
+								</span>
+								<span className={styles.headerTitleNon}>Заметка</span>
+								<span
+									className={styles.headerTitle}
+									onClick={() => {
+										setShow(!show);
+										addNote();
+										setShowNotes(true);
+									}}>
+									Готово
+								</span>
+							</div>
+							<div className={styles.underLine}></div>
+							<div className={styles.noteInput}>
+								<span className={styles.label}>{charLeft} left</span>
+								<input
+									onChange={onChangeSearchInput}
+									value={searchValue}
+									className={styles.input}
+									type='text'
+									maxLength={100}
+									placeholder='Введите текст'
+								/>
+								<ProgressBarComponent />
+							</div>
+						</div>
+					)}
+
 					{showingNotes && (
 						<div className={styles.infContainerLast}>
-							{notes.map((note) => (
+							{notes.map((note, i) => (
 								<div key={note.id} id={note.id} className={styles.inf}>
-									<span className={styles.info}>{note.text}</span>
+									<div className={styles.infoContainerNotes}>
+										<span
+											onClick={() => {
+												setShowDelete(!showDelete);
+											}}
+											className={styles.info}>
+											{note.text}
+										</span>
+										{showDelete && (
+											<div
+												onClick={deleteNote}
+												className={styles.deleteCon}>
+												<span className={styles.delete}>
+													Удалить
+												</span>
+											</div>
+										)}
+									</div>
 									<div className={styles.downLine}></div>
 								</div>
 							))}
@@ -102,40 +163,6 @@ const ScheduleInfo = ({
 					)}
 				</div>
 			</div>
-			{show && (
-				<div className={styles.note}>
-					<div className={styles.header}>
-						<span
-							className={styles.headerTitle}
-							onClick={() => {
-								setShow(!show);
-							}}>
-							Отменить
-						</span>
-						<span className={styles.headerTitleNon}>Заметка</span>
-						<span
-							className={styles.headerTitle}
-							onClick={() => {
-								setShow(!show);
-								addNote();
-								setShowNotes(true);
-							}}>
-							Готово
-						</span>
-					</div>
-					<div className={styles.underLine}></div>
-					<div className={styles.noteInput}>
-						<span className={styles.label}>{charLeft} left</span>
-						<input
-							onChange={onChangeSearchInput}
-							value={searchValue}
-							className={styles.input}
-							type='text'
-							placeholder='Введите текст'
-						/>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };

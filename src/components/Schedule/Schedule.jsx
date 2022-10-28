@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import ScheduleInfo from '../ScheduleInfo/ScheduleInfo';
@@ -10,20 +10,10 @@ import errorKrest from '../../assets/errorKrest.svg';
 
 import ScheduleNavBar from './ScheduleNavBar';
 import SchedulePairs from './SchedulePairs';
+import AppContext from '../../Context';
 
-const Schedule = ({
-	notes,
-	setNotes,
-	addNote,
-	onChangeSearchInput,
-	searchValue,
-	charLeft,
-}) => {
-	const [showInfo, setShowInfo] = useState(false);
-	const [showSchedule, setShowSchedule] = useState(true);
-	const [showError, setShowError] = useState(true);
-	const [showCalendar, setShowCalendar] = useState(false);
-	const [pairActive, setPair] = useState();
+const Schedule = () => {
+	const { showInfo, showSchedule } = useContext(AppContext);
 
 	return (
 		<div className={styles.con}>
@@ -42,35 +32,11 @@ const Schedule = ({
 					mountOnEnter
 					unmountOnExit>
 					<div className={styles.info}>
-						{showInfo ? (
-							<ScheduleInfo
-								notes={notes}
-								setNotes={setNotes}
-								addNote={addNote}
-								searchValue={searchValue}
-								onChangeSearchInput={onChangeSearchInput}
-								charLeft={charLeft}
-								setShowSchedule={setShowSchedule}
-								pairActive={pairActive}
-								setPair={setPair}
-								setShowInfo={setShowInfo}
-								showInfo={showInfo}
-							/>
-						) : (
-							''
-						)}
+						{showInfo ? <ScheduleInfo /> : ''}
 					</div>
 				</CSSTransition>
 				<div className={styles.mainContent}>
-					{showSchedule && (
-						<SchedulePairs
-							setShowSchedule={setShowSchedule}
-							pairActive={pairActive}
-							setPair={setPair}
-							showInfo={showInfo}
-							setShowInfo={setShowInfo}
-						/>
-					)}
+					{showSchedule && <SchedulePairs />}
 
 					{/* {showError ? (
 						<div className={styles.error}>

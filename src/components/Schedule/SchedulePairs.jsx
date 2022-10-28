@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 
 import styles from './Schedule.module.scss';
 import { pairs } from '../../utils/Pairs';
+import AppContext from '../../Context';
 
-const SchedulePairs = ({
-	showInfo,
-	setShowInfo,
-	pair,
-	setPair,
-	setShowSchedule,
-}) => {
+const SchedulePairs = () => {
+	const { showInfo, setShowInfo, setShowSchedule, setPair } =
+		useContext(AppContext);
+
 	/**
 	 * @param {string} start
 	 * @param {string} end

@@ -3,6 +3,8 @@ import { Route, useLocation, Routes } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { v4 as uuid } from 'uuid';
 
+import AppContext from './Context';
+
 import LoadingPage from './components/LoadingPage/LoadingPage';
 import OnBoard from './components/OnBoard/OnBoard';
 import './styles/index.scss';
@@ -17,6 +19,11 @@ function App() {
 		const location = useLocation();
 		const [searchValue, setSearchValue] = React.useState('');
 		const [notes, setNotes] = useState([]);
+		const [showInfo, setShowInfo] = useState(false);
+		const [showSchedule, setShowSchedule] = useState(true);
+		const [showError, setShowError] = useState(true);
+		const [showCalendar, setShowCalendar] = useState(false);
+		const [pairActive, setPair] = useState();
 
 		const onChangeSearchInput = (event) => {
 			setSearchValue(event.target.value);
@@ -31,7 +38,7 @@ function App() {
 					text: searchValue,
 				},
 			]);
-			//clear the textarea
+			//clear the input
 			setSearchValue('');
 		};
 
@@ -39,40 +46,50 @@ function App() {
 		const deleteNote = (id) => {
 			const filteredNotes = notes.filter((note) => note.id !== id);
 			setNotes(filteredNotes);
+			console.log(notes);
 		};
 
 		//character limit
-		const charLimit = 100;
+		const charLimit = 50;
 		const charLeft = charLimit - searchValue.length;
 
 		return (
-			<TransitionGroup>
-				<CSSTransition
-					key={location.pathname}
-					classNames='page'
-					timeout={500}>
-					<Routes>
-						<Route path='/' element={<LoadingPage />} />
-						<Route path='/onBoard' element={<OnBoard />} />
-						<Route
-							path='/home'
-							element={
-								<Home
-									addNote={addNote}
-									notes={notes}
-									setNotes={setNotes}
-									searchValue={searchValue}
-									onChangeSearchInput={onChangeSearchInput}
-									charLeft={charLeft}
-								/>
-							}
-						/>
-						<Route path={'/login'} element={<LoginContainer />} />
-						<Route path={'/search'} element={<Search />} />
-						<Route path='/menu' element={<Menu />} />
-					</Routes>
-				</CSSTransition>
-			</TransitionGroup>
+			<AppContext.Provider
+				value={{
+					addNote,
+					notes,
+					setNotes,
+					deleteNote,
+					searchValue,
+					onChangeSearchInput,
+					charLeft,
+					showInfo,
+					setShowInfo,
+					showSchedule,
+					setShowSchedule,
+					showError,
+					setShowError,
+					showCalendar,
+					setShowCalendar,
+					pairActive,
+					setPair,
+				}}>
+				<TransitionGroup>
+					<CSSTransition
+						key={location.pathname}
+						classNames='page'
+						timeout={500}>
+						<Routes>
+							<Route path='/' element={<LoadingPage />} />
+							<Route path='/onBoard' element={<OnBoard />} />
+							<Route path='/home' element={<Home />} />
+							<Route path={'/login'} element={<LoginContainer />} />
+							<Route path={'/search'} element={<Search />} />
+							<Route path='/menu' element={<Menu />} />
+						</Routes>
+					</CSSTransition>
+				</TransitionGroup>
+			</AppContext.Provider>
 		);
 	};
 
