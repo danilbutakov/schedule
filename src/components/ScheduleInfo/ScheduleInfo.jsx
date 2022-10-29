@@ -10,16 +10,20 @@ import AppContext from '../../Context';
 
 const ScheduleInfo = () => {
 	const {
-		notes,
-		setNotes,
+		note,
+		// setNote,
 		showInfo,
 		setShowInfo,
 		setShowSchedule,
 		pairActive,
-		addNote,
-		deleteNote,
+		// addNote,
+		// deleteNote,
 		charLeft,
-		onChangeSearchInput,
+		handleNoteChange,
+		writeToDataBase,
+		notes,
+		handleDelete,
+		// onChangeSearchInput,
 		searchValue,
 	} = useContext(AppContext);
 
@@ -28,7 +32,7 @@ const ScheduleInfo = () => {
 	const [showDelete, setShowDelete] = useState(false);
 
 	const showingNotes = () => {
-		if (notes) {
+		if (note) {
 			setShowNotes(true);
 		} else {
 			setShowNotes(false);
@@ -37,19 +41,19 @@ const ScheduleInfo = () => {
 
 	//apply the save and get functions using useEffect
 	//get the saved notes and add them to the array
-	useEffect(() => {
-		const data = JSON.parse(localStorage.getItem('Notes'));
-		if (data) {
-			setNotes(data);
-		}
-		console.log(notes);
-	}, []);
+	// useEffect(() => {
+	// 	const data = JSON.parse(localStorage.getItem('Notes'));
+	// 	if (data) {
+	// 		setNotes(data);
+	// 	}
+	// 	console.log(notes);
+	// }, []);
 
 	//saving data to local storage
-	useEffect(() => {
-		localStorage.setItem('Notes', JSON.stringify(notes));
-		console.log(notes);
-	}, [notes]);
+	// useEffect(() => {
+	// 	localStorage.setItem('Notes', JSON.stringify(notes));
+	// 	console.log(notes);
+	// }, [notes]);
 
 	return (
 		<div className={styles.infoContainer}>
@@ -112,7 +116,7 @@ const ScheduleInfo = () => {
 									className={styles.headerTitle}
 									onClick={() => {
 										setShow(!show);
-										addNote();
+										writeToDataBase();
 										setShowNotes(true);
 									}}>
 									Готово
@@ -122,8 +126,8 @@ const ScheduleInfo = () => {
 							<div className={styles.noteInput}>
 								<span className={styles.label}>{charLeft} left</span>
 								<input
-									onChange={onChangeSearchInput}
-									value={searchValue}
+									onChange={handleNoteChange}
+									value={note}
 									className={styles.input}
 									type='text'
 									maxLength={100}
@@ -136,19 +140,19 @@ const ScheduleInfo = () => {
 
 					{showingNotes && (
 						<div className={styles.infContainerLast}>
-							{notes.map((note, i) => (
-								<div key={note.id} id={note.id} className={styles.inf}>
+							{notes.map((note) => (
+								<div className={styles.inf}>
 									<div className={styles.infoContainerNotes}>
 										<span
 											onClick={() => {
 												setShowDelete(!showDelete);
 											}}
 											className={styles.info}>
-											{note.text}
+											{note.note}
 										</span>
 										{showDelete && (
 											<div
-												onClick={deleteNote}
+												onClick={() => handleDelete(note)}
 												className={styles.deleteCon}>
 												<span className={styles.delete}>
 													Удалить

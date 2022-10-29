@@ -27,6 +27,7 @@
     "sass": "^1.55.0",
     "sassy-datepicker": "^0.10.1",
     "swiper": "^8.4.4",
+    "uid": "^2.0.1",
     "uniqueid": "^1.0.0",
     "uuidv4": "^6.2.13",
     "web-vitals": "^2.1.4"
