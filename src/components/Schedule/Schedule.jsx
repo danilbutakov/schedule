@@ -7,6 +7,7 @@ import styles from './Schedule.module.scss';
 import '../../index.css';
 import error from '../../assets/error.svg';
 import errorKrest from '../../assets/errorKrest.svg';
+import titleHeader from '../../assets/titleHeader.svg';
 
 import ScheduleNavBar from './ScheduleNavBar';
 import SchedulePairs from './SchedulePairs';
@@ -19,7 +20,7 @@ const Schedule = () => {
 		<div className={styles.con}>
 			<div className={styles.header}>
 				<div className={styles.titleContainer}>
-					<h1 className={styles.title}>SCHEDULE</h1>
+					<img src={titleHeader} alt='title' />
 				</div>
 			</div>
 			<div className={styles.upLine}></div>

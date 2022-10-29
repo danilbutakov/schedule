@@ -79,7 +79,7 @@ function App() {
 		// };
 
 		//character limit
-		const charLimit = 50;
+		const charLimit = 100;
 		const charLeft = charLimit - note.length;
 
 		return (
