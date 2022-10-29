@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 
 import styles from './Schedule.module.scss';
 import { pairs } from '../../utils/Pairs';
-import AppContext from '../../Context';
+import AppContext from '../../utils/Context';
+import AnimationLayout from '../../animations/AnimationLayout';
+import { AnimatePresence } from 'framer-motion';
 
-const SchedulePairs = () => {
-	const { showInfo, setShowInfo, setShowSchedule, setPair } =
-		useContext(AppContext);
+const SchedulePairs = ({ showPairs, setShowPairs, setShowInfo, showInfo }) => {
+	const { setPair } = useContext(AppContext);
 
 	/**
 	 * @param {string} start
@@ -78,43 +79,53 @@ const SchedulePairs = () => {
 	}, [handleScroll]);
 
 	return (
-		<div className={styles.mainContentContainer}>
-			{pairs.map((pair, index) => (
-				<div
-					onClick={() => {
-						handleScroll();
-						setShowInfo(!showInfo);
-						setShowSchedule(false);
-						setPair({ index, pair });
-					}}
-					key={index}
-					className={styles.pairsContainer}>
-					<div className={styles.pair}>
-						<div className={styles.headPair}>
-							<div className={styles.headLeft}>
-								<div key={index} className={styles.inactive}>
-									{index + 1}
+		<AnimatePresence>
+			{showPairs && (
+				<div className={styles.mainContentContainer}>
+					{pairs.map((pair, index) => (
+						<AnimationLayout key={index}>
+							<div
+								onClick={() => {
+									handleScroll();
+									setShowPairs(false);
+									setTimeout(() => {
+										setShowInfo(true);
+									}, 300);
+									setPair({ index, pair });
+								}}
+								key={index}
+								className={styles.pairsContainer}>
+								<div className={styles.pair}>
+									<div className={styles.headPair}>
+										<div className={styles.headLeft}>
+											<div key={index} className={styles.inactive}>
+												{index + 1}
+											</div>
+											<h3 className={styles.type}>{pair.type}</h3>
+										</div>
+										<span className={styles.time}>
+											{pair.timeStart} - {pair.timeEnd}
+										</span>
+									</div>
+									<div className={styles.infoPair}>
+										<div className={styles.namePair}>{pair.name}</div>
+										<div className={styles.teachPair}>
+											{pair.teacher}
+										</div>
+										<div className={styles.classRoomPair}>
+											{pair.classRoom}
+										</div>
+										<div className={styles.groupPair}>
+											{pair.group} подгруппа
+										</div>
+									</div>
 								</div>
-								<h3 className={styles.type}>{pair.type}</h3>
 							</div>
-							<span className={styles.time}>
-								{pair.timeStart} - {pair.timeEnd}
-							</span>
-						</div>
-						<div className={styles.infoPair}>
-							<div className={styles.namePair}>{pair.name}</div>
-							<div className={styles.teachPair}>{pair.teacher}</div>
-							<div className={styles.classRoomPair}>
-								{pair.classRoom}
-							</div>
-							<div className={styles.groupPair}>
-								{pair.group} подгруппа
-							</div>
-						</div>
-					</div>
+						</AnimationLayout>
+					))}
 				</div>
-			))}
-		</div>
+			)}
+		</AnimatePresence>
 	);
 };
 

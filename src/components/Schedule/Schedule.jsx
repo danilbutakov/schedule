@@ -9,37 +9,59 @@ import error from '../../assets/error.svg';
 import errorKrest from '../../assets/errorKrest.svg';
 import titleHeader from '../../assets/titleHeader.svg';
 
-import ScheduleNavBar from './ScheduleNavBar';
+import ScheduleNavBar from '../NavBar/ScheduleNavBar';
 import SchedulePairs from './SchedulePairs';
-import AppContext from '../../Context';
+import AppContext from '../../utils/Context';
+import AnimationLayout from '../../animations/AnimationLayout';
+import { AnimatePresence } from 'framer-motion';
 
 const Schedule = () => {
-	const { showInfo, showSchedule } = useContext(AppContext);
+	const [showInfo, setShowInfo] = useState(false);
+	const [showSchedule, setShowSchedule] = useState(true);
+	const [showSch, setShowSch] = useState(true);
+	const [showPairs, setShowPairs] = useState(true);
 
 	return (
-		<div className={styles.con}>
-			<div className={styles.header}>
-				<div className={styles.titleContainer}>
-					<img src={titleHeader} alt='title' />
-				</div>
-			</div>
-			<div className={styles.mainContentContainer}>
-				<CSSTransition
-					classNames='info'
-					timeout={500}
-					in={showInfo}
-					mountOnEnter
-					unmountOnExit>
-					<div className={styles.info}>
-						{showInfo ? <ScheduleInfo /> : ''}
+		<AnimatePresence>
+			{showSch && (
+				<div className={styles.con}>
+					<div className={styles.header}>
+						<div className={styles.titleContainer}>
+							<img src={titleHeader} alt='title' />
+						</div>
 					</div>
-				</CSSTransition>
-				<div className={styles.mainContent}>
-					{showSchedule && <SchedulePairs />}
+					<div className={styles.mainContentContainer}>
+						<div className={styles.info}>
+							{showInfo ? (
+								<ScheduleInfo
+									setShowPairs={setShowPairs}
+									showPairs={showPairs}
+									showInfo={showInfo}
+									setShowInfo={setShowInfo}
+								/>
+							) : (
+								<ScheduleInfo
+									setShowPairs={setShowPairs}
+									showPairs={showPairs}
+									showInfo={showInfo}
+									setShowInfo={setShowInfo}
+								/>
+							)}
+						</div>
+						<div className={styles.mainContent}>
+							{showSchedule && (
+								<SchedulePairs
+									setShowPairs={setShowPairs}
+									showPairs={showPairs}
+									showInfo={showInfo}
+									setShowInfo={setShowInfo}
+								/>
+							)}
+						</div>
+					</div>
 				</div>
-			</div>
-			<ScheduleNavBar />
-		</div>
+			)}
+		</AnimatePresence>
 	);
 };
 

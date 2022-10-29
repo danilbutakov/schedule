@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import ProgressBar from '@ramonak/react-progress-bar';
-import AppContext from '../../Context';
+import AppContext from '../../utils/Context';
 
 import styles from './ProgressBarComponent.module.scss';
 

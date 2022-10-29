@@ -1,24 +1,38 @@
 import React, { useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
 
 import styles from './OnBoard.module.scss';
 import '../../index.css';
 import SwiperComponent from '../Swiper/SwiperComponent';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import AnimationLayout from '../../animations/AnimationLayout';
+import { AnimatePresence } from 'framer-motion';
 
 const OnBoard = () => {
-	const [showLogin, setShowLogin] = useState(false);
-	const [showSwiper, setShowSwiper] = useState(true);
+	const [showOnBoard, setShowOnBoard] = useState(true);
+	const navigate = useNavigate();
 
 	return (
-		<div className={styles.con}>
-			<div className={styles.swiper}>
-				<SwiperComponent />
-			</div>
-			<Link to={'/login'}>
-				<button className={styles.btn}>Войти</button>
-			</Link>
-		</div>
+		<AnimatePresence>
+			{showOnBoard && (
+				<AnimationLayout>
+					<div className={styles.con}>
+						<div className={styles.swiper}>
+							<SwiperComponent />
+						</div>
+						<button
+							onClick={() => {
+								setShowOnBoard(false);
+								setTimeout(() => {
+									navigate('/login');
+								}, 300);
+							}}
+							className={styles.btn}>
+							Войти
+						</button>
+					</div>
+				</AnimationLayout>
+			)}
+		</AnimatePresence>
 	);
 };
 
