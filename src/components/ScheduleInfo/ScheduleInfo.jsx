@@ -5,6 +5,7 @@ import styles from './ScheduleInfo.module.scss';
 
 import backIcon from '../../assets/backIcon.svg';
 import plus from '../../assets/plus.svg';
+import deleteBtn from '../../assets/delete-btn.svg';
 import ProgressBarComponent from '../ProgressBar/ProgressBarComponent';
 import AppContext from '../../Context';
 
@@ -142,29 +143,21 @@ const ScheduleInfo = () => {
 						<div className={styles.infContainerLast}>
 							{notes.map((note) => (
 								<div className={styles.inf}>
-									<div
-										onClick={() => {
-											setShowDelete(!showDelete);
-										}}
-										className={styles.infoContainerNotes}>
+									<div className={styles.infoContainerNotes}>
 										<span className={styles.info}>{note.note}</span>
-										{showDelete && (
-											<div
-												onClick={() => {
-													if (
-														window.confirm(
-															'Ты хочешь удалить заметку',
-														)
-													) {
-														handleDelete(note);
-													}
-												}}
-												className={styles.deleteCon}>
-												<span className={styles.delete}>
-													Удалить
-												</span>
-											</div>
-										)}
+										<div
+											onClick={() => {
+												if (
+													window.confirm(
+														'Ты хочешь удалить заметку',
+													)
+												) {
+													handleDelete(note);
+												}
+											}}
+											className={styles.deleteCon}>
+											<img src={deleteBtn} alt='delete' />
+										</div>
 									</div>
 									<div className={styles.downLine}></div>
 								</div>

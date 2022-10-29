@@ -110,16 +110,9 @@
 							margin-left: 20px;
 							margin-right: 20px;
 						}
-						.delete {
-							font-size: 13px;
-							line-height: 18px;
-							color: $white;
-							padding: 12px 11px;
-							background: linear-gradient(
-								270deg,
-								#bd01ff 0%,
-								#007aff 100%
-							);
+						.deleteCon {
+							padding: 0px 15px;
+							cursor: pointer;
 						}
 					}
 
