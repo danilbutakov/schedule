@@ -23,8 +23,6 @@ const Schedule = () => {
 					<img src={titleHeader} alt='title' />
 				</div>
 			</div>
-			<div className={styles.upLine}></div>
-
 			<div className={styles.mainContentContainer}>
 				<CSSTransition
 					classNames='info'
@@ -38,28 +36,6 @@ const Schedule = () => {
 				</CSSTransition>
 				<div className={styles.mainContent}>
 					{showSchedule && <SchedulePairs />}
-
-					{/* {showError ? (
-						<div className={styles.error}>
-							<div className={styles.errorLeft}>
-								<img src={error} alt='error' />
-								<span className={styles.errorSpan}>
-									Ошибка в расписании? <br />
-									Напишите нам{' '}
-								</span>
-							</div>
-							<div className={styles.errorRight}>
-								<img
-									onClick={() => setShowError(!showError)}
-									className={styles.errorKrest}
-									src={errorKrest}
-									alt='errorKrest'
-								/>
-							</div>
-						</div>
-					) : (
-						''
-					)} */}
 				</div>
 			</div>
 			<ScheduleNavBar />
