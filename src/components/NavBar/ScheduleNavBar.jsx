@@ -17,6 +17,8 @@ const ScheduleNavBar = ({
 	setShowMenu,
 	showMenu,
 	showSchedule,
+	showSearch,
+	setShowSearch,
 }) => {
 	const location = useLocation();
 
@@ -36,6 +38,7 @@ const ScheduleNavBar = ({
 					onClick={() => {
 						setShowSchedule(true);
 						setShowMenu(false);
+						setShowSearch(false);
 					}}
 					className={styles.navItem}>
 					<img
@@ -46,12 +49,18 @@ const ScheduleNavBar = ({
 					/>
 				</div>
 
-				<div className={styles.navItem}>
+				<div
+					onClick={() => {
+						setShowSchedule(false);
+						setShowSearch(true);
+						setShowMenu(false);
+					}}
+					className={styles.navItem}>
 					<img
 						width={25}
 						height={25}
-						src={location.pathname === '/search' ? lupaActive : lupa}
-						alt=''
+						src={showSearch ? lupaActive : lupa}
+						alt='lupa'
 					/>
 				</div>
 
@@ -60,6 +69,7 @@ const ScheduleNavBar = ({
 					onClick={() => {
 						setShowMenu(true);
 						setShowSchedule(false);
+						setShowSearch(false);
 					}}>
 					<img
 						width={25}

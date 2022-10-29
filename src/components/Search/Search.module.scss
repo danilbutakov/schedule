@@ -1,0 +1,112 @@
+.containerSearch {
+	flex-direction: column;
+	background-color: #f7f7f7;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	height: 100vh;
+
+	.titleCont {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		border-bottom: 0.5px solid rgba(60, 60, 67, 0.13);
+		margin-bottom: 10px;
+	}
+
+	.titleSearch {
+		padding: 0 20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 42px;
+		box-sizing: border-box;
+		top: 44px;
+		font-size: 17px;
+		line-height: 24px;
+		color: #1e1e1e;
+	}
+	.searchCont {
+		width: 100%;
+		padding-left: 12px;
+		padding-right: 12px;
+		padding-bottom: 10px;
+
+		.searchBlock {
+			display: flex;
+			border-radius: 16px;
+			background: #e5e5ea;
+			width: 100%;
+			align-items: center;
+			padding: 8px 12px;
+			gap: 8px;
+
+			.inputBlock {
+				width: 100%;
+				display: flex;
+
+				input {
+					background: #e5e5ea;
+					display: flex;
+					border: 0;
+					font-size: 16px;
+					width: 100%;
+				}
+
+				.clear {
+					right: 0;
+					width: 18px;
+					height: 18px;
+					right: 8px;
+				}
+			}
+		}
+	}
+	.infoAboutSearchCont {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 13px;
+		color: rgba(60, 60, 67, 0.6);
+		font-weight: 400;
+		line-height: 18px;
+
+		.infoAboutSearch {
+			display: flex;
+			width: 238px;
+			height: 36px;
+		}
+	}
+	.searchBlockInfo {
+		width: 100%;
+		border-bottom: 0.5px solid #e5e5ea;
+		&:nth-child(3) {
+			border-top: 0.5px solid #e5e5ea;
+		}
+
+		.searchCard {
+			height: 80px;
+			text-align: left;
+			padding-left: 20px;
+			padding-right: 20px;
+			display: flex;
+			width: 100%;
+			justify-content: space-between;
+			align-items: center;
+
+			h2 {
+				margin-bottom: 4px;
+			}
+
+			span {
+				font-weight: 400;
+				font-size: 13px;
+				line-height: 18px;
+				color: #8e8e93;
+			}
+		}
+	}
+}

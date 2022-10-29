@@ -6,11 +6,13 @@ import styles from './Home.module.scss';
 import Menu from '../components/Menu/Menu';
 import ScheduleNavBar from '../components/NavBar/ScheduleNavBar';
 import { AnimatePresence } from 'framer-motion';
+import Search from '../components/Search/Search';
 
 const Home = () => {
 	const [showHome, setShowHome] = useState(true);
 	const [showSchedule, setShowSchedule] = useState(true);
 	const [showMenu, setShowMenu] = useState(false);
+	const [showSearch, setShowSearch] = useState(false);
 
 	return (
 		<div className={styles.homeContainer}>
@@ -18,6 +20,7 @@ const Home = () => {
 				<AnimationLayout>
 					{showSchedule && <Schedule />}
 					{showMenu && <Menu />}
+					{showSearch && <Search />}
 				</AnimationLayout>
 			)}
 			<ScheduleNavBar
@@ -25,6 +28,8 @@ const Home = () => {
 				setShowMenu={setShowMenu}
 				showMenu={showMenu}
 				showSchedule={showSchedule}
+				showSearch={showSearch}
+				setShowSearch={setShowSearch}
 			/>
 		</div>
 	);
