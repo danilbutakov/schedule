@@ -42,8 +42,6 @@ function App() {
 			});
 		}, []);
 
-		//update
-
 		//delete
 		const handleDelete = (note) => {
 			remove(ref(db, `/${note.uuid}`));
@@ -82,7 +80,7 @@ function App() {
 
 		//character limit
 		const charLimit = 50;
-		const charLeft = charLimit - searchValue.length;
+		const charLeft = charLimit - note.length;
 
 		return (
 			<AppContext.Provider

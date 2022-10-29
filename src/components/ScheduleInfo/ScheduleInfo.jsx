@@ -130,7 +130,7 @@ const ScheduleInfo = () => {
 									value={note}
 									className={styles.input}
 									type='text'
-									maxLength={100}
+									maxLength={50}
 									placeholder='Введите текст'
 								/>
 								<ProgressBarComponent />
@@ -142,17 +142,23 @@ const ScheduleInfo = () => {
 						<div className={styles.infContainerLast}>
 							{notes.map((note) => (
 								<div className={styles.inf}>
-									<div className={styles.infoContainerNotes}>
-										<span
-											onClick={() => {
-												setShowDelete(!showDelete);
-											}}
-											className={styles.info}>
-											{note.note}
-										</span>
+									<div
+										onClick={() => {
+											setShowDelete(!showDelete);
+										}}
+										className={styles.infoContainerNotes}>
+										<span className={styles.info}>{note.note}</span>
 										{showDelete && (
 											<div
-												onClick={() => handleDelete(note)}
+												onClick={() => {
+													if (
+														window.confirm(
+															'Ты хочешь удалить заметку',
+														)
+													) {
+														handleDelete(note);
+													}
+												}}
 												className={styles.deleteCon}>
 												<span className={styles.delete}>
 													Удалить
