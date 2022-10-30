@@ -15,7 +15,6 @@ const Login = () => {
 	const [showSecond, setShowSecond] = useState(false);
 
 	const navigate = useNavigate();
-	console.log(showFirst);
 
 	const [touchPosition, setTouchPosition] = useState(null);
 	// ...

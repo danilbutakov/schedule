@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CSSTransition } from 'react-transition-group';
 
 import styles from './ScheduleInfo.module.scss';
 
@@ -17,6 +16,14 @@ const ScheduleInfo = ({ setShowPairs, showPairs, setShowInfo, showInfo }) => {
 	const [show, setShow] = useState(false);
 	const [showNotes, setShowNotes] = useState(false);
 	const [showNotesCon, setNotesShowCon] = useState(true);
+
+	useEffect(() => {
+		if (notes !== []) {
+			setShowNotes(true);
+		} else {
+			setShowNotes(false);
+		}
+	}, [notes]);
 
 	return (
 		<AnimatePresence>
@@ -113,7 +120,7 @@ const ScheduleInfo = ({ setShowPairs, showPairs, setShowInfo, showInfo }) => {
 																onClick={() => {
 																	if (
 																		window.confirm(
-																			'Ты хочешь удалить заметку',
+																			'Удалить заметку ?',
 																		)
 																	) {
 																		handleDelete(note);
