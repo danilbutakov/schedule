@@ -23,7 +23,7 @@ const OnBoard = () => {
 							onClick={() => {
 								setShowOnBoard(false);
 								setTimeout(() => {
-									navigate('/login');
+									navigate('/auth');
 								}, 300);
 							}}
 							className={styles.btn}>

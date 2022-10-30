@@ -4,7 +4,6 @@ import styles from '../ScheduleInfo/ScheduleInfo.module.scss';
 
 import AppContext from '../../utils/Context';
 import ProgressBarComponent from '../ProgressBar/ProgressBarComponent';
-import AnimationLayout from '../../animations/AnimationLayout';
 import { AnimatePresence } from 'framer-motion';
 import AnimationSwipeUp from '../../animations/AnimationSwipeUp';
 

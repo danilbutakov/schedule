@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { auth } from '../../firebase';
+
 import styles from './Login.module.scss';
 import '../../styles/index.scss';
 
@@ -37,6 +39,7 @@ const Login = () => {
 			setShowLogin(false);
 			setTimeout(() => {
 				navigate('/onBoard');
+				auth.signOut();
 			}, 300);
 		}
 
@@ -61,6 +64,7 @@ const Login = () => {
 									</div>
 								</div>
 								<div className={styles.upLine}></div>
+
 								{showFirst ? (
 									<LoginFirst
 										showFirst={showFirst}

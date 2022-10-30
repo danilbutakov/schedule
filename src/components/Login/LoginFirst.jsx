@@ -1,7 +1,4 @@
-import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import AnimationLayout from '../../animations/AnimationLayout';
-import AnimationSwipe from '../../animations/AnimationSwipeDown';
 
 import styles from './Login.module.scss';
 

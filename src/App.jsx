@@ -18,6 +18,7 @@ import Home from './pages/Home';
 import Search from './components/Search/Search';
 import Main from './Main';
 import Login from './components/Login/Login';
+import Auth from './pages/Auth/Auth';
 
 function App() {
 	const AnimatedSwitch = () => {
@@ -38,7 +39,6 @@ function App() {
 						setNotes((oldArray) => [...oldArray, noteOne]);
 					});
 				}
-				console.log(data);
 			});
 		}, []);
 
@@ -90,6 +90,7 @@ function App() {
 							element={<Main />}>
 							<Route path='loadingPage' element={<LoadingPage />} />
 							<Route path='onBoard' element={<OnBoard />} />
+							<Route path='auth' element={<Auth />} />
 							<Route path='login' element={<Login />} />
 							<Route path='home' element={<Home />} />
 							<Route path='search' element={<Search />} />
