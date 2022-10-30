@@ -8,13 +8,7 @@ import AnimationLayout from '../../animations/AnimationLayout';
 import { AnimatePresence } from 'framer-motion';
 import AnimationSwipeUp from '../../animations/AnimationSwipeUp';
 
-const AddNote = ({
-	show,
-	setShow,
-	showNotes,
-	setShowNotes,
-	setNotesShowCon,
-}) => {
+const AddNote = ({ setShow, showNotes, setShowNotes, setNotesShowCon }) => {
 	const { note, charLeft, handleNoteChange, writeToDataBase } =
 		useContext(AppContext);
 	const [showAdd, setShowAdd] = useState(true);

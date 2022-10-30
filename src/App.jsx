@@ -18,7 +18,6 @@ import Home from './pages/Home';
 import Search from './components/Search/Search';
 import Main from './Main';
 import Login from './components/Login/Login';
-import AnimationLayout from './animations/AnimationLayout';
 
 function App() {
 	const AnimatedSwitch = () => {
@@ -39,23 +38,24 @@ function App() {
 						setNotes((oldArray) => [...oldArray, noteOne]);
 					});
 				}
+				console.log(data);
 			});
 		}, []);
-
-		//delete from note from database
-		const handleDelete = (note) => {
-			remove(ref(db, `/${note.uuid}`));
-		};
 
 		//write to database
 		const writeToDataBase = () => {
 			const uuid = uid();
-			set(ref(db, `/${uuid}`), {
+			set(ref(db, `/${note}`), {
 				note,
 				uuid,
 			});
 			//clear the input
 			setNote('');
+		};
+
+		// delete from note from database
+		const handleDelete = (note) => {
+			remove(ref(db, `/${note.note}`));
 		};
 
 		const handleNoteChange = (e) => {
@@ -65,8 +65,6 @@ function App() {
 		//character limit
 		const charLimit = 100;
 		const charLeft = charLimit - note.length;
-
-		console.log(location.pathname);
 
 		return (
 			<AppContext.Provider

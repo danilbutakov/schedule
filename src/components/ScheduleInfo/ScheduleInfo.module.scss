@@ -92,11 +92,6 @@
 			.infContainerLast {
 				padding: 5px 0px 0px 0px;
 				background: $white;
-				overflow-y: auto;
-				height: 300px;
-				&::-webkit-scrollbar {
-					display: none;
-				}
 
 				.inf {
 					padding-top: 12px;
