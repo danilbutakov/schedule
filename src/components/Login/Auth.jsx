@@ -101,7 +101,7 @@ export const Auth = ({ setShowFirst }) => {
 						</div>
 						<button
 							onClick={() => {
-								if (input !== '') {
+								if (input !== '' && user) {
 									setShowAuth(false);
 									setShowFirst(true);
 								}
