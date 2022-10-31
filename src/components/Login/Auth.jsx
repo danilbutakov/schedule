@@ -117,7 +117,9 @@ export const Auth = ({ setShowFirst }) => {
 			}
 		}
 		if (!user) {
-			navigate('/login');
+			setTimeout(() => {
+				navigate('/login');
+			}, 500);
 		} else {
 			navigate('/home');
 		}
