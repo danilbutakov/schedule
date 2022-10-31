@@ -57,24 +57,24 @@ export const Auth = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (user) {
-			navigate('/home');
-		} else {
-			navigate('/onBoard');
-		}
-		if (!user) {
-			navigate('/auth');
-		} else {
-			navigate('/home');
-		}
-	}, [user]);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		navigate('/home');
+	// 	} else {
+	// 		navigate('/onBoard');
+	// 	}
+	// 	if (!user) {
+	// 		navigate('/auth');
+	// 	} else {
+	// 		navigate('/home');
+	// 	}
+	// }, [user]);
 
 	return (
 		<div>
 			<div>
 				<h1>Введите название ВУЗа</h1>
-				<button onClick={GoogleLogin}>Google</button>
+				{/* <button onClick={GoogleLogin}>Google</button> */}
 			</div>
 		</div>
 	);

@@ -23,13 +23,13 @@ const Home = () => {
 
 	console.log(user);
 
-	useEffect(() => {
-		if (user) {
-			navigate('/home');
-		} else {
-			navigate('/onBoard');
-		}
-	}, [user]);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		navigate('/home');
+	// 	} else {
+	// 		navigate('/onBoard');
+	// 	}
+	// }, [user]);
 
 	return (
 		<div className={styles.homeContainer}>
