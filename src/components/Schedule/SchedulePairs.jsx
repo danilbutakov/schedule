@@ -81,9 +81,9 @@ const SchedulePairs = ({ showPairs, setShowPairs, setShowInfo, showInfo }) => {
 	return (
 		<AnimatePresence>
 			{showPairs && (
-				<div className={styles.mainContentContainer}>
-					{pairs.map((pair, index) => (
-						<AnimationLayout key={index}>
+				<AnimationLayout>
+					<div className={styles.mainContentContainer}>
+						{pairs.map((pair, index) => (
 							<div
 								onClick={() => {
 									handleScroll();
@@ -121,9 +121,9 @@ const SchedulePairs = ({ showPairs, setShowPairs, setShowInfo, showInfo }) => {
 									</div>
 								</div>
 							</div>
-						</AnimationLayout>
-					))}
-				</div>
+						))}
+					</div>
+				</AnimationLayout>
 			)}
 		</AnimatePresence>
 	);

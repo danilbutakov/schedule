@@ -18,7 +18,7 @@ import Home from './pages/Home';
 import Search from './components/Search/Search';
 import Main from './Main';
 import Login from './components/Login/Login';
-import Auth from './pages/Auth/Auth';
+import Auth from './components/Login/Auth';
 
 function App() {
 	const AnimatedSwitch = () => {

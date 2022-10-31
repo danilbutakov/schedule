@@ -65,6 +65,9 @@
 				margin-bottom: 15px;
 				line-height: 32px;
 				color: $primary;
+				@media (min-width: 500px) {
+					text-align: center;
+				}
 			}
 			.subTitle {
 				font-weight: 400;
@@ -80,6 +83,63 @@
 				border: 1px solid rgba(60, 60, 67, 0.13);
 				border-radius: 16px;
 				padding: 16px;
+				width: 100%;
+				@media (min-width: 500px) {
+					width: 50%;
+					margin: auto;
+					display: flex;
+					justify-content: center;
+				}
+			}
+			.authMethods {
+				display: flex;
+				justify-content: space-between;
+				margin-top: 30px;
+				margin-bottom: 18px;
+				@media (max-width: 383px) {
+					justify-content: center;
+					flex-direction: column;
+				}
+				@media (min-width: 500px) {
+					justify-content: center;
+					flex-direction: column;
+					width: 50%;
+					margin: auto;
+				}
+				.authMethod {
+					align-items: center;
+					display: flex;
+					border: 0.65px solid #000000;
+					box-shadow: 0px 5.2px 5.2px rgba(0, 0, 0, 0.05);
+					border-radius: 19.5867px;
+					cursor: pointer;
+					@media (max-width: 383px) {
+						margin-bottom: 30px;
+					}
+					@media (min-width: 500px) {
+						margin-bottom: 30px;
+						justify-content: center;
+					}
+					.authLogos {
+						margin-left: 7px;
+					}
+					.authSpans {
+						padding: 0px 9px 0px 5px;
+						font-weight: 400;
+						font-size: 16px;
+						line-height: 31px;
+						color: $primary;
+					}
+				}
+			}
+			.another {
+				display: flex;
+				justify-content: center;
+				font-weight: 400;
+				font-size: 17px;
+				line-height: 25px;
+				color: $secondary;
+				margin-bottom: 20px;
 			}
 		}
 
@@ -120,6 +180,10 @@
 			}
 		}
 	}
+}
+
+.content {
+	flex: 1;
 }
 
 .btn {

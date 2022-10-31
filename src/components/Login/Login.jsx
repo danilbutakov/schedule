@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { auth } from '../../firebase';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 import styles from './Login.module.scss';
 import '../../styles/index.scss';
@@ -10,11 +12,14 @@ import LoginFirst from './LoginFirst';
 import LoginSecond from './LoginSecond';
 import { AnimatePresence } from 'framer-motion';
 import AnimationSwipe from '../../animations/AnimationSwipeDown';
+import Auth from './Auth';
 
 const Login = () => {
 	const [showLogin, setShowLogin] = useState(true);
-	const [showFirst, setShowFirst] = useState(true);
+	const [showAuth, setShowAuth] = useState(true);
+	const [showFirst, setShowFirst] = useState(false);
 	const [showSecond, setShowSecond] = useState(false);
+	const [user, loading] = useAuthState(auth);
 
 	const navigate = useNavigate();
 
@@ -70,14 +75,22 @@ const Login = () => {
 										showFirst={showFirst}
 										setShowFirst={setShowFirst}
 										setShowSecond={setShowSecond}
+										setShowAuth={setShowAuth}
+										setShowLogin={setShowLogin}
+										showAuth={showAuth}
 									/>
-								) : (
+								) : showSecond ? (
 									<LoginSecond
 										setShowFirst={setShowFirst}
 										setShowSecond={setShowSecond}
 										setShowLogin={setShowLogin}
 									/>
-								)}
+								) : showAuth ? (
+									<Auth
+										setShowFirst={setShowFirst}
+										setShowAuth={setShowAuth}
+									/>
+								) : null}
 							</div>
 						</div>
 					</div>
