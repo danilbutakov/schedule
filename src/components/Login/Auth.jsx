@@ -22,6 +22,7 @@ export const Auth = ({ setShowFirst }) => {
 	const [otp, setotp] = useState('');
 	const [show, setshow] = useState(false);
 	const [final, setfinal] = useState('');
+	const [clickCon, setClickCon] = useState(false);
 
 	const [btnActive, setBtnActive] = useState(styles.btnActive);
 	const [showAuth, setShowAuth] = useState(true);
@@ -38,6 +39,10 @@ export const Auth = ({ setShowFirst }) => {
 
 	const handleChangeInput = (e) => {
 		setInputValue(e.target.value);
+	};
+
+	const handleChangeOtp = (e) => {
+		setotp(e.target.value);
 	};
 
 	const googleProvider = new GoogleAuthProvider();
@@ -83,21 +88,33 @@ export const Auth = ({ setShowFirst }) => {
 		final
 			.confirm(otp)
 			.then((result) => {
-				// success
+				// User signed in successfully.
 				const user = result.user;
 				console.log(user);
-				alert('Verification done!');
+				alert('Done, you can go continue');
+				// ...
 			})
-			.catch((err) => {
-				alert('Wrong code');
+			.catch((error) => {
+				// User couldn't sign in (bad verification code?)
+				// ...
 			});
 	};
 
+	const clickContinue = () => {
+		if (input !== '' && user) {
+			setClickCon(true);
+			setShowAuth(false);
+			setShowFirst(true);
+		}
+	};
+
 	useEffect(() => {
-		if (user) {
-			navigate('/home');
-		} else {
-			navigate('/onBoard');
+		if (clickCon) {
+			if (user) {
+				navigate('/home');
+			} else {
+				navigate('/onBoard');
+			}
 		}
 		if (!user) {
 			navigate('/login');
@@ -148,7 +165,7 @@ export const Auth = ({ setShowFirst }) => {
 									value={input}
 									className={styles.input}
 									type='phone'
-									placeholder='Введите номер телефона'
+									placeholder='Введите номер телефона, начиная с +7'
 								/>
 								<br />
 								<br />
@@ -160,6 +177,8 @@ export const Auth = ({ setShowFirst }) => {
 									type='number'
 									className={styles.input}
 									placeholder={'Enter your OTP'}
+									value={otp}
+									onChange={handleChangeOtp}
 								/>
 								<br />
 								<br />
@@ -168,14 +187,7 @@ export const Auth = ({ setShowFirst }) => {
 								</button>
 							</div>
 						</div>
-						<button
-							onClick={() => {
-								if (input !== '' && user) {
-									setShowAuth(false);
-									setShowFirst(true);
-								}
-							}}
-							className={btnActive}>
+						<button onClick={clickContinue} className={btnActive}>
 							Продолжить
 						</button>
 					</div>
