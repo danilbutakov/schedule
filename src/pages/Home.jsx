@@ -21,8 +21,6 @@ const Home = () => {
 	const [user, loading] = useAuthState(auth);
 	const navigate = useNavigate();
 
-	console.log(user);
-
 	// useEffect(() => {
 	// 	if (user) {
 	// 		navigate('/home');
@@ -32,23 +30,25 @@ const Home = () => {
 	// }, [user]);
 
 	return (
-		<div className={styles.homeContainer}>
-			{showHome && (
-				<AnimationLayout>
-					{showSchedule && <Schedule />}
-					{showMenu && <Menu />}
-					{showSearch && <Search />}
-				</AnimationLayout>
-			)}
-			<ScheduleNavBar
-				setShowSchedule={setShowSchedule}
-				setShowMenu={setShowMenu}
-				showMenu={showMenu}
-				showSchedule={showSchedule}
-				showSearch={showSearch}
-				setShowSearch={setShowSearch}
-			/>
-		</div>
+		<AnimatePresence>
+			<div className={styles.homeContainer}>
+				{showHome && (
+					<AnimationLayout>
+						{showSchedule && <Schedule />}
+						{showMenu && <Menu />}
+						{showSearch && <Search />}
+					</AnimationLayout>
+				)}
+				<ScheduleNavBar
+					setShowSchedule={setShowSchedule}
+					setShowMenu={setShowMenu}
+					showMenu={showMenu}
+					showSchedule={showSchedule}
+					showSearch={showSearch}
+					setShowSearch={setShowSearch}
+				/>
+			</div>
+		</AnimatePresence>
 	);
 };
 

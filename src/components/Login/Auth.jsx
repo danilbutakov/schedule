@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import {
+	RecaptchaVerifier,
+	signInWithPhoneNumber,
+	createUserWithEmailAndPassword,
+} from 'firebase/auth';
 
 import styles from '../../components/Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +19,10 @@ export const Auth = ({ setShowFirst }) => {
 	const [user, loading] = useAuthState(auth);
 
 	const [input, setInputValue] = useState('');
+	const [otp, setotp] = useState('');
+	const [show, setshow] = useState(false);
+	const [final, setfinal] = useState('');
+
 	const [btnActive, setBtnActive] = useState(styles.btnActive);
 	const [showAuth, setShowAuth] = useState(true);
 
@@ -40,6 +49,48 @@ export const Auth = ({ setShowFirst }) => {
 		} catch (error) {
 			console.log(error);
 		}
+	};
+
+	// Sent OTP
+	const signin = () => {
+		window.recaptchaVerifier = new RecaptchaVerifier(
+			'recaptcha-container',
+			{
+				size: 'invisible',
+				callback: (response) => {
+					signin();
+				},
+			},
+			auth,
+		);
+		const phoneNumber = input;
+		console.log(phoneNumber);
+		const appVerifier = window.recaptchaVerifier;
+		signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+			.then((confirmationResult) => {
+				window.confirmationResult = confirmationResult;
+				setshow(true);
+				setfinal(confirmationResult);
+				alert('otp sended');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	// Validate OTP
+	const ValidateOtp = () => {
+		final
+			.confirm(otp)
+			.then((result) => {
+				// success
+				const user = result.user;
+				console.log(user);
+				alert('Verification done!');
+			})
+			.catch((err) => {
+				alert('Wrong code');
+			});
 	};
 
 	useEffect(() => {
@@ -91,13 +142,31 @@ export const Auth = ({ setShowFirst }) => {
 								</div>
 							</div>
 							<span className={styles.another}>или</span>
-							<input
-								onChange={handleChangeInput}
-								value={input}
-								className={styles.input}
-								type='phone'
-								placeholder='Введите номер телефона'
-							/>
+							<div style={{ display: !show ? 'block' : 'none' }}>
+								<input
+									onChange={handleChangeInput}
+									value={input}
+									className={styles.input}
+									type='phone'
+									placeholder='Введите номер телефона'
+								/>
+								<br />
+								<br />
+								<div id='recaptcha-container'></div>
+								<button onClick={signin}>Send OTP</button>
+							</div>
+							<div style={{ display: show ? 'block' : 'none' }}>
+								<input
+									type='number'
+									className={styles.input}
+									placeholder={'Enter your OTP'}
+								/>
+								<br />
+								<br />
+								<button className={styles.btn} onClick={ValidateOtp}>
+									Verify
+								</button>
+							</div>
 						</div>
 						<button
 							onClick={() => {
