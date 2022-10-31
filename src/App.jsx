@@ -90,7 +90,6 @@ function App() {
 							element={<Main />}>
 							<Route path='loadingPage' element={<LoadingPage />} />
 							<Route path='onBoard' element={<OnBoard />} />
-							{/* <Route path='auth' element={<Auth />} /> */}
 							<Route path='login' element={<Login />} />
 							<Route path='home' element={<Home />} />
 							<Route path='search' element={<Search />} />

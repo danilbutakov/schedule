@@ -75,7 +75,9 @@ export const Auth = ({ setShowFirst }) => {
 										Sign in with Apple
 									</span>
 								</div>
-								<div className={styles.authMethod}>
+								<div
+									onClick={GoogleLogin}
+									className={styles.authMethod}>
 									<img
 										width={20}
 										height={20}
