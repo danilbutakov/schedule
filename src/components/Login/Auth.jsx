@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { RecaptchaVerifier } from 'firebase/auth';
@@ -15,6 +14,7 @@ import AnimationSwipe from '../../animations/AnimationSwipeDown';
 import appleLogo from '../../assets/appleLogo.svg';
 import googleLogo from '../../assets/googleLogo.svg';
 import AppContext from '../../utils/Context';
+import { Capacitor } from '@capacitor/core';
 
 export const Auth = ({ setShowFirst }) => {
 	const [user, loading] = useAuthState(auth);
@@ -71,34 +71,69 @@ export const Auth = ({ setShowFirst }) => {
 		}
 	};
 
+	const signInWithPhoneNumber_web = async () => {
+		try {
+			window.recaptchaVerifier = new RecaptchaVerifier(
+				'recaptcha-container',
+				{
+					size: 'invisible',
+					callback: (response) => {
+						signin();
+					},
+				},
+				auth,
+			);
+			const phoneNumber = input;
+			console.log(phoneNumber);
+			const appVerifier = window.recaptchaVerifier;
+			signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+				.then((confirmationResult) => {
+					window.confirmationResult = confirmationResult;
+					setshow(true);
+					setfinal(confirmationResult);
+					alert('otp sended');
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		} catch (error) {
+			prompt(error.message);
+		}
+	};
+
 	// Sent OTP
-	// const signin = () => {
-	// 	window.recaptchaVerifier = new RecaptchaVerifier(
-	// 		'recaptcha-container',
-	// 		{
-	// 			size: 'invisible',
-	// 			callback: (response) => {
-	// 				signin();
-	// 			},
-	// 		},
-	// 		auth,
-	// 	);
-	// 	const phoneNumber = input;
-	// 	console.log(phoneNumber);
-	// 	const appVerifier = window.recaptchaVerifier;
-	// 	signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-	// 		.then((confirmationResult) => {
-	// 			window.confirmationResult = confirmationResult;
-	// 			setshow(true);
-	// 			setfinal(confirmationResult);
-	// 			alert('otp sended');
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// };
+	const signin = () => {
+		window.recaptchaVerifier = new RecaptchaVerifier(
+			'recaptcha-container',
+			{
+				size: 'invisible',
+				callback: (response) => {
+					signin();
+				},
+			},
+			auth,
+		);
+		const phoneNumber = input;
+		console.log(phoneNumber);
+		const appVerifier = window.recaptchaVerifier;
+		signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+			.then((confirmationResult) => {
+				window.confirmationResult = confirmationResult;
+				setshow(true);
+				setfinal(confirmationResult);
+				alert('otp sended');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	const signInWithPhoneNumber = async () => {
+		if (!Capacitor.isNativePlatform()) {
+			signInWithPhoneNumber_web();
+			return;
+		}
+
 		const { verificationId } =
 			await FirebaseAuthentication.signInWithPhoneNumber({
 				phoneNumber: input,
@@ -106,7 +141,7 @@ export const Auth = ({ setShowFirst }) => {
 		const verificationCode = window.prompt(
 			'Please enter the verification code that was sent to your mobile device.',
 		);
-		const result = await FirebaseAuthentication.signInWithPhoneNumber({
+		const result = await signInWithPhoneNumber({
 			verificationId,
 			verificationCode,
 		});
@@ -114,22 +149,22 @@ export const Auth = ({ setShowFirst }) => {
 	};
 
 	// Validate OTP
-	const ValidateOtp = () => {
-		final
-			.confirm(otp)
-			.then((result) => {
-				// User signed in successfully.
-				const user = result.user;
-				console.log(user);
-				alert('Done, you can go continue');
-				// ...
-			})
-			.catch((error) => {
-				// User couldn't sign in (bad verification code?)
-				// ...
-				alert(error.message);
-			});
-	};
+	// const ValidateOtp = () => {
+	// 	final
+	// 		.confirm(otp)
+	// 		.then((result) => {
+	// 			// User signed in successfully.
+	// 			const user = result.user;
+	// 			console.log(user);
+	// 			alert('Done, you can go continue');
+	// 			// ...
+	// 		})
+	// 		.catch((error) => {
+	// 			// User couldn't sign in (bad verification code?)
+	// 			// ...
+	// 			alert(error.message);
+	// 		});
+	// };
 
 	const clickContinue = () => {
 		if (input !== '' && user) {
@@ -206,11 +241,9 @@ export const Auth = ({ setShowFirst }) => {
 								<br />
 								<br />
 								<div id='recaptcha-container'></div>
-								<button onClick={signInWithPhoneNumber}>
-									Send OTP
-								</button>
+								<button>Send OTP</button>
 							</div>
-							<div style={{ display: show ? 'block' : 'none' }}>
+							{/* <div style={{ display: show ? 'block' : 'none' }}>
 								<input
 									type='number'
 									className={styles.input}
@@ -223,7 +256,7 @@ export const Auth = ({ setShowFirst }) => {
 								<button className={styles.btn} onClick={ValidateOtp}>
 									Verify
 								</button>
-							</div>
+							</div> */}
 						</div>
 						<button onClick={clickContinue} className={btnActive}>
 							Продолжить
