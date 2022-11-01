@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../firebase';
 
 import styles from './LoadingPage.module.scss';
 import logo from '../../assets/LogoShapes.svg';
@@ -7,13 +9,22 @@ import AnimationLayout from '../../animations/AnimationLayout';
 import { AnimatePresence } from 'framer-motion';
 
 const LoadingPage = () => {
+	const [user, loading] = useAuthState(auth);
+
 	const [showLoadPage, setLoadPage] = useState(true);
 
-	const location = useLocation();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (location.pathname === location.pathname) {
+		if (user) {
+			setTimeout(() => {
+				setLoadPage(false);
+			}, 3200);
+			setTimeout(() => {
+				navigate('/home');
+			}, 3500);
+		}
+		if (!user) {
 			setTimeout(() => {
 				setLoadPage(false);
 			}, 3200);
@@ -21,7 +32,7 @@ const LoadingPage = () => {
 				navigate('/onBoard');
 			}, 3500);
 		}
-	}, [location.pathname]);
+	}, [user]);
 
 	return (
 		<AnimatePresence>

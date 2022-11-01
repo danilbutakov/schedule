@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { auth } from '../../firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
 
 import styles from './Login.module.scss';
 import '../../styles/index.scss';
@@ -19,7 +17,6 @@ const Login = () => {
 	const [showAuth, setShowAuth] = useState(true);
 	const [showFirst, setShowFirst] = useState(false);
 	const [showSecond, setShowSecond] = useState(false);
-	const [user, loading] = useAuthState(auth);
 
 	const navigate = useNavigate();
 

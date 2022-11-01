@@ -8,6 +8,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import styles from '../ScheduleInfo/ScheduleInfo.module.scss';
 
 const Menu = () => {
+	const [user, loading] = useAuthState(auth);
+
 	return (
 		<AnimationLayout>
 			<div className={styles.infoContainer}>
@@ -21,7 +23,7 @@ const Menu = () => {
 				<div className={styles.upLine}></div>
 
 				<div className={styles.mainContent}>
-					<span>Профиль</span>
+					<span>Профиль, {user.email}</span>
 					<Link to={'/loadingPage'}>
 						<span onClick={() => auth.signOut()}>Выйти</span>
 					</Link>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Schedule from '../components/Schedule/Schedule';
 import AnimationLayout from '../animations/AnimationLayout';
 
@@ -8,26 +8,11 @@ import ScheduleNavBar from '../components/NavBar/ScheduleNavBar';
 import { AnimatePresence } from 'framer-motion';
 import Search from '../components/Search/Search';
 
-import { auth } from '../firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
-
 const Home = () => {
 	const [showHome, setShowHome] = useState(true);
 	const [showSchedule, setShowSchedule] = useState(true);
 	const [showMenu, setShowMenu] = useState(false);
 	const [showSearch, setShowSearch] = useState(false);
-
-	const [user, loading] = useAuthState(auth);
-	const navigate = useNavigate();
-
-	// useEffect(() => {
-	// 	if (user) {
-	// 		navigate('/home');
-	// 	} else {
-	// 		navigate('/onBoard');
-	// 	}
-	// }, [user]);
 
 	return (
 		<AnimatePresence>

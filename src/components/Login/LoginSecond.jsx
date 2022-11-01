@@ -1,26 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AnimationSwipe from '../../animations/AnimationSwipeDown';
+import AppContext from '../../utils/Context';
 
 import styles from './Login.module.scss';
 
 const LoginSecond = ({ setShowFirst, setShowSecond, setShowLogin }) => {
 	const navigate = useNavigate();
-	const location = useLocation();
-	const [input, setInputValue] = useState('');
 	const [btnActive, setBtnActive] = useState(styles.btn1);
 	const [showSecondLogin, setShowSecondLogin] = useState(true);
 
+	const { group, setGroup, writeToDataBaseGroup, writeToDataBaseUniv } =
+		useContext(AppContext);
+
 	useEffect(() => {
-		if (input !== '') {
+		if (group !== '') {
 			setBtnActive(styles.btn1Active);
 		} else {
 			setBtnActive(styles.btn1);
 		}
-	}, [input]);
+	}, [group]);
 
 	const handleChangeInput = (e) => {
-		setInputValue(e.target.value);
+		setGroup(e.target.value);
 	};
 
 	return (
@@ -31,7 +34,7 @@ const LoginSecond = ({ setShowFirst, setShowSecond, setShowLogin }) => {
 						<h1 className={styles.title}>Введите группу</h1>
 						<input
 							onChange={handleChangeInput}
-							value={input}
+							value={group}
 							className={styles.input}
 							type='text'
 							placeholder='Например: БИ.1-19-1'
@@ -48,11 +51,10 @@ const LoginSecond = ({ setShowFirst, setShowSecond, setShowLogin }) => {
 						</button>
 						<button
 							onClick={() => {
-								if (
-									location.pathname === location.pathname &&
-									input !== ''
-								) {
+								if (group !== '') {
 									setShowLogin(false);
+									writeToDataBaseUniv();
+									writeToDataBaseGroup();
 									setTimeout(() => {
 										navigate('/home');
 									}, 300);

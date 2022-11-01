@@ -10,8 +10,8 @@ import AddNote from '../AddNote/AddNote';
 import AnimationSwipeUp from '../../animations/AnimationSwipeUp';
 import { AnimatePresence } from 'framer-motion';
 
-const ScheduleInfo = ({ setShowPairs, showPairs, setShowInfo, showInfo }) => {
-	const { pairActive, notes, handleDelete } = useContext(AppContext);
+const ScheduleInfo = ({ setShowPairs, setShowInfo, showInfo }) => {
+	const { pairActive, notes, handleDelete, setNotes } = useContext(AppContext);
 
 	const [show, setShow] = useState(false);
 	const [showNotes, setShowNotes] = useState(false);
@@ -123,7 +123,7 @@ const ScheduleInfo = ({ setShowPairs, showPairs, setShowInfo, showInfo }) => {
 																			'Удалить заметку ?',
 																		)
 																	) {
-																		handleDelete(note);
+																		handleDelete(note.uuid);
 																	}
 																}}
 																className={styles.deleteCon}>

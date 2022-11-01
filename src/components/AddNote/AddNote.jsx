@@ -1,4 +1,6 @@
 import React, { useContext, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../firebase';
 
 import styles from '../ScheduleInfo/ScheduleInfo.module.scss';
 
@@ -11,6 +13,7 @@ const AddNote = ({ setShow, showNotes, setShowNotes, setNotesShowCon }) => {
 	const { note, charLeft, handleNoteChange, writeToDataBase } =
 		useContext(AppContext);
 	const [showAdd, setShowAdd] = useState(true);
+	const [user, loading] = useAuthState(auth);
 
 	return (
 		<AnimatePresence>

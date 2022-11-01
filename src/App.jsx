@@ -4,6 +4,8 @@ import { AnimatePresence } from 'framer-motion';
 
 import { uid } from 'uid';
 
+import { auth } from './firebase';
+
 import { db } from './firebase';
 import { set, ref, onValue, remove } from 'firebase/database';
 
@@ -18,49 +20,107 @@ import Home from './pages/Home';
 import Search from './components/Search/Search';
 import Main from './Main';
 import Login from './components/Login/Login';
-import Auth from './components/Login/Auth';
 
 function App() {
 	const AnimatedSwitch = () => {
 		const location = useLocation();
 
+		//notes states
 		const [note, setNote] = useState('');
 		const [notes, setNotes] = useState([]);
+
+		//user data states
+		const [univ, setUniv] = useState('');
+		const [univs, setUnivs] = useState([]);
+
+		const [group, setGroup] = useState('');
+		const [groups, setGroups] = useState([]);
+
 		const [showCalendar, setShowCalendar] = useState(false);
 		const [pairActive, setPair] = useState();
 
+		console.log(notes);
+
+		//for Notes
 		//read from database
 		useEffect(() => {
-			onValue(ref(db), (snapshot) => {
-				setNotes([]);
-				const data = snapshot.val();
-				if (data !== null) {
-					Object.values(data).map((noteOne) => {
-						setNotes((oldArray) => [...oldArray, noteOne]);
+			auth.onAuthStateChanged((user) => {
+				if (user) {
+					onValue(ref(db, auth.currentUser.uid), (snapshot) => {
+						setNotes([]);
+						const data = snapshot.val();
+						if (data !== null) {
+							Object.values(data).map((note) => {
+								setNotes((oldArray) => [...oldArray, note]);
+							});
+						}
 					});
 				}
 			});
 		}, []);
-
 		//write to database
 		const writeToDataBase = () => {
 			const uuid = uid();
-			set(ref(db, `/${note}`), {
+			set(ref(db, `/${auth.currentUser.uid}/${uuid}`), {
 				note,
-				uuid,
+				uuid: uuid,
 			});
 			//clear the input
 			setNote('');
 		};
 
 		// delete from note from database
-		const handleDelete = (note) => {
-			remove(ref(db, `/${note.note}`));
+		const handleDelete = (uid) => {
+			remove(ref(db, `/${auth.currentUser.uid}/${uid}`));
 		};
 
 		const handleNoteChange = (e) => {
 			setNote(e.target.value);
 		};
+
+		//for Data Users
+
+		//write to database
+		const writeToDataBaseUniv = () => {
+			const uuid = uid();
+			set(ref(db, `/${auth.currentUser.uid}/${univ}`), {
+				univ,
+				uuid: uuid,
+			});
+			//clear the input
+			setUniv('');
+		};
+
+		const writeToDataBaseGroup = () => {
+			const uuid = uid();
+			set(ref(db, `/${auth.currentUser.uid}/${group}`), {
+				group,
+				uuid: uuid,
+			});
+			//clear the input
+			setGroup('');
+		};
+
+		//read from database
+		// useEffect(() => {
+		// 	auth.onAuthStateChanged((user) => {
+		// 		if (user) {
+		// 			onValue(ref(db, `/${auth.currentUser.uid}`), (snapshot) => {
+		// 				setUnivs([]);
+		// 				setGroups([]);
+		// 				const data = snapshot.val();
+		// 				if (data !== null) {
+		// 					Object.values(data).map((univ) => {
+		// 						setUnivs((oldArray) => [...oldArray, univ]);
+		// 					});
+		// 					Object.values(data).map((group) => {
+		// 						setGroups((oldArray) => [...oldArray, group]);
+		// 					});
+		// 				}
+		// 			});
+		// 		}
+		// 	});
+		// }, []);
 
 		//character limit
 		const charLimit = 100;
@@ -80,6 +140,14 @@ function App() {
 					setShowCalendar,
 					pairActive,
 					setPair,
+					univ,
+					setUniv,
+					group,
+					setGroup,
+					writeToDataBaseUniv,
+					writeToDataBaseGroup,
+					setUnivs,
+					setGroups,
 				}}>
 				<AnimatePresence mode='wait'>
 					<Routes>

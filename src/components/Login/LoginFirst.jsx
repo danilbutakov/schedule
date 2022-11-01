@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import AnimationSwipe from '../../animations/AnimationSwipeDown';
+import AppContext from '../../utils/Context';
 
 import styles from './Login.module.scss';
 
 const LoginFirst = ({ setShowFirst, setShowSecond, setShowAuth, showAuth }) => {
-	const [input, setInputValue] = useState('');
 	const [btnActive, setBtnActive] = useState(styles.btn1);
 
+	const { univ, setUniv } = useContext(AppContext);
+
 	useEffect(() => {
-		if (input !== '') {
+		if (univ !== '') {
 			setBtnActive(styles.btn1Active);
 		} else {
 			setBtnActive(styles.btn1);
 		}
-	}, [input]);
+	}, [univ]);
 
 	const handleChangeInput = (e) => {
-		setInputValue(e.target.value);
+		setUniv(e.target.value);
 	};
 
 	return (
@@ -26,7 +29,7 @@ const LoginFirst = ({ setShowFirst, setShowSecond, setShowAuth, showAuth }) => {
 					<h1 className={styles.title}>Введите название ВУЗа</h1>
 					<input
 						onChange={handleChangeInput}
-						value={input}
+						value={univ}
 						className={styles.input}
 						type='text'
 						placeholder='Например: МГУ'
@@ -43,7 +46,7 @@ const LoginFirst = ({ setShowFirst, setShowSecond, setShowAuth, showAuth }) => {
 					</button>
 					<button
 						onClick={() => {
-							if (input !== '') {
+							if (univ !== '') {
 								setShowFirst(false);
 								setShowSecond(true);
 							}

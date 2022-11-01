@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {
-	RecaptchaVerifier,
-	signInWithPhoneNumber,
-	createUserWithEmailAndPassword,
-} from 'firebase/auth';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import { onValue, ref } from 'firebase/database';
 
 import styles from '../../components/Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { db } from '../../firebase';
 
 import AnimationSwipe from '../../animations/AnimationSwipeDown';
 import appleLogo from '../../assets/appleLogo.svg';
 import googleLogo from '../../assets/googleLogo.svg';
+import AppContext from '../../utils/Context';
 
 export const Auth = ({ setShowFirst }) => {
 	const [user, loading] = useAuthState(auth);
+
+	const { setUnivs, setGroups } = useContext(AppContext);
 
 	const [input, setInputValue] = useState('');
 	const [otp, setotp] = useState('');
@@ -97,6 +98,7 @@ export const Auth = ({ setShowFirst }) => {
 			.catch((error) => {
 				// User couldn't sign in (bad verification code?)
 				// ...
+				alert(error.message);
 			});
 	};
 
@@ -108,22 +110,25 @@ export const Auth = ({ setShowFirst }) => {
 		}
 	};
 
+	//read from database
 	useEffect(() => {
-		if (clickCon) {
+		auth.onAuthStateChanged((user) => {
 			if (user) {
-				navigate('/home');
-			} else {
-				navigate('/onBoard');
+				onValue(ref(db, `/${auth.currentUser.uid}`), (snapshot) => {
+					setUnivs([]);
+					setGroups([]);
+					const data = snapshot.val();
+					if (data !== null) {
+						navigate('/home');
+					}
+					if (data === null) {
+						setShowAuth(false);
+						setShowFirst(true);
+					}
+				});
 			}
-		}
-		if (!user) {
-			setTimeout(() => {
-				navigate('/login');
-			}, 500);
-		} else {
-			navigate('/home');
-		}
-	}, [user]);
+		});
+	}, [auth.currentUser]);
 
 	return (
 		<div className={styles.main}>
