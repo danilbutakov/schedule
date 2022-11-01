@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-   appId: 'ScheduleApp',
-   appName: 'ScheduleApp',
+   appId: 'com.example.com',
+   appName: 'Schedule',
    webDir: 'build',
    bundledWebRuntime: false,
    plugins: {
@@ -15,7 +15,7 @@ const config: CapacitorConfig = {
       path: 'android',
    },
    ios: {
-      path: 'android',
+      path: 'ios',
    },
    server: {
       url: 'https://schedule-psi.vercel.app/',
