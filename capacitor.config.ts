@@ -5,6 +5,12 @@ const config: CapacitorConfig = {
    appName: 'ScheduleApp',
    webDir: 'build',
    bundledWebRuntime: false,
+   plugins: {
+      FirebaseAuthentication: {
+         skipNativeAuth: false,
+         providers: ["google.com", 'phone'],
+      },
+   },
    android: {
       path: 'android',
    },

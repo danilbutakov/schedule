@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import { RecaptchaVerifier } from 'firebase/auth';
 import { onValue, ref } from 'firebase/database';
+
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 import styles from '../../components/Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -46,42 +48,69 @@ export const Auth = ({ setShowFirst }) => {
 		setotp(e.target.value);
 	};
 
-	const googleProvider = new GoogleAuthProvider();
-	const GoogleLogin = async () => {
+	// const googleProvider = new GoogleAuthProvider();
+	// const GoogleLogin = async () => {
+	// 	try {
+	// 		const result = await signInWithPopup(auth, googleProvider);
+	// 		console.log(result.user);
+	// 		navigate('/login');
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+
+	const signInWithGoogle = async () => {
 		try {
-			const result = await signInWithPopup(auth, googleProvider);
-			console.log(result.user);
-			navigate('/login');
+			const result = await FirebaseAuthentication.signInWithGoogle();
+			if (result.user) {
+				navigate('login');
+			}
+			return result.user;
 		} catch (error) {
-			console.log(error);
+			alert(error.message);
 		}
 	};
 
 	// Sent OTP
-	const signin = () => {
-		window.recaptchaVerifier = new RecaptchaVerifier(
-			'recaptcha-container',
-			{
-				size: 'invisible',
-				callback: (response) => {
-					signin();
-				},
-			},
-			auth,
-		);
-		const phoneNumber = input;
-		console.log(phoneNumber);
-		const appVerifier = window.recaptchaVerifier;
-		signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-			.then((confirmationResult) => {
-				window.confirmationResult = confirmationResult;
-				setshow(true);
-				setfinal(confirmationResult);
-				alert('otp sended');
-			})
-			.catch((error) => {
-				console.log(error);
+	// const signin = () => {
+	// 	window.recaptchaVerifier = new RecaptchaVerifier(
+	// 		'recaptcha-container',
+	// 		{
+	// 			size: 'invisible',
+	// 			callback: (response) => {
+	// 				signin();
+	// 			},
+	// 		},
+	// 		auth,
+	// 	);
+	// 	const phoneNumber = input;
+	// 	console.log(phoneNumber);
+	// 	const appVerifier = window.recaptchaVerifier;
+	// 	signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+	// 		.then((confirmationResult) => {
+	// 			window.confirmationResult = confirmationResult;
+	// 			setshow(true);
+	// 			setfinal(confirmationResult);
+	// 			alert('otp sended');
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// };
+
+	const signInWithPhoneNumber = async () => {
+		const { verificationId } =
+			await FirebaseAuthentication.signInWithPhoneNumber({
+				phoneNumber: input,
 			});
+		const verificationCode = window.prompt(
+			'Please enter the verification code that was sent to your mobile device.',
+		);
+		const result = await FirebaseAuthentication.signInWithPhoneNumber({
+			verificationId,
+			verificationCode,
+		});
+		return result.user;
 	};
 
 	// Validate OTP
@@ -151,7 +180,7 @@ export const Auth = ({ setShowFirst }) => {
 									</span>
 								</div>
 								<div
-									onClick={GoogleLogin}
+									onClick={signInWithGoogle}
 									className={styles.authMethod}>
 									<img
 										width={20}
@@ -177,7 +206,9 @@ export const Auth = ({ setShowFirst }) => {
 								<br />
 								<br />
 								<div id='recaptcha-container'></div>
-								<button onClick={signin}>Send OTP</button>
+								<button onClick={signInWithPhoneNumber}>
+									Send OTP
+								</button>
 							</div>
 							<div style={{ display: show ? 'block' : 'none' }}>
 								<input

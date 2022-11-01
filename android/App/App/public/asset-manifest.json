@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.74a4d4a7.css",
+    "main.js": "/static/js/main.8a8a7957.js",
+    "static/js/787.7c67f256.chunk.js": "/static/js/787.7c67f256.chunk.js",
+    "static/media/LogoOnboarding2.svg": "/static/media/LogoOnboarding2.38f37d84d862922332efd361761d5271.svg",
+    "static/media/LogoOnboarding.svg": "/static/media/LogoOnboarding.73ae0cbda4daaf5a7d4729e8b31a79cf.svg",
+    "static/media/calendar.svg": "/static/media/calendar.ec9ff1ec7a8420daf08b0e830055c78f.svg",
+    "static/media/logo.svg": "/static/media/logo.91b4cb10f821488ab118c41be83c66ac.svg",
+    "static/media/portfel.svg": "/static/media/portfel.f7cedb772c0b366fad977f04f6f97daf.svg",
+    "index.html": "/index.html",
+    "static/media/lupa.svg": "/static/media/lupa.f4e44296e8a4f805387087e27d88dcf8.svg",
+    "static/media/profile.svg": "/static/media/profile.288189f0a0db2959c26606f7d474a0b7.svg",
+    "main.74a4d4a7.css.map": "/static/css/main.74a4d4a7.css.map",
+    "main.8a8a7957.js.map": "/static/js/main.8a8a7957.js.map",
+    "787.7c67f256.chunk.js.map": "/static/js/787.7c67f256.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.74a4d4a7.css",
+    "static/js/main.8a8a7957.js"
+  ]
+}
