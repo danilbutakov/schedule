@@ -8,7 +8,7 @@
 			"skipNativeAuth": false,
 			"providers": [
 				"google.com",
-				"apple.com"
+				"phone"
 			]
 		}
 	},
