@@ -71,7 +71,7 @@ export const Auth = ({ setShowFirst }) => {
 		}
 	};
 
-	const signInWithPhoneNumber_web = async () => {
+	const signInWithPhoneNumber_web = () => {
 		try {
 			window.recaptchaVerifier = new RecaptchaVerifier(
 				'recaptcha-container',
@@ -131,7 +131,6 @@ export const Auth = ({ setShowFirst }) => {
 	const signInWithPhoneNumber = async () => {
 		if (!Capacitor.isNativePlatform()) {
 			signInWithPhoneNumber_web();
-			return;
 		}
 
 		const { verificationId } =
@@ -149,22 +148,22 @@ export const Auth = ({ setShowFirst }) => {
 	};
 
 	// Validate OTP
-	// const ValidateOtp = () => {
-	// 	final
-	// 		.confirm(otp)
-	// 		.then((result) => {
-	// 			// User signed in successfully.
-	// 			const user = result.user;
-	// 			console.log(user);
-	// 			alert('Done, you can go continue');
-	// 			// ...
-	// 		})
-	// 		.catch((error) => {
-	// 			// User couldn't sign in (bad verification code?)
-	// 			// ...
-	// 			alert(error.message);
-	// 		});
-	// };
+	const ValidateOtp = () => {
+		final
+			.confirm(otp)
+			.then((result) => {
+				// User signed in successfully.
+				const user = result.user;
+				console.log(user);
+				alert('Done, you can go continue');
+				// ...
+			})
+			.catch((error) => {
+				// User couldn't sign in (bad verification code?)
+				// ...
+				alert(error.message);
+			});
+	};
 
 	const clickContinue = () => {
 		if (input !== '' && user) {
@@ -241,9 +240,11 @@ export const Auth = ({ setShowFirst }) => {
 								<br />
 								<br />
 								<div id='recaptcha-container'></div>
-								<button>Send OTP</button>
+								<button onClick={signInWithPhoneNumber}>
+									Send OTP
+								</button>
 							</div>
-							{/* <div style={{ display: show ? 'block' : 'none' }}>
+							<div style={{ display: show ? 'block' : 'none' }}>
 								<input
 									type='number'
 									className={styles.input}
@@ -256,7 +257,7 @@ export const Auth = ({ setShowFirst }) => {
 								<button className={styles.btn} onClick={ValidateOtp}>
 									Verify
 								</button>
-							</div> */}
+							</div>
 						</div>
 						<button onClick={clickContinue} className={btnActive}>
 							Продолжить
