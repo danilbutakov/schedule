@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 
 const config: CapacitorConfig = {
-   appId: 'com.mydomain.myappname',
+   appId: 'com.schedule.com',
    appName: 'Schedule',
    webDir: 'build',
    bundledWebRuntime: false,

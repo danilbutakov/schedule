@@ -4,20 +4,8 @@ import { getAnalytics } from 'firebase/analytics';
 import { getDatabase } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
-import { FirebaseApp } from '@capacitor-firebase/app';
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const getName = async () => {
-	const result = await FirebaseApp.getName();
-};
-
-const getOptions = async () => {
-	const result = await FirebaseApp.getOptions();
-};
 const firebaseConfig = {
 	apiKey: 'AIzaSyA0anmBNEIbwWpAZhGIvdr5Qk47bL8H4rY',
 	authDomain: 'schedule-11f30.firebaseapp.com',
@@ -31,7 +19,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig.firebase);
 const analytics = getAnalytics(app);
 export const db = getDatabase(app);
 export const auth = getAuth();

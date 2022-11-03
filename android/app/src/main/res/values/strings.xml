@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Schedule</string>
     <string name="title_activity_main">Schedule</string>
-    <string name="package_name">com.example.com</string>
-    <string name="custom_url_scheme">com.example.com</string>
+    <string name="package_name">com.mydomain.myappname</string>
+    <string name="custom_url_scheme">com.mydomain.myappname</string>
 </resources>
