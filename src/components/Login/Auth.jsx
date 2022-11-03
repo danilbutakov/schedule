@@ -3,7 +3,9 @@ import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { onValue, ref } from 'firebase/database';
 
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { Capacitor } from '@capacitor/core';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 import styles from '../../components/Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -20,15 +22,27 @@ export const Auth = ({ setShowFirst }) => {
 	const { setUnivs, setGroups } = useContext(AppContext);
 
 	const [input, setInputValue] = useState('');
-	const [otp, setotp] = useState('');
-	const [show, setshow] = useState(false);
-	const [final, setfinal] = useState('');
+
 	const [clickCon, setClickCon] = useState(false);
 
 	const [btnActive, setBtnActive] = useState(styles.btnActive);
 	const [showAuth, setShowAuth] = useState(true);
 
 	const navigate = useNavigate();
+
+	const googleSignIn = async () => {
+		if (!Capacitor.isNativePlatform()) {
+			GoogleLogin();
+		}
+		const googleUser = await GoogleAuth.signIn();
+		const credential = auth.GoogleAuthProvider.credential(
+			googleUser.authentication.idToken,
+		);
+
+		auth.signInAndRetrieveDataWithCredential(credential);
+		setShowAuth(false);
+		setShowFirst(true);
+	};
 
 	useEffect(() => {
 		if (input !== '') {
@@ -38,130 +52,19 @@ export const Auth = ({ setShowFirst }) => {
 		}
 	}, [input]);
 
-	const handleChangeInput = (e) => {
-		setInputValue(e.target.value);
-	};
+	//
 
-	const handleChangeOtp = (e) => {
-		setotp(e.target.value);
-	};
-
-	// const googleProvider = new GoogleAuthProvider();
-	// const GoogleLogin = async () => {
-	// 	try {
-	// 		const result = await signInWithPopup(auth, googleProvider);
-	// 		console.log(result.user);
-	// 		navigate('/login');
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// };
-
-	const signInWithGoogle = async () => {
+	const googleProvider = new GoogleAuthProvider();
+	const GoogleLogin = async () => {
 		try {
-			const result = await FirebaseAuthentication.signInWithGoogle();
-			if (result.user) {
-				navigate('login');
-			}
-			return result.user;
+			const result = await signInWithPopup(auth, googleProvider);
+			console.log(result.user);
+			setShowAuth(false);
+			setShowFirst(true);
 		} catch (error) {
-			alert(error.message);
+			console.log(error);
 		}
 	};
-
-	// const signInWithPhoneNumber_web = () => {
-	// 	try {
-	// 		window.recaptchaVerifier = new RecaptchaVerifier(
-	// 			'recaptcha-container',
-	// 			{
-	// 				size: 'invisible',
-	// 				callback: (response) => {
-	// 					signin();
-	// 				},
-	// 			},
-	// 			auth,
-	// 		);
-	// 		const phoneNumber = input;
-	// 		console.log(phoneNumber);
-	// 		const appVerifier = window.recaptchaVerifier;
-	// 		signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-	// 			.then((confirmationResult) => {
-	// 				window.confirmationResult = confirmationResult;
-	// 				setshow(true);
-	// 				setfinal(confirmationResult);
-	// 				alert('otp sended');
-	// 			})
-	// 			.catch((error) => {
-	// 				console.log(error);
-	// 			});
-	// 	} catch (error) {
-	// 		prompt(error.message);
-	// 	}
-	// };
-
-	// Sent OTP
-	// const signin = () => {
-	// 	window.recaptchaVerifier = new RecaptchaVerifier(
-	// 		'recaptcha-container',
-	// 		{
-	// 			size: 'invisible',
-	// 			callback: (response) => {
-	// 				signin();
-	// 			},
-	// 		},
-	// 		auth,
-	// 	);
-	// 	const phoneNumber = input;
-	// 	console.log(phoneNumber);
-	// 	const appVerifier = window.recaptchaVerifier;
-	// 	signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-	// 		.then((confirmationResult) => {
-	// 			window.confirmationResult = confirmationResult;
-	// 			setshow(true);
-	// 			setfinal(confirmationResult);
-	// 			alert('otp sended');
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// };
-
-	// const signInWithPhoneNumber = async () => {
-	// 	if (!Capacitor.isNativePlatform()) {
-	// 		signInWithPhoneNumber_web();
-	// 	}
-
-	// 	const { verificationId } =
-	// 		await FirebaseAuthentication.signInWithPhoneNumber({
-	// 			phoneNumber: input,
-	// 		});
-	// 	const verificationCode = window.prompt(
-	// 		'Please enter the verification code that was sent to your mobile device.',
-	// 	);
-	// 	const result = await signInWithPhoneNumber({
-	// 		verificationId,
-	// 		verificationCode,
-	// 	});
-	// 	return result.user;
-	// };
-
-	// Validate OTP
-	// const ValidateOtp = () => {
-	// 	final
-	// 		.confirm(otp)
-	// 		.then((result) => {
-	// 			// User signed in successfully.
-	// 			const user = result.user;
-	// 			console.log(user);
-	// 			alert('Done, you can go continue');
-	// 			// ...
-	// 		})
-	// 		.catch((error) => {
-	// 			// User couldn't sign in (bad verification code?)
-	// 			// ...
-	// 			alert(error.message);
-	// 		});
-	// };
 
 	const clickContinue = () => {
 		if (input !== '' && user) {
@@ -212,7 +115,7 @@ export const Auth = ({ setShowFirst }) => {
 									</span>
 								</div>
 								<div
-									onClick={signInWithGoogle}
+									onClick={googleSignIn}
 									className={styles.authMethod}>
 									<img
 										width={20}
@@ -227,36 +130,6 @@ export const Auth = ({ setShowFirst }) => {
 								</div>
 							</div>
 							<span className={styles.another}>или</span>
-							{/* <div style={{ display: !show ? 'block' : 'none' }}>
-								<input
-									onChange={handleChangeInput}
-									value={input}
-									className={styles.input}
-									type='phone'
-									placeholder='Введите номер телефона, начиная с +7'
-								/>
-								<br />
-								<br />
-								<div id='recaptcha-container'></div>
-								<button onClick={signInWithPhoneNumber}>
-									Send OTP
-								</button>
-							</div>
-							<div style={{ display: show ? 'block' : 'none' }}>
-								<input
-									type='number'
-									className={styles.input}
-									placeholder={'Enter your OTP'}
-									value={otp}
-									onChange={handleChangeOtp}
-								/>
-								<br />
-								<br />
-								<button className={styles.btn} onClick={ValidateOtp}>
-									Verify
-								</button>
-							</div>
-						</div> */}
 						</div>
 						<button onClick={clickContinue} className={btnActive}>
 							Продолжить

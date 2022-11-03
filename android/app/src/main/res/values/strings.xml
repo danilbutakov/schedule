@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Schedule</string>
-    <string name="title_activity_main">Schedule</string>
-    <string name="package_name">com.schedule.com</string>
-    <string name="custom_url_scheme">com.schedule.com</string>
+    <string name="app_name">schedule</string>
+    <string name="title_activity_main">schedule</string>
+    <string name="package_name">com.thirdTeam.schedule</string>
+    <string name="custom_url_scheme">com.thirdTeam.schedule</string>
+    <string name="server_client_id">676713652988-d3r9vlsdbgj2oocs6q9munnc0jjkaovk.apps.googleusercontent.com</string>
 </resources>

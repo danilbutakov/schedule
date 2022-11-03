@@ -1,15 +1,15 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
-
 const config: CapacitorConfig = {
-   appId: 'com.schedule.com',
-   appName: 'Schedule',
+   appId: 'com.thirdTeam.schedule',
+   appName: 'schedule',
    webDir: 'build',
    bundledWebRuntime: false,
    plugins: {
-      FirebaseAuthentication: {
-         skipNativeAuth: false,
-         providers: ['google.com', 'apple.com'],
+      GoogleAuth: {
+         scopes: ['profile', 'email'],
+         serverClientId: '676713652988-tkn7efgb8i2gng0ut42kkcb6a8ch3aoh.apps.googleusercontent.com',
+         forceCodeForRefreshToken: true,
       },
    },
    android: {
@@ -19,7 +19,7 @@ const config: CapacitorConfig = {
       path: 'ios',
    },
    server: {
-      url: 'https://schedule-psi.vercel.app/',
+      url: 'https://schedule-11f30.web.app',
    }
 };
 
