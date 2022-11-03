@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { RecaptchaVerifier } from 'firebase/auth';
 import { onValue, ref } from 'firebase/database';
 
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
@@ -14,7 +13,6 @@ import AnimationSwipe from '../../animations/AnimationSwipeDown';
 import appleLogo from '../../assets/appleLogo.svg';
 import googleLogo from '../../assets/googleLogo.svg';
 import AppContext from '../../utils/Context';
-import { Capacitor } from '@capacitor/core';
 
 export const Auth = ({ setShowFirst }) => {
 	const [user, loading] = useAuthState(auth);
@@ -71,99 +69,99 @@ export const Auth = ({ setShowFirst }) => {
 		}
 	};
 
-	const signInWithPhoneNumber_web = () => {
-		try {
-			window.recaptchaVerifier = new RecaptchaVerifier(
-				'recaptcha-container',
-				{
-					size: 'invisible',
-					callback: (response) => {
-						signin();
-					},
-				},
-				auth,
-			);
-			const phoneNumber = input;
-			console.log(phoneNumber);
-			const appVerifier = window.recaptchaVerifier;
-			signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-				.then((confirmationResult) => {
-					window.confirmationResult = confirmationResult;
-					setshow(true);
-					setfinal(confirmationResult);
-					alert('otp sended');
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		} catch (error) {
-			prompt(error.message);
-		}
-	};
+	// const signInWithPhoneNumber_web = () => {
+	// 	try {
+	// 		window.recaptchaVerifier = new RecaptchaVerifier(
+	// 			'recaptcha-container',
+	// 			{
+	// 				size: 'invisible',
+	// 				callback: (response) => {
+	// 					signin();
+	// 				},
+	// 			},
+	// 			auth,
+	// 		);
+	// 		const phoneNumber = input;
+	// 		console.log(phoneNumber);
+	// 		const appVerifier = window.recaptchaVerifier;
+	// 		signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+	// 			.then((confirmationResult) => {
+	// 				window.confirmationResult = confirmationResult;
+	// 				setshow(true);
+	// 				setfinal(confirmationResult);
+	// 				alert('otp sended');
+	// 			})
+	// 			.catch((error) => {
+	// 				console.log(error);
+	// 			});
+	// 	} catch (error) {
+	// 		prompt(error.message);
+	// 	}
+	// };
 
 	// Sent OTP
-	const signin = () => {
-		window.recaptchaVerifier = new RecaptchaVerifier(
-			'recaptcha-container',
-			{
-				size: 'invisible',
-				callback: (response) => {
-					signin();
-				},
-			},
-			auth,
-		);
-		const phoneNumber = input;
-		console.log(phoneNumber);
-		const appVerifier = window.recaptchaVerifier;
-		signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-			.then((confirmationResult) => {
-				window.confirmationResult = confirmationResult;
-				setshow(true);
-				setfinal(confirmationResult);
-				alert('otp sended');
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
+	// const signin = () => {
+	// 	window.recaptchaVerifier = new RecaptchaVerifier(
+	// 		'recaptcha-container',
+	// 		{
+	// 			size: 'invisible',
+	// 			callback: (response) => {
+	// 				signin();
+	// 			},
+	// 		},
+	// 		auth,
+	// 	);
+	// 	const phoneNumber = input;
+	// 	console.log(phoneNumber);
+	// 	const appVerifier = window.recaptchaVerifier;
+	// 	signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+	// 		.then((confirmationResult) => {
+	// 			window.confirmationResult = confirmationResult;
+	// 			setshow(true);
+	// 			setfinal(confirmationResult);
+	// 			alert('otp sended');
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// };
 
-	const signInWithPhoneNumber = async () => {
-		if (!Capacitor.isNativePlatform()) {
-			signInWithPhoneNumber_web();
-		}
+	// const signInWithPhoneNumber = async () => {
+	// 	if (!Capacitor.isNativePlatform()) {
+	// 		signInWithPhoneNumber_web();
+	// 	}
 
-		const { verificationId } =
-			await FirebaseAuthentication.signInWithPhoneNumber({
-				phoneNumber: input,
-			});
-		const verificationCode = window.prompt(
-			'Please enter the verification code that was sent to your mobile device.',
-		);
-		const result = await signInWithPhoneNumber({
-			verificationId,
-			verificationCode,
-		});
-		return result.user;
-	};
+	// 	const { verificationId } =
+	// 		await FirebaseAuthentication.signInWithPhoneNumber({
+	// 			phoneNumber: input,
+	// 		});
+	// 	const verificationCode = window.prompt(
+	// 		'Please enter the verification code that was sent to your mobile device.',
+	// 	);
+	// 	const result = await signInWithPhoneNumber({
+	// 		verificationId,
+	// 		verificationCode,
+	// 	});
+	// 	return result.user;
+	// };
 
 	// Validate OTP
-	const ValidateOtp = () => {
-		final
-			.confirm(otp)
-			.then((result) => {
-				// User signed in successfully.
-				const user = result.user;
-				console.log(user);
-				alert('Done, you can go continue');
-				// ...
-			})
-			.catch((error) => {
-				// User couldn't sign in (bad verification code?)
-				// ...
-				alert(error.message);
-			});
-	};
+	// const ValidateOtp = () => {
+	// 	final
+	// 		.confirm(otp)
+	// 		.then((result) => {
+	// 			// User signed in successfully.
+	// 			const user = result.user;
+	// 			console.log(user);
+	// 			alert('Done, you can go continue');
+	// 			// ...
+	// 		})
+	// 		.catch((error) => {
+	// 			// User couldn't sign in (bad verification code?)
+	// 			// ...
+	// 			alert(error.message);
+	// 		});
+	// };
 
 	const clickContinue = () => {
 		if (input !== '' && user) {
@@ -229,7 +227,7 @@ export const Auth = ({ setShowFirst }) => {
 								</div>
 							</div>
 							<span className={styles.another}>или</span>
-							<div style={{ display: !show ? 'block' : 'none' }}>
+							{/* <div style={{ display: !show ? 'block' : 'none' }}>
 								<input
 									onChange={handleChangeInput}
 									value={input}
@@ -258,6 +256,7 @@ export const Auth = ({ setShowFirst }) => {
 									Verify
 								</button>
 							</div>
+						</div> */}
 						</div>
 						<button onClick={clickContinue} className={btnActive}>
 							Продолжить

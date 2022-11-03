@@ -1,14 +1,15 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
+
 const config: CapacitorConfig = {
-   appId: 'ScheduleApp',
+   appId: 'com.mydomain.myappname',
    appName: 'Schedule',
    webDir: 'build',
    bundledWebRuntime: false,
    plugins: {
       FirebaseAuthentication: {
          skipNativeAuth: false,
-         providers: ["google.com", 'phone'],
+         providers: ["google.com", 'apple.com'],
       },
    },
    android: {
