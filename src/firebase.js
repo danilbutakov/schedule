@@ -4,8 +4,6 @@ import { getAnalytics } from 'firebase/analytics';
 import { getDatabase } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
-
-
 const firebaseConfig = {
 	apiKey: 'AIzaSyA0anmBNEIbwWpAZhGIvdr5Qk47bL8H4rY',
 	authDomain: 'schedule-11f30.firebaseapp.com',
@@ -19,7 +17,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig.firebase);
+const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const db = getDatabase(app);
 export const auth = getAuth();
