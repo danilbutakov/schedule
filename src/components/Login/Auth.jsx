@@ -46,15 +46,13 @@ export const Auth = ({ setShowFirst }) => {
 		setShowFirst(true);
 	};
 
-	useEffect(() => {
-		if (input !== '') {
-			setBtnActive(styles.btn);
-		} else {
-			setBtnActive(styles.btnActive);
-		}
-	}, [input]);
-
-	//
+	// useEffect(() => {
+	// 	if (input !== '') {
+	// 		setBtnActive(styles.btn);
+	// 	} else {
+	// 		setBtnActive(styles.btnActive);
+	// 	}
+	// }, [input]);
 
 	const googleProvider = new GoogleAuthProvider();
 	const GoogleLogin = async () => {
@@ -69,7 +67,7 @@ export const Auth = ({ setShowFirst }) => {
 	};
 
 	const clickContinue = () => {
-		if (input !== '' && user) {
+		if (user) {
 			setClickCon(true);
 			setShowAuth(false);
 			setShowFirst(true);
