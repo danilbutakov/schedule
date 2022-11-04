@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "676713652988-jsftqvv6sensle1bc065j4fnrm5msesr.apps.googleusercontent.com",
+          "client_id": "676713652988-d3r9vlsdbgj2oocs6q9munnc0jjkaovk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.thirdTeam.schedule",
@@ -23,7 +23,7 @@
           }
         },
         {
-          "client_id": "676713652988-tkn7efgb8i2gng0ut42kkcb6a8ch3aoh.apps.googleusercontent.com",
+          "client_id": "676713652988-d3r9vlsdbgj2oocs6q9munnc0jjkaovk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -36,11 +36,11 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "676713652988-tkn7efgb8i2gng0ut42kkcb6a8ch3aoh.apps.googleusercontent.com",
+              "client_id": "676713652988-d3r9vlsdbgj2oocs6q9munnc0jjkaovk.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "676713652988-0kttl2dtuf5k6nebbto452n3a8nnf1js.apps.googleusercontent.com",
+              "client_id": "676713652988-d3r9vlsdbgj2oocs6q9munnc0jjkaovk.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.thirdTeam.schedule"

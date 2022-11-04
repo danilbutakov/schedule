@@ -37,11 +37,11 @@ export const Auth = ({ setShowFirst }) => {
 		const googleUser = await GoogleAuth.signIn();
 		console.log('google user = ', googleUser);
 
-		// const credential = auth.GoogleAuthProvider.credential(
-		// 	googleUser.authentication.idToken,
-		// );
+		const credential = auth.GoogleAuthProvider.credential(
+			googleUser.authentication.idToken,
+		);
 
-		// auth.signInAndRetrieveDataWithCredential(credential);
+		auth.signInAndRetrieveDataWithCredential(credential);
 		setShowAuth(false);
 		setShowFirst(true);
 	};
