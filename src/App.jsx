@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
+import { SplashScreen } from '@capacitor/splash-screen';
+
 import { uid } from 'uid';
 
 import { auth } from './firebase';
@@ -40,6 +42,11 @@ function App() {
 		const [pairActive, setPair] = useState();
 
 		console.log(notes);
+
+		//hide splash screen on android
+		useEffect(() => {
+			SplashScreen.hide();
+		}, []);
 
 		//for Notes
 		//read from database
