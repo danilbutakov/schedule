@@ -4,11 +4,14 @@
    "webDir": "build",
    "bundledWebRuntime": "false",
    "plugins": {
-      "GoogleAuth": {
-         "scopes": ["profile", "email"],
-         "serverClientId": "676713652988-tkn7efgb8i2gng0ut42kkcb6a8ch3aoh.apps.googleusercontent.com",
-         "forceCodeForRefreshToken": "true"
-      }
+       "GoogleAuth": {
+         "scopes": [
+           "profile",
+           "email"
+         ],
+         "serverClientId": "676713652988-d3r9vlsdbgj2oocs6q9munnc0jjkaovk.apps.googleusercontent.com",
+         "forceCodeForRefreshToken": true
+       }
    },
    "android": {
       "path": "android"
