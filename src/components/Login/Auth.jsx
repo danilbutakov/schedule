@@ -29,11 +29,11 @@ export const Auth = ({ setShowFirst, setShowAuth, showAuth }) => {
 
 	const navigate = useNavigate();
 
-	const googleSignIn = async () => {
+	const googleSignIn = () => {
 		if (!Capacitor.isNativePlatform()) {
 			GoogleLogin();
 		}
-		const googleUser = await GoogleAuth.signIn();
+		const googleUser = GoogleAuth.signIn();
 		console.log(googleUser);
 		const credential = auth.GoogleAuthProvider.credential(
 			googleUser.authentication.idToken,
