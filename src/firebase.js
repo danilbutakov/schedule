@@ -1,11 +1,10 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
 import { getDatabase } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyA0anmBNEIbwWpAZhGIvdr5Qk47bL8H4rY',
-	authDomain: 'schedule-11f30.firebaseapp.com',
+	authDomain: 'thirdteam-schedule.online',
 	databaseURL:
 		'https://schedule-11f30-default-rtdb.europe-west1.firebasedatabase.app',
 	projectId: 'schedule-11f30',
@@ -17,6 +16,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
 export const db = getDatabase(app);
 export const auth = getAuth();
