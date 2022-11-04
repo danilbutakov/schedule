@@ -16,7 +16,7 @@ import appleLogo from '../../assets/appleLogo.svg';
 import googleLogo from '../../assets/googleLogo.svg';
 import AppContext from '../../utils/Context';
 
-export const Auth = ({ setShowFirst }) => {
+export const Auth = ({ setShowFirst, setShowAuth, showAuth }) => {
 	const [user, loading] = useAuthState(auth);
 
 	const { setUnivs, setGroups } = useContext(AppContext);
@@ -26,7 +26,6 @@ export const Auth = ({ setShowFirst }) => {
 	const [clickCon, setClickCon] = useState(false);
 
 	const [btnActive, setBtnActive] = useState(styles.btnActive);
-	const [showAuth, setShowAuth] = useState(true);
 
 	const navigate = useNavigate();
 
@@ -35,11 +34,12 @@ export const Auth = ({ setShowFirst }) => {
 			GoogleLogin();
 		}
 		const googleUser = await GoogleAuth.signIn();
-		const credential = auth.GoogleAuthProvider.credential(
-			googleUser.authentication.idToken,
-		);
+		console.log(googleUser);
+		// const credential = auth.GoogleAuthProvider.credential(
+		// 	googleUser.authentication.idToken,
+		// );
 
-		auth.signInAndRetrieveDataWithCredential(credential);
+		// auth.signInAndRetrieveDataWithCredential(credential);
 		setShowAuth(false);
 		setShowFirst(true);
 	};

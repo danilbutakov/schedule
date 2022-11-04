@@ -86,6 +86,7 @@ const Login = () => {
 									<Auth
 										setShowFirst={setShowFirst}
 										setShowAuth={setShowAuth}
+										showAuth={showAuth}
 									/>
 								) : null}
 							</div>
