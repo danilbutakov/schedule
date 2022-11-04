@@ -35,8 +35,6 @@ export const Auth = ({ setShowFirst }) => {
 			GoogleLogin();
 		}
 		const googleUser = await GoogleAuth.signIn();
-		console.log('google user = ', googleUser);
-
 		const credential = auth.GoogleAuthProvider.credential(
 			googleUser.authentication.idToken,
 		);
@@ -46,13 +44,15 @@ export const Auth = ({ setShowFirst }) => {
 		setShowFirst(true);
 	};
 
-	// useEffect(() => {
-	// 	if (input !== '') {
-	// 		setBtnActive(styles.btn);
-	// 	} else {
-	// 		setBtnActive(styles.btnActive);
-	// 	}
-	// }, [input]);
+	useEffect(() => {
+		if (input !== '') {
+			setBtnActive(styles.btn);
+		} else {
+			setBtnActive(styles.btnActive);
+		}
+	}, [input]);
+
+	//
 
 	const googleProvider = new GoogleAuthProvider();
 	const GoogleLogin = async () => {
@@ -67,7 +67,7 @@ export const Auth = ({ setShowFirst }) => {
 	};
 
 	const clickContinue = () => {
-		if (user) {
+		if (input !== '' && user) {
 			setClickCon(true);
 			setShowAuth(false);
 			setShowFirst(true);
