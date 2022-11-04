@@ -16,8 +16,9 @@ import appleLogo from '../../assets/appleLogo.svg';
 import googleLogo from '../../assets/googleLogo.svg';
 import AppContext from '../../utils/Context';
 
-export const Auth = ({ setShowFirst, setShowAuth, showAuth }) => {
+export const Auth = ({ setShowFirst }) => {
 	const [user, loading] = useAuthState(auth);
+	const [showAuth, setShowAuth] = useState(true);
 
 	const { setUnivs, setGroups } = useContext(AppContext);
 
@@ -29,17 +30,13 @@ export const Auth = ({ setShowFirst, setShowAuth, showAuth }) => {
 
 	const navigate = useNavigate();
 
-	const googleSignIn = () => {
+	const googleSignIn = async () => {
 		if (!Capacitor.isNativePlatform()) {
 			GoogleLogin();
 		}
-		const googleUser = GoogleAuth.signIn();
+		const googleUser = await GoogleAuth.signIn();
 		console.log(googleUser);
-		const credential = auth.GoogleAuthProvider.credential(
-			googleUser.authentication.idToken,
-		);
 
-		auth.signInAndRetrieveDataWithCredential(credential);
 		if (googleUser) {
 			setShowAuth(false);
 			setShowFirst(true);

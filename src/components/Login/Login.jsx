@@ -83,11 +83,7 @@ const Login = () => {
 										setShowLogin={setShowLogin}
 									/>
 								) : showAuth ? (
-									<Auth
-										setShowFirst={setShowFirst}
-										setShowAuth={setShowAuth}
-										showAuth={showAuth}
-									/>
+									<Auth setShowFirst={setShowFirst} />
 								) : null}
 							</div>
 						</div>
