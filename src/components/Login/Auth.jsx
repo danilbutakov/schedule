@@ -35,13 +35,15 @@ export const Auth = ({ setShowFirst, setShowAuth, showAuth }) => {
 		}
 		const googleUser = await GoogleAuth.signIn();
 		console.log(googleUser);
-		// const credential = auth.GoogleAuthProvider.credential(
-		// 	googleUser.authentication.idToken,
-		// );
+		const credential = auth.GoogleAuthProvider.credential(
+			googleUser.authentication.idToken,
+		);
 
-		// auth.signInAndRetrieveDataWithCredential(credential);
-		setShowAuth(false);
-		setShowFirst(true);
+		auth.signInAndRetrieveDataWithCredential(credential);
+		if (googleUser) {
+			setShowAuth(false);
+			setShowFirst(true);
+		}
 	};
 
 	useEffect(() => {
