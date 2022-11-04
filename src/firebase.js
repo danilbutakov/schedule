@@ -5,7 +5,7 @@ import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyA0anmBNEIbwWpAZhGIvdr5Qk47bL8H4rY',
-	authDomain: 'thirdteam-schedule.ru',
+	authDomain: 'schedule-11f30.firebaseapp.com',
 	databaseURL:
 		'https://schedule-11f30-default-rtdb.europe-west1.firebasedatabase.app',
 	projectId: 'schedule-11f30',
