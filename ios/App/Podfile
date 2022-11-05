@@ -15,6 +15,7 @@ def capacitor_pods
   pod 'CapacitorFirebaseAuthentication', :path => '../../node_modules/@capacitor-firebase/authentication'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
   pod 'CodetrixStudioCapacitorGoogleAuth', :path => '../../node_modules/@codetrix-studio/capacitor-google-auth'
+  pod 'RobingenzCapacitorFirebaseAuthentication', :path => '../../node_modules/@robingenz/capacitor-firebase-authentication'
 end
 
 target 'App' do

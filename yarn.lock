@@ -2253,6 +2253,11 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.0.3.tgz#953b88c20ea00d0eddaffdc1b115c08474aa295d"
   integrity sha512-ceuyTSs7PZ/tQqi19YZNBc5X7kj1f8p+4DIyrcIYFY9h+hd1OKm4RqtiWldR9eGEvIiJfsqwM4BsuCtRIuEw6Q==
 
+"@robingenz/capacitor-firebase-authentication@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@robingenz/capacitor-firebase-authentication/-/capacitor-firebase-authentication-0.4.3.tgz#10f1079a3fb6f7b2802bbd868bacebd287cde864"
+  integrity sha512-Qyhhl5QuKuibpEz7hQ3ro4MDLNUUbSIrKhhVMBZ63hX+rCl38fEe1IbyiFUSptMVeUwo+3Qkt7dWva32EGUCAA==
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz#04bc0608f4aa4b2e4b1aebf284344d0f68fda283"

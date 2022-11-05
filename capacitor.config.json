@@ -8,6 +8,10 @@
          "scopes": ["profile", "email"],
          "serverClientId": "676713652988-d3r9vlsdbgj2oocs6q9munnc0jjkaovk.apps.googleusercontent.com",
          "forceCodeForRefreshToken": "true"
+      },
+      "FirebaseAuthentication": {
+         "skipNativeAuth": false,
+         "providers": ["apple.com", "google.com"]
       }
    },
    "android": {

@@ -13,6 +13,7 @@ dependencies {
     implementation project(':capacitor-firebase-authentication')
     implementation project(':capacitor-splash-screen')
     implementation project(':codetrix-studio-capacitor-google-auth')
+    implementation project(':robingenz-capacitor-firebase-authentication')
 
 }
 

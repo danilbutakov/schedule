@@ -11,6 +11,7 @@
     "@capacitor/splash-screen": "^4.1.1",
     "@codetrix-studio/capacitor-google-auth": "^3.2.0",
     "@ramonak/react-progress-bar": "^5.0.3",
+    "@robingenz/capacitor-firebase-authentication": "^0.4.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
