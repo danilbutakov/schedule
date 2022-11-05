@@ -35,8 +35,8 @@ export const Auth = ({ setShowFirst }) => {
 			GoogleLogin();
 		}
 
-		await FirebaseAuthentication.signInWithGoogle();
-		if (user) {
+		const result = await FirebaseAuthentication.signInWithGoogle();
+		if (result.user) {
 			setShowAuth(false);
 			setShowFirst(true);
 		}
