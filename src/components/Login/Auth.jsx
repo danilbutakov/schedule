@@ -5,7 +5,7 @@ import { onValue, ref } from 'firebase/database';
 
 import { Capacitor } from '@capacitor/core';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { cfaSignIn } from 'capacitor-firebase-auth';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 import styles from '../../components/Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -35,9 +35,7 @@ export const Auth = ({ setShowFirst }) => {
 			GoogleLogin();
 		}
 
-		const result = await cfaSignIn('google.com').subscribe(
-			console.log(user.displayName),
-		);
+		const result = await FirebaseAuthentication.signInWithGoogle();
 		if (result.user) {
 			setShowAuth(false);
 			setShowFirst(true);
