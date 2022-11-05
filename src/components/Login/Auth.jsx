@@ -34,22 +34,21 @@ export const Auth = ({ setShowFirst }) => {
 		if (!Capacitor.isNativePlatform()) {
 			GoogleLogin();
 		}
-		const signInWithGoogle = async () => {
-			await FirebaseAuthentication.signInWithGoogle();
-		};
-		if (signInWithGoogle) {
+
+		await FirebaseAuthentication.signInWithGoogle();
+		if (user) {
 			setShowAuth(false);
 			setShowFirst(true);
 		}
 	};
 
 	useEffect(() => {
-		if (googleSignIn) {
+		if (input !== '') {
 			setBtnActive(styles.btn);
 		} else {
 			setBtnActive(styles.btnActive);
 		}
-	}, [googleSignIn]);
+	}, [input]);
 
 	const googleProvider = new GoogleAuthProvider();
 	const GoogleLogin = async () => {
