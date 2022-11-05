@@ -1084,11 +1084,6 @@
   resolved "https://registry.yarnpkg.com/@capacitor-firebase/app/-/app-1.2.0.tgz#aac7bae9a1387949e69c21465e8fa6c9f53e5ee6"
   integrity sha512-e3gOuvnuKxM9l/lrNj3qhtnz3mNViA52Gnih7tHgdahsAu45U4cCVMwIJk3LPmHrpWTBk4v8ur2BkThu4B50iQ==
 
-"@capacitor-firebase/authentication@^1.1.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@capacitor-firebase/authentication/-/authentication-1.2.0.tgz#d1a47fcf9177778447182d19c29f5a106f5b3082"
-  integrity sha512-N8UhC9JMde1o8V6ucF62IqTfXPospYHvzIxioAu7VxP7cs4DTOWKYVe/Xdb3q01f5YkOl2RrbBDjHTtnTbGH6A==
-
 "@capacitor/android@^4.4.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-4.4.0.tgz#780421ecc88522aa692452a205d1587eab7a4f81"
@@ -1124,6 +1119,13 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/core@next":
+  version "4.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-4.0.0-beta.2.tgz#b161857d86c144300214f95557c59b95dc229768"
+  integrity sha512-0uEArXtGH5sno1jxXrPvzntydB1Y1WG/3tFWjaqbGES8uMd6OOH/UNVmmJpQS23jyiiAQgA5i+kPNvsY2gY6Yw==
+  dependencies:
+    tslib "^2.1.0"
+
 "@capacitor/ios@^4.4.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-4.4.0.tgz#a6dfdcc969b07e067d26e6c38e92655e5527e759"
@@ -1133,11 +1135,6 @@
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@capacitor/splash-screen/-/splash-screen-4.1.1.tgz#7e7935991d9bacc9ec5508c07168cfba65b0904b"
   integrity sha512-cOwp9aAdTOknfISSZcQBVPbKkG57v85HQZdbtl86FfEPFXOs9aJF2OQYBYl1UA03qByEnRQvDNYSn4gFf6THrg==
-
-"@codetrix-studio/capacitor-google-auth@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@codetrix-studio/capacitor-google-auth/-/capacitor-google-auth-3.2.0.tgz#225219e8242f77f85fe557dfe2cb5eb73453fe22"
-  integrity sha512-oJ9FTnNWtqK5YyNzBzt5FFXwrxDFzPf2GsI7qFODmeCgfMSQEv0PlIklxYICJj8JljRiHpleLd8PEyCfGj8x0Q==
 
 "@csstools/normalize.css@*":
   version "12.0.0"
@@ -2252,11 +2249,6 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.0.3.tgz#953b88c20ea00d0eddaffdc1b115c08474aa295d"
   integrity sha512-ceuyTSs7PZ/tQqi19YZNBc5X7kj1f8p+4DIyrcIYFY9h+hd1OKm4RqtiWldR9eGEvIiJfsqwM4BsuCtRIuEw6Q==
-
-"@robingenz/capacitor-firebase-authentication@^0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@robingenz/capacitor-firebase-authentication/-/capacitor-firebase-authentication-0.4.3.tgz#10f1079a3fb6f7b2802bbd868bacebd287cde864"
-  integrity sha512-Qyhhl5QuKuibpEz7hQ3ro4MDLNUUbSIrKhhVMBZ63hX+rCl38fEe1IbyiFUSptMVeUwo+3Qkt7dWva32EGUCAA==
 
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
@@ -3734,6 +3726,13 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001426:
   version "1.0.30001429"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001429.tgz#70cdae959096756a85713b36dd9cb82e62325639"
   integrity sha512-511ThLu1hF+5RRRt0zYCf2U2yRr9GPF6m5y90SBCWsvSoYoW7yAGlv/elyPaNfvGCkp6kj/KFZWU0BMA69Prsg==
+
+capacitor-firebase-auth@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/capacitor-firebase-auth/-/capacitor-firebase-auth-3.0.0.tgz#6c3ecf1753606f065e7e75a45da6bbb8c808880e"
+  integrity sha512-90O9FJ/cuc3LvObDiI8Ycl0ZBCqMlAiDxCoxMEXC3mDJPi/yYd87VVB3FUb/LWYGXQV8/39jHvJhPzpJSRY7zA==
+  dependencies:
+    "@capacitor/core" next
 
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"
