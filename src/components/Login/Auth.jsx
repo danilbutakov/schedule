@@ -4,9 +4,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { onValue, ref } from 'firebase/database';
 
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { FirebaseAuthentication } from '@robingenz/capacitor-firebase-authentication';
 import { Capacitor } from '@capacitor/core';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 import styles from '../../components/Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -31,21 +31,21 @@ export const Auth = ({ setShowFirst }) => {
 
 	const navigate = useNavigate();
 
-	const googleSignIn = async () => {
-		if (!Capacitor.isNativePlatform()) {
-			GoogleLogin();
-		}
-		try {
-			const result = await FirebaseAuthentication.signInWithGoogle();
+	// const googleSignIn = async () => {
+	// 	if (!Capacitor.isNativePlatform()) {
+	// 		GoogleLogin();
+	// 	}
+	// 	try {
+	// 		await FirebaseAuthentication.signInWithGoogle();
 
-			if (result.user) {
-				setShowAuth(false);
-				setShowFirst(true);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	// 		if (user) {
+	// 			setClickCon(true);
+	// 		}
+	// 		console.log('123');
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	useEffect(() => {
 		if (input !== '') {
@@ -70,8 +70,7 @@ export const Auth = ({ setShowFirst }) => {
 	};
 
 	const clickContinue = () => {
-		if (input !== '' && user) {
-			setClickCon(true);
+		if (user) {
 			setShowAuth(false);
 			setShowFirst(true);
 		}
@@ -81,7 +80,7 @@ export const Auth = ({ setShowFirst }) => {
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
 			if (user) {
-				onValue(ref(db, `/${auth.currentUser.email}`), (snapshot) => {
+				onValue(ref(db, `/${auth.currentUser.uid}`), (snapshot) => {
 					setUnivs([]);
 					setGroups([]);
 					const data = snapshot.val();
@@ -118,7 +117,7 @@ export const Auth = ({ setShowFirst }) => {
 									</span>
 								</div>
 								<div
-									onClick={googleSignIn}
+									onClick={GoogleLogin}
 									className={styles.authMethod}>
 									<img
 										width={20}
@@ -134,9 +133,11 @@ export const Auth = ({ setShowFirst }) => {
 							</div>
 							<span className={styles.another}>или</span>
 						</div>
-						<button onClick={clickContinue} className={btnActive}>
-							Продолжить
-						</button>
+						{clickCon && (
+							<button onClick={clickContinue} className={btnActive}>
+								Продолжить
+							</button>
+						)}
 					</div>
 				</AnimationSwipe>
 			)}

@@ -5,7 +5,7 @@ const AnimationLayout = ({ children }) => {
 	const animations = {
 		initial: { x: 650, opacity: 0 },
 		animate: { x: 0, opacity: 1 },
-		exit: { x: 650, opacity: 0 },
+		exit: { opacity: 0 },
 	};
 
 	return (
