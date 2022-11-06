@@ -3,9 +3,9 @@ import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { onValue, ref } from 'firebase/database';
 
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Capacitor } from '@capacitor/core';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 import styles from '../../components/Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -34,9 +34,10 @@ export const Auth = ({ setShowFirst }) => {
 		if (!Capacitor.isNativePlatform()) {
 			GoogleLogin();
 		}
+		const googleUser = await GoogleAuth.signIn();
+		console.log(googleUser);
 
-		const result = await FirebaseAuthentication.signInWithGoogle();
-		if (result.user) {
+		if (googleUser) {
 			setShowAuth(false);
 			setShowFirst(true);
 		}
@@ -49,6 +50,8 @@ export const Auth = ({ setShowFirst }) => {
 			setBtnActive(styles.btnActive);
 		}
 	}, [input]);
+
+	//
 
 	const googleProvider = new GoogleAuthProvider();
 	const GoogleLogin = async () => {
