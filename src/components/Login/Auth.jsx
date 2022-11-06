@@ -117,7 +117,7 @@ export const Auth = ({ setShowFirst }) => {
 									</span>
 								</div>
 								<div
-									onClick={googleSignIn}
+									onClick={GoogleLogin}
 									className={styles.authMethod}>
 									<img
 										width={20}
