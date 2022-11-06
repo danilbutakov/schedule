@@ -35,7 +35,7 @@ export const Auth = ({ setShowFirst }) => {
 			GoogleLogin();
 		}
 		try {
-			const googleUser = await GoogleAuth.signIn();
+			const googleUser = await GoogleAuth.signIn(auth);
 			console.log(googleUser);
 
 			if (googleUser) {
