@@ -6,6 +6,7 @@ import { onValue, ref } from 'firebase/database';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Capacitor } from '@capacitor/core';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 import styles from '../../components/Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -30,21 +31,21 @@ export const Auth = ({ setShowFirst }) => {
 
 	const navigate = useNavigate();
 
-	// const googleSignIn = async () => {
-	// 	if (!Capacitor.isNativePlatform()) {
-	// 		GoogleLogin();
-	// 	}
-	// 	try {
-	// 		const googleUser = await GoogleAuth.signIn(auth.user);
+	const googleSignIn = async () => {
+		if (!Capacitor.isNativePlatform()) {
+			GoogleLogin();
+		}
+		try {
+			const result = await FirebaseAuthentication.signInWithGoogle();
 
-	// 		if (user) {
-	// 			setShowAuth(false);
-	// 			setShowFirst(true);
-	// 		}
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// };
+			if (result.user) {
+				setShowAuth(false);
+				setShowFirst(true);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	useEffect(() => {
 		if (input !== '') {
@@ -117,7 +118,7 @@ export const Auth = ({ setShowFirst }) => {
 									</span>
 								</div>
 								<div
-									onClick={GoogleLogin}
+									onClick={googleSignIn}
 									className={styles.authMethod}>
 									<img
 										width={20}
