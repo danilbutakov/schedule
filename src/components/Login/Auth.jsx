@@ -34,12 +34,16 @@ export const Auth = ({ setShowFirst }) => {
 		if (!Capacitor.isNativePlatform()) {
 			GoogleLogin();
 		}
-		const googleUser = await GoogleAuth.signIn();
-		console.log(googleUser);
+		try {
+			const googleUser = await GoogleAuth.signIn();
+			console.log(googleUser);
 
-		if (googleUser) {
-			setShowAuth(false);
-			setShowFirst(true);
+			if (googleUser) {
+				setShowAuth(false);
+				setShowFirst(true);
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
@@ -77,7 +81,7 @@ export const Auth = ({ setShowFirst }) => {
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
 			if (user) {
-				onValue(ref(db, `/${auth.currentUser.uid}`), (snapshot) => {
+				onValue(ref(db, `/${auth.currentUser.email}`), (snapshot) => {
 					setUnivs([]);
 					setGroups([]);
 					const data = snapshot.val();
