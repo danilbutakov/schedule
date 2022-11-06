@@ -82,7 +82,7 @@ function App() {
 
 		//write to database
 		const writeToDataBaseUniv = () => {
-			set(ref(db, `/${auth.currentUser.email}/${univ}`), {
+			set(ref(db, `/${auth.currentUser}/${univ}`), {
 				univ,
 			});
 			//clear the input
@@ -90,7 +90,7 @@ function App() {
 		};
 
 		const writeToDataBaseGroup = () => {
-			set(ref(db, `/${auth.currentUser.email}/${group}`), {
+			set(ref(db, `/${auth.currentUser}/${group}`), {
 				group,
 			});
 			//clear the input
