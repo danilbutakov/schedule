@@ -47,21 +47,20 @@ export const Auth = ({ setShowFirst }) => {
 	// 	}
 	// };
 
-	useEffect(() => {
-		if (input !== '') {
-			setBtnActive(styles.btn);
-		} else {
-			setBtnActive(styles.btnActive);
-		}
-	}, [input]);
-
-	//
+	// useEffect(() => {
+	// 	if (click !== '') {
+	// 		setBtnActive(styles.btn);
+	// 	} else {
+	// 		setBtnActive(styles.btnActive);
+	// 	}
+	// }, [input]);
 
 	const googleProvider = new GoogleAuthProvider();
 	const GoogleLogin = async () => {
 		try {
 			const result = await signInWithPopup(auth, googleProvider);
 			console.log(result.user);
+			setClickCon(true);
 			setShowAuth(false);
 			setShowFirst(true);
 		} catch (error) {
@@ -134,7 +133,7 @@ export const Auth = ({ setShowFirst }) => {
 							<span className={styles.another}>или</span>
 						</div>
 						{clickCon && (
-							<button onClick={clickContinue} className={btnActive}>
+							<button onClick={clickContinue} className={styles.btn}>
 								Продолжить
 							</button>
 						)}
