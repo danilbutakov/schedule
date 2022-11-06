@@ -82,16 +82,20 @@ function App() {
 
 		//write to database
 		const writeToDataBaseUniv = () => {
-			set(ref(db, `/${auth.currentUser}/${univ}`), {
+			const uuid = uid();
+			set(ref(db, `/${auth.currentUser.uid}/${univ}`), {
 				univ,
+				uuid: uuid,
 			});
 			//clear the input
 			setUniv('');
 		};
 
 		const writeToDataBaseGroup = () => {
-			set(ref(db, `/${auth.currentUser}/${group}`), {
+			const uuid = uid();
+			set(ref(db, `/${auth.currentUser.uid}/${group}`), {
 				group,
+				uuid: uuid,
 			});
 			//clear the input
 			setGroup('');

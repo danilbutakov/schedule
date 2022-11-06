@@ -30,21 +30,21 @@ export const Auth = ({ setShowFirst }) => {
 
 	const navigate = useNavigate();
 
-	const googleSignIn = async () => {
-		if (!Capacitor.isNativePlatform()) {
-			GoogleLogin();
-		}
-		try {
-			const googleUser = await GoogleAuth.signIn(auth.user);
+	// const googleSignIn = async () => {
+	// 	if (!Capacitor.isNativePlatform()) {
+	// 		GoogleLogin();
+	// 	}
+	// 	try {
+	// 		const googleUser = await GoogleAuth.signIn(auth.user);
 
-			if (user) {
-				setShowAuth(false);
-				setShowFirst(true);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	// 		if (user) {
+	// 			setShowAuth(false);
+	// 			setShowFirst(true);
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	useEffect(() => {
 		if (input !== '') {
