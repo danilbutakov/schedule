@@ -185,6 +185,55 @@
 
 .content {
 	flex: 1;
+	.formContainer {
+		.form {
+			display: flex;
+			flex-direction: column;
+			.formLabel {
+				font-weight: 500;
+				font-size: 20px;
+				line-height: 25px;
+				margin-bottom: 10px;
+				background: linear-gradient(270deg, #bd01ff 0%, #007aff 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				text-fill-color: transparent;
+			}
+			.formInputs {
+				font-size: 16px;
+				line-height: 20px;
+				margin-bottom: 15px;
+				width: 100%;
+				border-radius: 15px;
+				border: 1px solid $secondary;
+				padding: 10px 10px;
+				&:focus {
+				}
+			}
+		}
+	}
+}
+
+.formError {
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 25px;
+	background-color: #ff8a8a65;
+	text-align: center;
+	border: 1px solid $secondary;
+	border-radius: 10px;
+	color: $primary;
+	padding: 7px 7px;
+}
+
+.register {
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 24px;
+	color: $secondary;
+	text-align: center;
+	cursor: pointer;
 }
 
 .btn {
