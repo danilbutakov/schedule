@@ -35,13 +35,18 @@ export const Auth = ({ setShowFirst }) => {
 			GoogleLogin();
 		}
 		try {
-			const googleUser = await GoogleAuth.signIn(auth);
-			console.log(googleUser);
+			const googleUser = await GoogleAuth.signIn(auth.user);
+			const credential = auth.GoogleAuthProvider.credential(
+				googleUser.authentication.idToken,
+			);
 
-			if (googleUser) {
-				setShowAuth(false);
-				setShowFirst(true);
-			}
+			console.log(googleUser.authentication.idToken);
+			console.log(credential);
+
+			// if (googleUser) {
+			// 	setShowAuth(false);
+			// 	setShowFirst(true);
+			// }
 		} catch (error) {
 			console.log(error);
 		}
