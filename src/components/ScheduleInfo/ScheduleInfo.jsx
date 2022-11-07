@@ -104,39 +104,44 @@ const ScheduleInfo = ({ setShowPairs, setShowInfo, showInfo }) => {
 												alt='plus'
 											/>
 										</div>
-
 										{showNotes && (
 											<div className={styles.infContainerLast}>
-												{notes.map((note) => (
-													<div className={styles.inf}>
-														<div
-															className={
-																styles.infoContainerNotes
-															}>
-															<span className={styles.info}>
-																{note.note}
-															</span>
+												{notes.map((note) =>
+													note.univ || note.group ? null : (
+														<div className={styles.inf}>
 															<div
-																onClick={() => {
-																	if (
-																		window.confirm(
-																			'Удалить заметку ?',
-																		)
-																	) {
-																		handleDelete(note.uuid);
-																	}
-																}}
-																className={styles.deleteCon}>
-																<img
-																	src={deleteBtn}
-																	alt='delete'
-																/>
+																className={
+																	styles.infoContainerNotes
+																}>
+																<span className={styles.info}>
+																	{note.note}
+																</span>
+																<div
+																	onClick={() => {
+																		if (
+																			window.confirm(
+																				'Удалить заметку ?',
+																			)
+																		) {
+																			handleDelete(
+																				note.uuid,
+																			);
+																		}
+																	}}
+																	className={styles.deleteCon}>
+																	<img
+																		src={deleteBtn}
+																		alt='delete'
+																	/>
+																</div>
 															</div>
+															<div
+																className={
+																	styles.downLine
+																}></div>
 														</div>
-														<div
-															className={styles.downLine}></div>
-													</div>
-												))}
+													),
+												)}
 											</div>
 										)}
 									</div>

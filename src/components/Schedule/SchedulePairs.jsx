@@ -18,6 +18,7 @@ const SchedulePairs = ({ showPairs, setShowPairs, setShowInfo, showInfo }) => {
 	// 	const now = new Date();
 	// 	const h = now.getHours();
 	// 	const m = now.getMinutes();
+	//    const time = h + ":" + m;
 	// 	const startTime = start.split(':').map((i) => Number(i));
 	// 	if (startTime[0] > h) return styles.inactive;
 	// 	if (startTime[1] > h) return styles.inactive;
