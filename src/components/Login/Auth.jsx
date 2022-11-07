@@ -324,7 +324,7 @@ export const Auth = ({ setShowFirst }) => {
 								Не удалось создать аккаунт
 							</div>
 						)}
-						<span
+						{/* <span
 							className={styles.register}
 							onClick={() => {
 								setSignIn(!signIn);
@@ -332,7 +332,7 @@ export const Auth = ({ setShowFirst }) => {
 							}}>
 							{signIn && 'Нет аккаунта? Зарегестрироваться'}
 							{signUp && 'Уже есть аккаунт? Войти'}
-						</span>
+						</span> */}
 					</div>
 				</AnimationSwipe>
 			)}
