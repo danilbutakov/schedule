@@ -136,11 +136,11 @@ export const Auth = ({ setShowFirst }) => {
 			setError(false);
 		}
 		if (error === false) {
-			createUserWithEmailAndPassword(auth, email, password)
+			await createUserWithEmailAndPassword(auth, email, password)
 				.then(() => {
 					// Signed in
-					// setSignIn(true);
-					// setSignUp(false);
+					setSignIn(true);
+					setSignUp(false);
 
 					console.log(auth.user);
 				})
