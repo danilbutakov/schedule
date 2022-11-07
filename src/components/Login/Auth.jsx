@@ -34,15 +34,21 @@ export const Auth = ({ setShowFirst }) => {
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [passwordConfirm, setPasswordConfirm] = useState('');
+
+	const [registerInfo, setRegisterInfo] = useState({
+		email: '',
+		password: '',
+		passwordConfirm: '',
+	});
 
 	const [clickCon, setClickCon] = useState(false);
 	const [error, setError] = useState(false);
-	const [errorSignIn, setErrorSignIn] = useState(false);
+	const [errorSignUp, setErrorSignUp] = useState(false);
 
 	const [btnActive, setBtnActive] = useState(styles.btnActive);
 
 	const navigate = useNavigate();
+	console.log(error);
 
 	// const googleSignIn = async () => {
 	// 	if (!Capacitor.isNativePlatform()) {
@@ -61,17 +67,25 @@ export const Auth = ({ setShowFirst }) => {
 	// };
 
 	useEffect(() => {
-		if (email !== '' && password !== '' && passwordConfirm !== '') {
+		if (
+			registerInfo.email !== '' &&
+			registerInfo.password !== '' &&
+			registerInfo.passwordConfirm !== ''
+		) {
 			setBtnActive(styles.btn);
 		} else {
 			setBtnActive(styles.btnActive);
 		}
-		if (email !== '' && password !== '') {
+		if (registerInfo.email !== '' && registerInfo.password !== '') {
 			setBtnActive(styles.btn);
 		} else {
 			setBtnActive(styles.btnActive);
 		}
-	}, [email, password, passwordConfirm]);
+	}, [
+		registerInfo.email,
+		registerInfo.password,
+		registerInfo.passwordConfirm,
+	]);
 
 	const googleProvider = new GoogleAuthProvider();
 	const GoogleLogin = async () => {
@@ -95,40 +109,17 @@ export const Auth = ({ setShowFirst }) => {
 			}
 		} catch (error) {
 			console.log(error);
-			setErrorSignIn(true);
-		}
-		if (passwordConfirm !== password) {
-			setError(true);
-		} else {
-			setError(false);
-		}
-	};
-
-	const clickSignUp = () => {
-		try {
-			signUpFunc();
-			if (user) {
-				setSignIn(true);
-				setSignUp(false);
-			}
-		} catch (error) {
-			console.log(error);
-			setErrorSignIn(true);
-		}
-		if (passwordConfirm !== password) {
-			setError(true);
-		} else {
-			setError(false);
+			setErrorSignUp(true);
 		}
 	};
 
 	useEffect(() => {
-		if (passwordConfirm !== password) {
+		if (registerInfo.passwordConfirm !== registerInfo.password) {
 			setError(true);
 		} else {
 			setError(false);
 		}
-	}, [passwordConfirm]);
+	}, [registerInfo.passwordConfirm]);
 
 	const handleChangeEmail = (e) => {
 		setEmail(e.target.value);
@@ -138,35 +129,39 @@ export const Auth = ({ setShowFirst }) => {
 		setPassword(e.target.value);
 	};
 
-	const handleChangePasswordConfirm = (e) => {
-		setPasswordConfirm(e.target.value);
-	};
-
 	const signUpFunc = async () => {
-		createUserWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
-				// Signed in
-				const user = userCredential.user;
+		if (registerInfo.passwordConfirm !== registerInfo.password) {
+			setError(true);
+		} else {
+			setError(false);
+		}
+		if (error === false) {
+			createUserWithEmailAndPassword(auth, email, password)
+				.then(() => {
+					// Signed in
+					// setSignIn(true);
+					// setSignUp(false);
 
-				console.log(user);
-			})
-			.catch((error) => {
-				console.log(error);
-				// ..
-			});
+					console.log(auth.user);
+				})
+				.catch((error) => {
+					setErrorSignUp(true);
+					alert(error.message);
+				});
+		}
 	};
 
 	const signInFunc = async () => {
-		signInWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
+		await signInWithEmailAndPassword(auth, email, password)
+			.then(() => {
 				// Signed in
-				const user = userCredential.user;
+				setShowAuth(false);
+				setShowFirst(true);
 
 				console.log(user);
 			})
 			.catch((error) => {
-				console.log(error);
-				// ..
+				alert(error.message);
 			});
 	};
 
@@ -232,7 +227,7 @@ export const Auth = ({ setShowFirst }) => {
 							) : ( */}
 							<div className={styles.formContainer}>
 								{signIn && (
-									<form action='' className={styles.form}>
+									<form className={styles.form}>
 										<label className={styles.formLabel}>Email</label>
 										<input
 											className={styles.formInputs}
@@ -258,21 +253,31 @@ export const Auth = ({ setShowFirst }) => {
 									</form>
 								)}
 								{signUp && (
-									<form action='' className={styles.form}>
+									<form className={styles.form}>
 										<label className={styles.formLabel}>Email</label>
 										<input
 											className={styles.formInputs}
 											type='email'
-											value={email}
-											onChange={handleChangeEmail}
+											value={registerInfo.email}
+											onChange={(e) =>
+												setRegisterInfo({
+													...registerInfo,
+													email: e.target.value,
+												})
+											}
 											placeholder='Введите email'
 										/>
 										<label className={styles.formLabel}>Пароль</label>
 										<input
 											className={styles.formInputs}
 											type='password'
-											value={password}
-											onChange={handleChangePassword}
+											value={registerInfo.password}
+											onChange={(e) =>
+												setRegisterInfo({
+													...registerInfo,
+													password: e.target.value,
+												})
+											}
 											placeholder='Введите пароль'
 										/>
 										<label className={styles.formLabel}>
@@ -281,8 +286,13 @@ export const Auth = ({ setShowFirst }) => {
 										<input
 											className={styles.formInputs}
 											type='password'
-											value={passwordConfirm}
-											onChange={handleChangePasswordConfirm}
+											value={registerInfo.passwordConfirm}
+											onChange={(e) =>
+												setRegisterInfo({
+													...registerInfo,
+													passwordConfirm: e.target.value,
+												})
+											}
 											placeholder='Подтвердите пароль'
 										/>
 										{error ? (
@@ -291,8 +301,7 @@ export const Auth = ({ setShowFirst }) => {
 											</div>
 										) : (
 											<button
-												type='submit'
-												onClick={clickSignUp}
+												onClick={signUpFunc}
 												className={btnActive}>
 												Продолжить
 											</button>
@@ -302,7 +311,7 @@ export const Auth = ({ setShowFirst }) => {
 							</div>
 							{/* )} */}
 						</div>
-						{errorSignIn && (
+						{errorSignUp && (
 							<div className={styles.formError}>
 								Не удалось создать аккаунт
 							</div>
