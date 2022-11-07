@@ -192,7 +192,7 @@ export const Auth = ({ setShowFirst }) => {
 					<div className={styles.mainContent}>
 						<h1 className={styles.title}>Войти с помощью</h1>
 						<div className={styles.content}>
-							{/* {!Capacitor.isNativePlatform() ? (
+							{!Capacitor.isNativePlatform() ? (
 								<>
 									<div className={styles.authMethods}>
 										<div className={styles.authMethod}>
@@ -224,92 +224,100 @@ export const Auth = ({ setShowFirst }) => {
 									</div>
 									<span className={styles.another}>или</span>
 								</>
-							) : ( */}
-							<div className={styles.formContainer}>
-								{signIn && (
-									<form className={styles.form}>
-										<label className={styles.formLabel}>Email</label>
-										<input
-											className={styles.formInputs}
-											type='email'
-											value={email}
-											onChange={handleChangeEmail}
-											placeholder='Введите email'
-										/>
-										<label className={styles.formLabel}>Пароль</label>
-										<input
-											className={styles.formInputs}
-											type='password'
-											value={password}
-											onChange={handleChangePassword}
-											placeholder='Введите пароль'
-										/>
-										<button
-											type='submit'
-											onClick={clickSignIn}
-											className={btnActive}>
-											Продолжить
-										</button>
-									</form>
-								)}
-								{signUp && (
-									<form className={styles.form}>
-										<label className={styles.formLabel}>Email</label>
-										<input
-											className={styles.formInputs}
-											type='email'
-											value={registerInfo.email}
-											onChange={(e) =>
-												setRegisterInfo({
-													...registerInfo,
-													email: e.target.value,
-												})
-											}
-											placeholder='Введите email'
-										/>
-										<label className={styles.formLabel}>Пароль</label>
-										<input
-											className={styles.formInputs}
-											type='password'
-											value={registerInfo.password}
-											onChange={(e) =>
-												setRegisterInfo({
-													...registerInfo,
-													password: e.target.value,
-												})
-											}
-											placeholder='Введите пароль'
-										/>
-										<label className={styles.formLabel}>
-											Подтвердите пароль
-										</label>
-										<input
-											className={styles.formInputs}
-											type='password'
-											value={registerInfo.passwordConfirm}
-											onChange={(e) =>
-												setRegisterInfo({
-													...registerInfo,
-													passwordConfirm: e.target.value,
-												})
-											}
-											placeholder='Подтвердите пароль'
-										/>
-										{error ? (
-											<div className={styles.formError}>
-												Пароли не совпадают
-											</div>
-										) : (
+							) : (
+								<div className={styles.formContainer}>
+									{signIn && (
+										<form className={styles.form}>
+											<label className={styles.formLabel}>
+												Email
+											</label>
+											<input
+												className={styles.formInputs}
+												type='email'
+												value={email}
+												onChange={handleChangeEmail}
+												placeholder='Введите email'
+											/>
+											<label className={styles.formLabel}>
+												Пароль
+											</label>
+											<input
+												className={styles.formInputs}
+												type='password'
+												value={password}
+												onChange={handleChangePassword}
+												placeholder='Введите пароль'
+											/>
 											<button
-												onClick={signUpFunc}
+												type='submit'
+												onClick={clickSignIn}
 												className={btnActive}>
 												Продолжить
 											</button>
-										)}
-									</form>
-								)}
-							</div>
-							{/* )} */}
+										</form>
+									)}
+									{signUp && (
+										<form className={styles.form}>
+											<label className={styles.formLabel}>
+												Email
+											</label>
+											<input
+												className={styles.formInputs}
+												type='email'
+												value={registerInfo.email}
+												onChange={(e) =>
+													setRegisterInfo({
+														...registerInfo,
+														email: e.target.value,
+													})
+												}
+												placeholder='Введите email'
+											/>
+											<label className={styles.formLabel}>
+												Пароль
+											</label>
+											<input
+												className={styles.formInputs}
+												type='password'
+												value={registerInfo.password}
+												onChange={(e) =>
+													setRegisterInfo({
+														...registerInfo,
+														password: e.target.value,
+													})
+												}
+												placeholder='Введите пароль'
+											/>
+											<label className={styles.formLabel}>
+												Подтвердите пароль
+											</label>
+											<input
+												className={styles.formInputs}
+												type='password'
+												value={registerInfo.passwordConfirm}
+												onChange={(e) =>
+													setRegisterInfo({
+														...registerInfo,
+														passwordConfirm: e.target.value,
+													})
+												}
+												placeholder='Подтвердите пароль'
+											/>
+											{error ? (
+												<div className={styles.formError}>
+													Пароли не совпадают
+												</div>
+											) : (
+												<button
+													onClick={signUpFunc}
+													className={btnActive}>
+													Продолжить
+												</button>
+											)}
+										</form>
+									)}
+								</div>
+							)}
 						</div>
 						{errorSignUp && (
 							<div className={styles.formError}>
