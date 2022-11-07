@@ -14,8 +14,8 @@ import Auth from './Auth';
 
 const Login = () => {
 	const [showLogin, setShowLogin] = useState(true);
-	const [showAuth, setShowAuth] = useState(true);
-	const [showFirst, setShowFirst] = useState(false);
+	// const [showAuth, setShowAuth] = useState(true);
+	const [showFirst, setShowFirst] = useState(true);
 	const [showSecond, setShowSecond] = useState(false);
 
 	const navigate = useNavigate();
@@ -72,9 +72,9 @@ const Login = () => {
 										showFirst={showFirst}
 										setShowFirst={setShowFirst}
 										setShowSecond={setShowSecond}
-										setShowAuth={setShowAuth}
+										// setShowAuth={setShowAuth}
 										setShowLogin={setShowLogin}
-										showAuth={showAuth}
+										// showAuth={showAuth}
 									/>
 								) : showSecond ? (
 									<LoginSecond
@@ -82,8 +82,6 @@ const Login = () => {
 										setShowSecond={setShowSecond}
 										setShowLogin={setShowLogin}
 									/>
-								) : showAuth ? (
-									<Auth setShowFirst={setShowFirst} />
 								) : null}
 							</div>
 						</div>
