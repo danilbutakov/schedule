@@ -59,15 +59,9 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	const signOut = async () => {
-		setLoading(true);
-		try {
-			await GoogleSignin.revokeAccess();
-			await auth().signOut();
-		} catch (error) {
-			Alert.alert(error.message);
-		} finally {
-			setLoading(false);
-		}
+		auth()
+			.signOut()
+			.then(() => console.log('User signed out!'));
 	};
 
 	const memoedValue = useMemo(

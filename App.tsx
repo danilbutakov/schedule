@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import StackNavigator from './StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './app/hooks/useAuth';
+import { LogBox } from 'react-native';
 
 import 'expo-dev-client';
 
@@ -16,3 +17,5 @@ const App = () => {
 };
 
 export default App;
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message

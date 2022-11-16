@@ -1,26 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './app/screens/HomeScreen';
 import useAuth from './app/hooks/useAuth';
 import OnBoard from './app/screens/OnBoard';
-import VuzScreen from './app/screens/VuzScreen';
+import UserData from './app/screens/UserData';
+
+import { ref, onValue } from 'firebase/database';
+import { db } from './firebase';
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
 	const { user } = useAuth();
 
+	const [userData, setUserData] = useState();
+
+	useEffect(() => {
+		if (user) {
+			const starCountRef = ref(
+				db,
+				'users/' + user.uid + '/' + user.displayName
+			);
+			onValue(starCountRef, snapshot => {
+				const data = snapshot.val();
+
+				setUserData(data);
+			});
+		}
+	}, [user]);
+
 	return (
 		<Stack.Navigator>
-			{user && (
+			{user && userData !== null && (
 				<>
-					<Stack.Screen
-						name='Vuz'
-						options={{ headerShown: false }}
-						component={VuzScreen}
-					/>
 					<Stack.Screen name='Home' component={HomeScreen} />
 				</>
+			)}
+			{user && userData === null && (
+				<Stack.Screen
+					name='UserData'
+					component={UserData}
+					options={{ headerShown: false }}
+				/>
 			)}
 			{!user && (
 				<>

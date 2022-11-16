@@ -12,7 +12,6 @@ import SlideItem from './SlideItem';
 import PaginationSlider from './PaginationSlider';
 import BottomSheet from '@gorhom/bottom-sheet';
 import SheetAuth from './SheetAuth';
-import UnivScreen from '../../screens/UnivScreen';
 
 const { width } = Dimensions.get('screen');
 
@@ -113,10 +112,9 @@ const styles = StyleSheet.create({
 		marginTop: 20
 	},
 	sheetCon: {
-		marginHorizontal: 20,
-		marginTop: 30,
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		width
 	}
 });

@@ -9,21 +9,13 @@ import {
 	Platform,
 	Keyboard
 } from 'react-native';
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import useAuth from '../hooks/useAuth';
-import { db } from '../../firebase';
-import { ref, set, onValue } from 'firebase/database';
+import React, { useState, useEffect } from 'react';
 
 const { height } = Dimensions.get('screen');
 
-const VuzScreen = () => {
-	const [univ, setUniv] = useState('');
-	const { user } = useAuth();
+const VuzInfo = ({ univ, setUniv, setShowUniv, setShowGroup }) => {
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
-
-	const navigation = useNavigation();
 
 	//Обработчик появления и исчезания клавиатуры
 	const [isOpenedKeyboard, setIsOpenKeyboard] = useState(false);
@@ -34,22 +26,6 @@ const VuzScreen = () => {
 	const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
 		setIsOpenKeyboard(false);
 	});
-
-	const writeToDatabase = () => {
-		set(ref(db, 'users/' + user.displayName), {
-			univ: univ
-		})
-			.then(() => {
-				//Data saved successfully
-				console.log('data wrote');
-				setUniv('');
-			})
-			.catch(error => {
-				//The write failed
-				console.log(error);
-				setUniv('');
-			});
-	};
 
 	useEffect(() => {
 		if (univ !== '') {
@@ -79,12 +55,12 @@ const VuzScreen = () => {
 					<TouchableOpacity
 						style={[
 							styles.container,
-							{ marginBottom: isOpenedKeyboard ? 60 : 10 }
+							{ marginBottom: isOpenedKeyboard ? 30 : 40 }
 						]}
 						onPress={() => {
 							if (univ !== '') {
-								writeToDatabase();
-								navigation.navigate('Group');
+								setShowUniv(false);
+								setShowGroup(true);
 								console.log(univ);
 							}
 						}}>
@@ -98,7 +74,7 @@ const VuzScreen = () => {
 	);
 };
 
-export default VuzScreen;
+export default VuzInfo;
 
 const styles = StyleSheet.create({
 	containerKeyboard: {
