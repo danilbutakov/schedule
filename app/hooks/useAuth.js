@@ -59,6 +59,17 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	const signOut = async () => {
+		if (onGoogleButtonPress) {
+			setLoading(true);
+			try {
+				await GoogleSignin.revokeAccess();
+				await auth().signOut();
+			} catch (error) {
+				console.log(error.message);
+			} finally {
+				setLoading(false);
+			}
+		}
 		auth()
 			.signOut()
 			.then(() => console.log('User signed out!'));
