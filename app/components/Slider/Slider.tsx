@@ -4,16 +4,15 @@ import {
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	Dimensions,
-	TextInput
+	Dimensions
 } from 'react-native';
 import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { slides } from '../../../assets/Slides';
 import SlideItem from './SlideItem';
 import PaginationSlider from './PaginationSlider';
 import BottomSheet from '@gorhom/bottom-sheet';
-import SheetVuz from '../../screens/VuzScreen';
 import SheetAuth from './SheetAuth';
+import UnivScreen from '../../screens/UnivScreen';
 
 const { width } = Dimensions.get('screen');
 

@@ -3,10 +3,16 @@ import {
 	Text,
 	StyleSheet,
 	TextInput,
-	TouchableOpacity
+	TouchableOpacity,
+	Dimensions,
+	KeyboardAvoidingView,
+	Platform,
+	Keyboard
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+
+const { height } = Dimensions.get('screen');
 
 const VuzScreen = () => {
 	const [vuzInput, setVuzInput] = useState('');
@@ -26,30 +32,50 @@ const VuzScreen = () => {
 	}, [vuzInput]);
 
 	return (
-		<View>
-			<View>
-				<Text style={styles.title}>Введите название ВУЗа</Text>
-				<TextInput
-					onChangeText={vuzInput => setVuzInput(vuzInput)}
-					placeholder='Например МГУ'
-					style={styles.inputVuz}
-				/>
-			</View>
-			<TouchableOpacity
-				style={styles.container}
-				onPress={() => navigation.navigate('Home')}>
-				<View style={changeButton}>
-					<Text style={changeBtnText}>Продолжить</Text>
+		<KeyboardAvoidingView
+			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+			style={styles.containerKeyboard}>
+			<View style={styles.con}>
+				<View style={styles.conMain}>
+					<View style={styles.content}>
+						<Text style={styles.title}>Введите название ВУЗа</Text>
+						<TextInput
+							onChangeText={vuzInput => setVuzInput(vuzInput)}
+							placeholder='Например МГУ'
+							style={styles.inputVuz}
+						/>
+					</View>
+					<TouchableOpacity
+						style={[
+							styles.container,
+							{ marginBottom: Keyboard.enabled ? 60 : 0 }
+						]}
+						onPress={() => navigation.navigate('Home')}>
+						<View style={changeButton}>
+							<Text style={changeBtnText}>Продолжить</Text>
+						</View>
+					</TouchableOpacity>
 				</View>
-			</TouchableOpacity>
-		</View>
+			</View>
+		</KeyboardAvoidingView>
 	);
 };
 
 export default VuzScreen;
 
 const styles = StyleSheet.create({
+	containerKeyboard: {
+		flex: 1,
+		height
+	},
+	con: {
+		backgroundColor: 'white',
+		padding: 20
+	},
 	conMain: {
+		alignSelf: 'center'
+	},
+	content: {
 		flex: 1
 	},
 	title: {
