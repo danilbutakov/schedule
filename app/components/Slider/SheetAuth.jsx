@@ -110,7 +110,7 @@ const SheetAuth = () => {
 								style={styles.inputVuz}
 							/>
 							<TouchableOpacity style={styles.signButton} onPress={signIn}>
-								<Text style={styles.signButtonText}>Зарегестрироваться</Text>
+								<Text style={styles.signButtonText}>Зарегистрироваться</Text>
 							</TouchableOpacity>
 							{isErrorPassword && (
 								<Text style={styles.error}>Пароли не совпадают</Text>
@@ -146,8 +146,8 @@ const SheetAuth = () => {
 					<View styles={styles.bottom}>
 						<Text style={styles.reg} onPress={() => setRegister(!register)}>
 							{register
-								? 'Нет аккаунта? Зарегестрироваться'
-								: 'Уже есть аккаунт? Войти'}
+								? 'Уже есть аккаунт? Войти'
+								: 'Нет аккаунта? Зарегистрироваться'}
 						</Text>
 					</View>
 				</TouchableOpacity>

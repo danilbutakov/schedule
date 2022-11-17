@@ -69,10 +69,16 @@ export const AuthProvider = ({ children }) => {
 			} finally {
 				setLoading(false);
 			}
+		} else {
+			Alert.alert('Не удалось выйти из аккаунта');
 		}
-		auth()
-			.signOut()
-			.then(() => console.log('User signed out!'));
+		if (!onGoogleButtonPress) {
+			auth()
+				.signOut()
+				.then(() => console.log('User signed out!'));
+		} else {
+			Alert.alert('Не удалось выйти из аккаунта');
+		}
 	};
 
 	const memoedValue = useMemo(
