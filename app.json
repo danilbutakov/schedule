@@ -5,7 +5,7 @@
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
-		"userInterfaceStyle": "light",
+		"userInterfaceStyle": "automatic",
 		"plugins": [
 			"@react-native-google-signin/google-signin",
 			"@react-native-firebase/app",
@@ -14,7 +14,7 @@
 		"splash": {
 			"image": "./assets/splash.png",
 			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
+			"backgroundColor": "#1E1E1F"
 		},
 		"updates": {
 			"fallbackToCacheTimeout": 0
@@ -28,7 +28,7 @@
 			"googleServicesFile": "./google-services.json",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#FFFFFF"
+				"backgroundColor": "#1E1E1E"
 			},
 			"package": "com.thirdTeam.schedule"
 		},

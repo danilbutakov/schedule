@@ -7,11 +7,11 @@ import {
 	Dimensions,
 	KeyboardAvoidingView,
 	Platform,
-	Keyboard
+	Keyboard,
+	SafeAreaView
 } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import useAuth from '../hooks/useAuth';
 import { db } from '../../firebase';
 import { ref, set, onValue } from 'firebase/database';
 
@@ -19,7 +19,6 @@ const { height } = Dimensions.get('screen');
 
 const VuzScreen = () => {
 	const [univ, setUniv] = useState('');
-	const { user } = useAuth();
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
 
@@ -36,7 +35,7 @@ const VuzScreen = () => {
 	});
 
 	const writeToDatabase = () => {
-		set(ref(db, 'users/' + user.displayName), {
+		set(ref(db, 'users/'), {
 			univ: univ
 		})
 			.then(() => {
@@ -62,39 +61,41 @@ const VuzScreen = () => {
 	}, [univ]);
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			style={styles.containerKeyboard}>
-			<View style={styles.con}>
-				<View style={styles.conMain}>
-					<View style={styles.content}>
-						<Text style={styles.title}>Введите название ВУЗа</Text>
-						<TextInput
-							value={univ}
-							onChangeText={univ => setUniv(univ)}
-							placeholder='Например МГУ'
-							style={styles.inputVuz}
-						/>
-					</View>
-					<TouchableOpacity
-						style={[
-							styles.container,
-							{ marginBottom: isOpenedKeyboard ? 60 : 10 }
-						]}
-						onPress={() => {
-							if (univ !== '') {
-								writeToDatabase();
-								navigation.navigate('Group');
-								console.log(univ);
-							}
-						}}>
-						<View style={changeButton}>
-							<Text style={changeBtnText}>Продолжить</Text>
+		<SafeAreaView>
+			<KeyboardAvoidingView
+				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+				style={styles.containerKeyboard}>
+				<View style={styles.con}>
+					<View style={styles.conMain}>
+						<View style={styles.content}>
+							<Text style={styles.title}>Введите название ВУЗа</Text>
+							<TextInput
+								value={univ}
+								onChangeText={univ => setUniv(univ)}
+								placeholder='Например МГУ'
+								style={styles.inputVuz}
+							/>
 						</View>
-					</TouchableOpacity>
+						<TouchableOpacity
+							style={[
+								styles.container,
+								{ marginBottom: isOpenedKeyboard ? 60 : 10 }
+							]}
+							onPress={() => {
+								if (univ !== '') {
+									writeToDatabase();
+									navigation.navigate('Group');
+									console.log(univ);
+								}
+							}}>
+							<View style={changeButton}>
+								<Text style={changeBtnText}>Продолжить</Text>
+							</View>
+						</TouchableOpacity>
+					</View>
 				</View>
-			</View>
-		</KeyboardAvoidingView>
+			</KeyboardAvoidingView>
+		</SafeAreaView>
 	);
 };
 
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	title: {
-		color: '#1E1E1E',
+		color: '#1E1E1F',
 		fontWeight: '600',
 		fontSize: 27,
 		lineHeight: 32
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	conBtnActive: {
-		backgroundColor: '#0d9488',
+		backgroundColor: '#1E1E1F',
 		borderRadius: 16,
 		padding: 20,
 		width: '100%',

@@ -13,7 +13,7 @@ const UserData = () => {
 	const [group, setGroup] = useState('');
 
 	return (
-		<View style={{ width, height }}>
+		<>
 			{showUniv && (
 				<VuzInfo
 					univ={univ}
@@ -31,7 +31,7 @@ const UserData = () => {
 					setShowGroup={setShowGroup}
 				/>
 			)}
-		</View>
+		</>
 	);
 };
 

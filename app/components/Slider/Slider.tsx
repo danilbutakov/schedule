@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 		display: 'flex',
 		width: '90%',
-		backgroundColor: '#0d9488'
+		backgroundColor: '#1E1E1F'
 	},
 	btn: {
 		fontWeight: '500',

@@ -14,13 +14,10 @@ import { useNavigation } from '@react-navigation/native';
 
 import { db } from '../../firebase';
 import { ref, set } from 'firebase/database';
-import useAuth from '../hooks/useAuth';
 
 const { height, width } = Dimensions.get('screen');
 
 const GroupScreen = () => {
-	const { user } = useAuth();
-
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
 	const [group, setGroup] = useState('');
@@ -48,7 +45,7 @@ const GroupScreen = () => {
 	});
 
 	const writeToDatabase = () => {
-		set(ref(db, 'users/' + user.displayName), {
+		set(ref(db, 'users/'), {
 			group: group
 		})
 			.then(() => {
@@ -121,7 +118,7 @@ const styles = StyleSheet.create({
 		padding: 20
 	},
 	title: {
-		color: '#1E1E1E',
+		color: '#1E1E1F',
 		fontWeight: '600',
 		fontSize: 27,
 		lineHeight: 32
@@ -153,7 +150,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	conBtnActive: {
-		backgroundColor: '#0d9488',
+		backgroundColor: '#1E1E1F',
 		borderRadius: 16,
 		padding: 20,
 		width: '100%',

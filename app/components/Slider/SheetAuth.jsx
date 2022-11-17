@@ -17,7 +17,7 @@ import auth from '@react-native-firebase/auth';
 const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
-	const { onGoogleButtonPress, loading } = useAuth();
+	const { onGoogleButtonPress } = useAuth();
 	const [register, setRegister] = useState(false);
 
 	const [email, setEmail] = useState('');
@@ -27,30 +27,46 @@ const SheetAuth = () => {
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 
-	const signIn = () => {
-		if (email === '' && password === '' && passwordConfirm === '') {
-			setIsError(true);
-		} else {
+	const signUp = async () => {
+		if (
+			email !== '' &&
+			password !== '' &&
+			passwordConfirm !== '' &&
+			password === passwordConfirm
+		) {
 			setIsError(false);
-			auth()
-				.createUserWithEmailAndPassword(email, password, passwordConfirm)
+			const regEmail = await auth().createUserWithEmailAndPassword(
+				email,
+				password,
+				passwordConfirm
+			);
+			regEmail
 				.then(() => {
 					console.log('Register successfully');
+					Alert.alert('Вы успешно зарегистрировались');
 				})
 				.catch(error => {
 					console.log(error);
 					Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
 				});
+		} else {
+			setIsError(true);
 		}
 	};
 
-	const signUp = () => {
+	const signIn = () => {
 		try {
-			auth()
-				.signInWithEmailAndPassword(email, password)
-				.then(() => {
-					console.log('Login successfully');
-				});
+			if (email !== '' && password !== '') {
+				auth()
+					.signInWithEmailAndPassword(email, password)
+					.then(() => {
+						console.log('Login successfully');
+						Alert.alert('Вы успешно вошли в аккаунт');
+					});
+				setIsError(false);
+			} else {
+				setIsError(true);
+			}
 		} catch (error) {
 			console.log(error);
 			console.log('Не удалось войти в аккаунт');
@@ -66,7 +82,10 @@ const SheetAuth = () => {
 		if (password === passwordConfirm) {
 			setIsErrorPassword(false);
 		}
-	}, [email, password, passwordConfirm]);
+		if (email === '') {
+			setIsError(false);
+		}
+	}, [password, passwordConfirm, email]);
 
 	return (
 		<View>
@@ -109,7 +128,7 @@ const SheetAuth = () => {
 								secureTextEntry={true}
 								style={styles.inputVuz}
 							/>
-							<TouchableOpacity style={styles.signButton} onPress={signIn}>
+							<TouchableOpacity style={styles.signButton} onPress={signUp}>
 								<Text style={styles.signButtonText}>Зарегистрироваться</Text>
 							</TouchableOpacity>
 							{isErrorPassword && (
@@ -133,16 +152,16 @@ const SheetAuth = () => {
 								secureTextEntry={true}
 								style={styles.inputVuz}
 							/>
-							<TouchableOpacity style={styles.signButton} onPress={signUp}>
+							<TouchableOpacity style={styles.signButton} onPress={signIn}>
 								<Text style={styles.signButtonText}>Войти</Text>
 							</TouchableOpacity>
 						</View>
 					)}
-					{isError && (
+					{isError ? (
 						<View style={styles.conSign}>
 							<Text style={styles.error}>Заполнены не все поля</Text>
 						</View>
-					)}
+					) : null}
 					<View styles={styles.bottom}>
 						<Text style={styles.reg} onPress={() => setRegister(!register)}>
 							{register
@@ -164,7 +183,7 @@ const styles = StyleSheet.create({
 		width
 	},
 	title: {
-		color: '#1E1E1E',
+		color: '#1E1E1F',
 		fontWeight: '600',
 		fontSize: 27,
 		lineHeight: 32,
@@ -205,7 +224,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 20
 	},
 	text: {
-		color: '#1E1E1E',
+		color: '#1E1E1F',
 		fontWeight: '400',
 		fontSize: 17,
 		lineHeight: 20
@@ -228,7 +247,7 @@ const styles = StyleSheet.create({
 		padding: 14,
 		alignItems: 'center',
 		borderRadius: 16,
-		backgroundColor: '#0d9488'
+		backgroundColor: '#1E1E1F'
 	},
 	signButtonText: {
 		fontWeight: '500',

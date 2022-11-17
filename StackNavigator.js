@@ -17,10 +17,7 @@ const StackNavigator = () => {
 
 	useEffect(() => {
 		if (user) {
-			const starCountRef = ref(
-				db,
-				'users/' + user.uid + '/' + user.displayName
-			);
+			const starCountRef = ref(db, 'users/' + user.uid);
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 
@@ -31,17 +28,17 @@ const StackNavigator = () => {
 
 	return (
 		<Stack.Navigator>
-			{user && userData !== null && (
-				<>
-					<Stack.Screen name='Home' component={HomeScreen} />
-				</>
-			)}
 			{user && userData === null && (
 				<Stack.Screen
 					name='UserData'
 					component={UserData}
 					options={{ headerShown: false }}
 				/>
+			)}
+			{user && userData !== null && (
+				<>
+					<Stack.Screen name='Home' component={HomeScreen} />
+				</>
 			)}
 			{!user && (
 				<>

@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
 	const [initializing, setInitializing] = useState(true);
 	const [user, setUser] = useState();
 	const [loading, setLoading] = useState(false);
+	const [userWithGoggle, setUserWithGoogle] = useState();
 
 	GoogleSignin.configure({
 		webClientId:
@@ -51,6 +52,7 @@ export const AuthProvider = ({ children }) => {
 		userSignIn
 			.then(user => {
 				Alert.alert(user);
+				setUserWithGoogle(userSignIn);
 			})
 			.catch(error => {
 				Alert.alert(error.message);
@@ -59,25 +61,20 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	const signOut = async () => {
-		if (onGoogleButtonPress) {
-			setLoading(true);
-			try {
-				await GoogleSignin.revokeAccess();
-				await auth().signOut();
-			} catch (error) {
-				console.log(error.message);
-			} finally {
-				setLoading(false);
-			}
-		} else {
-			Alert.alert('Не удалось выйти из аккаунта');
+		setLoading(true);
+		try {
+			await GoogleSignin.revokeAccess();
+			await auth().signOut();
+		} catch (error) {
+			console.log(error.message);
+		} finally {
+			setLoading(false);
 		}
-		if (!onGoogleButtonPress) {
+
+		if (!userWithGoggle) {
 			auth()
 				.signOut()
 				.then(() => console.log('User signed out!'));
-		} else {
-			Alert.alert('Не удалось выйти из аккаунта');
 		}
 	};
 
