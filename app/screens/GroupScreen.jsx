@@ -85,7 +85,7 @@ const GroupScreen = () => {
 								writeToDatabase();
 								console.log(group);
 								setTimeout(() => {
-									navigation.navigate('Home');
+									navigation.navigate('SCHEDULE');
 								}, 300);
 							}
 						}}>

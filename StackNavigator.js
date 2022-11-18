@@ -37,7 +37,11 @@ const StackNavigator = () => {
 			)}
 			{user && userData !== null && (
 				<>
-					<Stack.Screen name='Home' component={HomeScreen} />
+					<Stack.Screen
+						name='SCHEDULE'
+						component={HomeScreen}
+						options={{ headerShown: false }}
+					/>
 				</>
 			)}
 			{!user && (

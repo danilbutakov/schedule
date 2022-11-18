@@ -5,7 +5,6 @@ import { AuthProvider } from './app/hooks/useAuth';
 import { LogBox } from 'react-native';
 
 import 'expo-dev-client';
-import MySplashScreen from './app/screens/MySplashScreen';
 
 const App = () => {
 	return (

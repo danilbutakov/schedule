@@ -6,6 +6,9 @@
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "automatic",
+		"resolutions": {
+			"react-native-svg": "13.0.5"
+		},
 		"plugins": [
 			"@react-native-google-signin/google-signin",
 			"@react-native-firebase/app",

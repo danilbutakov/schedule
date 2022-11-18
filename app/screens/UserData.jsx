@@ -1,7 +1,10 @@
 import { View, Dimensions } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import VuzInfo from '../components/userInfo/VuzInfo';
 import GroupInfo from '../components/userInfo/GroupInfo';
+
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
 const { height, width } = Dimensions.get('screen');
 
@@ -12,8 +15,21 @@ const UserData = () => {
 	const [univ, setUniv] = useState('');
 	const [group, setGroup] = useState('');
 
+	const [fontsLoaded] = useFonts({
+		'Montserrat-Black': require('../../assets/fonts/Montserrat-Black.ttf')
+	});
+	const onLayoutRootView = useCallback(async () => {
+		if (fontsLoaded) {
+			await SplashScreen.hideAsync();
+		}
+	}, [fontsLoaded]);
+
+	if (!fontsLoaded) {
+		return null;
+	}
+
 	return (
-		<>
+		<View style={{ flex: 1 }} onLayout={onLayoutRootView}>
 			{showUniv && (
 				<VuzInfo
 					univ={univ}
@@ -31,7 +47,7 @@ const UserData = () => {
 					setShowGroup={setShowGroup}
 				/>
 			)}
-		</>
+		</View>
 	);
 };
 

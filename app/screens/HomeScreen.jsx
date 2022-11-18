@@ -1,4 +1,4 @@
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text, Image, Button, StyleSheet } from 'react-native';
 import React from 'react';
 import useAuth from '../hooks/useAuth';
 
@@ -6,7 +6,7 @@ const HomeScreen = () => {
 	const { user, signOut } = useAuth();
 
 	return (
-		<View>
+		<View style={styles.mainCon}>
 			<Text>Hello, {user.displayName || user.email}</Text>
 			{user.photoURL ? (
 				<Image
@@ -20,3 +20,5 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({});

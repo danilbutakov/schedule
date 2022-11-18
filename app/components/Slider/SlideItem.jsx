@@ -7,7 +7,9 @@ const SlideItem = ({ item }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.slide}>
-				<Image style={styles.img} resizeMode='contain' source={item.img} />
+				<View style={styles.imgCon}>
+					<Image source={item.img} style={styles.img} />
+				</View>
 				<View style={styles.content}>
 					<Text style={styles.title}>{item.title}</Text>
 					<Text style={styles.subTitle}>{item.subTitle}</Text>
@@ -25,8 +27,13 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		display: 'flex'
 	},
+	imgCon: {
+		flex: 0.6,
+		alignSelf: 'center'
+	},
 	img: {
-		flex: 0.6
+		width: 400,
+		height: 400
 	},
 	content: {
 		flex: 0.7,
