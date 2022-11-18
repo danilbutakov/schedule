@@ -32,9 +32,6 @@
 			},
 			"package": "com.thirdTeam.schedule"
 		},
-		"web": {
-			"favicon": "./assets/favicon.png"
-		},
 		"extra": {
 			"eas": {
 				"projectId": "b93ccd18-7c5e-426d-8659-f087575c654f"
