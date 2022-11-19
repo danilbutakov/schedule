@@ -85,17 +85,14 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 						/>
 					</View>
 					<TouchableOpacity
-						style={[
-							styles.container,
-							{ marginBottom: isOpenedKeyboard ? 80 : 20 }
-						]}
+						style={styles.container}
 						onPress={() => {
 							if (group !== '') {
 								writeToDatabase();
 								console.log(group);
 								setShowGroup(false);
 								setTimeout(() => {
-									navigation.navigate('SCHEDULE');
+									navigation.navigate('Schedule');
 								}, 300);
 							}
 						}}>
@@ -123,9 +120,7 @@ const styles = StyleSheet.create({
 	conMain: {
 		alignSelf: 'center'
 	},
-	content: {
-		flex: 1
-	},
+	content: {},
 	title: {
 		color: '#1E1E1E',
 		fontSize: 27,

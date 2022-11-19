@@ -4,12 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './app/hooks/useAuth';
 import { LogBox, View } from 'react-native';
 
+import AppContext from './app/utils/Context';
+
 import 'expo-dev-client';
 import { useFonts } from './app/hooks/useFonts';
 import * as SplashScreen from 'expo-splash-screen';
 
 const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
+	const [handleClickPair, setHandleClickPair] = useState();
 
 	useEffect(() => {
 		async function prepare() {
@@ -48,12 +51,20 @@ const App = () => {
 	}
 
 	return (
-		<View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-			<AuthProvider>
-				<NavigationContainer>
-					<StackNavigator />
-				</NavigationContainer>
-			</AuthProvider>
+		<View
+			onLayout={onLayoutRootView}
+			style={{ flex: 1, backgroundColor: '#F7F7F7' }}>
+			<AppContext.Provider
+				value={{
+					handleClickPair,
+					setHandleClickPair
+				}}>
+				<AuthProvider>
+					<NavigationContainer>
+						<StackNavigator />
+					</NavigationContainer>
+				</AuthProvider>
+			</AppContext.Provider>
 		</View>
 	);
 };
