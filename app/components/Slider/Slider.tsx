@@ -100,10 +100,10 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1E1E1F'
 	},
 	btn: {
-		fontWeight: '500',
 		fontSize: 17,
 		lineHeight: 24,
-		color: '#FFFFFF'
+		color: '#FFFFFF',
+		fontFamily: 'Montserrat-Medium'
 	},
 	headLine: {
 		width,

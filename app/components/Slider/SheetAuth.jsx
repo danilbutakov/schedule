@@ -184,10 +184,11 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: '#1E1E1F',
-		fontWeight: '600',
 		fontSize: 27,
-		lineHeight: 32,
-		alignSelf: 'center'
+		lineHeight: 36,
+		alignSelf: 'center',
+		fontFamily: 'Montserrat-SemiBold',
+		marginTop: 10
 	},
 	container: {
 		marginTop: 20,
@@ -206,18 +207,18 @@ const styles = StyleSheet.create({
 		flexDirection: 'row'
 	},
 	btnTextActive: {
-		fontWeight: '500',
 		fontSize: 17,
 		lineHeight: 24,
-		color: 'black'
+		color: 'black',
+		fontFamily: 'Montserrat-Medium'
 	},
 	another: {
 		color: '#8A8A8E',
-		fontWeight: '400',
-		fontSize: 14,
+		fontSize: 15,
 		lineHeight: 31,
 		marginTop: 10,
-		alignSelf: 'center'
+		alignSelf: 'center',
+		fontFamily: 'Montserrat-Regular'
 	},
 	conSign: {
 		marginTop: 10,
@@ -225,9 +226,9 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: '#1E1E1F',
-		fontWeight: '400',
 		fontSize: 17,
-		lineHeight: 20
+		lineHeight: 20,
+		fontFamily: 'Montserrat-Regular'
 	},
 	inputVuz: {
 		borderWidth: 1,
@@ -237,10 +238,10 @@ const styles = StyleSheet.create({
 		padding: 10,
 		marginTop: 5,
 		marginBottom: 10,
-		fontWeight: '400',
 		fontSize: 15,
 		lineHeight: 18,
-		color: 'rgba(60, 60, 67, 0.6)'
+		color: 'rgba(60, 60, 67, 0.6)',
+		fontFamily: 'Montserrat-Regular'
 	},
 	bottom: {},
 	signButton: {
@@ -250,18 +251,18 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1E1E1F'
 	},
 	signButtonText: {
-		fontWeight: '500',
 		fontSize: 17,
 		lineHeight: 20,
-		color: '#FFFFFF'
+		color: '#FFFFFF',
+		fontFamily: 'Montserrat-Medium'
 	},
 	reg: {
-		fontWeight: '400',
 		fontSize: 14,
 		lineHeight: 24,
 		color: 'rgba(60, 60, 67, 0.6)',
 		alignSelf: 'center',
-		marginVertical: 20
+		marginVertical: 20,
+		fontFamily: 'Montserrat-Regular'
 	},
 	error: {
 		backgroundColor: '#fca5a5',

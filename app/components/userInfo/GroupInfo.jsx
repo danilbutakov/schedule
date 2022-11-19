@@ -83,7 +83,7 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 					<TouchableOpacity
 						style={[
 							styles.container,
-							{ marginBottom: isOpenedKeyboard ? 60 : 0 }
+							{ marginBottom: isOpenedKeyboard ? 40 : 0 }
 						]}
 						onPress={() => {
 							if (group !== '') {
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: '#1E1E1E',
-		fontWeight: '600',
 		fontSize: 27,
-		lineHeight: 32
+		lineHeight: 32,
+		fontFamily: 'Montserrat-SemiBold'
 	},
 	inputVuz: {
 		borderWidth: 1,
@@ -136,11 +136,11 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ffffff',
 		padding: 10,
 		marginTop: 50,
-		fontWeight: '400',
 		fontSize: 17,
 		lineHeight: 24,
 		color: 'rgba(60, 60, 67, 0.6)',
-		width: '100%'
+		width: '100%',
+		fontFamily: 'Montserrat-Regular'
 	},
 	container: {
 		alignItems: 'center',
@@ -164,15 +164,15 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	btnText: {
-		fontWeight: '500',
 		fontSize: 17,
 		lineHeight: 24,
-		color: 'rgba(60, 60, 67, 0.6)'
+		color: 'rgba(60, 60, 67, 0.6)',
+		fontFamily: 'Montserrat-Medium'
 	},
 	btnTextActive: {
-		fontWeight: '500',
 		fontSize: 17,
 		lineHeight: 24,
-		color: '#ffffff'
+		color: '#ffffff',
+		fontFamily: 'Montserrat-Medium'
 	}
 });

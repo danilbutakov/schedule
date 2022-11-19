@@ -7,18 +7,25 @@ const HomeScreen = () => {
 
 	return (
 		<View style={styles.mainCon}>
-			<Text>Hello, {user.displayName || user.email}</Text>
+			<Text style={styles.text}>Hello, {user.displayName || user.email}</Text>
 			{user.photoURL ? (
 				<Image
 					source={{ uri: user.photoURL }}
 					style={{ width: 100, height: 100 }}
 				/>
 			) : null}
-			<Button title='Sign out' onPress={signOut} />
+			<Button style={styles.btn} title='Sign out' onPress={signOut} />
 		</View>
 	);
 };
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	text: {
+		fontFamily: 'Montserrat-Medium',
+		fontSize: 25,
+		lineHeight: 35,
+		marginBottom: 20
+	}
+});

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { SafeAreaView } from 'react-native';
+import { View } from 'react-native';
 import Slider from '../components/Slider/Slider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const OnBoard = () => {
 	return (
 		<GestureHandlerRootView>
-			<SafeAreaView>
+			<View>
 				<Slider />
-			</SafeAreaView>
+			</View>
 		</GestureHandlerRootView>
 	);
 };
