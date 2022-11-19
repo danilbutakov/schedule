@@ -7,13 +7,8 @@ const HomeScreen = () => {
 
 	return (
 		<View style={styles.mainCon}>
-			<Text style={styles.text}>Hello, {user.displayName || user.email}</Text>
-			{user.photoURL ? (
-				<Image
-					source={{ uri: user.photoURL }}
-					style={{ width: 100, height: 100 }}
-				/>
-			) : null}
+			<Text style={styles.text}>SCHEDULE</Text>
+			<View style={styles.main}></View>
 			<Button style={styles.btn} title='Sign out' onPress={signOut} />
 		</View>
 	);
@@ -22,10 +17,19 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+	mainCon: {
+		marginTop: 6
+	},
 	text: {
-		fontFamily: 'Montserrat-Medium',
-		fontSize: 25,
-		lineHeight: 35,
-		marginBottom: 20
+		fontFamily: 'Montserrat-SemiBold',
+		fontSize: 23,
+		lineHeight: 29,
+		marginBottom: 6,
+		alignSelf: 'center',
+		color: '1E1E1F'
+	},
+	main: {
+		display: 'flex',
+		flexDirection: 'column'
 	}
 });

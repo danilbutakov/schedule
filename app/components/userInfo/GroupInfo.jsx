@@ -9,14 +9,14 @@ import {
 	Platform,
 	Keyboard
 } from 'react-native';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import useAuth from '../../hooks/useAuth';
 import { db } from '../../../firebase';
 import { ref, set } from 'firebase/database';
 
-const { height, width } = Dimensions.get('screen');
+const { height } = Dimensions.get('screen');
 
 const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 	const { user } = useAuth();
@@ -65,6 +65,10 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 			});
 	};
 
+	useEffect(() => {
+		console.log(isOpenedKeyboard);
+	}, [isOpenedKeyboard]);
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -83,7 +87,7 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 					<TouchableOpacity
 						style={[
 							styles.container,
-							{ marginBottom: isOpenedKeyboard ? 40 : 0 }
+							{ marginBottom: isOpenedKeyboard ? 80 : 20 }
 						]}
 						onPress={() => {
 							if (group !== '') {
@@ -91,7 +95,7 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 								console.log(group);
 								setShowGroup(false);
 								setTimeout(() => {
-									navigation.navigate('Home');
+									navigation.navigate('SCHEDULE');
 								}, 300);
 							}
 						}}>
@@ -109,24 +113,23 @@ export default GroupInfo;
 
 const styles = StyleSheet.create({
 	containerKeyboard: {
-		flex: 1,
-		height
+		height,
+		flex: 1
 	},
 	con: {
-		backgroundColor: 'white'
+		backgroundColor: 'white',
+		padding: 10
 	},
 	conMain: {
 		alignSelf: 'center'
 	},
 	content: {
-		flex: 1,
-		width,
-		padding: 20
+		flex: 1
 	},
 	title: {
 		color: '#1E1E1E',
 		fontSize: 27,
-		lineHeight: 32,
+		lineHeight: 34,
 		fontFamily: 'Montserrat-SemiBold'
 	},
 	inputVuz: {
@@ -139,13 +142,10 @@ const styles = StyleSheet.create({
 		fontSize: 17,
 		lineHeight: 24,
 		color: 'rgba(60, 60, 67, 0.6)',
-		width: '100%',
 		fontFamily: 'Montserrat-Regular'
 	},
 	container: {
-		alignItems: 'center',
-		width,
-		padding: 20
+		alignItems: 'center'
 	},
 	conBtn: {
 		backgroundColor: '#F2F2F7',

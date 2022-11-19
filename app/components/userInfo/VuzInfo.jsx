@@ -55,7 +55,7 @@ const VuzInfo = ({ univ, setUniv, setShowUniv, setShowGroup }) => {
 					<TouchableOpacity
 						style={[
 							styles.container,
-							{ marginBottom: isOpenedKeyboard ? 30 : 40 }
+							{ marginBottom: isOpenedKeyboard ? 40 : 20 }
 						]}
 						onPress={() => {
 							if (univ !== '') {
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
 	},
 	con: {
 		backgroundColor: 'white',
-		padding: 20
+		padding: 10
 	},
 	conMain: {
 		alignSelf: 'center'
