@@ -47,7 +47,7 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 	});
 
 	const writeToDatabase = () => {
-		set(ref(db, 'users/' + user.uid + '/' + user.displayName), {
+		set(ref(db, 'users/' + user.uid + '/'), {
 			univ: univ,
 			group: group
 		})

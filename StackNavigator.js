@@ -26,7 +26,7 @@ const StackNavigator = () => {
 		if (user) {
 			const starCountRef = ref(
 				db,
-				'users/' + user.uid + '/' + user.displayName + '/' + ('univ' && 'group')
+				'users/' + user.uid + '/' + ('univ' && 'group')
 			);
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();

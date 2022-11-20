@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import StackNavigator from './StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './app/hooks/useAuth';
-import { LogBox, View } from 'react-native';
+import { LogBox, View, SafeAreaView, RefreshControl } from 'react-native';
 
 import AppContext from './app/utils/Context';
 
