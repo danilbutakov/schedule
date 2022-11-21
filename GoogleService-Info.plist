@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>676713652988-0kttl2dtuf5k6nebbto452n3a8nnf1js.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.676713652988-0kttl2dtuf5k6nebbto452n3a8nnf1js</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>676713652988-3s6e7lnf5htaga6vkvhas200iu8qpu10.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDSV93q1LharZgN-1q0Lu-L3GLojyFJEA8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>676713652988</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.thirdTeam.schedule</string>
+	<key>PROJECT_ID</key>
+	<string>schedule-11f30</string>
+	<key>STORAGE_BUCKET</key>
+	<string>schedule-11f30.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:676713652988:ios:20cfb53b0743ffaebfad79</string>
+	<key>DATABASE_URL</key>
+	<string>https://schedule-11f30-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
