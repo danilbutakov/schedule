@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import StackNavigator from './StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './app/hooks/useAuth';
-import { LogBox, View, SafeAreaView, RefreshControl } from 'react-native';
+import { LogBox, View, StatusBar } from 'react-native';
 
 import AppContext from './app/utils/Context';
 
@@ -23,7 +23,7 @@ const App = () => {
 				await useFonts();
 				// Artificially delay for two seconds to simulate a slow loading
 				// experience. Please remove this if you copy and paste the code!
-				await new Promise(resolve => setTimeout(resolve, 2000));
+				await new Promise(resolve => setTimeout(resolve, 1500));
 			} catch (e) {
 				console.warn(e);
 			} finally {
@@ -51,9 +51,7 @@ const App = () => {
 	}
 
 	return (
-		<View
-			onLayout={onLayoutRootView}
-			style={{ flex: 1, backgroundColor: '#F7F7F7' }}>
+		<View onLayout={onLayoutRootView} style={{ flex: 1 }}>
 			<AppContext.Provider
 				value={{
 					handleClickPair,
@@ -65,6 +63,7 @@ const App = () => {
 					</NavigationContainer>
 				</AuthProvider>
 			</AppContext.Provider>
+			<StatusBar />
 		</View>
 	);
 };

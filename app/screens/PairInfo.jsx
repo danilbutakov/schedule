@@ -7,13 +7,13 @@ import {
 	TouchableOpacity,
 	SafeAreaView,
 	TextInput,
-	RefreshControl
+	StatusBar
 } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../utils/Context';
 
 import useAuth from '../../app/hooks/useAuth';
-import { ref, set, remove, update, onValue } from 'firebase/database';
+import { ref, set, remove, onValue } from 'firebase/database';
 import { db } from '../../firebase';
 
 import { images } from '../../assets/globalImages';
@@ -21,22 +21,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const { height } = Dimensions.get('screen');
 
-const wait = timeout => {
-	return new Promise(resolve => setTimeout(resolve, timeout));
-};
-
 const PairInfo = () => {
 	const { handleClickPair } = useContext(AppContext);
-	const [refreshing, setRefreshing] = React.useState(false);
-
-	const onRefresh = React.useCallback(() => {
-		setRefreshing(true);
-		setShowInfo(false);
-		wait(2000).then(() => {
-			setRefreshing(false);
-			setShowInfo(true);
-		});
-	}, []);
 
 	const [showNotes, setShowNotes] = useState(false);
 	const [showInfo, setShowInfo] = useState(true);
@@ -44,7 +30,8 @@ const PairInfo = () => {
 	const { user } = useAuth();
 
 	const [notes, setNotes] = useState([]);
-	const [note, setNote] = useState();
+	const [note, setNote] = useState('');
+
 	//for Notes
 
 	//read from database
@@ -56,6 +43,7 @@ const PairInfo = () => {
 					'users/' +
 						user.uid +
 						'/' +
+						'notes/' +
 						handleClickPair.pair.date +
 						'/' +
 						handleClickPair.pair.dayOfWeek +
@@ -65,14 +53,11 @@ const PairInfo = () => {
 						handleClickPair.pair.name +
 						'/' +
 						handleClickPair.pair.group +
-						' group' +
-						'/' +
-						'notes'
+						' group/'
 				),
 				snapshot => {
 					setNotes([]);
 					const data = snapshot.val();
-					console.log(data);
 					if (data !== null) {
 						Object.values(data).map(note => {
 							setNotes(oldArray => [...oldArray, note]);
@@ -83,7 +68,7 @@ const PairInfo = () => {
 		}
 	}, []);
 
-	console.log(notes);
+	const createdAt = Date.now();
 
 	//write to database
 	const writeToDataBase = () => {
@@ -93,6 +78,7 @@ const PairInfo = () => {
 				'users/' +
 					user.uid +
 					'/' +
+					'notes/' +
 					handleClickPair.pair.date +
 					'/' +
 					handleClickPair.pair.dayOfWeek +
@@ -102,12 +88,11 @@ const PairInfo = () => {
 					handleClickPair.pair.name +
 					'/' +
 					handleClickPair.pair.group +
-					' group' +
-					'/' +
-					'notes'
+					` group/${createdAt}`
 			),
 			{
-				note
+				note,
+				createdAt: createdAt
 			}
 		);
 		//clear the input
@@ -115,13 +100,14 @@ const PairInfo = () => {
 	};
 
 	// delete from note from database
-	const handleDelete = note => {
+	const handleDelete = createdAt => {
 		remove(
 			ref(
 				db,
 				'users/' +
 					user.uid +
 					'/' +
+					'notes/' +
 					handleClickPair.pair.date +
 					'/' +
 					handleClickPair.pair.dayOfWeek +
@@ -131,95 +117,93 @@ const PairInfo = () => {
 					handleClickPair.pair.name +
 					'/' +
 					handleClickPair.pair.group +
-					' group' +
-					'/' +
-					'notes'
+					` group/${createdAt}`
 			)
 		);
 	};
 
 	return (
 		<SafeAreaView>
-			<ScrollView
-				contentContainerStyle={styles.scrollView}
-				refreshControl={
-					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-				}>
-				<View style={styles.infoCon}>
-					<View style={styles.titles}>
-						<Text style={styles.typeText}>{handleClickPair.pair.type}</Text>
-						<Text style={styles.nameText}>{handleClickPair.pair.name}</Text>
-					</View>
-					<View style={styles.addInfoCon}>
-						<View style={styles.inf}>
-							<Text style={styles.infText}>
-								{handleClickPair.pair.dayOfWeek}, {handleClickPair.pair.date},{' '}
-								{handleClickPair.pair.timeStart}
-								{' - '}
-								{handleClickPair.pair.timeEnd}
-							</Text>
-							<View style={styles.downLine}></View>
-						</View>
-						<View style={styles.inf}>
-							<Text style={styles.infText}>
-								{handleClickPair.pair.classRoom}
-							</Text>
-							<View style={styles.downLine}></View>
-						</View>
-						<View style={styles.inf}>
-							<Text style={styles.infText}>{handleClickPair.pair.teacher}</Text>
-							<View style={styles.downLine}></View>
-						</View>
-					</View>
-					<View style={styles.notesContainer}>
-						<View style={styles.notesTitle}>
-							<Text style={styles.noteTitle}>Заметки</Text>
-							<TouchableOpacity onPress={() => setShowNotes(!showNotes)}>
-								<Image
-									style={{ width: 15, height: 15 }}
-									source={images.plusNote}
-								/>
-							</TouchableOpacity>
-							{showNotes && (
-								<>
-									<TextInput
-										placeholder='Заметка'
-										value={note}
-										onChangeText={note => setNote(note)}
-									/>
-									<TouchableOpacity
-										onPress={() => {
-											if (note !== '') {
-												writeToDataBase();
-											}
-										}}>
-										<Text>Добавить</Text>
-									</TouchableOpacity>
-								</>
-							)}
-						</View>
+			<View style={styles.infoCon}>
+				<View style={styles.titles}>
+					<Text style={styles.typeText}>
+						{handleClickPair.pair.type.toUpperCase()}
+					</Text>
+					<Text style={styles.nameText}>{handleClickPair.pair.name}</Text>
+				</View>
+				<View style={styles.addInfoCon}>
+					<View style={styles.inf}>
+						<Text style={styles.infText}>
+							{handleClickPair.pair.dayOfWeek}, {handleClickPair.pair.date},{' '}
+							{handleClickPair.pair.timeStart}
+							{' - '}
+							{handleClickPair.pair.timeEnd}
+						</Text>
 						<View style={styles.downLine}></View>
 					</View>
-					{showInfo && (
-						<ScrollView>
-							{notes.map((note, key) => (
-								<View style={styles.addInfoConNotes} key={key}>
-									<View style={styles.inf}>
-										<Text style={styles.infText}>{note}</Text>
-										<TouchableOpacity onPress={() => handleDelete()}>
-											<Image
-												source={images.deleteNote}
-												style={{ width: 20, height: 20 }}
-											/>
-										</TouchableOpacity>
-										<View style={styles.downLine}></View>
-									</View>
-								</View>
-							))}
-						</ScrollView>
-					)}
+					<View style={styles.inf}>
+						<Text style={styles.infText}>{handleClickPair.pair.classRoom}</Text>
+						<View style={styles.downLine}></View>
+					</View>
+					<View style={styles.inf}>
+						<Text style={styles.infText}>{handleClickPair.pair.teacher}</Text>
+						<View style={styles.downLine}></View>
+					</View>
 				</View>
-			</ScrollView>
+				<View style={styles.notesContainer}>
+					<View style={styles.notesTitle}>
+						<Text style={styles.noteTitle}>ЗАМЕТКИ</Text>
+						<TouchableOpacity onPress={() => setShowNotes(!showNotes)}>
+							<Image
+								style={{ width: 15, height: 15 }}
+								source={images.plusNote}
+							/>
+						</TouchableOpacity>
+					</View>
+					{showNotes && (
+						<View style={styles.addNote}>
+							<TextInput
+								placeholder='Введите текст'
+								value={note}
+								onChangeText={newNote => setNote(newNote)}
+								style={styles.addNoteInput}
+								maxLength={100}
+								multiline={true}
+							/>
+							<TouchableOpacity
+								onPress={() => {
+									if (note !== '') {
+										writeToDataBase();
+									}
+								}}>
+								<View style={styles.noteBtn}>
+									<Text style={styles.noteBtnText}>Добавить</Text>
+								</View>
+							</TouchableOpacity>
+						</View>
+					)}
+					<View style={styles.downLine}></View>
+				</View>
+				{showInfo && (
+					<ScrollView style={{ flex: 1, marginBottom: 110 }}>
+						{notes.map(note => (
+							<View style={styles.addInfoConNotes}>
+								<View style={styles.inf}>
+									<Text style={styles.infText}>{note.note}</Text>
+									<TouchableOpacity
+										onPress={() => handleDelete(note.createdAt)}>
+										<Image
+											source={images.deleteNote}
+											style={{ width: 20, height: 20 }}
+										/>
+									</TouchableOpacity>
+									<View style={styles.downLine}></View>
+								</View>
+							</View>
+						))}
+					</ScrollView>
+				)}
+			</View>
 		</SafeAreaView>
 	);
 };
@@ -232,7 +216,7 @@ const styles = StyleSheet.create({
 		height
 	},
 	titles: {
-		marginBottom: 20,
+		marginBottom: 10,
 		paddingLeft: 20
 	},
 	typeText: {
@@ -253,13 +237,19 @@ const styles = StyleSheet.create({
 	addInfoConNotes: {
 		backgroundColor: '#FFFFFF'
 	},
+	inf: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingHorizontal: 20
+	},
 	infText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
 		lineHeight: 19,
 		color: '#1E1E1E',
 		paddingVertical: 12,
-		paddingHorizontal: 20
+		flex: 1
 	},
 	downLine: {
 		borderBottomColor: 'rgba(60, 60, 67, 0.13)',
@@ -284,5 +274,45 @@ const styles = StyleSheet.create({
 	},
 	noteCon: {
 		backgroundColor: ''
+	},
+	addNote: {
+		paddingHorizontal: 20,
+		paddingBottom: 20,
+		alignItems: 'center'
+	},
+	charLeft: {
+		fontFamily: 'Montserrat-Medium',
+		fontSize: 15,
+		color: '#1E1E1F'
+	},
+	charRight: {
+		fontFamily: 'Montserrat-Bold',
+		fontSize: 17,
+		color: '#8E8E93'
+	},
+	addNoteInput: {
+		borderRadius: 16,
+		backgroundColor: '#ffffff',
+		padding: 10,
+		fontSize: 17,
+		shadowColor: 'rgba(0, 0, 0, 0.3)',
+		shadowOffset: { width: 0, height: 4 },
+		elevation: 4,
+		color: 'rgba(60, 60, 67, 0.6)',
+		fontFamily: 'Montserrat-Regular',
+		width: '100%'
+	},
+	noteBtn: {
+		marginTop: 22
+	},
+	noteBtnText: {
+		backgroundColor: '#1E1E1F',
+		borderRadius: 16,
+		padding: 15,
+		width: '100%',
+		alignSelf: 'center',
+		alignItems: 'center',
+		color: '#FFFFFF',
+		fontFamily: 'Montserrat-Medium'
 	}
 });

@@ -22,8 +22,8 @@ const PairsItem = () => {
 							<View style={styles.headLeft}>
 								<View style={styles.indexPair}>
 									<Text style={styles.indexText}>{index + 1}</Text>
-									<Text style={styles.typeText}>{pair.type}</Text>
 								</View>
+								<Text style={styles.typeText}>{pair.type}</Text>
 							</View>
 							<View style={styles.headRight}>
 								<Text style={styles.rightText}>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 	},
 	indexPair: {
 		backgroundColor: '#1E1E1F',
-		paddingRight: 16,
+		paddingRight: 10,
 		paddingLeft: 18,
 		borderTopRightRadius: 10,
 		borderBottomRightRadius: 10,
@@ -91,16 +91,16 @@ const styles = StyleSheet.create({
 	typeText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 13,
-		lineHeight: 27,
+		lineHeight: 20,
 		paddingLeft: 10,
-		color: '#FFFFFF'
+		color: '#1E1E1F'
 	},
 	headRight: {
 		paddingRight: 12,
 		alignSelf: 'center'
 	},
 	rightText: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'Montserrat-Medium',
 		fontSize: 16,
 		lineHeight: 32,
 		color: '#1E1E1F'
@@ -109,27 +109,32 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20
 	},
 	nameText: {
-		fontFamily: 'Montserrat-Medium',
+		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 14,
-		lineHeight: 32,
+		lineHeight: 20,
+		marginBottom: 7,
 		color: '#1E1E1F'
 	},
 	teacherText: {
-		fontFamily: 'Montserrat-Light',
+		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
 		lineHeight: 20,
 		color: '#1E1E1F'
 	},
 	classRoomText: {
-		fontFamily: 'Montserrat-Light',
+		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
 		lineHeight: 20,
 		color: '#1E1E1F'
 	},
 	groupText: {
-		fontFamily: 'Montserrat-Light',
+		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
 		lineHeight: 20,
 		color: '#1E1E1F'
+	},
+	groupPair: {
+		marginTop: 10,
+		marginBottom: 0
 	}
 });

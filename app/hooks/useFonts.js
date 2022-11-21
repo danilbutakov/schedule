@@ -3,6 +3,7 @@ import * as Font from 'expo-font';
 
 export const useFonts = async () => {
 	await Font.loadAsync({
+		'Bai-Jamjuree': require('./../../assets/fonts/BaiJamjuree-SemiBold.ttf'),
 		'Montserrat-Black': require('./../../assets/fonts/Montserrat-Black.ttf'), //900
 		'Montserrat-ExtraBold': require('./../../assets/fonts/Montserrat-ExtraBold.ttf'), //800
 		'Montserrat-Bold': require('./../../assets/fonts/Montserrat-Bold.ttf'), //700

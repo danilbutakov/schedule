@@ -60,9 +60,9 @@ const StackNavigator = () => {
 									}}>
 									<Text
 										style={{
-											fontFamily: 'Montserrat-SemiBold',
+											fontFamily: 'Bai-Jamjuree',
 											fontSize: 23,
-											lineHeight: 29,
+											lineHeight: 32,
 											alignSelf: 'center',
 											color: '1E1E1F',
 											borderBottomColor: 'rgba(60, 60, 67, 0.13)',
@@ -72,9 +72,9 @@ const StackNavigator = () => {
 											display: 'flex',
 											justifyContent: 'center',
 											textAlign: 'center',
-											marginTop: 5,
+											marginTop: 10,
 											marginBottom: 5,
-											paddingBottom: 6
+											paddingBottom: 10
 										}}>
 										SCHEDULE
 									</Text>
@@ -93,7 +93,7 @@ const StackNavigator = () => {
 											backgroundColor: '#F7F7F7',
 											borderBottomColor: 'rgba(60, 60, 67, 0.13)',
 											borderBottomWidth: 1,
-											marginTop: 5,
+											marginTop: 10,
 											marginBottom: 15,
 											paddingBottom: 10,
 											paddingLeft: 20,
@@ -111,7 +111,7 @@ const StackNavigator = () => {
 										<Text
 											style={{
 												fontFamily: 'Montserrat-SemiBold',
-												fontSize: 19,
+												fontSize: 17,
 												lineHeight: 25,
 												color: '1E1E1F',
 												paddingLeft: 10
