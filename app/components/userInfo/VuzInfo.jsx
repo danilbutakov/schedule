@@ -42,33 +42,31 @@ const VuzInfo = ({ univ, setUniv, setShowUniv, setShowGroup }) => {
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 			style={styles.containerKeyboard}>
 			<View style={styles.con}>
-				<View style={styles.conMain}>
-					<View style={styles.content}>
-						<Text style={styles.title}>Введите название ВУЗа</Text>
-						<TextInput
-							value={univ}
-							onChangeText={univ => setUniv(univ)}
-							placeholder='Например МГУ'
-							style={styles.inputVuz}
-						/>
-					</View>
-					<TouchableOpacity
-						style={[
-							styles.container,
-							{ marginBottom: isOpenedKeyboard ? 40 : 20 }
-						]}
-						onPress={() => {
-							if (univ !== '') {
-								setShowUniv(false);
-								setShowGroup(true);
-								console.log(univ);
-							}
-						}}>
-						<View style={changeButton}>
-							<Text style={changeBtnText}>Продолжить</Text>
-						</View>
-					</TouchableOpacity>
+				<View style={styles.content}>
+					<Text style={styles.title}>Введите название ВУЗа</Text>
+					<TextInput
+						value={univ}
+						onChangeText={univ => setUniv(univ)}
+						placeholder='Например МГУ'
+						style={styles.inputVuz}
+					/>
 				</View>
+				<TouchableOpacity
+					style={[
+						styles.container,
+						{ marginBottom: isOpenedKeyboard ? 40 : 20 }
+					]}
+					onPress={() => {
+						if (univ !== '') {
+							setShowUniv(false);
+							setShowGroup(true);
+							console.log(univ);
+						}
+					}}>
+					<View style={changeButton}>
+						<Text style={changeBtnText}>Продолжить</Text>
+					</View>
+				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
 	);
@@ -83,7 +81,9 @@ const styles = StyleSheet.create({
 	},
 	con: {
 		backgroundColor: 'white',
-		padding: 10
+		paddingVertical: 20,
+		paddingHorizontal: 20,
+		flex: 1
 	},
 	conMain: {
 		alignSelf: 'center'
