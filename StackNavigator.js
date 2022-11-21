@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './app/screens/HomeScreen';
+import { Easing } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators } from '@react-navigation/stack';
+
+import TabNavigator from './TabNavigator';
 import useAuth from './app/hooks/useAuth';
 import OnBoard from './app/screens/OnBoard';
 import UserData from './app/screens/UserData';
@@ -10,12 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ref, onValue } from 'firebase/database';
 import { db } from './firebase';
 
-import PairInfo from './app/screens/PairInfo';
-import { images } from './assets/globalImages';
-
-const Stack = createNativeStackNavigator();
-
-const { width } = Dimensions.get('screen');
+const Stack = createStackNavigator();
 
 const StackNavigator = () => {
 	const { user } = useAuth();
@@ -39,88 +36,26 @@ const StackNavigator = () => {
 	const navigation = useNavigation();
 
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator
+			screenOptions={{
+				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+			}}>
 			{user && userData === null && (
 				<Stack.Screen
 					name='UserData'
 					component={UserData}
-					options={{ headerShown: false }}
+					options={{
+						headerShown: false
+					}}
 				/>
 			)}
 			{user && userData !== null && (
 				<>
 					<Stack.Screen
-						name='Schedule'
-						component={HomeScreen}
+						name='Main'
+						component={TabNavigator}
 						options={{
-							header: () => (
-								<View
-									style={{
-										backgroundColor: '#F7F7F7'
-									}}>
-									<Text
-										style={{
-											fontFamily: 'Bai-Jamjuree',
-											fontSize: 23,
-											lineHeight: 32,
-											alignSelf: 'center',
-											color: '1E1E1F',
-											borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-											borderBottomWidth: 1,
-											width,
-											alignItems: 'center',
-											display: 'flex',
-											justifyContent: 'center',
-											textAlign: 'center',
-											marginTop: 10,
-											marginBottom: 5,
-											paddingBottom: 10
-										}}>
-										SCHEDULE
-									</Text>
-								</View>
-							)
-						}}
-					/>
-					<Stack.Screen
-						name='Info'
-						component={PairInfo}
-						options={{
-							header: () => (
-								<TouchableOpacity onPress={() => navigation.goBack()}>
-									<View
-										style={{
-											backgroundColor: '#F7F7F7',
-											borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-											borderBottomWidth: 1,
-											marginTop: 10,
-											marginBottom: 15,
-											paddingBottom: 10,
-											paddingLeft: 20,
-											display: 'flex',
-											flexDirection: 'row',
-											alignItems: 'center'
-										}}>
-										<Image
-											source={images.arrowLeft}
-											style={{
-												width: 10,
-												height: 20
-											}}
-										/>
-										<Text
-											style={{
-												fontFamily: 'Montserrat-SemiBold',
-												fontSize: 17,
-												lineHeight: 25,
-												color: '1E1E1F',
-												paddingLeft: 10
-											}}>
-											Просмотр занятия
-										</Text>
-									</View>
-								</TouchableOpacity>
-							)
+							headerShown: false
 						}}
 					/>
 				</>
@@ -129,7 +64,10 @@ const StackNavigator = () => {
 				<>
 					<Stack.Screen
 						name='OnBoard'
-						options={{ headerShown: false }}
+						options={{
+							headerShown: false,
+							cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+						}}
 						component={OnBoard}
 					/>
 				</>

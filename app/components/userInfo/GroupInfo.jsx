@@ -70,37 +70,36 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 	}, [isOpenedKeyboard]);
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			style={styles.containerKeyboard}>
+		<KeyboardAvoidingView style={styles.containerKeyboard}>
 			<View style={styles.con}>
-				<View style={styles.conMain}>
-					<View style={styles.content}>
-						<Text style={styles.title}>Введите название группы</Text>
-						<TextInput
-							value={group}
-							onChangeText={group => setGroup(group)}
-							placeholder='Например ПИ-1-21-1'
-							style={styles.inputVuz}
-						/>
-					</View>
-					<TouchableOpacity
-						style={styles.container}
-						onPress={() => {
-							if (group !== '') {
-								writeToDatabase();
-								console.log(group);
-								setShowGroup(false);
-								setTimeout(() => {
-									navigation.navigate('Schedule');
-								}, 300);
-							}
-						}}>
-						<View style={changeButton}>
-							<Text style={changeBtnText}>Продолжить</Text>
-						</View>
-					</TouchableOpacity>
+				<View style={styles.content}>
+					<Text style={styles.title}>Введите название группы</Text>
+					<TextInput
+						value={group}
+						onChangeText={group => setGroup(group)}
+						placeholder='Например ПИ-1-21-1'
+						style={styles.inputVuz}
+					/>
 				</View>
+				<TouchableOpacity
+					style={[
+						styles.container,
+						{ marginBottom: isOpenedKeyboard ? 0 : 10 }
+					]}
+					onPress={() => {
+						if (group !== '') {
+							writeToDatabase();
+							console.log(group);
+							setShowGroup(false);
+							setTimeout(() => {
+								navigation.navigate('Main');
+							}, 300);
+						}
+					}}>
+					<View style={changeButton}>
+						<Text style={changeBtnText}>Продолжить</Text>
+					</View>
+				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
 	);
@@ -115,12 +114,13 @@ const styles = StyleSheet.create({
 	},
 	con: {
 		backgroundColor: 'white',
-		padding: 10
+		paddingVertical: 20,
+		paddingHorizontal: 20,
+		flex: 1
 	},
-	conMain: {
-		alignSelf: 'center'
+	content: {
+		flex: 1
 	},
-	content: {},
 	title: {
 		color: '#1E1E1E',
 		fontSize: 27,

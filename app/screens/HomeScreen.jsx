@@ -3,19 +3,14 @@ import {
 	StyleSheet,
 	Dimensions,
 	SafeAreaView,
-	Button,
-	RefreshControl
+	Button
 } from 'react-native';
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import useAuth from '../hooks/useAuth';
 import { ScrollView } from 'react-native-gesture-handler';
 import Pairs from '../components/Pairs/Pairs';
 
-const { width, height } = Dimensions.get('screen');
-
-const wait = timeout => {
-	return new Promise(resolve => setTimeout(resolve, timeout));
-};
+const { width } = Dimensions.get('screen');
 
 const HomeScreen = () => {
 	const { user, signOut } = useAuth();
@@ -27,7 +22,6 @@ const HomeScreen = () => {
 					<Pairs />
 				</ScrollView>
 			</View>
-			<Button style={styles.btn} title='Sign out' onPress={signOut} />
 		</SafeAreaView>
 	);
 };

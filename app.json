@@ -6,6 +6,10 @@
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "automatic",
+		"packagerOpts": {
+			"config": "metro.config.js",
+			"sourceExts": ["js", "jsx", "json", "wasm", "svg", "ts", "tsx"]
+		},
 		"resolutions": {
 			"react-native-svg": "13.0.5"
 		},

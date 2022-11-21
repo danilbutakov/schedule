@@ -213,7 +213,8 @@ export default PairInfo;
 const styles = StyleSheet.create({
 	infoCon: {
 		backgroundColor: '#F7F7F7',
-		height
+		height,
+		paddingTop: 15
 	},
 	titles: {
 		marginBottom: 10,
