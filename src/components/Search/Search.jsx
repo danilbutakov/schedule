@@ -7,16 +7,26 @@ import { teachers } from '../../utils/Teachers';
 import search from '../../assets/search.svg';
 import deleteBtn from '../../assets/delete-btn.svg';
 import arrow from '../../assets/Arrow.svg';
+import SearchGroup from './SearchGroup';
+import SearchAudition from './SearchAudition';
+import SearchTeachers from './SearchTeachers';
+
 const Search = () => {
 	const [searchValue, setSearchValue] = useState('');
 	const [showGroups, setShowGroups] = useState(false);
 	const [showAudition, setShowAudition] = useState(false);
 	const [showTeachers, setShowTeachers] = useState(false);
+	
+	const [showSearch, setShowSearch] = useState(true);
+	const [showSearchGroup, setShowSearchGroup] = useState(false);
+	const [showSearchTeacher, setShowSearchTeacher] = useState(true);
+	const [showSearchAudition, setShowSearchAudition] = useState(true);
 
 	const onChangeSearchInput = (event) => {
 		setSearchValue(event.target.value);
 		setShowGroups(!showGroups);
 		setShowAudition(!showAudition);
+		setShowTeachers(!showTeachers);
 	};
 
 	useEffect(() => {
@@ -33,11 +43,13 @@ const Search = () => {
 
 	return (
 		<div className={styles.containerSearch}>
-			<div className={styles.titleCont}>
+			{showSearch && (
+				<>
+				<div className={styles.titleCont}>
 				<h1 className={styles.titleSearch}>Поиск</h1>
 			</div>
 			<div className={styles.searchCont}>
-				<div className={styles.searchBlock}>
+				<div className={styles.searchBlock}>    
 					<img src={search} alt='Search' />
 					<div className={styles.inputBlock}>
 						<input
@@ -62,7 +74,10 @@ const Search = () => {
 						group.name.toLowerCase().includes(searchValue.toLowerCase()),
 					)
 					.map((group, index) => (
-						<div key={index} className={styles.searchBlockInfo}>
+						<div onClick={() => {
+							setShowSearch(false);
+							setShowSearchGroup(true);
+						}} key={index} className={styles.searchBlockInfo}>
 							<div className={styles.searchCard}>
 								<div className={styles.searchCardText}>
 									<h2>{group.name}</h2>
@@ -111,7 +126,7 @@ const Search = () => {
 							</div>
 						</div>
 					))}
-			{showAudition &&
+			{showTeachers &&
 				teachers
 					.filter((teacher) =>
 						teacher.name
@@ -134,6 +149,13 @@ const Search = () => {
 							</div>
 						</div>
 					))}
+					
+				</>
+				
+			)}
+			{showSearchGroup && (<SearchGroup setShowSearch={setShowSearch} setShowSearchGroup={setShowSearchGroup}/>)}
+			{showSearchAudition && (<SearchAudition setShowSearch={setShowSearch} setShowSearchAudition={setShowSearchAudition}/>)}
+			{showSearchTeacher && (<SearchTeachers setShowSearch={setShowSearch} setShowSearchTeacher={setShowSearchTeacher}/>)}
 		</div>
 	);
 };
