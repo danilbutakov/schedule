@@ -6,7 +6,6 @@ import {
 	TouchableOpacity,
 	Dimensions,
 	KeyboardAvoidingView,
-	Platform,
 	Keyboard
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
@@ -18,13 +17,9 @@ import { ref, set } from 'firebase/database';
 
 const { height } = Dimensions.get('screen');
 
-const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
-	const { user } = useAuth();
-
+const GroupInfo = ({ group, setGroup, setShowGroup, setShowRole }) => {
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
-
-	const navigation = useNavigation();
 
 	useEffect(() => {
 		if (group !== '') {
@@ -46,29 +41,6 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 		setIsOpenKeyboard(false);
 	});
 
-	const writeToDatabase = () => {
-		set(ref(db, 'users/' + user.uid + '/'), {
-			univ: univ,
-			group: group
-		})
-			.then(() => {
-				//Data saved successfully
-				console.log('data wrote');
-				setUniv('');
-				setGroup('');
-			})
-			.catch(error => {
-				//The write failed
-				console.log(error);
-				setUniv('');
-				setGroup('');
-			});
-	};
-
-	useEffect(() => {
-		console.log(isOpenedKeyboard);
-	}, [isOpenedKeyboard]);
-
 	return (
 		<KeyboardAvoidingView style={styles.containerKeyboard}>
 			<View style={styles.con}>
@@ -88,12 +60,8 @@ const GroupInfo = ({ group, setGroup, univ, setUniv, setShowGroup }) => {
 					]}
 					onPress={() => {
 						if (group !== '') {
-							writeToDatabase();
-							console.log(group);
 							setShowGroup(false);
-							setTimeout(() => {
-								navigation.navigate('Main');
-							}, 300);
+							setShowRole(true);
 						}
 					}}>
 					<View style={changeButton}>

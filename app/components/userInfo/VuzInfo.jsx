@@ -60,7 +60,6 @@ const VuzInfo = ({ univ, setUniv, setShowUniv, setShowGroup }) => {
 						if (univ !== '') {
 							setShowUniv(false);
 							setShowGroup(true);
-							console.log(univ);
 						}
 					}}>
 					<View style={changeButton}>

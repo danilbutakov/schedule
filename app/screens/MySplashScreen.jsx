@@ -9,7 +9,7 @@ const MySplashScreen = ({ children }) => {
 
 	setTimeout(() => {
 		setLoading(true);
-	}, 2000);
+	}, 500);
 	return (
 		<AnimatedSplash
 			translucent={true}

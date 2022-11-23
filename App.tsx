@@ -13,6 +13,8 @@ import * as SplashScreen from 'expo-splash-screen';
 const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
 	const [handleClickPair, setHandleClickPair] = useState();
+	const [notes, setNotes] = useState([]);
+	const [notesDataScreen, setNotesDataScreen] = useState([]);
 
 	useEffect(() => {
 		async function prepare() {
@@ -55,7 +57,11 @@ const App = () => {
 			<AppContext.Provider
 				value={{
 					handleClickPair,
-					setHandleClickPair
+					setHandleClickPair,
+					notes,
+					setNotes,
+					notesDataScreen,
+					setNotesDataScreen
 				}}>
 				<AuthProvider>
 					<NavigationContainer>

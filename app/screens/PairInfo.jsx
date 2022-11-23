@@ -5,9 +5,9 @@ import {
 	StyleSheet,
 	Image,
 	TouchableOpacity,
-	SafeAreaView,
 	TextInput,
-	StatusBar
+	Keyboard,
+	TouchableWithoutFeedback
 } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../utils/Context';
@@ -21,15 +21,29 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const { height } = Dimensions.get('screen');
 
+const DismissKeyboardHOC = Comp => {
+	return ({ children, ...props }) => (
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+			<Comp {...props}>{children}</Comp>
+		</TouchableWithoutFeedback>
+	);
+};
+const DismissKeyboardView = DismissKeyboardHOC(View);
+
 const PairInfo = () => {
-	const { handleClickPair } = useContext(AppContext);
+	const {
+		handleClickPair,
+		notes,
+		setNotes,
+		setNotesDataScreen,
+		notesDataScreen
+	} = useContext(AppContext);
 
 	const [showNotes, setShowNotes] = useState(false);
 	const [showInfo, setShowInfo] = useState(true);
 
 	const { user } = useAuth();
 
-	const [notes, setNotes] = useState([]);
 	const [note, setNote] = useState('');
 
 	//for Notes
@@ -53,14 +67,16 @@ const PairInfo = () => {
 						handleClickPair.pair.name +
 						'/' +
 						handleClickPair.pair.group +
-						' group/'
+						` group/`
 				),
 				snapshot => {
 					setNotes([]);
+					setNotesDataScreen([]);
 					const data = snapshot.val();
 					if (data !== null) {
 						Object.values(data).map(note => {
 							setNotes(oldArray => [...oldArray, note]);
+							setNotesDataScreen(oldArray => [...oldArray, note]);
 						});
 					}
 				}
@@ -69,6 +85,8 @@ const PairInfo = () => {
 	}, []);
 
 	const createdAt = Date.now();
+
+	console.log(notesDataScreen);
 
 	//write to database
 	const writeToDataBase = () => {
@@ -91,10 +109,20 @@ const PairInfo = () => {
 					` group/${createdAt}`
 			),
 			{
-				note,
-				createdAt: createdAt
+				date: handleClickPair.pair.date,
+				createdAt: createdAt,
+				noteData: {
+					type: handleClickPair.pair.type,
+					name: handleClickPair.pair.name,
+					noteData1: {
+						dayOfWeek: handleClickPair.pair.dayOfWeek,
+						note,
+						group: handleClickPair.pair.group
+					}
+				}
 			}
 		);
+
 		//clear the input
 		setNote('');
 	};
@@ -122,8 +150,18 @@ const PairInfo = () => {
 		);
 	};
 
+	//Обработчик появления и исчезания клавиатуры
+	const [isOpenedKeyboard, setIsOpenKeyboard] = useState(false);
+
+	const keyboardShowListener = Keyboard.addListener('keyboardDidShow', () => {
+		setIsOpenKeyboard(true);
+	});
+	const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
+		setIsOpenKeyboard(false);
+	});
+
 	return (
-		<SafeAreaView>
+		<DismissKeyboardView style={styles.containerKeyboard}>
 			<View style={styles.infoCon}>
 				<View style={styles.titles}>
 					<Text style={styles.typeText}>
@@ -169,6 +207,7 @@ const PairInfo = () => {
 								style={styles.addNoteInput}
 								maxLength={100}
 								multiline={true}
+								keyboardType='text'
 							/>
 							<TouchableOpacity
 								onPress={() => {
@@ -186,10 +225,12 @@ const PairInfo = () => {
 				</View>
 				{showInfo && (
 					<ScrollView style={{ flex: 1, marginBottom: 110 }}>
-						{notes.map(note => (
-							<View style={styles.addInfoConNotes}>
+						{notes.map((note, key) => (
+							<View style={styles.addInfoConNotes} key={key}>
 								<View style={styles.inf}>
-									<Text style={styles.infText}>{note.note}</Text>
+									<Text style={styles.infText}>
+										{note.noteData.noteData1.note}
+									</Text>
 									<TouchableOpacity
 										onPress={() => handleDelete(note.createdAt)}>
 										<Image
@@ -204,7 +245,7 @@ const PairInfo = () => {
 					</ScrollView>
 				)}
 			</View>
-		</SafeAreaView>
+		</DismissKeyboardView>
 	);
 };
 

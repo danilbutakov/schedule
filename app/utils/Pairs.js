@@ -1,7 +1,7 @@
 export const pairs = [
 	{
 		dayOfWeek: 'Понедельник',
-		date: '1 сентября',
+		date: '1 Сентября',
 		timeStart: '08:30',
 		timeEnd: '10:00',
 		time: '08:30-10:00',
@@ -13,7 +13,7 @@ export const pairs = [
 	},
 	{
 		dayOfWeek: 'Понедельник',
-		date: '1 сентября',
+		date: '1 Сентября',
 		timeStart: '10:10',
 		timeEnd: '11:40',
 		type: 'Лекция',
@@ -24,7 +24,7 @@ export const pairs = [
 	},
 	{
 		dayOfWeek: 'Понедельник',
-		date: '1 сентября',
+		date: '1 Сентября',
 		timeStart: '12:10',
 		timeEnd: '13:40',
 		type: 'Практика',
@@ -35,7 +35,7 @@ export const pairs = [
 	},
 	{
 		dayOfWeek: 'Понедельник',
-		date: '1 сентября',
+		date: '25 Сентября',
 		timeStart: '13:50',
 		timeEnd: '15:20',
 		type: 'Лабораторная',
@@ -46,7 +46,7 @@ export const pairs = [
 	},
 	{
 		dayOfWeek: 'Понедельник',
-		date: '1 сентября',
+		date: '25 Сентября',
 		timeStart: '15:30',
 		timeEnd: '17:00',
 		type: 'Лабораторная',
@@ -57,7 +57,7 @@ export const pairs = [
 	},
 	{
 		dayOfWeek: 'Понедельник',
-		date: '1 сентября',
+		date: '2 Октября',
 		timeStart: '17:10',
 		timeEnd: '18:40',
 		type: 'Практика',
