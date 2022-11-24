@@ -2,13 +2,16 @@ import { View, Text, StyleSheet, Image, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ant from 'react-native-vector-icons/AntDesign';
+
+import Student from '../../assets/images/studentAvatar.svg';
+import Teacher from '../../assets/images/teacherAvatar.svg';
 import { db } from '../../firebase';
 
 import useAuth from '../hooks/useAuth';
-import { useNavigation } from '@react-navigation/native';
 
 const MenuScreen = () => {
 	const { signOut, user } = useAuth();
@@ -48,10 +51,8 @@ const MenuScreen = () => {
 							<Text style={styles.group}>{item.group}</Text>
 							<Text style={styles.univ}>{item.univ}</Text>
 						</View>
-						<Image
-							source={{ uri: user.photoURL }}
-							style={{ width: 55, height: 55, borderRadius: 50 }}
-						/>
+						{item.role === 'Студент' && <Student />}
+						{item.role === 'Преподователь' && <Teacher />}
 					</View>
 				</View>
 			))}

@@ -3,18 +3,14 @@ import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import auth from '@react-native-firebase/auth';
-
-import HomeScreen from './app/screens/HomeScreen';
-import MenuScreen from './app/screens/MenuScreen';
-
+import { useNavigation } from '@react-navigation/native';
+import { ref, onValue } from 'firebase/database';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import { images } from './assets/globalImages';
-
-import { useNavigation } from '@react-navigation/native';
-
-import { ref, onValue } from 'firebase/database';
+import HomeScreen from './app/screens/HomeScreen';
+import MenuScreen from './app/screens/MenuScreen';
 import { db } from './firebase';
 import Search from './app/screens/Search';
 import PairInfo from './app/screens/PairInfo';
@@ -29,8 +25,6 @@ const Stack = createStackNavigator();
 const { width } = Dimensions.get('screen');
 
 const HomeStack = () => {
-	// const authed = auth();
-	// const user = authed.currentUser;
 	const { user } = useAuth();
 	const [userData, setUserData] = useState();
 
@@ -136,8 +130,6 @@ const HomeStack = () => {
 };
 
 const MenuStack = () => {
-	// const authed = auth();
-	// const user = authed.currentUser;
 	const { user } = useAuth();
 	const [userData, setUserData] = useState();
 
@@ -149,7 +141,6 @@ const MenuStack = () => {
 			);
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
-
 				setUserData(data);
 			});
 		}
@@ -326,8 +317,6 @@ const NotesStack = () => {
 };
 
 const TabNavigator = () => {
-	// const authed = auth();
-	// const user = authed.currentUser;
 	const { user } = useAuth();
 
 	const [userData, setUserData] = useState();
@@ -345,8 +334,6 @@ const TabNavigator = () => {
 			});
 		}
 	}, [user]);
-
-	const navigation = useNavigation();
 
 	return (
 		<>

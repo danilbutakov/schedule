@@ -16,7 +16,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
 	// Set an initializing state whilst Firebase connects
 	const [initializing, setInitializing] = useState(true);
-	const [user, setUser] = useState();
+	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [userWithGoggle, setUserWithGoogle] = useState();
 
@@ -72,9 +72,10 @@ export const AuthProvider = ({ children }) => {
 		}
 
 		if (!userWithGoggle) {
-			auth()
-				.signOut()
-				.then(() => console.log('User signed out!'));
+			// Alert.alert('Ошибка входа в гугл');
+			// auth()
+			// 	.signOut()
+			// 	.then(() => console.log('User signed out!'));
 		}
 	};
 
@@ -82,6 +83,7 @@ export const AuthProvider = ({ children }) => {
 		() => ({
 			onGoogleButtonPress,
 			user,
+			setUser,
 			signOut,
 			loading
 		}),

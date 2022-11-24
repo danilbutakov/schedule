@@ -13,11 +13,12 @@ import useAuth from '../../hooks/useAuth';
 import { images } from '../../../assets/globalImages';
 import { TextInput } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
-	const { onGoogleButtonPress } = useAuth();
+	const { onGoogleButtonPress, setUser } = useAuth();
 	const [register, setRegister] = useState(false);
 
 	const [email, setEmail] = useState('');
@@ -27,65 +28,55 @@ const SheetAuth = () => {
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 
-	const signUp = async () => {
-		if (
-			email !== '' &&
-			password !== '' &&
-			passwordConfirm !== '' &&
-			password === passwordConfirm
-		) {
-			setIsError(false);
-			const regEmail = await auth().createUserWithEmailAndPassword(
-				email,
-				password,
-				passwordConfirm
-			);
-			regEmail
-				.then(() => {
-					console.log('Register successfully');
-					Alert.alert('Вы успешно зарегистрировались');
-				})
-				.catch(error => {
-					console.log(error);
-					Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
-				});
-		} else {
-			setIsError(true);
-		}
+	const navigation = useNavigation();
+
+	const signUp = () => {
+		auth()
+			.createUserWithEmailAndPassword(email, password, passwordConfirm)
+			.then(userCredential => {
+				const user = userCredential.user;
+				console.log('Register successfully');
+				Alert.alert('Вы успешно зарегистрировались');
+				console.log(user);
+			})
+			.catch(error => {
+				console.log(error);
+				Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
+			});
 	};
 
 	const signIn = () => {
-		try {
-			if (email !== '' && password !== '') {
-				auth()
-					.signInWithEmailAndPassword(email, password)
-					.then(() => {
-						console.log('Login successfully');
-						Alert.alert('Вы успешно вошли в аккаунт');
-					});
-				setIsError(false);
-			} else {
-				setIsError(true);
-			}
-		} catch (error) {
-			console.log(error);
-			console.log('Не удалось войти в аккаунт');
-		}
+		auth()
+			.signInWithEmailAndPassword(email, password)
+			.then(() => {
+				console.log('Login successfully');
+				Alert.alert('Вы успешно вошли в аккаунт');
+			})
+			.catch(error => {
+				console.log(error);
+				Alert.alert('Неверный email или пароль');
+			});
 	};
 
 	useEffect(() => {
 		if (password !== passwordConfirm) {
-			setTimeout(() => {
-				setIsErrorPassword(true);
-			}, 1000);
+			setIsErrorPassword(true);
 		}
 		if (password === passwordConfirm) {
 			setIsErrorPassword(false);
 		}
 		if (email === '') {
+			setTimeout(() => {
+				setIsError(true);
+			}, 4000);
+		}
+		if (email !== '') {
 			setIsError(false);
 		}
 	}, [password, passwordConfirm, email]);
+
+	console.log(isError);
+	console.log(isErrorPassword);
 
 	return (
 		<View>
@@ -128,9 +119,11 @@ const SheetAuth = () => {
 								secureTextEntry={true}
 								style={styles.inputVuz}
 							/>
-							<TouchableOpacity style={styles.signButton} onPress={signUp}>
-								<Text style={styles.signButtonText}>Зарегистрироваться</Text>
-							</TouchableOpacity>
+							{isError === false && isErrorPassword === false ? (
+								<TouchableOpacity style={styles.signButton} onPress={signUp}>
+									<Text style={styles.signButtonText}>Зарегистрироваться</Text>
+								</TouchableOpacity>
+							) : null}
 							{isErrorPassword && (
 								<Text style={styles.error}>Пароли не совпадают</Text>
 							)}
