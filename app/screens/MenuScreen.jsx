@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -63,9 +63,32 @@ const MenuScreen = () => {
 					}}>
 					<View style={styles.schedCon}>
 						<View style={styles.feather}>
-							<Feather name='clock' size={20} color='#1E1E1F' />
+							<Ant
+								style={{ padding: 7 }}
+								name='clockcircle'
+								size={15.5}
+								color='#81F2DE'
+							/>
 						</View>
 						<Text style={styles.schedText}>Расписание звонков</Text>
+					</View>
+					<Feather name='chevron-right' size={25} color='#AEAEB2' />
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.links}
+					onPress={() => {
+						// navigation.navigate('Links');
+					}}>
+					<View style={styles.linksCon}>
+						<View style={styles.feather}>
+							<Feather
+								style={{ padding: 7 }}
+								name='slack'
+								size={15.5}
+								color='#81F2DE'
+							/>
+						</View>
+						<Text style={styles.linksText}>Подписка Premium</Text>
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
 				</TouchableOpacity>
@@ -76,7 +99,12 @@ const MenuScreen = () => {
 					}}>
 					<View style={styles.linksCon}>
 						<View style={styles.feather}>
-							<Feather name='link' size={20} color='#1E1E1F' />
+							<Feather
+								style={{ padding: 7 }}
+								name='link'
+								size={15.5}
+								color='#81F2DE'
+							/>
 						</View>
 						<Text style={styles.linksText}>Полезные ссылки</Text>
 					</View>
@@ -85,17 +113,38 @@ const MenuScreen = () => {
 				<TouchableOpacity style={styles.faq}>
 					<View style={styles.faqCon}>
 						<View style={styles.feather}>
-							<Ant name='questioncircle' size={20} color='#FFFFFF' />
+							<Ant
+								style={{ padding: 7 }}
+								name='questioncircle'
+								size={15.5}
+								color='#81F2DE'
+							/>
 						</View>
 						<Text style={styles.faqText}>FAQ</Text>
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
 				</TouchableOpacity>
 			</View>
-			<TouchableOpacity style={styles.faq} onPress={signOut}>
+			<TouchableOpacity
+				style={styles.faq}
+				onPress={() => {
+					Alert.alert('Выйти?', 'Вы уверены, что хотите выйти из приложения', [
+						{
+							text: 'Отменить',
+							onPress: () => console.log('Cancel Pressed'),
+							style: 'cancel'
+						},
+						{ text: 'Выйти', onPress: () => signOut() }
+					]);
+				}}>
 				<View style={styles.faqCon}>
 					<View style={styles.feather}>
-						<Feather name='power' size={20} color='#1E1E1F' />
+						<Feather
+							style={{ padding: 7 }}
+							name='power'
+							size={15.5}
+							color='#81F2DE'
+						/>
 					</View>
 					<Text style={styles.faqText}>Выйти</Text>
 				</View>
@@ -121,23 +170,23 @@ const styles = StyleSheet.create({
 	infoUser: {},
 	role: {
 		fontFamily: 'Montserrat-SemiBold',
-		color: '#81F2DE',
-		fontSize: 15,
-		lineHeight: 18,
+		color: '#1E1E1F',
+		fontSize: 13,
+		lineHeight: 16,
 		marginBottom: 9
 	},
 	group: {
 		fontFamily: 'Montserrat-SemiBold',
 		color: '#1E1E1F',
-		fontSize: 18,
-		lineHeight: 22,
+		fontSize: 15,
+		lineHeight: 18,
 		marginBottom: 4
 	},
 	univ: {
 		fontFamily: 'Montserrat-SemiBold',
 		color: '#8E8E93',
-		fontSize: 18,
-		lineHeight: 22
+		fontSize: 15,
+		lineHeight: 18
 	},
 	mainCon: {
 		marginBottom: 20
@@ -180,8 +229,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	feather: {
-		backgroundColor: '#81F2DE',
-		padding: 5,
+		backgroundColor: '#1E1E1F',
 		borderRadius: 10,
 		marginRight: 15
 	},

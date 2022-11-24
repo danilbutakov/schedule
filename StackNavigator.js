@@ -258,7 +258,7 @@ const StackNavigator = () => {
 					/>
 				</>
 			)}
-			{user === null && (
+			{!user && userData === null && (
 				<>
 					<Stack.Screen
 						name='OnBoard'
