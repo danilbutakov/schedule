@@ -29,25 +29,10 @@ const SheetAuth = () => {
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 
-	const writeToDatabase = () => {
-		set(ref(db, 'users/' + user.uid), {
-			uid: user.uid
-		})
-			.then(() => {
-				//Data saved successfully
-				console.log('data wrote');
-			})
-			.catch(error => {
-				//The write failed
-				console.log(error);
-			});
-	};
-
 	const signUp = () => {
 		auth()
 			.createUserWithEmailAndPassword(email, password)
 			.then(() => {
-				writeToDatabase();
 				console.log('Register successfully');
 				Alert.alert('Вы успешно зарегистрировались');
 			})

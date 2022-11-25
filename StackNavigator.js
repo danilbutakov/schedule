@@ -21,16 +21,18 @@ const StackNavigator = () => {
 	const { user } = useAuth();
 
 	const [userData, setUserData] = useState();
-	const starCountRef = ref(db, 'users/' + `${user.uid}/` + 'userInfo');
 
 	useEffect(() => {
 		if (user) {
+			const starCountRef = ref(db, 'users/' + user.uid);
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 				setUserData(data);
 			});
 		}
-	}, [user, starCountRef]);
+	}, [user]);
+
+	console.log(userData);
 
 	const navigation = useNavigation();
 
@@ -40,7 +42,7 @@ const StackNavigator = () => {
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
 			<>
-				{user && userData === null && (
+				{userData === null && (
 					<Stack.Screen
 						name='UserData'
 						component={UserData}

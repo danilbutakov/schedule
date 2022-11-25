@@ -28,9 +28,12 @@ const HomeStack = () => {
 	const { user } = useAuth();
 	const [userData, setUserData] = useState();
 
-	const starCountRef = ref(db, 'users/' + `${user.uid}` + '/' + 'userInfo/');
 	useEffect(() => {
 		if (user) {
+			const starCountRef = ref(
+				db,
+				'users/' + `${user.uid}` + '/' + 'userInfo/'
+			);
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 
@@ -130,9 +133,12 @@ const MenuStack = () => {
 	const { user } = useAuth();
 	const [userData, setUserData] = useState();
 
-	const starCountRef = ref(db, 'users/' + `${user.uid}` + '/' + 'userInfo/');
 	useEffect(() => {
 		if (user) {
+			const starCountRef = ref(
+				db,
+				'users/' + `${user.uid}` + '/' + 'userInfo/'
+			);
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 				setUserData(data);
@@ -315,9 +321,9 @@ const TabNavigator = () => {
 
 	const [userData, setUserData] = useState();
 
-	const starCountRef = ref(db, 'users/' + `${user.uid}` + '/' + 'userInfo/');
 	useEffect(() => {
 		if (user) {
+			const starCountRef = ref(db, 'users/' + `${user.uid}` + '/' + 'userInfo');
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 
