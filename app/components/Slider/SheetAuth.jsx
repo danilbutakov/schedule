@@ -8,17 +8,18 @@ import {
 	Alert
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import useAuth from '../../hooks/useAuth';
-
-import { images } from '../../../assets/globalImages';
-import { TextInput } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
-import { useNavigation } from '@react-navigation/native';
+import { TextInput } from 'react-native-gesture-handler';
+import { db } from '../../../firebase';
+import { ref, set } from 'firebase/database';
+
+import useAuth from '../../hooks/useAuth';
+import { images } from '../../../assets/globalImages';
 
 const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
-	const { onGoogleButtonPress, setUser } = useAuth();
+	const { onGoogleButtonPress, user } = useAuth();
 	const [register, setRegister] = useState(false);
 
 	const [email, setEmail] = useState('');
@@ -28,22 +29,35 @@ const SheetAuth = () => {
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 
-	const navigation = useNavigation();
+	const writeToDatabase = () => {
+		set(ref(db, 'users/' + user.uid), {
+			uid: user.uid
+		})
+			.then(() => {
+				//Data saved successfully
+				console.log('data wrote');
+			})
+			.catch(error => {
+				//The write failed
+				console.log(error);
+			});
+	};
 
 	const signUp = () => {
 		auth()
-			.createUserWithEmailAndPassword(email, password, passwordConfirm)
-			.then(userCredential => {
-				const user = userCredential.user;
+			.createUserWithEmailAndPassword(email, password)
+			.then(() => {
+				writeToDatabase();
 				console.log('Register successfully');
 				Alert.alert('Вы успешно зарегистрировались');
-				console.log(user);
 			})
 			.catch(error => {
 				console.log(error);
 				Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
 			});
 	};
+
+	console.log(user);
 
 	const signIn = () => {
 		auth()
@@ -85,7 +99,10 @@ const SheetAuth = () => {
 					{register ? 'Регистрация' : 'Войти с помощью'}
 				</Text>
 				<TouchableOpacity style={styles.container}>
-					<TouchableOpacity onPress={onGoogleButtonPress}>
+					<TouchableOpacity
+						onPress={() => {
+							onGoogleButtonPress();
+						}}>
 						<View style={styles.conBtnActive}>
 							<Image source={images.google} />
 							<Text style={styles.btnTextActive}>Sign in with Google</Text>
@@ -174,6 +191,13 @@ const styles = StyleSheet.create({
 	conMain: {
 		flex: 1,
 		width
+	},
+	absolute: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
 	},
 	title: {
 		color: '#1E1E1F',

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ant from 'react-native-vector-icons/AntDesign';
+import { BlurView } from '@react-native-community/blur';
 
 import Student from '../../assets/images/studentAvatar.svg';
 import Teacher from '../../assets/images/teacherAvatar.svg';
@@ -15,11 +16,10 @@ import useAuth from '../hooks/useAuth';
 
 const MenuScreen = () => {
 	const { signOut, user } = useAuth();
-	// const authed = auth();
-	// const user = authed.currentUser;
 
 	const [menuItems, setMenuItems] = useState([]);
 	const navigation = useNavigation();
+	const [loading, setLoading] = useState(false);
 
 	//read from database
 	useEffect(() => {
@@ -36,13 +36,10 @@ const MenuScreen = () => {
 		}
 	}, []);
 
+	console.log(loading);
+
 	return (
-		<View
-			style={{
-				backgroundColor: '#F7F7F7',
-				height: '100%',
-				paddingHorizontal: 20
-			}}>
+		<View style={styles.mainContainer}>
 			{menuItems.map((item, key) => (
 				<View style={styles.infoCon} key={key}>
 					<View style={styles.infoMain}>
@@ -135,7 +132,13 @@ const MenuScreen = () => {
 							onPress: () => console.log('Cancel Pressed'),
 							style: 'cancel'
 						},
-						{ text: 'Выйти', onPress: () => signOut() }
+						{
+							text: 'Выйти',
+							onPress: () => {
+								setLoading(true);
+								signOut();
+							}
+						}
 					]);
 				}}>
 				<View style={styles.faqCon}>
@@ -151,6 +154,16 @@ const MenuScreen = () => {
 				</View>
 				<Feather name='chevron-right' size={25} color='#AEAEB2' />
 			</TouchableOpacity>
+			{loading ? (
+				<>
+					<BlurView style={styles.absolute} blurType='light' blurAmount={3} />
+					<ActivityIndicator
+						size='large'
+						color='#1E1E1F'
+						style={{ backgroundColor: '#F7F7F7' }}
+					/>
+				</>
+			) : null}
 		</View>
 	);
 };
@@ -158,6 +171,18 @@ const MenuScreen = () => {
 export default MenuScreen;
 
 const styles = StyleSheet.create({
+	mainContainer: {
+		backgroundColor: '#F7F7F7',
+		height: '100%',
+		paddingHorizontal: 20
+	},
+	absolute: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
+	},
 	infoCon: {
 		marginTop: 10,
 		marginBottom: 40
@@ -266,5 +291,13 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center'
+	},
+	loading: {
+		backgroundColor: '#ffffff10',
+		height: '100%',
+		paddingHorizontal: 20
+	},
+	blurredView: {
+		backgroundColor: '#F7F7F7'
 	}
 });

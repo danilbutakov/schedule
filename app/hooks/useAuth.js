@@ -72,10 +72,9 @@ export const AuthProvider = ({ children }) => {
 		}
 
 		if (!userWithGoggle) {
-			// Alert.alert('Ошибка входа в гугл');
-			// auth()
-			// 	.signOut()
-			// 	.then(() => console.log('User signed out!'));
+			auth()
+				.signOut()
+				.then(() => console.log('User signed out!'));
 		}
 	};
 
