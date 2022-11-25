@@ -88,7 +88,20 @@ const UserInfo = () => {
 												{
 													text: 'Изменить',
 													onPress: () => {
-														handleUpdateGroup(group);
+														if (group !== '') {
+															handleUpdateGroup(group);
+															if (handleUpdateGroup) {
+																Alert.alert('Вы успешно обновили группу');
+																setGroup('');
+															} else {
+																Alert.alert('Не удалось обновить группу');
+															}
+														} else {
+															Alert.alert(
+																'Поле группы пустое.',
+																'Пожалуйста введите значение чтобы изменить данные'
+															);
+														}
 													}
 												}
 											]
@@ -121,7 +134,20 @@ const UserInfo = () => {
 												{
 													text: 'Изменить',
 													onPress: () => {
-														handleUpdateUniv(univ);
+														if (univ !== '') {
+															handleUpdateUniv(univ);
+															if (handleUpdateGroup) {
+																Alert.alert('Вы успешно обновили ВУЗ');
+																setUniv('');
+															} else {
+																Alert.alert('Не удалось обновить ВУЗ');
+															}
+														} else {
+															Alert.alert(
+																'Поле ВУЗа пустое.',
+																'Пожалуйста введите значение чтобы изменить данные'
+															);
+														}
 													}
 												}
 											]
