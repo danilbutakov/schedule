@@ -30,6 +30,16 @@ const NotesScreen = () => {
 							<Button title='Press' onPress={() => console.log(note1)} />
 						</View>
 					))} */}
+					<Text
+						style={{
+							fontFamily: 'Montserrat-SemiBold',
+							fontSize: 15,
+							lineHeight: 20,
+							marginTop: 20,
+							paddingHorizontal: 20
+						}}>
+						В скором будущем
+					</Text>
 				</ScrollView>
 			) : (
 				<Text>Заметок нет</Text>

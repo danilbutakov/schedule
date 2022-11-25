@@ -42,7 +42,7 @@ const StackNavigator = () => {
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
 			<>
-				{userData === null && (
+				{(userData === null || undefined) && (
 					<Stack.Screen
 						name='UserData'
 						component={UserData}
@@ -176,6 +176,129 @@ const StackNavigator = () => {
 													paddingLeft: 10
 												}}>
 												Профиль
+											</Text>
+										</View>
+									</TouchableOpacity>
+								)
+							}}
+						/>
+						<Stack.Screen
+							name='UserInfo'
+							component={TabNavigator}
+							options={{
+								header: () => (
+									<TouchableOpacity
+										onPress={() => navigation.navigate('MenuScreen')}>
+										<View
+											style={{
+												backgroundColor: '#F7F7F7',
+												borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+												borderBottomWidth: 1,
+												marginTop: 10,
+												paddingBottom: 10,
+												paddingLeft: 20,
+												display: 'flex',
+												flexDirection: 'row',
+												alignItems: 'center'
+											}}>
+											<Image
+												source={images.arrowLeft}
+												style={{
+													width: 10,
+													height: 20
+												}}
+											/>
+											<Text
+												style={{
+													fontFamily: 'Montserrat-SemiBold',
+													fontSize: 17,
+													lineHeight: 25,
+													color: '1E1E1F',
+													paddingLeft: 10
+												}}>
+												Изменить профиль
+											</Text>
+										</View>
+									</TouchableOpacity>
+								)
+							}}
+						/>
+						<Stack.Screen
+							name='Premium'
+							component={TabNavigator}
+							options={{
+								header: () => (
+									<TouchableOpacity
+										onPress={() => navigation.navigate('MenuScreen')}>
+										<View
+											style={{
+												backgroundColor: '#F7F7F7',
+												borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+												borderBottomWidth: 1,
+												marginTop: 10,
+												paddingBottom: 10,
+												paddingLeft: 20,
+												display: 'flex',
+												flexDirection: 'row',
+												alignItems: 'center'
+											}}>
+											<Image
+												source={images.arrowLeft}
+												style={{
+													width: 10,
+													height: 20
+												}}
+											/>
+											<Text
+												style={{
+													fontFamily: 'Montserrat-SemiBold',
+													fontSize: 17,
+													lineHeight: 25,
+													color: '1E1E1F',
+													paddingLeft: 10
+												}}>
+												Schedule Premium
+											</Text>
+										</View>
+									</TouchableOpacity>
+								)
+							}}
+						/>
+						<Stack.Screen
+							name='FAQ'
+							component={TabNavigator}
+							options={{
+								header: () => (
+									<TouchableOpacity
+										onPress={() => navigation.navigate('MenuScreen')}>
+										<View
+											style={{
+												backgroundColor: '#F7F7F7',
+												borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+												borderBottomWidth: 1,
+												marginTop: 10,
+												paddingBottom: 10,
+												paddingLeft: 20,
+												display: 'flex',
+												flexDirection: 'row',
+												alignItems: 'center'
+											}}>
+											<Image
+												source={images.arrowLeft}
+												style={{
+													width: 10,
+													height: 20
+												}}
+											/>
+											<Text
+												style={{
+													fontFamily: 'Montserrat-SemiBold',
+													fontSize: 17,
+													lineHeight: 25,
+													color: '1E1E1F',
+													paddingLeft: 10
+												}}>
+												FAQ
 											</Text>
 										</View>
 									</TouchableOpacity>

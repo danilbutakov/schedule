@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	Alert,
+	ActivityIndicator,
+	Linking
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -36,12 +43,13 @@ const MenuScreen = () => {
 		}
 	}, []);
 
-	console.log(loading);
-
 	return (
 		<View style={styles.mainContainer}>
 			{menuItems.map((item, key) => (
-				<View style={styles.infoCon} key={key}>
+				<TouchableOpacity
+					style={styles.infoCon}
+					key={key}
+					onPress={() => navigation.navigate('UserInfo')}>
 					<View style={styles.infoMain}>
 						<View style={styles.infoUser}>
 							<Text style={styles.role}>{item.role}</Text>
@@ -51,7 +59,7 @@ const MenuScreen = () => {
 						{item.role === 'Студент' && <Student />}
 						{item.role === 'Преподователь' && <Teacher />}
 					</View>
-				</View>
+				</TouchableOpacity>
 			))}
 			<View style={styles.mainCon}>
 				<TouchableOpacity
@@ -75,7 +83,7 @@ const MenuScreen = () => {
 				<TouchableOpacity
 					style={styles.links}
 					onPress={() => {
-						// navigation.navigate('Links');
+						navigation.navigate('Premium');
 					}}>
 					<View style={styles.linksCon}>
 						<View style={styles.feather}>
@@ -108,7 +116,11 @@ const MenuScreen = () => {
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.faq}>
+				<TouchableOpacity
+					style={styles.faq}
+					onPress={() => {
+						navigation.navigate('FAQ');
+					}}>
 					<View style={styles.faqCon}>
 						<View style={styles.feather}>
 							<Ant

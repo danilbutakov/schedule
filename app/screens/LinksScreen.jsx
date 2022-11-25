@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, Linking } from 'react-native';
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
@@ -20,14 +20,22 @@ const LinksScreen = () => {
 				backgroundColor: '#F7F7F7'
 			}}>
 			<Text style={styles.mainTitle}>Социальные сети</Text>
-			<TouchableOpacity style={styles.timeCon}>
+			<TouchableOpacity
+				style={styles.timeCon}
+				onPress={() => {
+					Linking.openURL('https://vk.com/dbutakov1');
+				}}>
 				<View style={styles.mainCon}>
 					<Vk style={{ width: 30, height: 30 }} />
 					<Text style={styles.timeText}>Вконтакте</Text>
 				</View>
 				<Feather name='chevron-right' size={25} color='#AEAEB2' />
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.timeCon}>
+			<TouchableOpacity
+				style={styles.timeCon}
+				onPress={() => {
+					Linking.openURL('https://t.me/danil_butakov');
+				}}>
 				<View style={styles.mainCon}>
 					<Telega style={{ width: 30, height: 30 }} />
 					<Text style={styles.timeText}>Telegram</Text>
@@ -35,14 +43,22 @@ const LinksScreen = () => {
 				<Feather name='chevron-right' size={25} color='#AEAEB2' />
 			</TouchableOpacity>
 			<Text style={styles.secondTitle}>Сервисы университета</Text>
-			<TouchableOpacity style={styles.timeCon}>
+			<TouchableOpacity
+				style={styles.timeCon}
+				onPress={() => {
+					Linking.openURL('https://www.irgups.ru/');
+				}}>
 				<View style={styles.mainCon}>
 					<Site style={{ width: 30, height: 30 }} />
 					<Text style={styles.timeText}>Сайт ИрГУПС</Text>
 				</View>
 				<Feather name='chevron-right' size={25} color='#AEAEB2' />
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.timeCon}>
+			<TouchableOpacity
+				style={styles.timeCon}
+				onPress={() => {
+					Linking.openURL('https://www.irgups.ru/jirbis2/');
+				}}>
 				<View style={styles.mainCon}>
 					<Bibl style={{ width: 30, height: 30 }} />
 					<Text style={styles.timeText}>Библиотека ИрГУПС</Text>
