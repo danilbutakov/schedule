@@ -20,7 +20,7 @@ const { width } = Dimensions.get('screen');
 const StackNavigator = () => {
 	const { user } = useAuth();
 
-	const [userData, setUserData] = useState();
+	const [userData, setUserData] = useState(null);
 
 	useEffect(() => {
 		if (user) {
