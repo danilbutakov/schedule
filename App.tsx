@@ -5,6 +5,7 @@ import { AuthProvider } from './app/hooks/useAuth';
 import { LogBox, View, StatusBar } from 'react-native';
 
 import AppContext from './app/utils/Context';
+import useAuth from './app/hooks/useAuth.js';
 
 import 'expo-dev-client';
 import { useFonts } from './app/hooks/useFonts';
@@ -15,6 +16,8 @@ const App = () => {
 	const [handleClickPair, setHandleClickPair] = useState();
 	const [notes, setNotes] = useState([]);
 	const [notesDataScreen, setNotesDataScreen] = useState([]);
+
+	const { user } = useAuth();
 
 	useEffect(() => {
 		async function prepare() {

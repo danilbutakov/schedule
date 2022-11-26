@@ -53,6 +53,8 @@ export const AuthProvider = ({ children }) => {
 			.then(user => {
 				Alert.alert(user);
 				setUserWithGoogle(userSignIn);
+				console.log(userSignIn);
+				setUser(userSignIn);
 			})
 			.catch(error => {
 				Alert.alert(error.message);
@@ -71,11 +73,11 @@ export const AuthProvider = ({ children }) => {
 			setLoading(false);
 		}
 
-		if (!userWithGoggle) {
-			auth()
-				.signOut()
-				.then(() => console.log('User signed out!'));
-		}
+		// if (!userWithGoggle) {
+		// 	auth()
+		// 		.signOut()
+		// 		.then(() => console.log('User signed out!'));
+		// }
 	};
 
 	const memoedValue = useMemo(

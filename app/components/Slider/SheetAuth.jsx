@@ -60,10 +60,7 @@ const SheetAuth = () => {
 				console.log(error);
 				Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
 			});
-		writeToDatabase();
 	};
-
-	console.log(user);
 
 	const signIn = () => {
 		auth()
