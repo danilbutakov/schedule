@@ -73,11 +73,11 @@ export const AuthProvider = ({ children }) => {
 			setLoading(false);
 		}
 
-		// if (!userWithGoggle) {
-		// 	auth()
-		// 		.signOut()
-		// 		.then(() => console.log('User signed out!'));
-		// }
+		if (!userWithGoggle) {
+			auth()
+				.signOut()
+				.then(() => console.log('User signed out!'));
+		}
 	};
 
 	const memoedValue = useMemo(

@@ -10,8 +10,6 @@ import {
 import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 import { TextInput } from 'react-native-gesture-handler';
-import { db } from '../../../firebase';
-import { ref, set } from 'firebase/database';
 
 import useAuth from '../../hooks/useAuth';
 import { images } from '../../../assets/globalImages';
@@ -19,8 +17,9 @@ import { images } from '../../../assets/globalImages';
 const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
-	const { onGoogleButtonPress, user } = useAuth();
+	const { onGoogleButtonPress, setUser } = useAuth();
 	const [register, setRegister] = useState(false);
+	const [userWithEmail, setUserWithEmail] = useState();
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -29,30 +28,12 @@ const SheetAuth = () => {
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 
-	const writeToDatabase = () => {
-		set(ref(db, 'users/' + email + '/userEmail'), {
-			email: email
-		})
+	const signUp = () => {
+		const userSignUp = auth().createUserWithEmailAndPassword(email, password);
+		userSignUp
 			.then(() => {
-				//Data saved successfully
-				console.log('data wrote');
-				setUniv('');
-				setGroup('');
-				setRole('');
-			})
-			.catch(error => {
-				//The write failed
-				console.log(error);
-				setUniv('');
-				setGroup('');
-				setRole('');
-			});
-	};
-
-	const signUp = async () => {
-		await auth()
-			.createUserWithEmailAndPassword(email, password)
-			.then(() => {
+				setUserWithEmail(userSignUp);
+				setUser(userSignUp);
 				console.log('Register successfully');
 				Alert.alert('Вы успешно зарегистрировались');
 			})
@@ -66,6 +47,7 @@ const SheetAuth = () => {
 		auth()
 			.signInWithEmailAndPassword(email, password)
 			.then(() => {
+				setUser();
 				console.log('Login successfully');
 				Alert.alert('Вы успешно вошли в аккаунт');
 			})
@@ -91,9 +73,6 @@ const SheetAuth = () => {
 			setIsError(false);
 		}
 	}, [password, passwordConfirm, email]);
-
-	console.log(isError);
-	console.log(isErrorPassword);
 
 	return (
 		<View>
