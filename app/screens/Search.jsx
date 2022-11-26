@@ -19,7 +19,7 @@ import Arrow from '../../assets/svgUtils/Arrow.svg';
 import SearchImg from '../../assets/svgUtils/search.svg';
 import Delete from '../../assets/svgUtils/delete.svg';
 
-const {height} = Dimensions.get('screen')
+const { height } = Dimensions.get('screen');
 
 const Search = () => {
 	const [searchValue, setSearchValue] = useState('');
@@ -50,18 +50,25 @@ const Search = () => {
 				<>
 					<View style={styles.searchCont}>
 						<View style={styles.searchBlock}>
-							<SearchImg width={12} height={12} />
 							<View style={styles.inputBlock}>
-								<TextInput style={styles.inputText}
-									onChangeText={text => {
-										setSearchValue(text);
-										setShowGroups(!showGroups);
-										setShowAudition(!showAudition);
-										setShowTeachers(!showTeachers);
-									}}
-									value={searchValue}
-									placeholder='Поиск'
-								/>
+								<View style={styles.leftBlock}>
+									<SearchImg
+										width={12}
+										height={12}
+										style={{ marginRight: 13 }}
+									/>
+									<TextInput
+										style={styles.inputText}
+										onChangeText={text => {
+											setSearchValue(text);
+											setShowGroups(!showGroups);
+											setShowAudition(!showAudition);
+											setShowTeachers(!showTeachers);
+										}}
+										value={searchValue}
+										placeholder='Поиск'
+									/>
+								</View>
 								{searchValue && (
 									<TouchableOpacity onPress={() => setSearchValue('')}>
 										<Delete width={17} height={17} />
@@ -100,7 +107,14 @@ const Search = () => {
 					) : (
 						<View style={styles.infoAboutSearchCont}>
 							<View style={styles.infoAboutSearch}>
-								<Text style={{color: 'rgba(60, 60, 67, 0.6)', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'center'}} >
+								<Text
+									style={{
+										color: 'rgba(60, 60, 67, 0.6)',
+										textAlign: 'center',
+										alignItems: 'center',
+										display: 'flex',
+										justifyContent: 'center'
+									}}>
 									Находите информацию о расписании преподавателей, группах и
 									аудиториях
 								</Text>
@@ -189,50 +203,54 @@ const Search = () => {
 
 const styles = StyleSheet.create({
 	containerSearch: {
-		width: '100%',
-		height,
 		backgroundColor: '#F7F7F7',
-		alignItems: 'center'
+		alignItems: 'center',
+		paddingHorizontal: 12,
+		height,
+		flex: 1
 	},
 	searchCont: {
 		marginTop: 10,
-		paddingLeft: 12,
-		paddingRight: 12,
-		paddingBottom: 10
+		width: '100%'
 	},
 	searchBlock: {
 		borderRadius: 16,
 		backgroundColor: '#e5e5ea',
 		alignItems: 'center',
-		gap: 8
+		display: 'flex',
+		flexDirection: 'row',
+		width: '100%',
+		paddingVertical: 5,
+		paddingHorizontal: 12
+	},
+	leftBlock: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center'
 	},
 	inputBlock: {
-		width: '100%',
 		display: 'flex',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		width: '100%'
 	},
 	inputText: {
-		width: '100%',
 		fontSize: 16,
+		fontFamily: 'Montserrat-Medium',
+		lineHeight: 20,
+		width: '80%'
 	},
 	searchBlockInfo: {},
 	searchCard: {},
 	searchCardText: {},
 	arrow: {},
 	infoAboutSearchCont: {
-		//padding: 20,
+		flex: 1,
 		display: 'flex',
-		justifyContent: 'center',
-		height: '100%',
-		alignItems: 'center'
-		
+		justifyContent: 'center'
 	},
-	infoAboutSearch: {
-		//display: 'flex',
-		//alignItems: 'center',
-		height: '100%',
-		//justifyContent: 'center',
-	}
+	infoAboutSearch: {}
 });
 
 export default Search;
