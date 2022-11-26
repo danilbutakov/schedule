@@ -2,10 +2,10 @@ import React from 'react';
 import {
 	View,
 	Text,
-	Image,
 	StyleSheet,
 	TouchableOpacity,
-	TextInput
+	TextInput,
+	Dimensions
 } from 'react-native';
 import { useState, useEffect } from 'react';
 
@@ -18,6 +18,8 @@ import SearchTeachers from '../components/Search/SearchTeachers';
 import Arrow from '../../assets/svgUtils/Arrow.svg';
 import SearchImg from '../../assets/svgUtils/search.svg';
 import Delete from '../../assets/svgUtils/delete.svg';
+
+const {height} = Dimensions.get('screen')
 
 const Search = () => {
 	const [searchValue, setSearchValue] = useState('');
@@ -46,14 +48,11 @@ const Search = () => {
 		<View style={styles.containerSearch}>
 			{showSearch && (
 				<>
-					<View style={styles.titleCont}>
-						<Text style={styles.titleSearch}>Поиск</Text>
-					</View>
 					<View style={styles.searchCont}>
 						<View style={styles.searchBlock}>
 							<SearchImg width={12} height={12} />
 							<View style={styles.inputBlock}>
-								<TextInput
+								<TextInput style={styles.inputText}
 									onChangeText={text => {
 										setSearchValue(text);
 										setShowGroups(!showGroups);
@@ -101,8 +100,8 @@ const Search = () => {
 					) : (
 						<View style={styles.infoAboutSearchCont}>
 							<View style={styles.infoAboutSearch}>
-								<Text>
-									Находите информацию о расписаниях преподавателей, группах и
+								<Text style={{color: 'rgba(60, 60, 67, 0.6)', textAlign: 'center', alignItems: 'center', display: 'flex', justifyContent: 'center'}} >
+									Находите информацию о расписании преподавателей, группах и
 									аудиториях
 								</Text>
 							</View>
@@ -189,18 +188,51 @@ const Search = () => {
 };
 
 const styles = StyleSheet.create({
-	containerSearch: {},
-	titleCont: {},
-	titleSearch: {},
-	searchCont: {},
-	searchBlock: {},
-	inputBlock: {},
+	containerSearch: {
+		width: '100%',
+		height,
+		backgroundColor: '#F7F7F7',
+		alignItems: 'center'
+	},
+	searchCont: {
+		marginTop: 10,
+		paddingLeft: 12,
+		paddingRight: 12,
+		paddingBottom: 10
+	},
+	searchBlock: {
+		borderRadius: 16,
+		backgroundColor: '#e5e5ea',
+		alignItems: 'center',
+		gap: 8
+	},
+	inputBlock: {
+		width: '100%',
+		display: 'flex',
+		flexDirection: 'row'
+	},
+	inputText: {
+		width: '100%',
+		fontSize: 16,
+	},
 	searchBlockInfo: {},
 	searchCard: {},
 	searchCardText: {},
 	arrow: {},
-	infoAboutSearchCont: {},
-	infoAboutSearch: {}
+	infoAboutSearchCont: {
+		//padding: 20,
+		display: 'flex',
+		justifyContent: 'center',
+		height: '100%',
+		alignItems: 'center'
+		
+	},
+	infoAboutSearch: {
+		//display: 'flex',
+		//alignItems: 'center',
+		height: '100%',
+		//justifyContent: 'center',
+	}
 });
 
 export default Search;
