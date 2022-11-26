@@ -76,6 +76,9 @@ const Search = () => {
 								)}
 							</View>
 						</View>
+						{(showGroups || showAudition || showTeachers) && (
+							<View style={styles.downLine}></View>
+						)}
 					</View>
 					{showGroups ? (
 						groups
@@ -102,6 +105,7 @@ const Search = () => {
 											<Arrow width={11.14} height={6.41} />
 										</View>
 									</View>
+									<View style={styles.downLine}></View>
 								</TouchableOpacity>
 							))
 					) : (
@@ -149,6 +153,7 @@ const Search = () => {
 											<Arrow width={11.14} height={6.41} />
 										</View>
 									</View>
+									<View style={styles.downLine}></View>
 								</TouchableOpacity>
 							))}
 					{showTeachers &&
@@ -175,6 +180,7 @@ const Search = () => {
 											<Arrow width={11.14} height={6.41} />
 										</View>
 									</View>
+									<View style={styles.downLine}></View>
 								</TouchableOpacity>
 							))}
 				</>
@@ -213,6 +219,10 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		width: '100%'
 	},
+	downLine: {
+		borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+		borderBottomWidth: 1
+	},
 	searchBlock: {
 		borderRadius: 16,
 		backgroundColor: '#e5e5ea',
@@ -221,7 +231,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		width: '100%',
 		paddingVertical: 5,
-		paddingHorizontal: 12
+		paddingHorizontal: 12,
+		marginBottom: 20
 	},
 	leftBlock: {
 		display: 'flex',
