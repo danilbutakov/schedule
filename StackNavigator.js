@@ -42,7 +42,7 @@ const StackNavigator = () => {
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
 			<>
-				{(userData === null || undefined) && (
+				{user && userData === null && (
 					<Stack.Screen
 						name='UserData'
 						component={UserData}

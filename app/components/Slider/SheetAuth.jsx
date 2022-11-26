@@ -29,8 +29,28 @@ const SheetAuth = () => {
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 
-	const signUp = () => {
-		auth()
+	const writeToDatabase = () => {
+		set(ref(db, 'users/' + email + '/userEmail'), {
+			email: email
+		})
+			.then(() => {
+				//Data saved successfully
+				console.log('data wrote');
+				setUniv('');
+				setGroup('');
+				setRole('');
+			})
+			.catch(error => {
+				//The write failed
+				console.log(error);
+				setUniv('');
+				setGroup('');
+				setRole('');
+			});
+	};
+
+	const signUp = async () => {
+		await auth()
 			.createUserWithEmailAndPassword(email, password)
 			.then(() => {
 				console.log('Register successfully');
@@ -40,6 +60,7 @@ const SheetAuth = () => {
 				console.log(error);
 				Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
 			});
+		writeToDatabase();
 	};
 
 	console.log(user);
