@@ -51,13 +51,12 @@ export const AuthProvider = ({ children }) => {
 		const userSignIn = auth().signInWithCredential(googleCredential);
 		userSignIn
 			.then(user => {
-				Alert.alert(user);
 				setUserWithGoogle(userSignIn);
-				console.log(userSignIn);
-				setUser(userSignIn);
+				console.log(user);
 			})
 			.catch(error => {
 				Alert.alert(error.message);
+				console.log('error');
 			})
 			.finally(() => setLoading(false));
 	};
@@ -67,8 +66,9 @@ export const AuthProvider = ({ children }) => {
 		try {
 			await GoogleSignin.revokeAccess();
 			await auth().signOut();
+			console.log(exit);
 		} catch (error) {
-			console.log(error.message);
+			console.log(error.message, 'exitGoogle not work');
 		} finally {
 			setLoading(false);
 		}
