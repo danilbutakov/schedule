@@ -313,7 +313,7 @@ const StackNavigator = () => {
 							}}
 						/>
 						<Stack.Screen
-							name='SearchStack'
+							name='SearchScreen'
 							component={TabNavigator}
 							options={{
 								header: () => (
@@ -342,6 +342,129 @@ const StackNavigator = () => {
 											Поиск
 										</Text>
 									</View>
+								)
+							}}
+						/>
+						<Stack.Screen
+							name='SearchGroupScreen'
+							component={TabNavigator}
+							options={{
+								header: () => (
+									<TouchableOpacity
+										onPress={() => navigation.navigate('SearchScreen')}>
+										<View
+											style={{
+												backgroundColor: '#F7F7F7',
+												borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+												borderBottomWidth: 1,
+												marginTop: 10,
+												paddingBottom: 10,
+												paddingLeft: 20,
+												display: 'flex',
+												flexDirection: 'row',
+												alignItems: 'center'
+											}}>
+											<Image
+												source={images.arrowLeft}
+												style={{
+													width: 10,
+													height: 20
+												}}
+											/>
+											<Text
+												style={{
+													fontFamily: 'Montserrat-SemiBold',
+													fontSize: 17,
+													lineHeight: 25,
+													color: '1E1E1F',
+													paddingLeft: 10
+												}}>
+												Группа
+											</Text>
+										</View>
+									</TouchableOpacity>
+								)
+							}}
+						/>
+						<Stack.Screen
+							name='SearchAuditionScreen'
+							component={TabNavigator}
+							options={{
+								header: () => (
+									<TouchableOpacity
+										onPress={() => navigation.navigate('SearchScreen')}>
+										<View
+											style={{
+												backgroundColor: '#F7F7F7',
+												borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+												borderBottomWidth: 1,
+												marginTop: 10,
+												paddingBottom: 10,
+												paddingLeft: 20,
+												display: 'flex',
+												flexDirection: 'row',
+												alignItems: 'center'
+											}}>
+											<Image
+												source={images.arrowLeft}
+												style={{
+													width: 10,
+													height: 20
+												}}
+											/>
+											<Text
+												style={{
+													fontFamily: 'Montserrat-SemiBold',
+													fontSize: 17,
+													lineHeight: 25,
+													color: '1E1E1F',
+													paddingLeft: 10
+												}}>
+												Аудитория
+											</Text>
+										</View>
+									</TouchableOpacity>
+								)
+							}}
+						/>
+						<Stack.Screen
+							name='SearchTeachersScreen'
+							component={TabNavigator}
+							options={{
+								header: () => (
+									<TouchableOpacity
+										onPress={() => navigation.navigate('SearchScreen')}>
+										<View
+											style={{
+												backgroundColor: '#F7F7F7',
+												borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+												borderBottomWidth: 1,
+												marginTop: 10,
+												paddingBottom: 10,
+												paddingLeft: 20,
+												display: 'flex',
+												flexDirection: 'row',
+												alignItems: 'center'
+											}}>
+											<Image
+												source={images.arrowLeft}
+												style={{
+													width: 10,
+													height: 20
+												}}
+											/>
+											<Text
+												style={{
+													fontFamily: 'Montserrat-SemiBold',
+													fontSize: 17,
+													lineHeight: 25,
+													color: '1E1E1F',
+													paddingLeft: 10
+												}}>
+												Преподователь
+											</Text>
+										</View>
+									</TouchableOpacity>
 								)
 							}}
 						/>
