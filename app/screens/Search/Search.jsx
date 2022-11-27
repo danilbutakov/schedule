@@ -13,9 +13,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { groups } from '../../utils/Groups';
 import { audition } from '../../utils/Audition';
 import { teachers } from '../../utils/Teachers';
-import Arrow from '../../assets/svgUtils/Arrow.svg';
-import SearchImg from '../../assets/svgUtils/search.svg';
-import Delete from '../../assets/svgUtils/delete.svg';
+import Arrow from '../../../assets/svgUtils/Arrow.svg';
+import SearchImg from '../../../assets/svgUtils/search.svg';
+import Delete from '../../../assets/svgUtils/delete.svg';
 import { useNavigation } from '@react-navigation/native';
 
 const { height } = Dimensions.get('screen');

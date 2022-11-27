@@ -7,7 +7,8 @@ import {
 	TouchableOpacity,
 	TextInput,
 	Keyboard,
-	TouchableWithoutFeedback
+	TouchableWithoutFeedback,
+	Alert
 } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
 import AppContext from '../../utils/Context';
@@ -85,8 +86,6 @@ const PairInfo = () => {
 	}, []);
 
 	const createdAt = Date.now();
-
-	console.log(notesDataScreen);
 
 	//write to database
 	const writeToDataBase = () => {
@@ -232,7 +231,25 @@ const PairInfo = () => {
 										{note.noteData.noteData1.note}
 									</Text>
 									<TouchableOpacity
-										onPress={() => handleDelete(note.createdAt)}>
+										onPress={() => {
+											Alert.alert(
+												'Удалить заметку?',
+												'Вы действительно хотите удалить заметку?',
+												[
+													{
+														text: 'Отменить',
+														onPress: () => console.log('Cancel Pressed'),
+														style: 'cancel'
+													},
+													{
+														text: 'Удалить',
+														onPress: () => {
+															handleDelete(note.createdAt);
+														}
+													}
+												]
+											);
+										}}>
 										<Image
 											source={images.deleteNote}
 											style={{ width: 20, height: 20 }}

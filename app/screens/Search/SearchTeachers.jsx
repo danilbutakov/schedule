@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Teachers from '../../assets/svgUtils/Teachers.svg';
+import Teachers from '../../../assets/svgUtils/Teachers.svg';
 
 const SearchTeachers = () => {
 	return (

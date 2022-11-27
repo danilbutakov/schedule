@@ -20,7 +20,6 @@ const UserInfo = () => {
 	const { user } = useAuth();
 	const [group, setGroup] = useState('');
 	const [univ, setUniv] = useState('');
-	const [role, setRole] = useState('');
 
 	const [menuItems, setMenuItems] = useState([]);
 
@@ -49,8 +48,6 @@ const UserInfo = () => {
 			univ: univ
 		});
 	};
-
-	console.log(menuItems);
 
 	return (
 		<View
