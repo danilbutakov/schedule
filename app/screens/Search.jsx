@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		paddingVertical: 5,
 		paddingHorizontal: 12,
-		marginBottom: 20
+		marginBottom: 5
 	},
 	leftBlock: {
 		display: 'flex',
