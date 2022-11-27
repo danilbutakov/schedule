@@ -21,6 +21,7 @@ import SchedScreen from './app/screens/SchedScreen';
 import UserInfo from './app/screens/UserInfo';
 import PremiumScreen from './app/screens/PremiumScreen';
 import FAQScreen from './app/screens/FAQScreen';
+import UserData from './app/screens/UserData';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -29,28 +30,34 @@ const { width } = Dimensions.get('screen');
 
 const HomeStack = () => {
 	const { user } = useAuth();
-	const [userData, setUserData] = useState();
+	const [userData, setUserData] = useState(null);
 
 	useEffect(() => {
 		if (user) {
-			const starCountRef = ref(
-				db,
-				'users/' + `${user.uid}` + '/' + 'userInfo/'
-			);
+			const starCountRef = ref(db, 'users/' + user.uid + '/userInfo');
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
-
 				setUserData(data);
 			});
 		}
 	}, [user]);
 
 	const navigation = useNavigation();
+
 	return (
 		<Stack.Navigator
 			screenOptions={{
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
+			{user && userData === null && (
+				<Stack.Screen
+					name='UserData'
+					component={UserData}
+					options={{
+						headerShown: false
+					}}
+				/>
+			)}
 			{user && userData !== null && (
 				<>
 					<Stack.Screen
@@ -134,14 +141,11 @@ const HomeStack = () => {
 
 const MenuStack = () => {
 	const { user } = useAuth();
-	const [userData, setUserData] = useState();
+	const [userData, setUserData] = useState(null);
 
 	useEffect(() => {
 		if (user) {
-			const starCountRef = ref(
-				db,
-				'users/' + `${user.uid}` + '/' + 'userInfo/'
-			);
+			const starCountRef = ref(db, 'users/' + user.uid + '/userInfo');
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 				setUserData(data);
@@ -149,12 +153,23 @@ const MenuStack = () => {
 		}
 	}, [user]);
 
+	console.log(userData);
+
 	const navigation = useNavigation();
 	return (
 		<Stack.Navigator
 			screenOptions={{
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
+			{user && userData === null && (
+				<Stack.Screen
+					name='UserData'
+					component={UserData}
+					options={{
+						headerShown: false
+					}}
+				/>
+			)}
 			{user && userData !== null && (
 				<>
 					<Stack.Screen
@@ -442,14 +457,13 @@ const NotesStack = () => {
 const TabNavigator = () => {
 	const { user } = useAuth();
 
-	const [userData, setUserData] = useState();
+	const [userData, setUserData] = useState(null);
 
 	useEffect(() => {
 		if (user) {
-			const starCountRef = ref(db, 'users/' + `${user.uid}` + '/' + 'userInfo');
+			const starCountRef = ref(db, 'users/' + user.uid + '/userInfo');
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
-
 				setUserData(data);
 			});
 		}
@@ -457,6 +471,15 @@ const TabNavigator = () => {
 
 	return (
 		<>
+			{user && userData === null && (
+				<Stack.Screen
+					name='UserData'
+					component={UserData}
+					options={{
+						headerShown: false
+					}}
+				/>
+			)}
 			{user && userData !== null && (
 				<Tab.Navigator
 					initialRouteName='ScheduleStack'

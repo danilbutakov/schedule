@@ -53,6 +53,8 @@ export const AuthProvider = ({ children }) => {
 			.then(user => {
 				Alert.alert(user);
 				setUserWithGoogle(userSignIn);
+				console.log(userSignIn);
+				setUser(userSignIn);
 			})
 			.catch(error => {
 				Alert.alert(error.message);
