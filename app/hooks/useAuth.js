@@ -52,7 +52,6 @@ export const AuthProvider = ({ children }) => {
 		userSignIn
 			.then(user => {
 				setUserWithGoogle(userSignIn);
-				setUser(userSignIn);
 				console.log(user);
 			})
 			.catch(error => {
