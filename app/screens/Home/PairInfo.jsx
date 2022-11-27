@@ -10,13 +10,13 @@ import {
 	TouchableWithoutFeedback
 } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
-import AppContext from '../utils/Context';
+import AppContext from '../../utils/Context';
 
-import useAuth from '../../app/hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import { ref, set, remove, onValue } from 'firebase/database';
-import { db } from '../../firebase';
+import { db } from '../../../firebase';
 
-import { images } from '../../assets/globalImages';
+import { images } from '../../../assets/globalImages';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const { height } = Dimensions.get('screen');

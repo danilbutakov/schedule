@@ -1,21 +1,10 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Exit from '../../../assets/svgUtils/Exit.svg';
-import Teachers from '../../../assets/svgUtils/Teachers.svg';
+import { View, Text, StyleSheet } from 'react-native';
+import Teachers from '../../assets/svgUtils/Teachers.svg';
 
-const SearchTeachers = ({ setShowSearch, setShowSearchTeacher }) => {
+const SearchTeachers = () => {
 	return (
 		<View style={styles.searchContainer}>
-			<View style={styles.searchTitle}>
-				<TouchableOpacity
-					onPress={() => {
-						setShowSearch(true);
-						setShowSearchTeacher(false);
-					}}>
-					<Exit width={11.42} height={19.88} />
-					<Text>Поиск</Text>
-				</TouchableOpacity>
-			</View>
 			<View style={styles.searchGroupInfo}>
 				<View style={styles.searchText}>
 					<Text>ПРЕПОДАВАТЕЛЬ</Text>
