@@ -1,20 +1,10 @@
-import {
-	View,
-	StyleSheet,
-	Dimensions,
-	SafeAreaView,
-	Button
-} from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import React from 'react';
 import useAuth from '../hooks/useAuth';
 import { ScrollView } from 'react-native-gesture-handler';
 import Pairs from '../components/Pairs/Pairs';
 
-const { width } = Dimensions.get('screen');
-
 const HomeScreen = () => {
-	const { user, signOut } = useAuth();
-
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={styles.mainCon}>
@@ -30,17 +20,12 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
 	mainCon: {
-		backgroundColor: '#F7F7F7',
-		paddingBottom: 60
+		backgroundColor: '#F7F7F7'
 	},
 	main: {
 		display: 'flex',
 		flexDirection: 'column',
-		paddingHorizontal: 10,
-		marginTop: 12,
-		width
-	},
-	btn: {
-		flex: 1
+		paddingHorizontal: 12,
+		marginTop: 12
 	}
 });

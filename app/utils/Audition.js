@@ -16,5 +16,78 @@ export const audition = [
 		qualification: 'В',
 		course: '2',
 		typeOfEducation: '205'
+	},
+	,
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
+	},
+	{
+		name: 'В-205',
+		qualification: 'В',
+		course: '2',
+		typeOfEducation: '205'
 	}
 ];
