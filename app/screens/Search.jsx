@@ -102,7 +102,7 @@ const Search = () => {
 											</Text>
 										</View>
 										<View style={styles.arrow}>
-											<Arrow width={11.14} height={6.41} />
+											<Arrow width={20} height={20} />
 										</View>
 									</View>
 									<View style={styles.downLine}></View>
@@ -150,7 +150,7 @@ const Search = () => {
 											</Text>
 										</View>
 										<View style={styles.arrow}>
-											<Arrow width={11.14} height={6.41} />
+											<Arrow width={20} height={20} />
 										</View>
 									</View>
 									<View style={styles.downLine}></View>
@@ -177,7 +177,7 @@ const Search = () => {
 											</Text>
 										</View>
 										<View style={styles.arrow}>
-											<Arrow width={11.14} height={6.41} />
+											<Arrow width={20} height={20} />
 										</View>
 									</View>
 									<View style={styles.downLine}></View>
@@ -211,13 +211,14 @@ const styles = StyleSheet.create({
 	containerSearch: {
 		backgroundColor: '#F7F7F7',
 		alignItems: 'center',
-		paddingHorizontal: 12,
 		height,
 		flex: 1
 	},
 	searchCont: {
-		marginTop: 10,
-		width: '100%'
+		paddingHorizontal: 12,
+		marginVertical: 10,
+		width: '100%',
+		
 	},
 	downLine: {
 		borderBottomColor: 'rgba(60, 60, 67, 0.13)',
@@ -252,10 +253,30 @@ const styles = StyleSheet.create({
 		lineHeight: 20,
 		width: '80%'
 	},
-	searchBlockInfo: {},
-	searchCard: {},
-	searchCardText: {},
-	arrow: {},
+	searchBlockInfo: {
+		width: '100%',
+		borderTopColor: 'rgba(60, 60, 67, 0.13)',
+		borderTopWidth: 1,
+		height: 80,
+		
+		
+	},
+	searchCard: {
+		alignItems: 'center',
+		//display: 'flex',
+		textAlign: 'left',
+		//width: '100%',
+		
+		paddingLeft: 20,
+		justifyContent:'space-between',
+	},
+	searchCardText: {
+		maxWidth: 297,
+	},
+	arrow: {
+		marginLeft: 'auto',
+		marginRight: 20
+	},
 	infoAboutSearchCont: {
 		flex: 1,
 		display: 'flex',
