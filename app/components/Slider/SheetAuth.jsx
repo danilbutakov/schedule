@@ -5,7 +5,8 @@ import {
 	TouchableOpacity,
 	Image,
 	Dimensions,
-	Alert
+	Alert,
+	ActivityIndicator
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
@@ -17,7 +18,7 @@ import { images } from '../../../assets/globalImages';
 const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
-	const { onGoogleButtonPress, setUser } = useAuth();
+	const { onGoogleButtonPress, setUser, loading } = useAuth();
 	const [register, setRegister] = useState(false);
 	const [userWithEmail, setUserWithEmail] = useState();
 
@@ -77,6 +78,7 @@ const SheetAuth = () => {
 	return (
 		<View>
 			<View style={styles.conMain}>
+				{loading ? <ActivityIndicator size='large' color='#1E1E1F' /> : null}
 				<Text style={styles.title}>
 					{register ? 'Регистрация' : 'Войти с помощью'}
 				</Text>
