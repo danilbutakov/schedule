@@ -1,11 +1,4 @@
-import {
-	View,
-	Text,
-	StyleSheet,
-	Alert,
-	ActivityIndicator,
-	Linking
-} from 'react-native';
+import { View, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -15,8 +8,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ant from 'react-native-vector-icons/AntDesign';
 import { BlurView } from '@react-native-community/blur';
 
-import Student from '../../assets/images/studentAvatar.svg';
-import Teacher from '../../assets/images/teacherAvatar.svg';
+import Student from '../../../assets/images/studentAvatar.svg';
+import Teacher from '../../../assets/images/teacherAvatar.svg';
 import { db } from '../../../firebase';
 
 import useAuth from '../../hooks/useAuth';

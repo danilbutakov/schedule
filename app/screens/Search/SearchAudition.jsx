@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Computer from '../../assets/svgUtils/computer.svg';
+import Computer from '../../../assets/svgUtils/computer.svg';
 
 const SearchAudition = () => {
 	return (

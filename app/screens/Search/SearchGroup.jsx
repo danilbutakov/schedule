@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
-import Avatar from '../../assets/svgUtils/Avatar.svg';
+import Avatar from '../../../assets/svgUtils/Avatar.svg';
 
 const { height } = Dimensions.get('screen');
 

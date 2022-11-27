@@ -32,8 +32,6 @@ const StackNavigator = () => {
 		}
 	}, [user]);
 
-	console.log(user);
-
 	const navigation = useNavigation();
 
 	return (
