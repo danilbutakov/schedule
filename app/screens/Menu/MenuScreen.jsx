@@ -17,9 +17,9 @@ import { BlurView } from '@react-native-community/blur';
 
 import Student from '../../assets/images/studentAvatar.svg';
 import Teacher from '../../assets/images/teacherAvatar.svg';
-import { db } from '../../firebase';
+import { db } from '../../../firebase';
 
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 const MenuScreen = () => {
 	const { signOut, user } = useAuth();

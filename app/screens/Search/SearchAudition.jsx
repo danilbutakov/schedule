@@ -1,21 +1,10 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Exit from '../../../assets/svgUtils/Exit.svg';
-import Computer from '../../../assets/svgUtils/computer.svg';
+import { View, Text, StyleSheet } from 'react-native';
+import Computer from '../../assets/svgUtils/computer.svg';
 
-const SearchAudition = ({ setShowSearch, setShowSearchAudition }) => {
+const SearchAudition = () => {
 	return (
 		<View style={styles.searchContainer}>
-			<View style={styles.searchTitle}>
-				<TouchableOpacity
-					onPress={() => {
-						setShowSearch(true);
-						setShowSearchAudition(false);
-					}}>
-					<Exit width={11.42} height={19.88} />
-					<Text>Поиск</Text>
-				</TouchableOpacity>
-			</View>
 			<View style={styles.searchGroupInfo}>
 				<View style={styles.searchText}>
 					<Text>АУДИТОРИЯ</Text>
