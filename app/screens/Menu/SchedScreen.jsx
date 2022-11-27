@@ -1,14 +1,14 @@
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import React from 'react';
 
-import One from '../../assets/images/1.svg';
-import Two from '../../assets/images/2.svg';
-import Three from '../../assets/images/3.svg';
-import Four from '../../assets/images/4.svg';
-import Five from '../../assets/images/5.svg';
-import Six from '../../assets/images/6.svg';
-import Seven from '../../assets/images/7.svg';
-import Eight from '../../assets/images/8.svg';
+import One from '../../../assets/images/1.svg';
+import Two from '../../../assets/images/2.svg';
+import Three from '../../../assets/images/3.svg';
+import Four from '../../../assets/images/4.svg';
+import Five from '../../../assets/images/5.svg';
+import Six from '../../../assets/images/6.svg';
+import Seven from '../../../assets/images/7.svg';
+import Eight from '../../../assets/images/8.svg';
 
 const { height } = Dimensions.get('screen');
 

@@ -3,10 +3,10 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
 
-import Vk from '../../assets/images/vk.svg';
-import Telega from '../../assets/images/telega.svg';
-import Site from '../../assets/images/site.svg';
-import Bibl from '../../assets/images/bibl.svg';
+import Vk from '../../../assets/images/vk.svg';
+import Telega from '../../../assets/images/telega.svg';
+import Site from '../../../assets/images/site.svg';
+import Bibl from '../../../assets/images/bibl.svg';
 
 const { height } = Dimensions.get('screen');
 
