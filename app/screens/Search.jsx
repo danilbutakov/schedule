@@ -77,107 +77,109 @@ const Search = () => {
 							</View>
 						</View>
 					</View>
-					{showGroups ? (
-						groups
-							.filter(group =>
-								group.name.toLowerCase().includes(searchValue.toLowerCase())
-							)
-							.map((group, index) => (
-								<TouchableOpacity
-									onPress={() => {
-										setShowSearch(false);
-										setShowSearchGroup(true);
-									}}
-									key={index}
-									style={styles.searchBlockInfo}>
-									<View style={styles.searchCard}>
-										<View style={styles.searchCardText}>
-											<Text>{group.name}</Text>
-											<Text>
-												{group.qualification}, {group.course},{' '}
-												{group.typeOfEducation}
-											</Text>
+					<View style={{ backgroundColor: '#FFFFFF', width: '100%' }}>
+						{showGroups ? (
+							groups
+								.filter(group =>
+									group.name.toLowerCase().includes(searchValue.toLowerCase())
+								)
+								.map((group, index) => (
+									<TouchableOpacity
+										onPress={() => {
+											setShowSearch(false);
+											setShowSearchGroup(true);
+										}}
+										key={index}
+										style={styles.searchBlockInfo}>
+										<View style={styles.searchCard}>
+											<View style={styles.searchCardText}>
+												<Text>{group.name}</Text>
+												<Text>
+													{group.qualification}, {group.course},{' '}
+													{group.typeOfEducation}
+												</Text>
+											</View>
+											<View style={styles.arrow}>
+												<Arrow width={20} height={20} />
+											</View>
 										</View>
-										<View style={styles.arrow}>
-											<Arrow width={20} height={20} />
-										</View>
-									</View>
-								</TouchableOpacity>
-							))
-					) : (
-						<View style={styles.infoAboutSearchCont}>
-							<View style={styles.infoAboutSearch}>
-								<Text
-									style={{
-										color: 'rgba(60, 60, 67, 0.6)',
-										textAlign: 'center',
-										alignItems: 'center',
-										display: 'flex',
-										justifyContent: 'center'
-									}}>
-									Находите информацию о расписании преподавателей, группах и
-									аудиториях
-								</Text>
+									</TouchableOpacity>
+								))
+						) : (
+							<View style={styles.infoAboutSearchCont}>
+								<View style={styles.infoAboutSearch}>
+									<Text
+										style={{
+											color: 'rgba(60, 60, 67, 0.6)',
+											textAlign: 'center',
+											alignItems: 'center',
+											display: 'flex',
+											justifyContent: 'center'
+										}}>
+										Находите информацию о расписании преподавателей, группах и
+										аудиториях
+									</Text>
+								</View>
 							</View>
-						</View>
-					)}
-					{showAudition &&
-						audition
-							.filter(auditionItem =>
-								auditionItem.name
-									.toLowerCase()
-									.includes(searchValue.toLowerCase())
-							)
-							.map((auditionItem, index) => (
-								<TouchableOpacity
-									onPress={() => {
-										setShowSearch(false);
-										setShowSearchAudition(true);
-									}}
-									key={index}
-									style={styles.searchBlockInfo}>
-									<View style={styles.searchCard}>
-										<View style={styles.searchCardText}>
-											<Text>{auditionItem.name}</Text>
-											<Text>
-												Корпус {auditionItem.qualification}, этаж{' '}
-												{auditionItem.course}, ауд.{' '}
-												{auditionItem.typeOfEducation}
-											</Text>
+						)}
+						{showAudition &&
+							audition
+								.filter(auditionItem =>
+									auditionItem.name
+										.toLowerCase()
+										.includes(searchValue.toLowerCase())
+								)
+								.map((auditionItem, index) => (
+									<TouchableOpacity
+										onPress={() => {
+											setShowSearch(false);
+											setShowSearchAudition(true);
+										}}
+										key={index}
+										style={styles.searchBlockInfo}>
+										<View style={styles.searchCard}>
+											<View style={styles.searchCardText}>
+												<Text>{auditionItem.name}</Text>
+												<Text>
+													Корпус {auditionItem.qualification}, этаж{' '}
+													{auditionItem.course}, ауд.{' '}
+													{auditionItem.typeOfEducation}
+												</Text>
+											</View>
+											<View style={styles.arrow}>
+												<Arrow width={20} height={20} />
+											</View>
 										</View>
-										<View style={styles.arrow}>
-											<Arrow width={20} height={20} />
+									</TouchableOpacity>
+								))}
+						{showTeachers &&
+							teachers
+								.filter(teacher =>
+									teacher.name.toLowerCase().includes(searchValue.toLowerCase())
+								)
+								.map((teacher, index) => (
+									<TouchableOpacity
+										onPress={() => {
+											setShowSearch(false);
+											setShowSearchTeacher(true);
+										}}
+										key={index}
+										style={styles.searchBlockInfo}>
+										<View style={styles.searchCard}>
+											<View style={styles.searchCardText}>
+												<Text>{teacher.name}</Text>
+												<Text>
+													Кафедра «{teacher.qualification}», ауд. {teacher.aud}
+												</Text>
+											</View>
+											<View style={styles.arrow}>
+												<Arrow width={20} height={20} />
+											</View>
 										</View>
-									</View>
-								</TouchableOpacity>
-							))}
-					{showTeachers &&
-						teachers
-							.filter(teacher =>
-								teacher.name.toLowerCase().includes(searchValue.toLowerCase())
-							)
-							.map((teacher, index) => (
-								<TouchableOpacity
-									onPress={() => {
-										setShowSearch(false);
-										setShowSearchTeacher(true);
-									}}
-									key={index}
-									style={styles.searchBlockInfo}>
-									<View style={styles.searchCard}>
-										<View style={styles.searchCardText}>
-											<Text>{teacher.name}</Text>
-											<Text>
-												Кафедра «{teacher.qualification}», ауд. {teacher.aud}
-											</Text>
-										</View>
-										<View style={styles.arrow}>
-											<Arrow width={20} height={20} />
-										</View>
-									</View>
-								</TouchableOpacity>
-							))}
-					<View style={styles.downLine}></View>
+									</TouchableOpacity>
+								))}
+						<View style={styles.downLine}></View>
+					</View>
 				</>
 			)}
 			{showSearchGroup && (
