@@ -76,9 +76,6 @@ const Search = () => {
 								)}
 							</View>
 						</View>
-						{(showGroups || showAudition || showTeachers) && (
-							<View style={styles.downLine}></View>
-						)}
 					</View>
 					{showGroups ? (
 						groups
@@ -105,7 +102,6 @@ const Search = () => {
 											<Arrow width={20} height={20} />
 										</View>
 									</View>
-									<View style={styles.downLine}></View>
 								</TouchableOpacity>
 							))
 					) : (
@@ -153,7 +149,6 @@ const Search = () => {
 											<Arrow width={20} height={20} />
 										</View>
 									</View>
-									<View style={styles.downLine}></View>
 								</TouchableOpacity>
 							))}
 					{showTeachers &&
@@ -180,9 +175,9 @@ const Search = () => {
 											<Arrow width={20} height={20} />
 										</View>
 									</View>
-									<View style={styles.downLine}></View>
 								</TouchableOpacity>
 							))}
+					<View style={styles.downLine}></View>
 				</>
 			)}
 			{showSearchGroup && (
@@ -217,12 +212,12 @@ const styles = StyleSheet.create({
 	searchCont: {
 		paddingHorizontal: 12,
 		marginVertical: 10,
-		width: '100%',
-		
+		width: '100%'
 	},
 	downLine: {
 		borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-		borderBottomWidth: 1
+		borderBottomWidth: 1,
+		width: '100%'
 	},
 	searchBlock: {
 		borderRadius: 16,
@@ -256,31 +251,22 @@ const styles = StyleSheet.create({
 	searchBlockInfo: {
 		width: '100%',
 		borderTopColor: 'rgba(60, 60, 67, 0.13)',
-		borderTopWidth: 1,
-		height: 80,
-		
-		
+		borderTopWidth: 1
 	},
 	searchCard: {
 		alignItems: 'center',
-		//display: 'flex',
-		textAlign: 'left',
-		//width: '100%',
-		
-		paddingLeft: 20,
-		justifyContent:'space-between',
+		justifyContent: 'space-between',
+		display: 'flex',
+		flexDirection: 'row',
+		padding: 20
 	},
-	searchCardText: {
-		maxWidth: 297,
-	},
-	arrow: {
-		marginLeft: 'auto',
-		marginRight: 20
-	},
+	searchCardText: {},
+	arrow: {},
 	infoAboutSearchCont: {
 		flex: 1,
 		display: 'flex',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		paddingHorizontal: 20
 	},
 	infoAboutSearch: {}
 });

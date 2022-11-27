@@ -34,6 +34,7 @@
 		"react-dom": "18.1.0",
 		"react-native": "0.70.5",
 		"react-native-animated-splash-screen": "^2.0.5",
+		"react-native-extended-stylesheet": "^0.12.0",
 		"react-native-gesture-handler": "^2.8.0",
 		"react-native-paper": "^4.12.5",
 		"react-native-popup-confirm-toast": "^2.2.2",
