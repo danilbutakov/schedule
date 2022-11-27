@@ -1,7 +1,7 @@
 {
 	"expo": {
 		"name": "Schedulle",
-		"slug": "schedulleApp",
+		"slug": "Schedulle",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
@@ -29,7 +29,7 @@
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "com.thirdTeam.schedule"
+			"bundleIdentifier": "com.thirdTeam.Schedulle"
 		},
 		"android": {
 			"googleServicesFile": "./google-services.json",
@@ -37,11 +37,11 @@
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#1E1E1E"
 			},
-			"package": "com.thirdTeam.schedule"
+			"package": "com.thirdTeam.Schedulle"
 		},
 		"extra": {
 			"eas": {
-				"projectId": "b93ccd18-7c5e-426d-8659-f087575c654f"
+				"projectId": "aa8d8aea-1b23-44ef-b333-d100a57c8c5d"
 			}
 		}
 	}
