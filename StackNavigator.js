@@ -20,19 +20,17 @@ const { width } = Dimensions.get('screen');
 const StackNavigator = () => {
 	const { user } = useAuth();
 
-	const [userData, setUserData] = useState();
+	const [userData, setUserData] = useState(null);
 
 	useEffect(() => {
 		if (user) {
-			const starCountRef = ref(db, 'users/' + user.uid);
+			const starCountRef = ref(db, 'users/' + user.uid + '/userInfo');
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 				setUserData(data);
 			});
 		}
 	}, [user]);
-
-	console.log(userData);
 
 	const navigation = useNavigation();
 

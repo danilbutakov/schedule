@@ -36,7 +36,7 @@ const Slider = () => {
 
 	// callbacks
 	const handleSheetChanges = useCallback((index: number) => {
-		console.log('handleSheetChanges', index);
+		// console.log('handleSheetChanges', index);
 	}, []);
 
 	return (
