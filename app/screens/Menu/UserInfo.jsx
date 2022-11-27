@@ -10,8 +10,8 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ref, onValue, update } from 'firebase/database';
 
-import useAuth from '../hooks/useAuth';
-import { db } from '../../firebase';
+import useAuth from '../../hooks/useAuth';
+import { db } from '../../../firebase';
 import { G } from 'react-native-svg';
 
 const { height } = Dimensions.get('screen');

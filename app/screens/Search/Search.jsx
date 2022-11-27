@@ -5,20 +5,18 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	TextInput,
-	Dimensions,
+	Dimensions
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import { groups } from '../utils/Groups';
-import { audition } from '../utils/Audition';
-import { teachers } from '../utils/Teachers';
-import SearchGroup from '../components/Search/SearchGroup';
-import SearchAudition from '../components/Search/SearchAudition';
-import SearchTeachers from '../components/Search/SearchTeachers';
+import { groups } from '../../utils/Groups';
+import { audition } from '../../utils/Audition';
+import { teachers } from '../../utils/Teachers';
 import Arrow from '../../assets/svgUtils/Arrow.svg';
 import SearchImg from '../../assets/svgUtils/search.svg';
 import Delete from '../../assets/svgUtils/delete.svg';
+import { useNavigation } from '@react-navigation/native';
 
 const { height } = Dimensions.get('screen');
 
@@ -44,6 +42,8 @@ const Search = () => {
 			setShowTeachers(false);
 		}
 	}, [searchValue]);
+
+	const navigation = useNavigation();
 
 	return (
 		<View style={styles.containerSearch}>
@@ -105,15 +105,18 @@ const Search = () => {
 									.map((group, index) => (
 										<TouchableOpacity
 											onPress={() => {
-												setShowSearch(false);
-												setShowSearchGroup(true);
+												navigation.navigate('SearchGroup');
 											}}
 											key={index}
 											style={styles.searchBlockInfo}>
 											<View style={styles.searchCard}>
 												<View style={styles.searchCardText}>
 													<Text style={styles.name}>{group.name}</Text>
-													<Text style={{color: '#8E8E93', fontFamily: 'Montserrat-Medium'}}>
+													<Text
+														style={{
+															color: '#8E8E93',
+															fontFamily: 'Montserrat-Medium'
+														}}>
 														{group.qualification}, {group.course},{' '}
 														{group.typeOfEducation}
 													</Text>
@@ -134,15 +137,18 @@ const Search = () => {
 									.map((auditionItem, index) => (
 										<TouchableOpacity
 											onPress={() => {
-												setShowSearch(false);
-												setShowSearchAudition(true);
+												navigation.navigate('SearchAudition');
 											}}
 											key={index}
 											style={styles.searchBlockInfo}>
 											<View style={styles.searchCard}>
 												<View style={styles.searchCardText}>
 													<Text style={styles.name}>{auditionItem.name}</Text>
-													<Text style={{color: '#8E8E93', fontFamily: 'Montserrat-Medium'}}>
+													<Text
+														style={{
+															color: '#8E8E93',
+															fontFamily: 'Montserrat-Medium'
+														}}>
 														Корпус {auditionItem.qualification}, этаж{' '}
 														{auditionItem.course}, ауд.{' '}
 														{auditionItem.typeOfEducation}
@@ -164,15 +170,18 @@ const Search = () => {
 									.map((teacher, index) => (
 										<TouchableOpacity
 											onPress={() => {
-												setShowSearch(false);
-												setShowSearchTeacher(true);
+												navigation.navigate('SearchTeachers');
 											}}
 											key={index}
 											style={styles.searchBlockInfo}>
 											<View style={styles.searchCard}>
 												<View style={styles.searchCardText}>
 													<Text style={styles.name}>{teacher.name}</Text>
-													<Text style={{color: '#8E8E93', fontFamily: 'Montserrat-Medium'}}>
+													<Text
+														style={{
+															color: '#8E8E93',
+															fontFamily: 'Montserrat-Medium'
+														}}>
 														Кафедра «{teacher.qualification}», ауд.{' '}
 														{teacher.aud}
 													</Text>
@@ -187,24 +196,6 @@ const Search = () => {
 						</ScrollView>
 					)}
 				</>
-			)}
-			{showSearchGroup && (
-				<SearchGroup
-					setShowSearch={setShowSearch}
-					setShowSearchGroup={setShowSearchGroup}
-				/>
-			)}
-			{showSearchAudition && (
-				<SearchAudition
-					setShowSearch={setShowSearch}
-					setShowSearchAudition={setShowSearchAudition}
-				/>
-			)}
-			{showSearchTeacher && (
-				<SearchTeachers
-					setShowSearch={setShowSearch}
-					setShowSearchTeacher={setShowSearchTeacher}
-				/>
 			)}
 		</View>
 	);

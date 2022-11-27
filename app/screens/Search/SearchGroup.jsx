@@ -1,52 +1,56 @@
 import React from 'react';
-import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
-import Exit from '../../../assets/svgUtils/Exit.svg';
-import Avatar from '../../../assets/svgUtils/Avatar.svg';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import Avatar from '../../assets/svgUtils/Avatar.svg';
 
 const { height } = Dimensions.get('screen');
 
-const SearchGroup = ({ setShowSearch, setShowSearchGroup }) => {
+const SearchGroup = () => {
 	return (
 		<View style={styles.searchContainer}>
-			<View style={styles.searchTitle}>
-				<TouchableOpacity
-					onPress={() => {
-						setShowSearch(true);
-						setShowSearchGroup(false);
-					}}>
-					<Exit width={11.42} height={19.88} />
-				</TouchableOpacity>
-			</View>
 			<View style={styles.searchGroupInfo}>
 				<View style={styles.searchText}>
-					<Text style={{paddingBottom: 8, fontFamily: 'Montserrat-Bold'}}>ГРУППА</Text>
-					<Text style={{paddingBottom: 4, fontFamily: 'Montserrat-SemiBold'}}>ПИ.1-21-1</Text>
-					<Text style={{color: '#8E8E93', fontFamily: 'Montserrat-Medium'}}>Бакалавриат, 2 курс, очная форма</Text>
+					<Text style={{ paddingBottom: 8, fontFamily: 'Montserrat-Bold' }}>
+						ГРУППА
+					</Text>
+					<Text style={{ paddingBottom: 4, fontFamily: 'Montserrat-SemiBold' }}>
+						ПИ.1-21-1
+					</Text>
+					<Text style={{ color: '#8E8E93', fontFamily: 'Montserrat-Medium' }}>
+						Бакалавриат, 2 курс, очная форма
+					</Text>
 				</View>
 				<View style={styles.searchImg}>
 					<Avatar width={60} height={60} />
 				</View>
 			</View>
 			<View style={styles.searchDate}>
-				<Text style={{color: '#8E8E93', fontFamily: 'Montserrat-SemiBold'}}>ЧЕТВЕРГ, 27 ОКТЯБРЯ</Text>
+				<Text style={{ color: '#8E8E93', fontFamily: 'Montserrat-SemiBold' }}>
+					ЧЕТВЕРГ, 27 ОКТЯБРЯ
+				</Text>
 			</View>
 			<View style={styles.pairsContainer}>
 				<View style={styles.pair}>
 					<View style={styles.headPair}>
 						<View style={styles.headLeft}>
-							<Text style={{fontFamily: 'Montserrat-Medium'}}>Лабораторная</Text>
+							<Text style={{ fontFamily: 'Montserrat-Medium' }}>
+								Лабораторная
+							</Text>
 						</View>
-						<Text style={{fontFamily: 'Montserrat-Regular'}}>13:50 - 15:20</Text>
+						<Text style={{ fontFamily: 'Montserrat-Regular' }}>
+							13:50 - 15:20
+						</Text>
 					</View>
 					<View style={styles.infoPair}>
 						<View style={styles.namePair}>
-							<Text style={{fontFamily: 'Montserrat-SemiBold'}}>ООП</Text>
+							<Text style={{ fontFamily: 'Montserrat-SemiBold' }}>ООП</Text>
 						</View>
 						<View style={styles.teachPair}>
-							<Text style={{fontFamily: 'Montserrat-Regular'}}>Молчанова Е.И.</Text>
+							<Text style={{ fontFamily: 'Montserrat-Regular' }}>
+								Молчанова Е.И.
+							</Text>
 						</View>
 						<View style={styles.classRoomPair}>
-							<Text style={{fontFamily: 'Montserrat-Regular'}}>Д-418</Text>
+							<Text style={{ fontFamily: 'Montserrat-Regular' }}>Д-418</Text>
 						</View>
 					</View>
 				</View>
@@ -61,7 +65,6 @@ const styles = StyleSheet.create({
 		height,
 		backgroundColor: '#F8F8F8',
 		padding: 5
-		
 	},
 	searchTitle: {},
 
@@ -82,15 +85,13 @@ const styles = StyleSheet.create({
 		paddingBottom: 12,
 		paddingTop: 12,
 		paddingLeft: 20,
-		paddingRight: 20,
-		
+		paddingRight: 20
 	},
 	pairsContainer: {
 		borderRadius: 16,
 		backgroundColor: '#FFFFFF',
 		height: 115,
-		width: '100%',
-		
+		width: '100%'
 	},
 	pair: {
 		paddingTop: 18,
@@ -104,9 +105,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		paddingBottom: 6
 	},
-	headLeft: {
-		
-	},
+	headLeft: {},
 	infoPair: {},
 	namePair: {
 		paddingBottom: 3
