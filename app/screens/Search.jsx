@@ -5,9 +5,11 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	TextInput,
-	Dimensions
+	Dimensions,
+	SafeAreaView
 } from 'react-native';
 import { useState, useEffect } from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { groups } from '../utils/Groups';
 import { audition } from '../utils/Audition';
@@ -77,109 +79,114 @@ const Search = () => {
 							</View>
 						</View>
 					</View>
-					<View style={{ backgroundColor: '#FFFFFF', width: '100%' }}>
-						{showGroups ? (
-							groups
-								.filter(group =>
-									group.name.toLowerCase().includes(searchValue.toLowerCase())
-								)
-								.map((group, index) => (
-									<TouchableOpacity
-										onPress={() => {
-											setShowSearch(false);
-											setShowSearchGroup(true);
-										}}
-										key={index}
-										style={styles.searchBlockInfo}>
-										<View style={styles.searchCard}>
-											<View style={styles.searchCardText}>
-												<Text>{group.name}</Text>
-												<Text>
-													{group.qualification}, {group.course},{' '}
-													{group.typeOfEducation}
-												</Text>
-											</View>
-											<View style={styles.arrow}>
-												<Arrow width={20} height={20} />
-											</View>
-										</View>
-									</TouchableOpacity>
-								))
-						) : (
-							<View style={styles.infoAboutSearchCont}>
-								<View style={styles.infoAboutSearch}>
-									<Text
-										style={{
-											color: 'rgba(60, 60, 67, 0.6)',
-											textAlign: 'center',
-											alignItems: 'center',
-											display: 'flex',
-											justifyContent: 'center'
-										}}>
-										Находите информацию о расписании преподавателей, группах и
-										аудиториях
-									</Text>
-								</View>
+					{(!showGroups || !showAudition || !showTeachers) && (
+						<View style={styles.infoAboutSearchCont}>
+							<View style={styles.infoAboutSearch}>
+								<Text
+									style={{
+										color: 'rgba(60, 60, 67, 0.6)',
+										textAlign: 'center',
+										alignItems: 'center',
+										display: 'flex',
+										justifyContent: 'center'
+									}}>
+									Находите информацию о расписании преподавателей, группах и
+									аудиториях
+								</Text>
 							</View>
-						)}
-						{showAudition &&
-							audition
-								.filter(auditionItem =>
-									auditionItem.name
-										.toLowerCase()
-										.includes(searchValue.toLowerCase())
-								)
-								.map((auditionItem, index) => (
-									<TouchableOpacity
-										onPress={() => {
-											setShowSearch(false);
-											setShowSearchAudition(true);
-										}}
-										key={index}
-										style={styles.searchBlockInfo}>
-										<View style={styles.searchCard}>
-											<View style={styles.searchCardText}>
-												<Text>{auditionItem.name}</Text>
-												<Text>
-													Корпус {auditionItem.qualification}, этаж{' '}
-													{auditionItem.course}, ауд.{' '}
-													{auditionItem.typeOfEducation}
-												</Text>
+						</View>
+					)}
+					{(showGroups || showAudition || showTeachers) && (
+						<ScrollView style={{ width: '100%' }}>
+							{showGroups &&
+								groups
+									.filter(group =>
+										group.name.toLowerCase().includes(searchValue.toLowerCase())
+									)
+									.map((group, index) => (
+										<TouchableOpacity
+											onPress={() => {
+												setShowSearch(false);
+												setShowSearchGroup(true);
+											}}
+											key={index}
+											style={styles.searchBlockInfo}>
+											<View style={styles.searchCard}>
+												<View style={styles.searchCardText}>
+													<Text>{group.name}</Text>
+													<Text>
+														{group.qualification}, {group.course},{' '}
+														{group.typeOfEducation}
+													</Text>
+												</View>
+												<View style={styles.arrow}>
+													<Arrow width={20} height={20} />
+												</View>
 											</View>
-											<View style={styles.arrow}>
-												<Arrow width={20} height={20} />
+										</TouchableOpacity>
+									))}
+							{showAudition &&
+								audition
+									.filter(auditionItem =>
+										auditionItem.name
+											.toLowerCase()
+											.includes(searchValue.toLowerCase())
+									)
+									.map((auditionItem, index) => (
+										<TouchableOpacity
+											onPress={() => {
+												setShowSearch(false);
+												setShowSearchAudition(true);
+											}}
+											key={index}
+											style={styles.searchBlockInfo}>
+											<View style={styles.searchCard}>
+												<View style={styles.searchCardText}>
+													<Text>{auditionItem.name}</Text>
+													<Text>
+														Корпус {auditionItem.qualification}, этаж{' '}
+														{auditionItem.course}, ауд.{' '}
+														{auditionItem.typeOfEducation}
+													</Text>
+												</View>
+												<View style={styles.arrow}>
+													<Arrow width={20} height={20} />
+												</View>
 											</View>
-										</View>
-									</TouchableOpacity>
-								))}
-						{showTeachers &&
-							teachers
-								.filter(teacher =>
-									teacher.name.toLowerCase().includes(searchValue.toLowerCase())
-								)
-								.map((teacher, index) => (
-									<TouchableOpacity
-										onPress={() => {
-											setShowSearch(false);
-											setShowSearchTeacher(true);
-										}}
-										key={index}
-										style={styles.searchBlockInfo}>
-										<View style={styles.searchCard}>
-											<View style={styles.searchCardText}>
-												<Text>{teacher.name}</Text>
-												<Text>
-													Кафедра «{teacher.qualification}», ауд. {teacher.aud}
-												</Text>
+										</TouchableOpacity>
+									))}
+							{showTeachers &&
+								teachers
+									.filter(teacher =>
+										teacher.name
+											.toLowerCase()
+											.includes(searchValue.toLowerCase())
+									)
+									.map((teacher, index) => (
+										<TouchableOpacity
+											onPress={() => {
+												setShowSearch(false);
+												setShowSearchTeacher(true);
+											}}
+											key={index}
+											style={styles.searchBlockInfo}>
+											<View style={styles.searchCard}>
+												<View style={styles.searchCardText}>
+													<Text>{teacher.name}</Text>
+													<Text>
+														Кафедра «{teacher.qualification}», ауд.{' '}
+														{teacher.aud}
+													</Text>
+												</View>
+												<View style={styles.arrow}>
+													<Arrow width={20} height={20} />
+												</View>
 											</View>
-											<View style={styles.arrow}>
-												<Arrow width={20} height={20} />
-											</View>
-										</View>
-									</TouchableOpacity>
-								))}
-						<View style={styles.downLine}></View>
-					</View>
+										</TouchableOpacity>
+									))}
+							<View style={styles.downLine}></View>
+						</ScrollView>
+					)}
 				</>
 			)}
 			{showSearchGroup && (
@@ -253,7 +260,8 @@ const styles = StyleSheet.create({
 	searchBlockInfo: {
 		width: '100%',
 		borderTopColor: 'rgba(60, 60, 67, 0.13)',
-		borderTopWidth: 1
+		borderTopWidth: 1,
+		backgroundColor: '#FFFFFF'
 	},
 	searchCard: {
 		alignItems: 'center',
@@ -265,10 +273,11 @@ const styles = StyleSheet.create({
 	searchCardText: {},
 	arrow: {},
 	infoAboutSearchCont: {
-		flex: 1,
 		display: 'flex',
 		justifyContent: 'center',
-		paddingHorizontal: 20
+		paddingHorizontal: 20,
+		backgroundColor: '#F7F7F7',
+		marginTop: '60%'
 	},
 	infoAboutSearch: {}
 });
