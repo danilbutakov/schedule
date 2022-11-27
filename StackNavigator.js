@@ -24,13 +24,15 @@ const StackNavigator = () => {
 
 	useEffect(() => {
 		if (user) {
-			const starCountRef = ref(db, 'users/' + user.uid + '/userInfo');
+			const starCountRef = ref(db, 'users/' + user.uid + '/' + 'userInfo');
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 				setUserData(data);
 			});
 		}
 	}, [user]);
+
+	console.log(user);
 
 	const navigation = useNavigation();
 

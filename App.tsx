@@ -17,8 +17,6 @@ const App = () => {
 	const [notes, setNotes] = useState([]);
 	const [notesDataScreen, setNotesDataScreen] = useState([]);
 
-	const { user } = useAuth();
-
 	useEffect(() => {
 		async function prepare() {
 			try {

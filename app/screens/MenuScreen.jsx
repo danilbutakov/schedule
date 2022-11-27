@@ -31,7 +31,7 @@ const MenuScreen = () => {
 	//read from database
 	useEffect(() => {
 		if (user) {
-			onValue(ref(db, 'users/' + `${user.uid}`), snapshot => {
+			onValue(ref(db, 'users/' + user.uid), snapshot => {
 				setMenuItems([]);
 				const data = snapshot.val();
 				if (data !== null) {
@@ -45,22 +45,26 @@ const MenuScreen = () => {
 
 	return (
 		<View style={styles.mainContainer}>
-			{menuItems.map((item, key) => (
-				<TouchableOpacity
-					style={styles.infoCon}
-					key={key}
-					onPress={() => navigation.navigate('UserInfo')}>
-					<View style={styles.infoMain}>
-						<View style={styles.infoUser}>
-							<Text style={styles.role}>{item.role}</Text>
-							<Text style={styles.group}>{item.group}</Text>
-							<Text style={styles.univ}>{item.univ}</Text>
-						</View>
-						{item.role === 'Студент' && <Student />}
-						{item.role === 'Преподователь' && <Teacher />}
-					</View>
-				</TouchableOpacity>
-			))}
+			{menuItems.map((item, key) => {
+				if (item.role || item.group || item.univ) {
+					return (
+						<TouchableOpacity
+							style={styles.infoCon}
+							key={key}
+							onPress={() => navigation.navigate('UserInfo')}>
+							<View style={styles.infoMain}>
+								<View style={styles.infoUser}>
+									<Text style={styles.role}>{item.role}</Text>
+									<Text style={styles.group}>{item.group}</Text>
+									<Text style={styles.univ}>{item.univ}</Text>
+								</View>
+								{item.role === 'Студент' && <Student />}
+								{item.role === 'Преподователь' && <Teacher />}
+							</View>
+						</TouchableOpacity>
+					);
+				}
+			})}
 			<View style={styles.mainCon}>
 				<TouchableOpacity
 					style={styles.sched}
