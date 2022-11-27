@@ -6,7 +6,6 @@ import {
 	TouchableOpacity,
 	TextInput,
 	Dimensions,
-	SafeAreaView
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -113,8 +112,8 @@ const Search = () => {
 											style={styles.searchBlockInfo}>
 											<View style={styles.searchCard}>
 												<View style={styles.searchCardText}>
-													<Text>{group.name}</Text>
-													<Text>
+													<Text style={styles.name}>{group.name}</Text>
+													<Text style={{color: '#8E8E93', fontFamily: 'Montserrat-Medium'}}>
 														{group.qualification}, {group.course},{' '}
 														{group.typeOfEducation}
 													</Text>
@@ -142,8 +141,8 @@ const Search = () => {
 											style={styles.searchBlockInfo}>
 											<View style={styles.searchCard}>
 												<View style={styles.searchCardText}>
-													<Text>{auditionItem.name}</Text>
-													<Text>
+													<Text style={styles.name}>{auditionItem.name}</Text>
+													<Text style={{color: '#8E8E93', fontFamily: 'Montserrat-Medium'}}>
 														Корпус {auditionItem.qualification}, этаж{' '}
 														{auditionItem.course}, ауд.{' '}
 														{auditionItem.typeOfEducation}
@@ -172,8 +171,8 @@ const Search = () => {
 											style={styles.searchBlockInfo}>
 											<View style={styles.searchCard}>
 												<View style={styles.searchCardText}>
-													<Text>{teacher.name}</Text>
-													<Text>
+													<Text style={styles.name}>{teacher.name}</Text>
+													<Text style={{color: '#8E8E93', fontFamily: 'Montserrat-Medium'}}>
 														Кафедра «{teacher.qualification}», ауд.{' '}
 														{teacher.aud}
 													</Text>
@@ -237,7 +236,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		paddingVertical: 5,
 		paddingHorizontal: 12,
-		marginBottom: 20
+		marginBottom: 5
 	},
 	leftBlock: {
 		display: 'flex',
@@ -278,6 +277,11 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		backgroundColor: '#F7F7F7',
 		marginTop: '60%'
+	},
+	name: {
+		color: '#1E1E1E',
+		fontFamily: 'Montserrat-SemiBold',
+		paddingBottom: 4
 	},
 	infoAboutSearch: {}
 });
