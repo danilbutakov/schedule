@@ -22,14 +22,12 @@ const UserInfo = () => {
 	const [univ, setUniv] = useState('');
 	const [role, setRole] = useState('');
 
-	const [tempUuid, setTempUuid] = useState('');
-
 	const [menuItems, setMenuItems] = useState([]);
 
 	//read from database
 	useEffect(() => {
 		if (user) {
-			onValue(ref(db, 'users/' + `${user.uid}`), snapshot => {
+			onValue(ref(db, 'users/' + user.uid), snapshot => {
 				setMenuItems([]);
 				const data = snapshot.val();
 				if (data !== null) {
@@ -62,106 +60,110 @@ const UserInfo = () => {
 				height,
 				backgroundColor: '#F7F7F7'
 			}}>
-			{menuItems.map((item, key) => (
-				<View style={styles.infoCon} key={key}>
-					<View style={styles.infoMain}>
-						<View style={styles.infoUser}>
-							<TextInput
-								style={styles.group}
-								placeholder={item.group}
-								value={group}
-								onChangeText={text => setGroup(text)}
-							/>
-							<View style={styles.btnCon}>
-								<TouchableOpacity
-									style={styles.change}
-									onPress={() => {
-										Alert.alert(
-											'Изменить данные?',
-											'Вы действительно хотите изменить ваши данные?',
-											[
-												{
-													text: 'Отменить',
-													onPress: () => console.log('Cancel Pressed'),
-													style: 'cancel'
-												},
-												{
-													text: 'Изменить',
-													onPress: () => {
-														if (group !== '') {
-															handleUpdateGroup(group);
-															if (handleUpdateGroup) {
-																Alert.alert('Вы успешно обновили группу');
-																setGroup('');
-															} else {
-																Alert.alert('Не удалось обновить группу');
+			{menuItems.map((item, key) => {
+				if (item.group || item.univ) {
+					return (
+						<View style={styles.infoCon} key={key}>
+							<View style={styles.infoMain}>
+								<View style={styles.infoUser}>
+									<TextInput
+										style={styles.group}
+										placeholder={item.group}
+										value={group}
+										onChangeText={text => setGroup(text)}
+									/>
+									<View style={styles.btnCon}>
+										<TouchableOpacity
+											style={styles.change}
+											onPress={() => {
+												Alert.alert(
+													'Изменить данные?',
+													'Вы действительно хотите изменить ваши данные?',
+													[
+														{
+															text: 'Отменить',
+															onPress: () => console.log('Cancel Pressed'),
+															style: 'cancel'
+														},
+														{
+															text: 'Изменить',
+															onPress: () => {
+																if (group !== '') {
+																	handleUpdateGroup(group);
+																	if (handleUpdateGroup) {
+																		Alert.alert('Вы успешно обновили группу');
+																		setGroup('');
+																	} else {
+																		Alert.alert('Не удалось обновить группу');
+																	}
+																} else {
+																	Alert.alert(
+																		'Поле группы пустое.',
+																		'Пожалуйста введите значение чтобы изменить данные'
+																	);
+																}
 															}
-														} else {
-															Alert.alert(
-																'Поле группы пустое.',
-																'Пожалуйста введите значение чтобы изменить данные'
-															);
 														}
-													}
-												}
-											]
-										);
-									}}>
-									<View style={styles.changeCon}>
-										<Text style={styles.changeText}>Изменить группу</Text>
+													]
+												);
+											}}>
+											<View style={styles.changeCon}>
+												<Text style={styles.changeText}>Изменить группу</Text>
+											</View>
+										</TouchableOpacity>
 									</View>
-								</TouchableOpacity>
-							</View>
-							<TextInput
-								style={styles.univ}
-								placeholder={item.univ}
-								value={univ}
-								onChangeText={text => setUniv(text)}
-							/>
-							<View style={styles.btnCon}>
-								<TouchableOpacity
-									style={styles.change}
-									onPress={() => {
-										Alert.alert(
-											'Изменить данные?',
-											'Вы действительно хотите изменить ваши данные?',
-											[
-												{
-													text: 'Отменить',
-													onPress: () => console.log('Cancel Pressed'),
-													style: 'cancel'
-												},
-												{
-													text: 'Изменить',
-													onPress: () => {
-														if (univ !== '') {
-															handleUpdateUniv(univ);
-															if (handleUpdateGroup) {
-																Alert.alert('Вы успешно обновили ВУЗ');
-																setUniv('');
-															} else {
-																Alert.alert('Не удалось обновить ВУЗ');
+									<TextInput
+										style={styles.univ}
+										placeholder={item.univ}
+										value={univ}
+										onChangeText={text => setUniv(text)}
+									/>
+									<View style={styles.btnCon}>
+										<TouchableOpacity
+											style={styles.change}
+											onPress={() => {
+												Alert.alert(
+													'Изменить данные?',
+													'Вы действительно хотите изменить ваши данные?',
+													[
+														{
+															text: 'Отменить',
+															onPress: () => console.log('Cancel Pressed'),
+															style: 'cancel'
+														},
+														{
+															text: 'Изменить',
+															onPress: () => {
+																if (univ !== '') {
+																	handleUpdateUniv(univ);
+																	if (handleUpdateGroup) {
+																		Alert.alert('Вы успешно обновили ВУЗ');
+																		setUniv('');
+																	} else {
+																		Alert.alert('Не удалось обновить ВУЗ');
+																	}
+																} else {
+																	Alert.alert(
+																		'Поле ВУЗа пустое.',
+																		'Пожалуйста введите значение чтобы изменить данные'
+																	);
+																}
 															}
-														} else {
-															Alert.alert(
-																'Поле ВУЗа пустое.',
-																'Пожалуйста введите значение чтобы изменить данные'
-															);
 														}
-													}
-												}
-											]
-										);
-									}}>
-									<View style={styles.changeCon}>
-										<Text style={styles.changeText}>Изменить ВУЗ</Text>
+													]
+												);
+											}}>
+											<View style={styles.changeCon}>
+												<Text style={styles.changeText}>Изменить ВУЗ</Text>
+											</View>
+										</TouchableOpacity>
 									</View>
-								</TouchableOpacity>
+								</View>
 							</View>
 						</View>
-					</View>
-				</View>
-			))}
+					);
+				}
+			})}
 		</View>
 	);
 };
