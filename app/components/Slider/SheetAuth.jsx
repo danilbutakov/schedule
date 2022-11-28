@@ -30,32 +30,41 @@ const SheetAuth = () => {
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 
 	const signUp = () => {
-		const userSignUp = auth().createUserWithEmailAndPassword(email, password);
-		userSignUp
-			.then(() => {
-				setUserWithEmail(userSignUp);
-				setUser(userSignUp);
-				console.log('Register successfully');
-				Alert.alert('Вы успешно зарегистрировались');
-			})
-			.catch(error => {
-				console.log(error);
-				Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
-			});
+		if (email === '' && password === '' && passwordConfirm === '') {
+			setIsError(true);
+		}
+		if (email !== '' && password !== '' && passwordConfirm !== '') {
+			const userSignUp = auth().createUserWithEmailAndPassword(email, password);
+			userSignUp
+				.then(() => {
+					setUserWithEmail(userSignUp);
+					setUser(userSignUp);
+					console.log('Register successfully');
+					Alert.alert('Вы успешно зарегистрировались');
+				})
+				.catch(error => {
+					console.log(error);
+					Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
+				});
+		}
 	};
 
 	const signIn = () => {
-		auth()
-			.signInWithEmailAndPassword(email, password)
-			.then(() => {
-				setUser();
-				console.log('Login successfully');
-				Alert.alert('Вы успешно вошли в аккаунт');
-			})
-			.catch(error => {
-				console.log(error);
-				Alert.alert('Неверный email или пароль');
-			});
+		if (email === '' && password === '') {
+			setIsError(true);
+		} else {
+			auth()
+				.signInWithEmailAndPassword(email, password)
+				.then(() => {
+					setUser();
+					console.log('Login successfully');
+					Alert.alert('Вы успешно вошли в аккаунт');
+				})
+				.catch(error => {
+					console.log(error);
+					Alert.alert('Неверный email или пароль');
+				});
+		}
 	};
 
 	useEffect(() => {

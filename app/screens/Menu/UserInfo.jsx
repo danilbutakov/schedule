@@ -12,7 +12,6 @@ import { ref, onValue, update } from 'firebase/database';
 
 import useAuth from '../../hooks/useAuth';
 import { db } from '../../../firebase';
-import { G } from 'react-native-svg';
 
 const { height } = Dimensions.get('screen');
 
@@ -74,8 +73,8 @@ const UserInfo = () => {
 											style={styles.change}
 											onPress={() => {
 												Alert.alert(
-													'Изменить данные?',
-													'Вы действительно хотите изменить ваши данные?',
+													'Изменение группы',
+													'Вы действительно хотите изменить вашу группу?',
 													[
 														{
 															text: 'Отменить',
@@ -120,8 +119,8 @@ const UserInfo = () => {
 											style={styles.change}
 											onPress={() => {
 												Alert.alert(
-													'Изменить данные?',
-													'Вы действительно хотите изменить ваши данные?',
+													'Изменение ВУЗа?',
+													'Вы действительно хотите изменить ваш ВУЗ?',
 													[
 														{
 															text: 'Отменить',
