@@ -66,17 +66,21 @@ export const AuthProvider = ({ children }) => {
 		try {
 			await GoogleSignin.revokeAccess();
 			await auth().signOut();
-			console.log(exit);
+			console.log('Cool exit Google');
 		} catch (error) {
-			console.log(error.message, 'exitGoogle not work');
+			console.log(error.message, 'exit Google not work');
 		} finally {
 			setLoading(false);
 		}
-
 		if (!userWithGoggle) {
-			auth()
+			await auth()
 				.signOut()
-				.then(() => console.log('User signed out!'));
+				.then(() => {
+					console.log('exit Email');
+				})
+				.catch(error => {
+					console.log(error, 'exit Email not work');
+				});
 		}
 	};
 
@@ -86,6 +90,7 @@ export const AuthProvider = ({ children }) => {
 			user,
 			setUser,
 			signOut,
+			userWithGoggle,
 			loading
 		}),
 		[user, loading]

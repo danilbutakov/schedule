@@ -189,7 +189,7 @@ const MenuStack = () => {
 										color: '1E1E1F',
 										paddingLeft: 10
 									}}>
-									Профиль
+									Расписание звонков
 								</Text>
 							</View>
 						</TouchableOpacity>
@@ -229,7 +229,7 @@ const MenuStack = () => {
 										color: '1E1E1F',
 										paddingLeft: 10
 									}}>
-									Профиль
+									Полезные ссылки
 								</Text>
 							</View>
 						</TouchableOpacity>
