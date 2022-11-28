@@ -5,7 +5,9 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	TextInput,
-	Dimensions
+	Dimensions,
+	Keyboard,
+	TouchableWithoutFeedback
 } from 'react-native';
 import { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -19,6 +21,15 @@ import Delete from '../../../assets/svgUtils/delete.svg';
 import { useNavigation } from '@react-navigation/native';
 
 const { height } = Dimensions.get('screen');
+
+const DismissKeyboardHOC = Comp => {
+	return ({ children, ...props }) => (
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+			<Comp {...props}>{children}</Comp>
+		</TouchableWithoutFeedback>
+	);
+};
+const DismissKeyboardView = DismissKeyboardHOC(View);
 
 const Search = () => {
 	const [searchValue, setSearchValue] = useState('');
@@ -45,8 +56,18 @@ const Search = () => {
 
 	const navigation = useNavigation();
 
+	//Обработчик появления и исчезания клавиатуры
+	const [isOpenedKeyboard, setIsOpenKeyboard] = useState(false);
+
+	const keyboardShowListener = Keyboard.addListener('keyboardDidShow', () => {
+		setIsOpenKeyboard(true);
+	});
+	const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
+		setIsOpenKeyboard(false);
+	});
+
 	return (
-		<View style={styles.containerSearch}>
+		<DismissKeyboardView style={styles.containerSearch}>
 			{showSearch && (
 				<>
 					<View style={styles.searchCont}>
@@ -71,8 +92,10 @@ const Search = () => {
 									/>
 								</View>
 								{searchValue && (
-									<TouchableOpacity onPress={() => setSearchValue('')}>
-										<Delete width={17} height={17} />
+									<TouchableOpacity
+										style={{}}
+										onPress={() => setSearchValue('')}>
+										<Delete width={20} height={20} />
 									</TouchableOpacity>
 								)}
 							</View>
@@ -197,7 +220,7 @@ const Search = () => {
 					)}
 				</>
 			)}
-		</View>
+		</DismissKeyboardView>
 	);
 };
 
@@ -225,7 +248,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		width: '100%',
-		paddingVertical: 5,
+		paddingVertical: 10,
 		paddingHorizontal: 12,
 		marginBottom: 5
 	},
@@ -245,7 +268,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontFamily: 'Montserrat-Medium',
 		lineHeight: 20,
-		width: '80%'
+		width: '85%'
 	},
 	searchBlockInfo: {
 		width: '100%',
