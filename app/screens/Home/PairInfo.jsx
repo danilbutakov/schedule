@@ -32,13 +32,8 @@ const DismissKeyboardHOC = Comp => {
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 const PairInfo = () => {
-	const {
-		handleClickPair,
-		notes,
-		setNotes,
-		setNotesDataScreen,
-		notesDataScreen
-	} = useContext(AppContext);
+	const { handleClickPair, notes, setNotes, setNotesDataScreen } =
+		useContext(AppContext);
 
 	const [showNotes, setShowNotes] = useState(false);
 	const [showInfo, setShowInfo] = useState(true);
@@ -204,13 +199,14 @@ const PairInfo = () => {
 								value={note}
 								onChangeText={newNote => setNote(newNote)}
 								style={styles.addNoteInput}
-								maxLength={100}
+								maxLength={50}
 								multiline={true}
+								numberOfLines={2}
 								keyboardType='text'
 							/>
 							<TouchableOpacity
 								onPress={() => {
-									if (note !== '') {
+									if (note !== '' && note !== ' ') {
 										writeToDataBase();
 									}
 								}}>
@@ -232,23 +228,19 @@ const PairInfo = () => {
 									</Text>
 									<TouchableOpacity
 										onPress={() => {
-											Alert.alert(
-												'Удалить заметку?',
-												'Вы действительно хотите удалить заметку?',
-												[
-													{
-														text: 'Отменить',
-														onPress: () => console.log('Cancel Pressed'),
-														style: 'cancel'
-													},
-													{
-														text: 'Удалить',
-														onPress: () => {
-															handleDelete(note.createdAt);
-														}
+											Alert.alert('Удаление заметки', 'Удалить заметку?', [
+												{
+													text: 'Отменить',
+													onPress: () => console.log('Cancel Pressed'),
+													style: 'cancel'
+												},
+												{
+													text: 'Удалить',
+													onPress: () => {
+														handleDelete(note.createdAt);
 													}
-												]
-											);
+												}
+											]);
 										}}>
 										<Image
 											source={images.deleteNote}

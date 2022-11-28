@@ -15,11 +15,10 @@ import { db } from '../../../firebase';
 import useAuth from '../../hooks/useAuth';
 
 const MenuScreen = () => {
-	const { signOut, user } = useAuth();
+	const { signOut, user, loading } = useAuth();
 
 	const [menuItems, setMenuItems] = useState([]);
 	const navigation = useNavigation();
-	const [loading, setLoading] = useState(false);
 
 	//read from database
 	useEffect(() => {
@@ -135,7 +134,7 @@ const MenuScreen = () => {
 			<TouchableOpacity
 				style={styles.faq}
 				onPress={() => {
-					Alert.alert('Выйти?', 'Вы уверены, что хотите выйти из приложения', [
+					Alert.alert('Выход', 'Вы уверены, что хотите выйти из аккаунта?', [
 						{
 							text: 'Отменить',
 							onPress: () => console.log('Cancel Pressed'),
@@ -144,7 +143,6 @@ const MenuScreen = () => {
 						{
 							text: 'Выйти',
 							onPress: () => {
-								setLoading(true);
 								signOut();
 							}
 						}
