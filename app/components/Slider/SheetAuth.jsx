@@ -8,7 +8,7 @@ import {
 	Alert,
 	ActivityIndicator
 } from 'react-native';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 import { TextInput } from 'react-native-gesture-handler';
 import debounce from 'lodash.debounce';
@@ -19,9 +19,11 @@ import { images } from '../../../assets/globalImages';
 const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
-	const { onGoogleButtonPress, setUser, loading } = useAuth();
+	const { onGoogleButtonPress, setUser, loading, user, signOut } = useAuth();
 	const [register, setRegister] = useState(false);
 	const [userWithEmail, setUserWithEmail] = useState();
+	const [showEmailVerified, setShowEmailVerified] = useState(false);
+	const [showAuth, setShowAuth] = useState(true);
 
 	const [email, setEmail] = useState('');
 	const [emailValue, setEmailValue] = useState('');
@@ -34,6 +36,7 @@ const SheetAuth = () => {
 
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
+	const [verifError, setVerifError] = useState(false);
 
 	const emailRef = useRef();
 	const passwordRef = useRef();
@@ -42,7 +45,6 @@ const SheetAuth = () => {
 	const handleChangeEmail = useCallback(
 		debounce(str => {
 			setEmail(str);
-			console.log(str);
 		}, 500),
 		[]
 	);
@@ -50,7 +52,6 @@ const SheetAuth = () => {
 	const handleChangePassword = useCallback(
 		debounce(str => {
 			setPassword(str);
-			console.log(str);
 		}, 500),
 		[]
 	);
@@ -58,7 +59,6 @@ const SheetAuth = () => {
 	const handleChangePasswordConfirm = useCallback(
 		debounce(str => {
 			setPasswordConfirm(str);
-			console.log(str);
 		}, 500),
 		[]
 	);
@@ -110,14 +110,32 @@ const SheetAuth = () => {
 			const userSignUp = auth().createUserWithEmailAndPassword(email, password);
 			userSignUp
 				.then(() => {
-					setUserWithEmail(userSignUp);
-					setUser(userSignUp);
-					console.log('Register successfully');
-					Alert.alert('Вы успешно зарегистрировались');
+					auth()
+						.currentUser.sendEmailVerification({
+							handleCodeInApp: true,
+							url: 'https://schedule-11f30.firebaseapp.com'
+						})
+						.then(() => {
+							setUserWithEmail(userSignUp);
+							console.log('verification email send');
+							Alert.alert('Письмо с подтверждением почты успешно отправлено');
+							setShowEmailVerified(true);
+							setShowAuth(false);
+						})
+						.catch(error => {
+							console.log(error);
+							Alert.alert('Не удалось отправить письмо с подтверждением');
+							setShowEmailVerified(false);
+							setShowAuth(true);
+							signOut();
+						});
 				})
 				.catch(error => {
 					console.log(error);
 					Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
+					setShowEmailVerified(false);
+					setShowAuth(true);
+					signOut();
 				});
 		} else {
 			setIsError(true);
@@ -173,96 +191,159 @@ const SheetAuth = () => {
 		}
 	};
 
+	useEffect(() => {
+		if (user.emailVerified === true) {
+			console.log('nice');
+		} else {
+			console.log('bad');
+		}
+		console.log(user);
+	}, [user]);
+
 	return (
 		<View>
 			<View style={styles.conMain}>
 				{loading ? <ActivityIndicator size='large' color='#1E1E1F' /> : null}
-				<Text style={styles.title}>
-					{register ? 'Регистрация' : 'Войти с помощью'}
-				</Text>
-				<TouchableOpacity style={styles.container}>
-					<TouchableOpacity
-						onPress={() => {
-							onGoogleButtonPress();
-						}}>
-						<View style={styles.conBtnActive}>
-							<Image source={images.google} />
-							<Text style={styles.btnTextActive}>Sign in with Google</Text>
-						</View>
-					</TouchableOpacity>
-					<Text style={styles.another}>или</Text>
-					{register ? (
-						<View style={styles.conSign}>
-							<Text style={styles.text}>Почта</Text>
-							<TextInput
-								value={emailValue}
-								ref={emailRef}
-								onChangeText={onChangeEmail}
-								placeholder='Введите email'
-								style={styles.inputVuz}
-							/>
-							<Text style={styles.text}>Пароль</Text>
-							<TextInput
-								value={passwordValue}
-								ref={passwordRef}
-								onChangeText={onChangePassword}
-								placeholder='Введите пароль'
-								secureTextEntry={true}
-								style={styles.inputVuz}
-							/>
-							<Text style={styles.text}>Подтвердите пароль</Text>
-							<TextInput
-								value={passwordConfirmValue}
-								ref={passwordConfirmRef}
-								onChangeText={onChangePasswordConfirm}
-								placeholder='Подтвердите пароль'
-								secureTextEntry={true}
-								style={styles.inputVuz}
-							/>
-							{isError === false && isErrorPassword === false ? (
-								<TouchableOpacity style={styles.signButton} onPress={signUp}>
-									<Text style={styles.signButtonText}>Зарегистрироваться</Text>
-								</TouchableOpacity>
-							) : null}
-							{isErrorPassword && (
-								<Text style={styles.error}>Пароли не совпадают</Text>
-							)}
-						</View>
-					) : (
-						<View style={styles.conSign}>
-							<Text style={styles.text}>Почта</Text>
-							<TextInput
-								value={email}
-								onChangeText={email => setEmail(email)}
-								placeholder='Введите email'
-								style={styles.inputVuz}
-							/>
-							<Text style={styles.text}>Пароль</Text>
-							<TextInput
-								value={password}
-								onChangeText={password => setPassword(password)}
-								placeholder='Введите пароль'
-								secureTextEntry={true}
-								style={styles.inputVuz}
-							/>
-							<TouchableOpacity style={styles.signButton} onPress={signIn}>
-								<Text style={styles.signButtonText}>Войти</Text>
-							</TouchableOpacity>
-						</View>
-					)}
-					{isError ? (
-						<View style={styles.conSign}>
-							<Text style={styles.error}>Заполнены не все поля</Text>
-						</View>
-					) : null}
-					<View styles={styles.bottom}>
-						<Text style={styles.reg} onPress={() => setRegister(!register)}>
-							{register
-								? 'Уже есть аккаунт? Войти'
-								: 'Нет аккаунта? Зарегистрироваться'}
+				{user && user.emailVerified === false && (
+					<View style={{ marginTop: 10, paddingHorizontal: 20, flex: 1 }}>
+						<Text
+							style={{
+								fontFamily: 'Montserrat-Bold',
+								fontSize: 23,
+								alignSelf: 'center',
+								lineHeight: 28,
+								marginBottom: 30
+							}}>
+							Письмо подтверждения
 						</Text>
+						<Text
+							style={{
+								fontFamily: 'Montserrat-Medium',
+								fontSize: 15,
+								alignSelf: 'center',
+								lineHeight: 20,
+								flex: 0.85
+							}}>
+							Перейдите по ссылке в отправленном письме на вашу почту, чтобы
+							подтвердить email. Возможно письмо может оказаться в папке Спам.
+						</Text>
+						<TouchableOpacity
+							onPress={() => {
+								if (user.emailVerified === false) {
+									setVerifError(true);
+								}
+								if (user.emailVerified === true) {
+									setVerifError(false);
+								}
+							}}>
+							<View style={styles.signButton}>
+								<Text style={styles.signButtonText}>Продолжить</Text>
+							</View>
+							{verifError === true && (
+								<Text style={styles.error}>Подтвердите email</Text>
+							)}
+						</TouchableOpacity>
+						<TouchableOpacity onPress={signOut}>
+							<Text style={styles.reg}>
+								Не пришло письмо? Пройдите регистрацию еще раз
+							</Text>
+						</TouchableOpacity>
 					</View>
-				</TouchableOpacity>
+				)}
+				{!user && (
+					<>
+						<Text style={styles.title}>
+							{register ? 'Регистрация' : 'Войти с помощью'}
+						</Text>
+						<TouchableOpacity style={styles.container}>
+							<TouchableOpacity
+								onPress={() => {
+									onGoogleButtonPress();
+								}}>
+								<View style={styles.conBtnActive}>
+									<Image source={images.google} />
+									<Text style={styles.btnTextActive}>Sign in with Google</Text>
+								</View>
+							</TouchableOpacity>
+							<Text style={styles.another}>или</Text>
+							{register ? (
+								<View style={styles.conSign}>
+									<Text style={styles.text}>Почта</Text>
+									<TextInput
+										value={emailValue}
+										ref={emailRef}
+										onChangeText={onChangeEmail}
+										placeholder='Введите email'
+										style={styles.inputVuz}
+									/>
+									<Text style={styles.text}>Пароль</Text>
+									<TextInput
+										value={passwordValue}
+										ref={passwordRef}
+										onChangeText={onChangePassword}
+										placeholder='Введите пароль'
+										secureTextEntry={true}
+										style={styles.inputVuz}
+									/>
+									<Text style={styles.text}>Подтвердите пароль</Text>
+									<TextInput
+										value={passwordConfirmValue}
+										ref={passwordConfirmRef}
+										onChangeText={onChangePasswordConfirm}
+										placeholder='Подтвердите пароль'
+										secureTextEntry={true}
+										style={styles.inputVuz}
+									/>
+									{isError === false && isErrorPassword === false ? (
+										<TouchableOpacity
+											style={styles.signButton}
+											onPress={signUp}>
+											<Text style={styles.signButtonText}>
+												Зарегистрироваться
+											</Text>
+										</TouchableOpacity>
+									) : null}
+									{isErrorPassword && (
+										<Text style={styles.error}>Пароли не совпадают</Text>
+									)}
+								</View>
+							) : (
+								<View style={styles.conSign}>
+									<Text style={styles.text}>Почта</Text>
+									<TextInput
+										value={email}
+										onChangeText={email => setEmail(email)}
+										placeholder='Введите email'
+										style={styles.inputVuz}
+									/>
+									<Text style={styles.text}>Пароль</Text>
+									<TextInput
+										value={password}
+										onChangeText={password => setPassword(password)}
+										placeholder='Введите пароль'
+										secureTextEntry={true}
+										style={styles.inputVuz}
+									/>
+									<TouchableOpacity style={styles.signButton} onPress={signIn}>
+										<Text style={styles.signButtonText}>Войти</Text>
+									</TouchableOpacity>
+								</View>
+							)}
+							{isError ? (
+								<View style={styles.conSign}>
+									<Text style={styles.error}>Заполнены не все поля</Text>
+								</View>
+							) : null}
+							<View styles={styles.bottom}>
+								<Text style={styles.reg} onPress={() => setRegister(!register)}>
+									{register
+										? 'Уже есть аккаунт? Войти'
+										: 'Нет аккаунта? Зарегистрироваться'}
+								</Text>
+							</View>
+						</TouchableOpacity>
+					</>
+				)}
 			</View>
 		</View>
 	);

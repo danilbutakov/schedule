@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import { View, Text, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { ref, onValue } from 'firebase/database';
 
 import TabNavigator from './TabNavigator';
 import useAuth from './app/hooks/useAuth';
 import OnBoard from './app/screens/OnBoard';
 import UserData from './app/screens/UserData';
 
-import { useNavigation } from '@react-navigation/native';
-
-import { ref, onValue } from 'firebase/database';
 import { db } from './firebase';
 
 const Stack = createStackNavigator();
@@ -40,7 +39,7 @@ const StackNavigator = () => {
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
 			<>
-				{user && userData === null && (
+				{user && userData === null && user.emailVerified === true && (
 					<Stack.Screen
 						name='UserData'
 						component={UserData}
@@ -49,7 +48,7 @@ const StackNavigator = () => {
 						}}
 					/>
 				)}
-				{user && userData !== null && (
+				{user && userData !== null && user.emailVerified === true && (
 					<>
 						<Stack.Screen
 							name='Main'
@@ -511,6 +510,16 @@ const StackNavigator = () => {
 						component={OnBoard}
 					/>
 				) : null}
+				{user && user.emailVerified === false && (
+					<Stack.Screen
+						name='OnBoard'
+						options={{
+							headerShown: false,
+							cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+						}}
+						component={OnBoard}
+					/>
+				)}
 			</>
 		</Stack.Navigator>
 	);
