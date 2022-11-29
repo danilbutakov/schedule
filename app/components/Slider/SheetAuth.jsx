@@ -78,12 +78,6 @@ const SheetAuth = () => {
 		handleChangePasswordConfirm(text);
 	};
 
-	useEffect(() => {
-		console.log(email.length, 'email');
-		console.log(password.length, 'password');
-		console.log(passwordConfirm.length, 'passwordConfirm');
-	}, [email, password, passwordConfirm]);
-
 	const signUp = () => {
 		if (
 			email === '' &&
@@ -140,20 +134,42 @@ const SheetAuth = () => {
 	};
 
 	const signIn = () => {
-		if (email === '' && password === '') {
+		if (
+			email === '' &&
+			email === ' ' &&
+			email.length <= 5 &&
+			password === '' &&
+			password === ' ' &&
+			password.length <= 5
+		) {
 			setIsError(true);
-		} else {
+			setTimeout(() => {
+				setIsError(false);
+			}, 4000);
+		}
+		if (
+			email !== '' &&
+			email !== ' ' &&
+			email.length >= 5 &&
+			password !== '' &&
+			password !== ' ' &&
+			password.length >= 5
+		) {
 			auth()
 				.signInWithEmailAndPassword(email, password)
 				.then(() => {
 					setUser();
 					console.log('Login successfully');
-					Alert.alert('Вы успешно вошли в аккаунт');
 				})
 				.catch(error => {
 					console.log(error);
 					Alert.alert('Неверный email или пароль');
 				});
+		} else {
+			setIsError(true);
+			setTimeout(() => {
+				setIsError(false);
+			}, 4000);
 		}
 	};
 
