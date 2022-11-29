@@ -584,7 +584,7 @@ const TabNavigator = () => {
 
 	return (
 		<>
-			{user && userData === null && (
+			{user && userData === null && user.emailVerified === true && (
 				<Stack.Screen
 					name='UserData'
 					component={UserData}
@@ -593,7 +593,7 @@ const TabNavigator = () => {
 					}}
 				/>
 			)}
-			{user && userData !== null && (
+			{user && userData !== null && user.emailVerified === true && (
 				<Tab.Navigator
 					initialRouteName='HomeStack'
 					screenOptions={{
