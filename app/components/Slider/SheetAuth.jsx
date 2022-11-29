@@ -8,9 +8,10 @@ import {
 	Alert,
 	ActivityIndicator
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import auth from '@react-native-firebase/auth';
 import { TextInput } from 'react-native-gesture-handler';
+import debounce from 'lodash.debounce';
 
 import useAuth from '../../hooks/useAuth';
 import { images } from '../../../assets/globalImages';
@@ -23,17 +24,95 @@ const SheetAuth = () => {
 	const [userWithEmail, setUserWithEmail] = useState();
 
 	const [email, setEmail] = useState('');
+	const [emailValue, setEmailValue] = useState('');
+
 	const [password, setPassword] = useState('');
+	const [passwordValue, setPasswordValue] = useState('');
+
 	const [passwordConfirm, setPasswordConfirm] = useState('');
+	const [passwordConfirmValue, setPasswordConfirmValue] = useState('');
 
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 
+	const emailRef = useRef();
+	const passwordRef = useRef();
+	const passwordConfirmRef = useRef();
+
+	const handleChangeEmail = useCallback(
+		debounce(str => {
+			setEmail(str);
+			console.log(str);
+		}, 500),
+		[]
+	);
+
+	const handleChangePassword = useCallback(
+		debounce(str => {
+			setPassword(str);
+			console.log(str);
+		}, 500),
+		[]
+	);
+
+	const handleChangePasswordConfirm = useCallback(
+		debounce(str => {
+			setPasswordConfirm(str);
+			console.log(str);
+		}, 500),
+		[]
+	);
+
+	const onChangeEmail = text => {
+		setEmailValue(text);
+		handleChangeEmail(text);
+	};
+
+	const onChangePassword = text => {
+		setPasswordValue(text);
+		handleChangePassword(text);
+	};
+
+	const onChangePasswordConfirm = text => {
+		setPasswordConfirmValue(text);
+		handleChangePasswordConfirm(text);
+	};
+
+	useEffect(() => {
+		console.log(email.length, 'email');
+		console.log(password.length, 'password');
+		console.log(passwordConfirm.length, 'passwordConfirm');
+	}, [email, password, passwordConfirm]);
+
 	const signUp = () => {
-		if (email === '' && password === '' && passwordConfirm === '') {
+		if (
+			email === '' &&
+			email === ' ' &&
+			email.length <= 5 &&
+			password === '' &&
+			password === ' ' &&
+			password.length <= 5 &&
+			passwordConfirm === '' &&
+			passwordConfirm === ' ' &&
+			passwordConfirm.length <= 5
+		) {
 			setIsError(true);
+			setTimeout(() => {
+				setIsError(false);
+			}, 4000);
 		}
-		if (email !== '' && password !== '' && passwordConfirm !== '') {
+		if (
+			email !== '' &&
+			email !== ' ' &&
+			email.length >= 5 &&
+			password !== '' &&
+			password !== ' ' &&
+			password.length >= 5 &&
+			passwordConfirm !== '' &&
+			passwordConfirm !== ' ' &&
+			passwordConfirm.length >= 5 &&
+			password === passwordConfirm
+		) {
 			const userSignUp = auth().createUserWithEmailAndPassword(email, password);
 			userSignUp
 				.then(() => {
@@ -46,6 +125,17 @@ const SheetAuth = () => {
 					console.log(error);
 					Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
 				});
+		} else {
+			setIsError(true);
+			setTimeout(() => {
+				setIsError(false);
+			}, 4000);
+		}
+		if (password !== passwordConfirm) {
+			setIsErrorPassword(true);
+			setTimeout(() => {
+				setIsErrorPassword(false);
+			}, 4000);
 		}
 	};
 
@@ -66,23 +156,6 @@ const SheetAuth = () => {
 				});
 		}
 	};
-
-	useEffect(() => {
-		if (password !== passwordConfirm) {
-			setIsErrorPassword(true);
-		}
-		if (password === passwordConfirm) {
-			setIsErrorPassword(false);
-		}
-		if (email === '') {
-			setTimeout(() => {
-				setIsError(true);
-			}, 4000);
-		}
-		if (email !== '') {
-			setIsError(false);
-		}
-	}, [password, passwordConfirm, email]);
 
 	return (
 		<View>
@@ -106,25 +179,26 @@ const SheetAuth = () => {
 						<View style={styles.conSign}>
 							<Text style={styles.text}>Почта</Text>
 							<TextInput
-								value={email}
-								onChangeText={email => setEmail(email)}
+								value={emailValue}
+								ref={emailRef}
+								onChangeText={onChangeEmail}
 								placeholder='Введите email'
 								style={styles.inputVuz}
 							/>
 							<Text style={styles.text}>Пароль</Text>
 							<TextInput
-								value={password}
-								onChangeText={password => setPassword(password)}
+								value={passwordValue}
+								ref={passwordRef}
+								onChangeText={onChangePassword}
 								placeholder='Введите пароль'
 								secureTextEntry={true}
 								style={styles.inputVuz}
 							/>
 							<Text style={styles.text}>Подтвердите пароль</Text>
 							<TextInput
-								value={passwordConfirm}
-								onChangeText={passwordConfirm =>
-									setPasswordConfirm(passwordConfirm)
-								}
+								value={passwordConfirmValue}
+								ref={passwordConfirmRef}
+								onChangeText={onChangePasswordConfirm}
 								placeholder='Подтвердите пароль'
 								secureTextEntry={true}
 								style={styles.inputVuz}
