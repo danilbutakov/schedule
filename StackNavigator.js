@@ -18,7 +18,7 @@ const Stack = createStackNavigator();
 const { width } = Dimensions.get('screen');
 
 const StackNavigator = () => {
-	const { user } = useAuth();
+	const { user, setUser } = useAuth();
 
 	const [userData, setUserData] = useState(null);
 
@@ -39,7 +39,7 @@ const StackNavigator = () => {
 	useEffect(() => {
 		if (currentUser) {
 			currentUser.reload();
-			console.log(currentUser.emailVerified);
+			setUser(currentUser);
 		}
 	}, [currentUser]);
 

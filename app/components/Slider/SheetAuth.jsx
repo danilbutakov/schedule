@@ -224,12 +224,14 @@ const SheetAuth = () => {
 							onPress={() => {
 								if (currentUser.emailVerified === false) {
 									setVerifError(true);
+									setUser(currentUser);
 								}
 								if (currentUser.emailVerified === true) {
 									setVerifError(false);
 									setUser(currentUser);
 								}
 								currentUser.reload();
+								console.log(currentUser);
 							}}>
 							<View style={styles.signButton}>
 								<Text style={styles.signButtonText}>Продолжить</Text>
