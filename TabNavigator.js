@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ref, onValue } from 'firebase/database';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import auth from '@react-native-firebase/auth';
 
 import { images } from './assets/globalImages';
 import HomeScreen from './app/screens/Home/HomeScreen';
@@ -569,6 +570,7 @@ const NotesStack = () => {
 
 const TabNavigator = () => {
 	const { user } = useAuth();
+	const currentUser = auth().currentUser;
 
 	const [userData, setUserData] = useState(null);
 
@@ -582,9 +584,16 @@ const TabNavigator = () => {
 		}
 	}, [user]);
 
+	useEffect(() => {
+		if (currentUser) {
+			currentUser.reload();
+			console.log(currentUser.emailVerified);
+		}
+	}, [currentUser]);
+
 	return (
 		<>
-			{user && userData === null && user.emailVerified === true && (
+			{user && userData === null && currentUser.emailVerified === true && (
 				<Stack.Screen
 					name='UserData'
 					component={UserData}
@@ -593,7 +602,7 @@ const TabNavigator = () => {
 					}}
 				/>
 			)}
-			{user && userData !== null && user.emailVerified === true && (
+			{user && userData !== null && currentUser.emailVerified === true && (
 				<Tab.Navigator
 					initialRouteName='HomeStack'
 					screenOptions={{

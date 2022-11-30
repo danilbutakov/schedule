@@ -20,6 +20,8 @@ const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
 	const { onGoogleButtonPress, setUser, loading, user, signOut } = useAuth();
+	const currentUser = auth().currentUser;
+
 	const [register, setRegister] = useState(false);
 	const [userWithEmail, setUserWithEmail] = useState();
 	const [showEmailVerified, setShowEmailVerified] = useState(false);
@@ -191,15 +193,6 @@ const SheetAuth = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (user.emailVerified === true) {
-			console.log('nice');
-		} else {
-			console.log('bad');
-		}
-		console.log(user);
-	}, [user]);
-
 	return (
 		<View>
 			<View style={styles.conMain}>
@@ -229,20 +222,22 @@ const SheetAuth = () => {
 						</Text>
 						<TouchableOpacity
 							onPress={() => {
-								if (user.emailVerified === false) {
+								if (currentUser.emailVerified === false) {
 									setVerifError(true);
 								}
-								if (user.emailVerified === true) {
+								if (currentUser.emailVerified === true) {
 									setVerifError(false);
+									setUser(currentUser);
 								}
+								currentUser.reload();
 							}}>
 							<View style={styles.signButton}>
 								<Text style={styles.signButtonText}>Продолжить</Text>
 							</View>
-							{verifError === true && (
-								<Text style={styles.error}>Подтвердите email</Text>
-							)}
 						</TouchableOpacity>
+						{verifError === true && (
+							<Text style={styles.error}>Подтвердите email</Text>
+						)}
 						<TouchableOpacity onPress={signOut}>
 							<Text style={styles.reg}>
 								Не пришло письмо? Пройдите регистрацию еще раз

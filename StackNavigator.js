@@ -4,6 +4,7 @@ import { CardStyleInterpolators } from '@react-navigation/stack';
 import { View, Text, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ref, onValue } from 'firebase/database';
+import auth from '@react-native-firebase/auth';
 
 import TabNavigator from './TabNavigator';
 import useAuth from './app/hooks/useAuth';
@@ -33,13 +34,22 @@ const StackNavigator = () => {
 
 	const navigation = useNavigation();
 
+	const currentUser = auth().currentUser;
+
+	useEffect(() => {
+		if (currentUser) {
+			currentUser.reload();
+			console.log(currentUser.emailVerified);
+		}
+	}, [currentUser]);
+
 	return (
 		<Stack.Navigator
 			screenOptions={{
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
 			<>
-				{user && userData === null && user.emailVerified === true && (
+				{user && userData === null && currentUser.emailVerified === true && (
 					<Stack.Screen
 						name='UserData'
 						component={UserData}
@@ -48,7 +58,7 @@ const StackNavigator = () => {
 						}}
 					/>
 				)}
-				{user && userData !== null && user.emailVerified === true && (
+				{user && userData !== null && currentUser.emailVerified === true && (
 					<>
 						<Stack.Screen
 							name='Main'
@@ -510,7 +520,7 @@ const StackNavigator = () => {
 						component={OnBoard}
 					/>
 				) : null}
-				{user && user.emailVerified === false && (
+				{user && currentUser.emailVerified === false && (
 					<Stack.Screen
 						name='OnBoard'
 						options={{
