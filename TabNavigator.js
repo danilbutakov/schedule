@@ -569,7 +569,7 @@ const NotesStack = () => {
 };
 
 const TabNavigator = () => {
-	const { user } = useAuth();
+	const { user, setUser } = useAuth();
 	const currentUser = auth().currentUser;
 
 	const [userData, setUserData] = useState(null);
@@ -587,7 +587,7 @@ const TabNavigator = () => {
 	useEffect(() => {
 		if (currentUser) {
 			currentUser.reload();
-			console.log(currentUser.emailVerified);
+			setUser(currentUser);
 		}
 	}, [currentUser]);
 
