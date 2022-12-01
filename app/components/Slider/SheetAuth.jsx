@@ -222,16 +222,22 @@ const SheetAuth = () => {
 						</Text>
 						<TouchableOpacity
 							onPress={() => {
-								if (currentUser.emailVerified === false) {
-									setVerifError(true);
-									setUser(currentUser);
-								}
-								if (currentUser.emailVerified === true) {
-									setVerifError(false);
-									setUser(currentUser);
-								}
-								currentUser.reload();
-								console.log(currentUser);
+								auth().onIdTokenChanged(user => {
+									if (user && user.uid) {
+										if (user.emailVerified) {
+											setUser(user);
+											user.reload();
+											currentUser.reload();
+											setVerifError(false);
+											console.log('cool');
+										} else {
+											setVerifError(true);
+											user.reload();
+											currentUser.reload();
+											console.log('bad');
+										}
+									}
+								});
 							}}>
 							<View style={styles.signButton}>
 								<Text style={styles.signButtonText}>Продолжить</Text>
