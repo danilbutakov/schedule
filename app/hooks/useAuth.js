@@ -61,26 +61,29 @@ export const AuthProvider = ({ children }) => {
 			.finally(() => setLoading(false));
 	};
 
+	console.log(userWithGoggle);
+
 	const signOut = async () => {
 		setLoading(true);
-		try {
-			await GoogleSignin.revokeAccess();
-			await auth().signOut();
-			console.log('Cool exit Google');
-		} catch (error) {
-			console.log(error.message, 'exit Google not work');
-		} finally {
-			setLoading(false);
-		}
-		if (!userWithGoggle) {
-			await auth()
-				.signOut()
-				.then(() => {
-					console.log('exit Email');
-				})
-				.catch(error => {
-					console.log(error, 'exit Email not work');
-				});
+		await auth()
+			.signOut()
+			.then(() => {
+				console.log('exit Email');
+			})
+			.catch(error => {
+				console.log(error, 'exit Email not work');
+			});
+
+		if (userWithGoggle) {
+			try {
+				await GoogleSignin.revokeAccess();
+				await auth().signOut();
+				console.log('Cool exit Google');
+			} catch (error) {
+				console.log(error.message, 'exit Google not work');
+			} finally {
+				setLoading(false);
+			}
 		}
 	};
 

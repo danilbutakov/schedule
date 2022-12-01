@@ -34,22 +34,13 @@ const StackNavigator = () => {
 
 	const navigation = useNavigation();
 
-	const currentUser = auth().currentUser;
-
-	useEffect(() => {
-		if (currentUser) {
-			currentUser.reload();
-			setUser(currentUser);
-		}
-	}, [currentUser]);
-
 	return (
 		<Stack.Navigator
 			screenOptions={{
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
 			<>
-				{user && userData === null && currentUser.emailVerified === true && (
+				{user && userData === null && user.emailVerified === true && (
 					<Stack.Screen
 						name='UserData'
 						component={UserData}
@@ -58,7 +49,7 @@ const StackNavigator = () => {
 						}}
 					/>
 				)}
-				{user && userData !== null && currentUser.emailVerified === true && (
+				{user && userData !== null && user.emailVerified === true && (
 					<>
 						<Stack.Screen
 							name='Main'
@@ -520,7 +511,7 @@ const StackNavigator = () => {
 						component={OnBoard}
 					/>
 				) : null}
-				{user && currentUser.emailVerified === false && (
+				{user && user.emailVerified === false && (
 					<Stack.Screen
 						name='OnBoard'
 						options={{

@@ -570,7 +570,6 @@ const NotesStack = () => {
 
 const TabNavigator = () => {
 	const { user, setUser } = useAuth();
-	const currentUser = auth().currentUser;
 
 	const [userData, setUserData] = useState(null);
 
@@ -584,16 +583,9 @@ const TabNavigator = () => {
 		}
 	}, [user]);
 
-	useEffect(() => {
-		if (currentUser) {
-			currentUser.reload();
-			setUser(currentUser);
-		}
-	}, [currentUser]);
-
 	return (
 		<>
-			{user && userData === null && currentUser.emailVerified === true && (
+			{user && userData === null && user.emailVerified === true && (
 				<Stack.Screen
 					name='UserData'
 					component={UserData}
@@ -602,7 +594,7 @@ const TabNavigator = () => {
 					}}
 				/>
 			)}
-			{user && userData !== null && currentUser.emailVerified === true && (
+			{user && userData !== null && user.emailVerified === true && (
 				<Tab.Navigator
 					initialRouteName='HomeStack'
 					screenOptions={{
