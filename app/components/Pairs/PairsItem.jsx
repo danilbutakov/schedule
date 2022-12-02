@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { pairs } from '../../utils/Pairs';
@@ -8,6 +8,7 @@ import AppContext from '../../utils/Context';
 const PairsItem = () => {
 	const navigation = useNavigation();
 	const { setHandleClickPair } = useContext(AppContext);
+
 	return (
 		<>
 			{pairs.map((pair, index) => (
@@ -41,9 +42,11 @@ const PairsItem = () => {
 							<View style={styles.classRoomPair}>
 								<Text style={styles.classRoomText}>{pair.classRoom}</Text>
 							</View>
-							<View style={styles.groupPair}>
-								<Text style={styles.groupText}>{pair.group} подгруппа</Text>
-							</View>
+							{pair.group && (
+								<View style={styles.groupPair}>
+									<Text style={styles.groupText}>{pair.group} подгруппа</Text>
+								</View>
+							)}
 						</View>
 					</View>
 				</TouchableOpacity>
@@ -58,15 +61,15 @@ const styles = StyleSheet.create({
 	pairCon: {
 		backgroundColor: '#FFFFFF',
 		marginBottom: 5,
-		paddingBottom: 5,
+		paddingBottom: 17,
 		borderRadius: 16
 	},
 	headPair: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
-		marginBottom: 5,
-		marginTop: 18
+		marginBottom: 12,
+		marginTop: 17
 	},
 	headLeft: {
 		display: 'flex',
@@ -89,10 +92,10 @@ const styles = StyleSheet.create({
 		fontSize: 14
 	},
 	typeText: {
-		fontFamily: 'Montserrat-Regular',
-		fontSize: 13,
-		lineHeight: 20,
-		paddingLeft: 10,
+		fontFamily: 'Montserrat-Medium',
+		fontSize: 15,
+		lineHeight: 32,
+		marginLeft: 12,
 		color: '#1E1E1F'
 	},
 	headRight: {
@@ -100,8 +103,8 @@ const styles = StyleSheet.create({
 		alignSelf: 'center'
 	},
 	rightText: {
-		fontFamily: 'Montserrat-Medium',
-		fontSize: 16,
+		fontFamily: 'Montserrat-Regular',
+		fontSize: 14,
 		lineHeight: 32,
 		color: '#1E1E1F'
 	},
@@ -111,30 +114,26 @@ const styles = StyleSheet.create({
 	nameText: {
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 14,
-		lineHeight: 20,
-		marginBottom: 7,
-		color: '#1E1E1F'
+		color: '#1E1E1F',
+		marginBottom: 8
 	},
 	teacherText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
-		lineHeight: 20,
-		color: '#1E1E1F'
+		color: '#1E1E1F',
+		marginBottom: 8
 	},
 	classRoomText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
-		lineHeight: 20,
 		color: '#1E1E1F'
 	},
 	groupText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
-		lineHeight: 20,
 		color: '#1E1E1F'
 	},
 	groupPair: {
-		marginTop: 10,
-		marginBottom: 0
+		marginTop: 10
 	}
 });

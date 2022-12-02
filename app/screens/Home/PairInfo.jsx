@@ -11,14 +11,15 @@ import {
 	Alert
 } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
-import AppContext from '../../utils/Context';
-
-import useAuth from '../../hooks/useAuth';
-import { ref, set, remove, onValue } from 'firebase/database';
-import { db } from '../../../firebase';
-
-import { images } from '../../../assets/globalImages';
 import { ScrollView } from 'react-native-gesture-handler';
+import { ref, set, remove, onValue } from 'firebase/database';
+
+import Plus from '../../../assets/images/plus.svg';
+import Minus from '../../../assets/images/minus.svg';
+import Delete from '../../../assets/images/delete.svg';
+import AppContext from '../../utils/Context';
+import useAuth from '../../hooks/useAuth';
+import { db } from '../../../firebase';
 
 const { height } = Dimensions.get('screen');
 
@@ -173,23 +174,26 @@ const PairInfo = () => {
 						</Text>
 						<View style={styles.downLine}></View>
 					</View>
+					<View style={styles.downLine}></View>
 					<View style={styles.inf}>
 						<Text style={styles.infText}>{handleClickPair.pair.classRoom}</Text>
 						<View style={styles.downLine}></View>
 					</View>
+					<View style={styles.downLine}></View>
 					<View style={styles.inf}>
 						<Text style={styles.infText}>{handleClickPair.pair.teacher}</Text>
-						<View style={styles.downLine}></View>
 					</View>
+					<View style={styles.downLine}></View>
 				</View>
 				<View style={styles.notesContainer}>
 					<View style={styles.notesTitle}>
 						<Text style={styles.noteTitle}>ЗАМЕТКИ</Text>
 						<TouchableOpacity onPress={() => setShowNotes(!showNotes)}>
-							<Image
-								style={{ width: 15, height: 15 }}
-								source={images.plusNote}
-							/>
+							{!showNotes ? (
+								<Plus width={20} height={20} />
+							) : (
+								<Minus width={20} height={20} />
+							)}
 						</TouchableOpacity>
 					</View>
 					{showNotes && (
@@ -242,13 +246,10 @@ const PairInfo = () => {
 												}
 											]);
 										}}>
-										<Image
-											source={images.deleteNote}
-											style={{ width: 20, height: 20 }}
-										/>
+										<Delete width={20} height={20} />
 									</TouchableOpacity>
-									<View style={styles.downLine}></View>
 								</View>
+								<View style={styles.downLine}></View>
 							</View>
 						))}
 					</ScrollView>
@@ -273,14 +274,12 @@ const styles = StyleSheet.create({
 	typeText: {
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 14,
-		marginBottom: 8,
-		lineHeight: 25
+		marginBottom: 8
 	},
 	nameText: {
 		fontFamily: 'Montserrat-SemiBold',
-		fontSize: 18,
-		marginBottom: 8,
-		lineHeight: 25
+		fontSize: 15,
+		lineHeight: 24
 	},
 	addInfoCon: {
 		backgroundColor: '#FFFFFF'
@@ -295,9 +294,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20
 	},
 	infText: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'Montserrat-Medium',
 		fontSize: 14,
-		lineHeight: 19,
+		lineHeight: 18,
 		color: '#1E1E1E',
 		paddingVertical: 12,
 		flex: 1
@@ -318,8 +317,8 @@ const styles = StyleSheet.create({
 		paddingBottom: 12
 	},
 	noteTitle: {
-		fontSize: 17,
-		lineHeight: 24,
+		fontSize: 14,
+		lineHeight: 16,
 		fontFamily: 'Montserrat-SemiBold',
 		color: '#8E8E93'
 	},
@@ -331,24 +330,16 @@ const styles = StyleSheet.create({
 		paddingBottom: 20,
 		alignItems: 'center'
 	},
-	charLeft: {
-		fontFamily: 'Montserrat-Medium',
-		fontSize: 15,
-		color: '#1E1E1F'
-	},
-	charRight: {
-		fontFamily: 'Montserrat-Bold',
-		fontSize: 17,
-		color: '#8E8E93'
-	},
 	addNoteInput: {
 		borderRadius: 16,
 		backgroundColor: '#ffffff',
-		padding: 10,
-		fontSize: 17,
+		paddingVertical: 13,
+		paddingHorizontal: 18,
+		fontSize: 13,
+		lineHeight: 18,
 		shadowColor: 'rgba(0, 0, 0, 0.3)',
 		shadowOffset: { width: 0, height: 4 },
-		elevation: 4,
+		elevation: 6,
 		color: 'rgba(60, 60, 67, 0.6)',
 		fontFamily: 'Montserrat-Regular',
 		width: '100%'
@@ -364,6 +355,6 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		alignItems: 'center',
 		color: '#FFFFFF',
-		fontFamily: 'Montserrat-Medium'
+		fontFamily: 'Montserrat-SemiBold'
 	}
 });

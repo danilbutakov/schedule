@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 		fontSize: 17,
 		lineHeight: 24,
 		color: '#FFFFFF',
-		fontFamily: 'Montserrat-Medium'
+		fontFamily: 'Montserrat-SemiBold'
 	},
 	headLine: {
 		width,

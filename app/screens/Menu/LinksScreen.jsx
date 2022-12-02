@@ -6,6 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Vk from '../../../assets/images/vk.svg';
 import Telega from '../../../assets/images/telega.svg';
 import Site from '../../../assets/images/site.svg';
+import Moodle from '../../../assets/images/Moodle.svg';
 import Bibl from '../../../assets/images/bibl.svg';
 
 const { height } = Dimensions.get('screen');
@@ -23,7 +24,7 @@ const LinksScreen = () => {
 			<TouchableOpacity
 				style={styles.timeCon}
 				onPress={() => {
-					Linking.openURL('https://vk.com/dbutakov1');
+					Linking.openURL('https://vk.com/irgups');
 				}}>
 				<View style={styles.mainCon}>
 					<Vk style={{ width: 30, height: 30 }} />
@@ -34,7 +35,7 @@ const LinksScreen = () => {
 			<TouchableOpacity
 				style={styles.timeCon}
 				onPress={() => {
-					Linking.openURL('https://t.me/danil_butakov');
+					Linking.openURL('https://t.me/irgups_official');
 				}}>
 				<View style={styles.mainCon}>
 					<Telega style={{ width: 30, height: 30 }} />
@@ -51,6 +52,17 @@ const LinksScreen = () => {
 				<View style={styles.mainCon}>
 					<Site style={{ width: 30, height: 30 }} />
 					<Text style={styles.timeText}>Сайт ИрГУПС</Text>
+				</View>
+				<Feather name='chevron-right' size={25} color='#AEAEB2' />
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.timeCon}
+				onPress={() => {
+					Linking.openURL('https://sdo.irgups.ru/');
+				}}>
+				<View style={styles.mainCon}>
+					<Moodle style={{ width: 30, height: 30 }} />
+					<Text style={styles.timeText}>Moodle ИрГУПС</Text>
 				</View>
 				<Feather name='chevron-right' size={25} color='#AEAEB2' />
 			</TouchableOpacity>
