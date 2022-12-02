@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	Alert,
+	ActivityIndicator,
+	Dimensions
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -13,6 +20,8 @@ import Teacher from '../../../assets/images/teacherAvatar.svg';
 import { db } from '../../../firebase';
 
 import useAuth from '../../hooks/useAuth';
+
+const { width } = Dimensions.get('screen');
 
 const MenuScreen = () => {
 	const { signOut, user, loading } = useAuth();
@@ -181,7 +190,7 @@ const styles = StyleSheet.create({
 	mainContainer: {
 		backgroundColor: '#F7F7F7',
 		height: '100%',
-		paddingHorizontal: 20
+		width
 	},
 	absolute: {
 		position: 'absolute',
@@ -192,7 +201,10 @@ const styles = StyleSheet.create({
 	},
 	infoCon: {
 		marginTop: 10,
-		marginBottom: 40
+		marginBottom: 20,
+		backgroundColor: '#FFFFFF',
+		width: '100%',
+		padding: 20
 	},
 	infoMain: {
 		display: 'flex',
@@ -230,21 +242,27 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
-		paddingVertical: 7
+		paddingHorizontal: 20,
+		paddingVertical: 7,
+		backgroundColor: '#FFFFFF'
 	},
 	links: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
-		paddingVertical: 7
+		paddingHorizontal: 20,
+		paddingVertical: 7,
+		backgroundColor: '#FFFFFF'
 	},
 	faq: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
-		paddingVertical: 7
+		paddingHorizontal: 20,
+		paddingVertical: 7,
+		backgroundColor: '#FFFFFF'
 	},
 	schedCon: {
 		display: 'flex',

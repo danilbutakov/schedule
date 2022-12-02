@@ -1,5 +1,4 @@
-import { View, Dimensions } from 'react-native';
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import VuzInfo from '../components/userInfo/VuzInfo';
 import GroupInfo from '../components/userInfo/GroupInfo';
 import RoleInfo from '../components/userInfo/RoleInfo';

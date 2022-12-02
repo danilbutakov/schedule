@@ -3,7 +3,6 @@ import {
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	Image,
 	Dimensions,
 	Alert,
 	ActivityIndicator
@@ -14,7 +13,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import debounce from 'lodash.debounce';
 
 import useAuth from '../../hooks/useAuth';
-import { images } from '../../../assets/globalImages';
+import Google from '../../../assets/images/Google.svg';
+import Apple from '../../../assets/images/Apple.svg';
 
 const { width } = Dimensions.get('screen');
 
@@ -23,6 +23,8 @@ const SheetAuth = () => {
 	const currentUser = auth().currentUser;
 
 	const [register, setRegister] = useState(false);
+
+	const [isErrorSignUp, setIsErrorSignUp] = useState('');
 	const [userWithEmail, setUserWithEmail] = useState();
 	const [showEmailVerified, setShowEmailVerified] = useState(false);
 	const [showAuth, setShowAuth] = useState(true);
@@ -95,7 +97,7 @@ const SheetAuth = () => {
 			setIsError(true);
 			setTimeout(() => {
 				setIsError(false);
-			}, 4000);
+			}, 3000);
 		}
 		if (
 			email !== '' &&
@@ -133,8 +135,16 @@ const SheetAuth = () => {
 						});
 				})
 				.catch(error => {
-					console.log(error);
-					Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
+					setIsErrorSignUp(error.message);
+					console.log(isErrorSignUp);
+					if (
+						isErrorSignUp ===
+						'[auth/invalid-email] The email address is badly formatted.'
+					) {
+						Alert.alert('Неверный формат почты');
+					} else {
+						Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
+					}
 					setShowEmailVerified(false);
 					setShowAuth(true);
 					signOut();
@@ -143,13 +153,13 @@ const SheetAuth = () => {
 			setIsError(true);
 			setTimeout(() => {
 				setIsError(false);
-			}, 4000);
+			}, 3000);
 		}
 		if (password !== passwordConfirm) {
 			setIsErrorPassword(true);
 			setTimeout(() => {
 				setIsErrorPassword(false);
-			}, 4000);
+			}, 3000);
 		}
 	};
 
@@ -165,7 +175,7 @@ const SheetAuth = () => {
 			setIsError(true);
 			setTimeout(() => {
 				setIsError(false);
-			}, 4000);
+			}, 3000);
 		}
 		if (
 			email !== '' &&
@@ -189,7 +199,7 @@ const SheetAuth = () => {
 			setIsError(true);
 			setTimeout(() => {
 				setIsError(false);
-			}, 4000);
+			}, 3000);
 		}
 	};
 
@@ -198,7 +208,7 @@ const SheetAuth = () => {
 			<View style={styles.conMain}>
 				{loading ? <ActivityIndicator size='large' color='#1E1E1F' /> : null}
 				{user && user.emailVerified === false && (
-					<View style={{ marginTop: 10, paddingHorizontal: 20, flex: 1 }}>
+					<View style={{ marginTop: 10, flex: 1 }}>
 						<Text
 							style={{
 								fontFamily: 'Montserrat-Bold',
@@ -218,7 +228,8 @@ const SheetAuth = () => {
 								flex: 0.85
 							}}>
 							Перейдите по ссылке в отправленном письме на вашу почту, чтобы
-							подтвердить email. Возможно письмо может оказаться в папке Спам.
+							подтвердить Email. {`\n`}Возможно письмо может оказаться в папке
+							«Спам».
 						</Text>
 						<TouchableOpacity
 							onPress={() => {
@@ -244,34 +255,71 @@ const SheetAuth = () => {
 							</View>
 						</TouchableOpacity>
 						{verifError === true && (
-							<Text style={styles.error}>Подтвердите email</Text>
+							<Text style={styles.error}>Подтвердите Email</Text>
 						)}
-						<TouchableOpacity onPress={signOut}>
-							<Text style={styles.reg}>
-								Не пришло письмо? Пройдите регистрацию еще раз
+						<TouchableOpacity
+							onPress={() => {
+								auth()
+									.currentUser.delete()
+									.then(() => {
+										setUser(null);
+									})
+									.catch(error => {
+										Alert.alert('Повторите попытку выхода');
+										console.log(error);
+									});
+							}}>
+							<Text>
+								{`Не пришло письмо?`}
+								<Text
+									style={{
+										fontFamily: 'Montserrat-Regular',
+										color: '#09C0A9'
+									}}>
+									{' '}
+									Повторите попытку
+								</Text>
 							</Text>
 						</TouchableOpacity>
 					</View>
 				)}
 				{!user && (
-					<>
+					<View style={{ flex: 1 }}>
 						<Text style={styles.title}>
-							{register ? 'Регистрация' : 'Войти с помощью'}
+							{register ? 'Создать учетную запись' : 'Войти'}
 						</Text>
+						<View styles={styles.bottom}>
+							<Text style={styles.reg} onPress={() => setRegister(!register)}>
+								{register && (
+									<Text>
+										Уже есть учетная запись?
+										<Text
+											style={{
+												fontFamily: 'Montserrat-Regular',
+												color: '#09C0A9'
+											}}>
+											{''} Войти
+										</Text>
+									</Text>
+								)}
+								{!register && (
+									<Text>
+										{`Новый пользователь?\n`}
+										<Text
+											style={{
+												fontFamily: 'Montserrat-Regular',
+												color: '#09C0A9'
+											}}>
+											Создать учетную запись
+										</Text>
+									</Text>
+								)}
+							</Text>
+						</View>
 						<TouchableOpacity style={styles.container}>
-							<TouchableOpacity
-								onPress={() => {
-									onGoogleButtonPress();
-								}}>
-								<View style={styles.conBtnActive}>
-									<Image source={images.google} />
-									<Text style={styles.btnTextActive}>Sign in with Google</Text>
-								</View>
-							</TouchableOpacity>
-							<Text style={styles.another}>или</Text>
 							{register ? (
 								<View style={styles.conSign}>
-									<Text style={styles.text}>Почта</Text>
+									<Text style={styles.text}>Адрес электронной почты</Text>
 									<TextInput
 										value={emailValue}
 										ref={emailRef}
@@ -297,22 +345,21 @@ const SheetAuth = () => {
 										secureTextEntry={true}
 										style={styles.inputVuz}
 									/>
-									{isError === false && isErrorPassword === false ? (
-										<TouchableOpacity
-											style={styles.signButton}
-											onPress={signUp}>
-											<Text style={styles.signButtonText}>
-												Зарегистрироваться
-											</Text>
-										</TouchableOpacity>
-									) : null}
 									{isErrorPassword && (
 										<Text style={styles.error}>Пароли не совпадают</Text>
+									)}
+									{register && isError ? (
+										<View style={styles.conSign}>
+											<Text style={styles.error}>Заполнены не все поля</Text>
+										</View>
+									) : null}
+									{!isError && !isErrorPassword && (
+										<Text style={styles.another}>или</Text>
 									)}
 								</View>
 							) : (
 								<View style={styles.conSign}>
-									<Text style={styles.text}>Почта</Text>
+									<Text style={styles.text}>Адрес электронной почты</Text>
 									<TextInput
 										value={email}
 										onChangeText={email => setEmail(email)}
@@ -327,25 +374,84 @@ const SheetAuth = () => {
 										secureTextEntry={true}
 										style={styles.inputVuz}
 									/>
-									<TouchableOpacity style={styles.signButton} onPress={signIn}>
-										<Text style={styles.signButtonText}>Войти</Text>
-									</TouchableOpacity>
+									{isError && (
+										<View style={styles.conSign}>
+											<Text style={styles.error}>Заполнены не все поля</Text>
+										</View>
+									)}
+									{!isError && <Text style={styles.another}>или</Text>}
 								</View>
 							)}
-							{isError ? (
-								<View style={styles.conSign}>
-									<Text style={styles.error}>Заполнены не все поля</Text>
-								</View>
-							) : null}
-							<View styles={styles.bottom}>
-								<Text style={styles.reg} onPress={() => setRegister(!register)}>
-									{register
-										? 'Уже есть аккаунт? Войти'
-										: 'Нет аккаунта? Зарегистрироваться'}
-								</Text>
-							</View>
 						</TouchableOpacity>
-					</>
+						<View style={{ flex: 1 }}>
+							{register && isError === false && isErrorPassword === false && (
+								<>
+									<TouchableOpacity
+										onPress={() => {
+											onGoogleButtonPress();
+										}}>
+										<View style={styles.conBtnActive}>
+											<Google style={{ marginRight: 7 }} />
+											<Text style={styles.btnTextActive}>
+												Продолжить с Google
+											</Text>
+										</View>
+									</TouchableOpacity>
+									<TouchableOpacity
+										onPress={() => {
+											Alert.alert(
+												'В скором времени вход через Apple аккаунт будет доступен'
+											);
+										}}>
+										<View style={styles.conBtnActiveApple}>
+											<Apple style={{ marginRight: 7 }} />
+											<Text style={styles.btnTextActiveApple}>
+												Продолжить с Apple
+											</Text>
+										</View>
+									</TouchableOpacity>
+								</>
+							)}
+							{!register && !isError && (
+								<>
+									<TouchableOpacity
+										onPress={() => {
+											onGoogleButtonPress();
+										}}>
+										<View style={styles.conBtnActive}>
+											<Google style={{ marginRight: 7 }} />
+											<Text style={styles.btnTextActive}>
+												Продолжить с Google
+											</Text>
+										</View>
+									</TouchableOpacity>
+									<TouchableOpacity
+										onPress={() => {
+											Alert.alert(
+												'В скором времени вход через AppleID будет доступен'
+											);
+										}}>
+										<View style={styles.conBtnActiveApple}>
+											<Apple style={{ marginRight: 7 }} />
+											<Text style={styles.btnTextActiveApple}>
+												Продолжить с Apple
+											</Text>
+										</View>
+									</TouchableOpacity>
+								</>
+							)}
+						</View>
+						{!register && isError === false && isErrorPassword === false && (
+							<TouchableOpacity style={styles.signButton} onPress={signIn}>
+								<Text style={styles.signButtonText}>Продолжить</Text>
+							</TouchableOpacity>
+						)}
+						{register && isError === false && isErrorPassword === false ? (
+							<TouchableOpacity style={styles.signButton} onPress={signUp}>
+								<Text style={styles.signButtonText}>Регистрация</Text>
+							</TouchableOpacity>
+						) : null}
+					</View>
 				)}
 			</View>
 		</View>
@@ -357,7 +463,9 @@ export default SheetAuth;
 const styles = StyleSheet.create({
 	conMain: {
 		flex: 1,
-		width
+		width,
+		paddingHorizontal: 20,
+		marginBottom: 35
 	},
 	absolute: {
 		position: 'absolute',
@@ -368,85 +476,102 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: '#1E1E1F',
-		fontSize: 27,
-		lineHeight: 36,
-		alignSelf: 'center',
+		fontSize: 24,
+		lineHeight: 32,
 		fontFamily: 'Montserrat-SemiBold',
-		marginTop: 10
+		marginTop: 23
+	},
+	reg: {
+		fontSize: 16,
+		lineHeight: 18,
+		marginTop: 8,
+		color: '#1E1E1F',
+		fontFamily: 'Montserrat-Medium',
+		textAlign: 'left'
 	},
 	container: {
-		marginTop: 20,
-		width
+		marginTop: 20
 	},
 	conBtnActive: {
 		backgroundColor: '#FFFFFF',
 		borderRadius: 20,
-		borderColor: 'black',
+		borderColor: 'rgba(60, 60, 67, 0.13)',
 		borderWidth: 1,
-		borderColor: 'black',
-		padding: 15,
-		alignSelf: 'center',
+		paddingVertical: 13,
 		alignItems: 'center',
 		display: 'flex',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		justifyContent: 'center',
+		width: '100%'
+	},
+	conBtnActiveApple: {
+		backgroundColor: '#414141',
+		borderRadius: 20,
+		borderColor: 'rgba(60, 60, 67, 0.13)',
+		borderWidth: 1,
+		paddingVertical: 13,
+		alignItems: 'center',
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		width: '100%',
+		marginTop: 12
 	},
 	btnTextActive: {
-		fontSize: 17,
+		fontSize: 14,
 		lineHeight: 24,
-		color: 'black',
-		fontFamily: 'Montserrat-Medium'
+		color: '#1E1E1F',
+		fontFamily: 'Montserrat-SemiBold'
+	},
+	btnTextActiveApple: {
+		fontSize: 14,
+		lineHeight: 24,
+		color: '#FFFFFF',
+		fontFamily: 'Montserrat-SemiBold'
 	},
 	another: {
 		color: '#8A8A8E',
 		fontSize: 15,
 		lineHeight: 31,
-		marginTop: 10,
+		marginBottom: 10,
 		alignSelf: 'center',
-		fontFamily: 'Montserrat-Regular'
+		fontFamily: 'Montserrat-Medium'
 	},
 	conSign: {
-		marginTop: 10,
-		marginHorizontal: 20
+		marginTop: 10
 	},
 	text: {
 		color: '#1E1E1F',
-		fontSize: 17,
-		lineHeight: 20,
-		fontFamily: 'Montserrat-Regular'
+		fontSize: 15,
+		lineHeight: 18,
+		fontFamily: 'Montserrat-Medium'
 	},
 	inputVuz: {
 		borderWidth: 1,
+		borderRadius: 16,
 		borderColor: 'rgba(60, 60, 67, 0.13)',
-		borderRadius: 8,
-		backgroundColor: '#ffffff',
+		backgroundColor: '#FFFFFF',
 		padding: 10,
 		marginTop: 5,
-		marginBottom: 10,
-		fontSize: 15,
-		lineHeight: 18,
+		marginBottom: 8,
+		fontSize: 14,
+		lineHeight: 24,
 		color: 'rgba(60, 60, 67, 0.6)',
-		fontFamily: 'Montserrat-Regular'
+		fontFamily: 'Montserrat-Medium'
 	},
 	bottom: {},
 	signButton: {
-		padding: 14,
+		padding: 17,
 		alignItems: 'center',
 		borderRadius: 16,
-		backgroundColor: '#1E1E1F'
+		backgroundColor: '#1E1E1F',
+		marginBottom: 30
 	},
 	signButtonText: {
 		fontSize: 17,
 		lineHeight: 20,
 		color: '#FFFFFF',
-		fontFamily: 'Montserrat-Medium'
-	},
-	reg: {
-		fontSize: 14,
-		lineHeight: 24,
-		color: 'rgba(60, 60, 67, 0.6)',
-		alignSelf: 'center',
-		marginVertical: 20,
-		fontFamily: 'Montserrat-Regular'
+		fontFamily: 'Montserrat-SemiBold'
 	},
 	error: {
 		backgroundColor: '#fca5a5',
@@ -454,6 +579,7 @@ const styles = StyleSheet.create({
 		borderColor: '#f87171',
 		borderRadius: 10,
 		padding: 10,
-		marginTop: 10
+		marginTop: 10,
+		marginBottom: 10
 	}
 });
