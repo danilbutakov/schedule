@@ -1,6 +1,6 @@
 import { View, StyleSheet, SafeAreaView } from 'react-native';
 import React from 'react';
-import useAuth from '../../hooks/useAuth';
+
 import { ScrollView } from 'react-native-gesture-handler';
 import Pairs from '../../components/Pairs/Pairs';
 
@@ -20,7 +20,8 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
 	mainCon: {
-		backgroundColor: '#F7F7F7'
+		backgroundColor: '#F7F7F7',
+		flex: 1
 	},
 	main: {
 		display: 'flex',

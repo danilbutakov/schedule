@@ -56,6 +56,14 @@ const UserInfo = () => {
 				height,
 				backgroundColor: '#F7F7F7'
 			}}>
+			<Text
+				style={{
+					fontFamily: 'Montserrat-SemiBold',
+					fontSize: 24,
+					lineHeight: 28
+				}}>
+				Изменить профиль
+			</Text>
 			{menuItems.map((item, key) => {
 				if (item.group || item.univ) {
 					return (
@@ -181,36 +189,46 @@ const styles = StyleSheet.create({
 		width: '100%'
 	},
 	btnCon: {
-		marginBottom: 50
+		marginBottom: 20
 	},
 	group: {
-		fontFamily: 'Montserrat-Medium',
-		color: '#1E1E1F',
-		fontSize: 15,
-		lineHeight: 18,
-		marginBottom: 4
+		borderWidth: 1,
+		borderRadius: 16,
+		borderColor: 'rgba(60, 60, 67, 0.13)',
+		backgroundColor: '#FFFFFF',
+		padding: 10,
+		marginTop: 20,
+		fontSize: 14,
+		lineHeight: 24,
+		color: 'rgba(60, 60, 67, 0.6)',
+		fontFamily: 'Montserrat-Medium'
 	},
 	univ: {
-		fontFamily: 'Montserrat-Medium',
-		color: '#8E8E93',
-		fontSize: 15,
-		lineHeight: 18
+		borderWidth: 1,
+		borderRadius: 16,
+		borderColor: 'rgba(60, 60, 67, 0.13)',
+		backgroundColor: '#FFFFFF',
+		padding: 10,
+		marginTop: 20,
+		fontSize: 14,
+		lineHeight: 24,
+		color: 'rgba(60, 60, 67, 0.6)',
+		fontFamily: 'Montserrat-Medium'
 	},
 	change: {
 		marginTop: 20
 	},
 	changeCon: {
-		padding: 10,
-		backgroundColor: '#1E1E1F',
+		padding: 15,
 		alignItems: 'center',
-		borderRadius: 15,
-		borderWidth: 2,
-		borderColor: '#81F2DE'
+		borderRadius: 16,
+		backgroundColor: '#1E1E1F',
+		width: '100%'
 	},
 	changeText: {
-		fontFamily: 'Montserrat-Bold',
+		fontSize: 17,
+		lineHeight: 20,
 		color: '#FFFFFF',
-		fontSize: 15,
-		lineHeight: 20
+		fontFamily: 'Montserrat-SemiBold'
 	}
 });

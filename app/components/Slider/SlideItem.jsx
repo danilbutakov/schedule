@@ -40,22 +40,19 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20
 	},
 	title: {
-		fontSize: 27,
-		lineHeight: 32,
-		display: 'flex',
-		alignItems: 'center',
+		fontSize: 24,
 		textAlign: 'center',
 		color: '#1E1E1E',
 		marginBottom: 15,
-		fontFamily: 'Montserrat-Regular'
+		fontFamily: 'Montserrat-SemiBold'
 	},
 	subTitle: {
-		fontSize: 15,
+		fontSize: 17,
 		lineHeight: 24,
 		color: 'rgba(69, 69, 69, 0.6)',
 		display: 'flex',
 		alignItems: 'center',
 		textAlign: 'center',
-		fontFamily: 'Montserrat-Light'
+		fontFamily: 'Montserrat-Regular'
 	}
 });

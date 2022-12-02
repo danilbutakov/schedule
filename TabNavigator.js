@@ -101,12 +101,12 @@ const HomeStack = () => {
 								<Text
 									style={{
 										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
+										fontSize: 16,
+										lineHeight: 24,
 										color: '1E1E1F',
 										paddingLeft: 10
 									}}>
-									Просмотр занятия
+									Расписание
 								</Text>
 							</View>
 						</TouchableOpacity>
@@ -136,8 +136,8 @@ const MenuStack = () => {
 							<Text
 								style={{
 									fontFamily: 'Montserrat-SemiBold',
-									fontSize: 23,
-									lineHeight: 32,
+									fontSize: 20,
+									lineHeight: 25,
 									alignSelf: 'center',
 									color: '1E1E1F',
 									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
@@ -146,12 +146,13 @@ const MenuStack = () => {
 									alignItems: 'center',
 									display: 'flex',
 									justifyContent: 'center',
-									textAlign: 'center',
+									textAlign: 'left',
 									marginTop: 10,
 									marginBottom: 5,
-									paddingBottom: 10
+									paddingBottom: 10,
+									paddingLeft: 20
 								}}>
-								Меню
+								Профиль
 							</Text>
 						</View>
 					)
@@ -270,7 +271,7 @@ const MenuStack = () => {
 										color: '1E1E1F',
 										paddingLeft: 10
 									}}>
-									Изменить профиль
+									Профиль
 								</Text>
 							</View>
 						</TouchableOpacity>
@@ -380,8 +381,8 @@ const SearchStack = () => {
 							<Text
 								style={{
 									fontFamily: 'Montserrat-SemiBold',
-									fontSize: 23,
-									lineHeight: 32,
+									fontSize: 20,
+									lineHeight: 25,
 									alignSelf: 'center',
 									color: '1E1E1F',
 									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
@@ -390,10 +391,11 @@ const SearchStack = () => {
 									alignItems: 'center',
 									display: 'flex',
 									justifyContent: 'center',
-									textAlign: 'center',
+									textAlign: 'left',
 									marginTop: 10,
 									marginBottom: 5,
-									paddingBottom: 10
+									paddingBottom: 10,
+									paddingLeft: 20
 								}}>
 								Поиск
 							</Text>
@@ -434,7 +436,7 @@ const SearchStack = () => {
 										color: '1E1E1F',
 										paddingLeft: 10
 									}}>
-									Группа
+									Поиск
 								</Text>
 							</View>
 						</TouchableOpacity>
@@ -474,7 +476,7 @@ const SearchStack = () => {
 										color: '1E1E1F',
 										paddingLeft: 10
 									}}>
-									Аудитория
+									Поиск
 								</Text>
 							</View>
 						</TouchableOpacity>
@@ -514,7 +516,7 @@ const SearchStack = () => {
 										color: '1E1E1F',
 										paddingLeft: 10
 									}}>
-									Преподователь
+									Поиск
 								</Text>
 							</View>
 						</TouchableOpacity>
@@ -542,9 +544,9 @@ const NotesStack = () => {
 							}}>
 							<Text
 								style={{
-									fontFamily: 'Bai-Jamjuree',
-									fontSize: 23,
-									lineHeight: 32,
+									fontFamily: 'Montserrat-SemiBold',
+									fontSize: 20,
+									lineHeight: 25,
 									alignSelf: 'center',
 									color: '1E1E1F',
 									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
@@ -553,10 +555,11 @@ const NotesStack = () => {
 									alignItems: 'center',
 									display: 'flex',
 									justifyContent: 'center',
-									textAlign: 'center',
+									textAlign: 'left',
 									marginTop: 10,
 									marginBottom: 5,
-									paddingBottom: 10
+									paddingBottom: 10,
+									paddingLeft: 20
 								}}>
 								Заметки
 							</Text>

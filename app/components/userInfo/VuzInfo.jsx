@@ -91,52 +91,50 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	title: {
-		color: '#1E1E1E',
-		fontSize: 27,
-		lineHeight: 34,
+		color: '#1E1E1F',
+		fontSize: 24,
+		lineHeight: 32,
 		fontFamily: 'Montserrat-SemiBold'
 	},
 	inputVuz: {
 		borderWidth: 1,
+		borderRadius: 16,
 		borderColor: 'rgba(60, 60, 67, 0.13)',
-		borderRadius: 8,
-		backgroundColor: '#ffffff',
+		backgroundColor: '#FFFFFF',
 		padding: 10,
 		marginTop: 50,
-		fontSize: 17,
+		fontSize: 14,
 		lineHeight: 24,
 		color: 'rgba(60, 60, 67, 0.6)',
-		fontFamily: 'Montserrat-Regular'
+		fontFamily: 'Montserrat-Medium'
 	},
 	container: {
 		alignItems: 'center'
 	},
 	conBtn: {
 		backgroundColor: '#F2F2F7',
+		padding: 17,
+		alignItems: 'center',
 		borderRadius: 16,
-		padding: 20,
-		width: '100%',
-		alignSelf: 'center',
-		alignItems: 'center'
+		width: '100%'
 	},
 	conBtnActive: {
-		backgroundColor: '#0d9488',
+		padding: 17,
+		alignItems: 'center',
 		borderRadius: 16,
-		padding: 20,
-		width: '100%',
-		alignSelf: 'center',
-		alignItems: 'center'
+		backgroundColor: '#1E1E1F',
+		width: '100%'
 	},
 	btnText: {
 		fontSize: 17,
-		lineHeight: 24,
+		lineHeight: 20,
 		color: 'rgba(60, 60, 67, 0.6)',
-		fontFamily: 'Montserrat-Medium'
+		fontFamily: 'Montserrat-SemiBold'
 	},
 	btnTextActive: {
 		fontSize: 17,
-		lineHeight: 24,
-		color: '#ffffff',
-		fontFamily: 'Montserrat-Medium'
+		lineHeight: 20,
+		color: '#FFFFFF',
+		fontFamily: 'Montserrat-SemiBold'
 	}
 });
