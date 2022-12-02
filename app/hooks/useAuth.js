@@ -61,8 +61,6 @@ export const AuthProvider = ({ children }) => {
 			.finally(() => setLoading(false));
 	};
 
-	console.log(userWithGoggle);
-
 	const signOut = async () => {
 		setLoading(true);
 		await auth()

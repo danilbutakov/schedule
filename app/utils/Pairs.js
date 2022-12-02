@@ -19,8 +19,7 @@ export const pairs = [
 		type: 'Лекция',
 		name: 'Программирование',
 		teacher: 'Димов А.В.',
-		classRoom: 'Д-521',
-		group: 1
+		classRoom: 'Д-521'
 	},
 	{
 		dayOfWeek: 'Понедельник',
@@ -30,8 +29,7 @@ export const pairs = [
 		type: 'Практика',
 		name: 'ООП',
 		teacher: 'Молчанова Е.И.',
-		classRoom: 'Д-518',
-		group: 1
+		classRoom: 'Д-518'
 	},
 	{
 		dayOfWeek: 'Понедельник',
@@ -53,17 +51,6 @@ export const pairs = [
 		name: 'Программирование',
 		classRoom: 'Д-508',
 		teacher: 'Замятин В.М.',
-		group: 2
-	},
-	{
-		dayOfWeek: 'Понедельник',
-		date: '2 Октября',
-		timeStart: '17:10',
-		timeEnd: '18:40',
-		type: 'Практика',
-		name: 'ООП',
-		teacher: 'Молчанова Е.И.',
-		classRoom: 'Д-501',
 		group: 2
 	}
 ];

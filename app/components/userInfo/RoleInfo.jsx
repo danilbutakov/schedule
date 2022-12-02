@@ -2,11 +2,9 @@ import {
 	View,
 	Text,
 	StyleSheet,
-	TextInput,
 	TouchableOpacity,
 	Dimensions,
-	KeyboardAvoidingView,
-	Keyboard
+	KeyboardAvoidingView
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -124,9 +122,9 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	title: {
-		color: '#1E1E1E',
-		fontSize: 27,
-		lineHeight: 34,
+		color: '#1E1E1F',
+		fontSize: 24,
+		lineHeight: 32,
 		fontFamily: 'Montserrat-SemiBold'
 	},
 	inputVuz: {
@@ -176,17 +174,8 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 		fontFamily: 'Montserrat-Medium'
 	},
-	conBtnActiveGo: {
-		backgroundColor: '#0d9488',
-		borderRadius: 16,
-		padding: 20,
-		width: '100%',
-		alignSelf: 'center',
-		alignItems: 'center',
-		marginTop: 50
-	},
 	conBtnActiveStop: {
-		backgroundColor: 'rgba(60, 60, 67, 0.13)',
+		backgroundColor: '#F2F2F7',
 		borderRadius: 16,
 		padding: 20,
 		width: '100%',
@@ -194,16 +183,25 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		marginTop: 50
 	},
-	btnTextActiveGo: {
-		fontSize: 17,
-		lineHeight: 24,
-		color: '#ffffff',
-		fontFamily: 'Montserrat-Medium'
+	conBtnActiveGo: {
+		backgroundColor: '#1E1E1F',
+		borderRadius: 16,
+		padding: 20,
+		width: '100%',
+		alignSelf: 'center',
+		alignItems: 'center',
+		marginTop: 50
 	},
 	btnTextActiveStop: {
 		fontSize: 17,
 		lineHeight: 24,
 		color: 'rgba(60, 60, 67, 0.6)',
+		fontFamily: 'Montserrat-Medium'
+	},
+	btnTextActiveGo: {
+		fontSize: 17,
+		lineHeight: 24,
+		color: '#FFFFFF',
 		fontFamily: 'Montserrat-Medium'
 	}
 });

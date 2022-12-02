@@ -91,7 +91,7 @@ const StackNavigator = () => {
 													color: '1E1E1F',
 													paddingLeft: 10
 												}}>
-												Просмотр занятия
+												Расписание
 											</Text>
 										</View>
 									</TouchableOpacity>
