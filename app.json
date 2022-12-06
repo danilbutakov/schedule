@@ -1,7 +1,7 @@
 {
 	"expo": {
-		"name": "Schedulle",
-		"slug": "Schedulle",
+		"name": "Schedule",
+		"slug": "Schedule",
 		"version": "1.0.2",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
@@ -42,7 +42,7 @@
 		},
 		"extra": {
 			"eas": {
-				"projectId": "aa8d8aea-1b23-44ef-b333-d100a57c8c5d"
+				"projectId": "ad6f1504-c125-478d-9506-fd2677e5402c"
 			}
 		}
 	}
