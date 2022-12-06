@@ -9,15 +9,9 @@ import {
 import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import useAuth from '../../hooks/useAuth';
-import { db } from '../../../firebase';
-import { ref, set } from 'firebase/database';
-
 const { height } = Dimensions.get('screen');
 
-const RoleInfo = ({ univ, group, role, setRole, setUniv, setGroup }) => {
-	const { user } = useAuth();
-
+const RoleInfo = ({ role, setRole, setShowRole, setShowProfileLogo }) => {
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
 
@@ -30,28 +24,6 @@ const RoleInfo = ({ univ, group, role, setRole, setUniv, setGroup }) => {
 			setChangeBtnText(styles.btnTextActiveStop);
 		}
 	}, [role]);
-
-	const writeToDatabase = () => {
-		set(ref(db, 'users/' + user.uid + '/' + 'userInfo'), {
-			univ: univ,
-			group: group,
-			role: role
-		})
-			.then(() => {
-				//Data saved successfully
-				console.log('data wrote');
-				setUniv('');
-				setGroup('');
-				setRole('');
-			})
-			.catch(error => {
-				//The write failed
-				console.log(error);
-				setUniv('');
-				setGroup('');
-				setRole('');
-			});
-	};
 
 	return (
 		<KeyboardAvoidingView style={styles.containerKeyboard}>
@@ -92,7 +64,8 @@ const RoleInfo = ({ univ, group, role, setRole, setUniv, setGroup }) => {
 						style={styles.container}
 						onPress={() => {
 							if (role !== '') {
-								writeToDatabase();
+								setShowRole(false);
+								setShowProfileLogo(true);
 							}
 						}}>
 						<View style={changeButton}>

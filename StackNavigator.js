@@ -12,6 +12,7 @@ import OnBoard from './app/screens/OnBoard';
 import UserData from './app/screens/UserData';
 
 import { db } from './firebase';
+import Chat from './app/screens/Services/Chat';
 
 const Stack = createStackNavigator();
 
@@ -37,7 +38,12 @@ const StackNavigator = () => {
 	return (
 		<Stack.Navigator
 			screenOptions={{
-				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+				headerStyle: {
+					backgroundColor: '#FFFFFF',
+					shadowOpacity: 0,
+					elevation: 0
+				}
 			}}>
 			<>
 				{user && userData === null && user.emailVerified === true && (

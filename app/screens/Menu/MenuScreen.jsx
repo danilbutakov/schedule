@@ -4,7 +4,8 @@ import {
 	StyleSheet,
 	Alert,
 	ActivityIndicator,
-	Dimensions
+	Dimensions,
+	Image
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
@@ -59,7 +60,9 @@ const MenuScreen = () => {
 									<Text style={styles.group}>{item.group}</Text>
 									<Text style={styles.univ}>{item.univ}</Text>
 								</View>
-								{item.role === 'Студент' && <Student />}
+								{item.role === 'Студент' && (
+									<Image source={{ uri: user.photoURL }} />
+								)}
 								{item.role === 'Преподователь' && <Teacher />}
 							</View>
 						</TouchableOpacity>

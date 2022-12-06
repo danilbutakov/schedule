@@ -3,11 +3,12 @@ import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { ref, onValue } from 'firebase/database';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 import { images } from './assets/globalImages';
 import HomeScreen from './app/screens/Home/HomeScreen';
@@ -26,6 +27,11 @@ import UserData from './app/screens/UserData';
 import SearchGroup from './app/screens/Search/SearchGroup';
 import SearchAudition from './app/screens/Search/SearchAudition';
 import SearchTeachers from './app/screens/Search/SearchTeachers';
+import ServicesScreen from './app/screens/Services/ServicesScreen';
+import ContactsScreen from './app/screens/Services/ContactsScreen';
+import Chat from './app/screens/Services/Chat';
+import Avatar from './app/components/Contacts/Avatar';
+import ChatHeader from './app/components/Chat/ChatHeader';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -534,7 +540,7 @@ const NotesStack = () => {
 				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
 			}}>
 			<Stack.Screen
-				name='Поиск'
+				name='Notes'
 				component={NotesScreen}
 				options={{
 					header: () => (
@@ -566,6 +572,97 @@ const NotesStack = () => {
 						</View>
 					)
 				}}
+			/>
+		</Stack.Navigator>
+	);
+};
+
+const ServicesStack = () => {
+	const navigation = useNavigation();
+	const route = useRoute();
+	return (
+		<Stack.Navigator
+			screenOptions={{
+				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+			}}>
+			<Stack.Screen
+				name='Services'
+				component={ServicesScreen}
+				options={{
+					header: () => (
+						<View
+							style={{
+								backgroundColor: '#F7F7F7'
+							}}>
+							<Text
+								style={{
+									fontFamily: 'Montserrat-SemiBold',
+									fontSize: 20,
+									lineHeight: 25,
+									alignSelf: 'center',
+									color: '1E1E1F',
+									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+									borderBottomWidth: 1,
+									width,
+									alignItems: 'center',
+									display: 'flex',
+									justifyContent: 'center',
+									textAlign: 'left',
+									marginTop: 10,
+									marginBottom: 5,
+									paddingBottom: 10,
+									paddingLeft: 20
+								}}>
+								Сервисы
+							</Text>
+						</View>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name='Contacts'
+				component={ContactsScreen}
+				options={{
+					header: () => (
+						<TouchableOpacity onPress={() => navigation.navigate('Services')}>
+							<View
+								style={{
+									backgroundColor: '#F7F7F7',
+									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+									borderBottomWidth: 1,
+									marginTop: 10,
+									paddingBottom: 10,
+									paddingLeft: 20,
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center'
+								}}>
+								<Image
+									source={images.arrowLeft}
+									style={{
+										width: 10,
+										height: 20
+									}}
+								/>
+								<Text
+									style={{
+										fontFamily: 'Montserrat-SemiBold',
+										fontSize: 17,
+										lineHeight: 25,
+										color: '1E1E1F',
+										paddingLeft: 10
+									}}>
+									Контакты
+								</Text>
+							</View>
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name='Chat'
+				component={Chat}
+				options={{ header: props => <ChatHeader {...props} /> }}
 			/>
 		</Stack.Navigator>
 	);
@@ -613,6 +710,22 @@ const TabNavigator = () => {
 							tabBarIcon: ({ color, size }) => (
 								<Feather
 									name='bookmark'
+									size={size}
+									color={color}
+									width={23}
+									height={23}
+								/>
+							),
+							headerShown: false
+						}}
+					/>
+					<Tab.Screen
+						name='ServicesStack'
+						component={ServicesStack}
+						options={{
+							tabBarIcon: ({ color, size }) => (
+								<Octicons
+									name='apps'
 									size={size}
 									color={color}
 									width={23}
