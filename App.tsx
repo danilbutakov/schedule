@@ -1,21 +1,28 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import StackNavigator from './StackNavigator';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthProvider } from './app/hooks/useAuth';
 import { LogBox, View, StatusBar } from 'react-native';
+import 'expo-dev-client';
+import * as SplashScreen from 'expo-splash-screen';
 
+import StackNavigator from './StackNavigator';
+import { AuthProvider } from './app/hooks/useAuth';
 import AppContext from './app/utils/Context';
 import useAuth from './app/hooks/useAuth.js';
-
-import 'expo-dev-client';
 import { useFonts } from './app/hooks/useFonts';
-import * as SplashScreen from 'expo-splash-screen';
+
+LogBox.ignoreLogs([
+	'Setting a timer',
+	'AsyncStorage has been extracted from react-native core and will be removed in a future release.'
+]);
 
 const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
 	const [handleClickPair, setHandleClickPair] = useState();
 	const [notes, setNotes] = useState([]);
 	const [notesDataScreen, setNotesDataScreen] = useState([]);
+	const [rooms, setRooms] = useState([]);
+	const [unfilteredRooms, setUnfilteredRooms] = useState([]);
+	const [contactUser, setContactUser] = useState([]);
 
 	useEffect(() => {
 		async function prepare() {
@@ -62,7 +69,13 @@ const App = () => {
 					notes,
 					setNotes,
 					notesDataScreen,
-					setNotesDataScreen
+					setNotesDataScreen,
+					rooms,
+					setRooms,
+					contactUser,
+					setContactUser,
+					unfilteredRooms,
+					setUnfilteredRooms
 				}}>
 				<AuthProvider>
 					<NavigationContainer>
@@ -76,5 +89,3 @@ const App = () => {
 };
 
 export default App;
-
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
