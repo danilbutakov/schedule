@@ -1,7 +1,6 @@
 import { View, Image } from 'react-native';
 import React from 'react';
-
-import StudentAvatar from '../../../assets/images/studentAvatarBlack.svg';
+import Feather from 'react-native-vector-icons/Feather';
 
 const Avatar = ({ size, user }) => {
 	return (
@@ -17,7 +16,22 @@ const Avatar = ({ size, user }) => {
 					resizeMode='cover'
 				/>
 			) : (
-				<StudentAvatar width={size} height={size} />
+				<View
+					style={{
+						backgroundColor: '#1E1E1F',
+						borderRadius: size,
+						width: size,
+						height: size,
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}>
+					<Feather
+						size={size - 20}
+						name='user'
+						color={'#81F2DE'}
+						borderRadius={size}
+					/>
+				</View>
 			)}
 		</View>
 	);

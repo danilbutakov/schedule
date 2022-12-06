@@ -35,7 +35,6 @@ const RoleInfo = ({ role, setRole, setShowRole, setShowProfileLogo }) => {
 							style={styles.container}
 							onPress={() => {
 								setRole('Студент');
-								console.log(role);
 							}}>
 							<LinearGradient
 								colors={['#0d9490', 'black']}
@@ -49,7 +48,6 @@ const RoleInfo = ({ role, setRole, setShowRole, setShowProfileLogo }) => {
 							style={styles.container}
 							onPress={() => {
 								setRole('Преподователь');
-								console.log(role);
 							}}>
 							<LinearGradient
 								colors={['tomato', 'black']}

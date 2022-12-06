@@ -176,7 +176,6 @@ const ProfileLogoInfo = ({
 							.finally(() => {
 								setIsLoading(false);
 							});
-						console.log({ ...userData, uid: user.uid });
 						if (profileName !== '') {
 							writeToDatabase();
 						}

@@ -63,14 +63,16 @@ export const AuthProvider = ({ children }) => {
 
 	const signOut = async () => {
 		setLoading(true);
-		await auth()
-			.signOut()
-			.then(() => {
-				console.log('exit Email');
-			})
-			.catch(error => {
-				console.log(error, 'exit Email not work');
-			});
+		if (!userWithGoggle) {
+			await auth()
+				.signOut()
+				.then(() => {
+					console.log('exit Email');
+				})
+				.catch(error => {
+					console.log(error, 'exit Email not work');
+				});
+		}
 
 		if (userWithGoggle) {
 			try {

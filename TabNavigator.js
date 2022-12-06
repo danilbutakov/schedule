@@ -619,46 +619,7 @@ const ServicesStack = () => {
 					)
 				}}
 			/>
-			<Stack.Screen
-				name='Contacts'
-				component={ContactsScreen}
-				options={{
-					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Services')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									Контакты
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
-				}}
-			/>
+
 			<Stack.Screen
 				name='Chat'
 				component={Chat}
