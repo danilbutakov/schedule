@@ -5,7 +5,6 @@ import auth from '@react-native-firebase/auth';
 
 import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
-import ContactsFloatingIcon from '../../components/Contacts/ContactsFloatingIcon';
 import ContactItem from '../../components/Contacts/ContactItem';
 
 const Chats = () => {
@@ -38,15 +37,13 @@ const Chats = () => {
 		return user;
 	};
 
-	console.log(rooms);
-
 	return (
 		<View
 			style={{
 				flex: 1,
 				paddingTop: 10,
 				backgroundColor: '#F7F7F7',
-				paddingHorizontal: 20
+				paddingHorizontal: 10
 			}}>
 			<View>
 				{rooms.map(room => (

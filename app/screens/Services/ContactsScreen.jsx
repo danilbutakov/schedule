@@ -8,24 +8,26 @@ import {
 	getDocs,
 	onSnapshot
 } from 'firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
 import ContactItem from '../../components/Contacts/ContactItem';
-import useAuth from '../../hooks/useAuth';
 
 const ContactsScreen = () => {
-	const { user } = useAuth();
 	const { contactUser, setContactUser } = useContext(AppContext);
+	const currentUser = auth().currentUser;
 
 	const route = useRoute();
 	const image = route.params && route.params.image;
 
 	const fetchData = async () => {
-		await getDocs(
+		const q = query(
 			collection(fs, 'users'),
-			where('email', '!=', user.email)
-		).then(querySnapshot => {
+			where('email', '!=', currentUser.email)
+		);
+
+		const querySnapshot = await getDocs(q).then(querySnapshot => {
 			const newData = querySnapshot.docs.map(doc => ({
 				...doc.data()
 			}));
@@ -43,11 +45,11 @@ const ContactsScreen = () => {
 				flex: 1,
 				paddingTop: 10,
 				backgroundColor: '#F7F7F7',
-				paddingHorizontal: 20
+				paddingHorizontal: 10
 			}}>
 			<FlatList
 				data={contactUser}
-				style={{ flex: 1, padding: 10 }}
+				style={{ flex: 1 }}
 				keyExtractor={(_, i) => i}
 				renderItem={({ item }) => (
 					<ContactPreview contact={item} image={image} />
@@ -60,9 +62,7 @@ const ContactsScreen = () => {
 const ContactPreview = ({ contact, image }) => {
 	const { unfilteredRooms } = useContext(AppContext);
 	const [userPreview, setUserPreview] = useState(contact);
-	const { user } = useAuth();
 	useEffect(() => {
-		//нужно сделать обычную проверку у contactUser
 		const q = query(
 			collection(fs, 'users'),
 			where('email', '==', userPreview.email)
