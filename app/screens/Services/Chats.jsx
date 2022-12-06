@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -45,9 +45,10 @@ const Chats = () => {
 				backgroundColor: '#F7F7F7',
 				paddingHorizontal: 10
 			}}>
-			<View>
+			<ScrollView style={{ flex: 1 }}>
 				{rooms.map(room => (
 					<ContactItem
+						style={{ marginTop: 7, marginBottom: 10 }}
 						type='chats'
 						description={room.lastMessage.text}
 						key={room.id}
@@ -56,7 +57,7 @@ const Chats = () => {
 						user={getUserB(room.userB, contactUser)}
 					/>
 				))}
-			</View>
+			</ScrollView>
 		</View>
 	);
 };

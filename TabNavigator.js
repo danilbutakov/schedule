@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -32,6 +32,7 @@ import ContactsScreen from './app/screens/Services/ContactsScreen';
 import Chat from './app/screens/Services/Chat';
 import Avatar from './app/components/Contacts/Avatar';
 import ChatHeader from './app/components/Chat/ChatHeader';
+import AppContext from './app/utils/Context';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -580,6 +581,7 @@ const NotesStack = () => {
 const ServicesStack = () => {
 	const navigation = useNavigation();
 	const route = useRoute();
+	const currentUser = auth().currentUser;
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -592,26 +594,28 @@ const ServicesStack = () => {
 					header: () => (
 						<View
 							style={{
-								backgroundColor: '#F7F7F7'
+								backgroundColor: '#F7F7F7',
+								flexDirection: 'row',
+								alignItems: 'center',
+								paddingLeft: 15,
+								paddingVertical: 10
 							}}>
+							<Image
+								style={{
+									width: 35,
+									height: 35,
+									borderRadius: 35
+								}}
+								source={{ uri: currentUser.photoURL }}
+							/>
 							<Text
 								style={{
 									fontFamily: 'Montserrat-SemiBold',
 									fontSize: 20,
-									lineHeight: 25,
 									alignSelf: 'center',
 									color: '1E1E1F',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
 									width,
-									alignItems: 'center',
-									display: 'flex',
-									justifyContent: 'center',
-									textAlign: 'left',
-									marginTop: 10,
-									marginBottom: 5,
-									paddingBottom: 10,
-									paddingLeft: 20
+									paddingLeft: 15
 								}}>
 								Сервисы
 							</Text>
@@ -619,7 +623,6 @@ const ServicesStack = () => {
 					)
 				}}
 			/>
-
 			<Stack.Screen
 				name='Chat'
 				component={Chat}
