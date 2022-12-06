@@ -18,8 +18,6 @@ const NotesScreen = () => {
 		}
 	});
 
-	console.log(notesDataScreen);
-
 	return (
 		<View style={{ backgroundColor: '#F7F7F7', height: '100%' }}>
 			{showNotes ? (

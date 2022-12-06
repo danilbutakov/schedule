@@ -1,6 +1,6 @@
 // @refresh reset
 import 'react-native-get-random-values';
-import { TouchableOpacity, View, Image } from 'react-native';
+import { TouchableOpacity, View, Image, Text } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRoute } from '@react-navigation/native';
@@ -112,9 +112,7 @@ const Chat = () => {
 		[messages]
 	);
 
-	useEffect(() => {
-		console.log({ messages });
-	}, [messages]);
+	useEffect(() => {}, [messages]);
 
 	const onSend = async (messages = []) => {
 		const writes = messages.map(m => addDoc(roomMessagesRef, m));
@@ -154,8 +152,9 @@ const Chat = () => {
 			<GiftedChat
 				messages={messages}
 				user={senderUser}
-				renderAvatar={null}
 				onSend={onSend}
+				dateFormat='LL'
+				renderAvatarOnTop={true}
 				renderActions={props => (
 					<Actions
 						{...props}
@@ -164,7 +163,15 @@ const Chat = () => {
 						icon={() => <Ionicons name='camera' size={30} color={'#8E8E93'} />}
 					/>
 				)}
-				timeTextStyle={{ right: { color: '#8E8E93' } }}
+				timeTextStyle={{
+					right: { color: '#CFCFCF' },
+					left: { color: '#CFCFCF' }
+				}}
+				placeholder='Сообщение'
+				shouldUpdateMessage={() => {
+					return true;
+				}}
+				isTyping={true}
 				renderSend={props => {
 					const { text, messageIdGenerator, user, onSend } = props;
 					return (
@@ -217,13 +224,13 @@ const Chat = () => {
 						}}
 						wrapperStyle={{
 							left: { backgroundColor: '#1E1E1F', marginBottom: 15 },
-							right: { backgroundColor: '#81F2DE', marginBottom: 15 }
+							right: { backgroundColor: '#6C6C6D', marginBottom: 15 }
 						}}
 					/>
 				)}
 				renderMessageImage={props => {
 					return (
-						<View style={{ borderRadius: 15, padding: 2 }}>
+						<View style={{ borderRadius: 15 }}>
 							<TouchableOpacity
 								onPress={() => {
 									setModalVisible(true);
@@ -234,9 +241,9 @@ const Chat = () => {
 									style={{
 										width: 300,
 										height: 300,
-										padding: 6,
 										borderRadius: 15,
-										resizeMode: 'cover'
+										resizeMode: 'cover',
+										marginBottom: 10
 									}}
 									source={{ uri: props.currentMessage.image }}
 								/>

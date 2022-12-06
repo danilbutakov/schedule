@@ -35,9 +35,7 @@ const Slider = () => {
 	const snapPoints = useMemo(() => ['20%', '90%'], []);
 
 	// callbacks
-	const handleSheetChanges = useCallback((index: number) => {
-		// console.log('handleSheetChanges', index);
-	}, []);
+	const handleSheetChanges = useCallback((index: number) => {}, []);
 
 	return (
 		<View style={{ backgroundColor: isOpen ? '#00000030' : '#ffffff' }}>
