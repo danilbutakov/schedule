@@ -1,49 +1,59 @@
 {
-	"expo": {
-		"name": "Schedule",
-		"slug": "Schedule",
-		"version": "1.1.0",
-		"orientation": "portrait",
-		"icon": "./assets/icon.png",
-		"userInterfaceStyle": "automatic",
-		"packagerOpts": {
-			"config": "metro.config.js",
-			"sourceExts": ["js", "jsx", "json", "wasm", "svg", "ts", "tsx"]
-		},
-		"resolutions": {
-			"react-native-svg": "13.0.5"
-		},
-		"plugins": [
-			"@react-native-google-signin/google-signin",
-			"@react-native-firebase/app",
-			"@react-native-firebase/auth"
-		],
-		"splash": {
-			"image": "./assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#1E1E1F"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true,
-			"bundleIdentifier": "com.thirdTeam.schedule"
-		},
-		"android": {
-			"versionCode": 3,
-			"googleServicesFile": "./google-services.json",
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#1E1E1E"
-			},
-			"package": "com.thirdTeam.schedule"
-		},
-		"extra": {
-			"eas": {
-				"projectId": "ad6f1504-c125-478d-9506-fd2677e5402c"
-			}
-		}
-	}
+  "expo": {
+    "name": "Schedulle",
+    "slug": "Schedulle",
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": [
+        "js",
+        "jsx",
+        "json",
+        "wasm",
+        "svg",
+        "ts",
+        "tsx"
+      ]
+    },
+    "resolutions": {
+      "react-native-svg": "13.0.5"
+    },
+    "plugins": [
+      "@react-native-google-signin/google-signin",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1E1E1F"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.thirdTeam.schedule"
+    },
+    "android": {
+      "versionCode": 3,
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1E1E1E"
+      },
+      "package": "com.thirdTeam.schedule"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "aa8d8aea-1b23-44ef-b333-d100a57c8c5d"
+      }
+    }
+  }
 }
