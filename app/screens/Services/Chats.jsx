@@ -1,11 +1,10 @@
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
-import ContactsFloatingIcon from '../../components/Contacts/ContactsFloatingIcon';
 import ContactItem from '../../components/Contacts/ContactItem';
 
 const Chats = () => {
@@ -38,19 +37,18 @@ const Chats = () => {
 		return user;
 	};
 
-	console.log(rooms);
-
 	return (
 		<View
 			style={{
 				flex: 1,
 				paddingTop: 10,
 				backgroundColor: '#F7F7F7',
-				paddingHorizontal: 20
+				paddingHorizontal: 10
 			}}>
-			<View>
+			<ScrollView style={{ flex: 1 }}>
 				{rooms.map(room => (
 					<ContactItem
+						style={{ marginTop: 7, marginBottom: 10 }}
 						type='chats'
 						description={room.lastMessage.text}
 						key={room.id}
@@ -59,7 +57,7 @@ const Chats = () => {
 						user={getUserB(room.userB, contactUser)}
 					/>
 				))}
-			</View>
+			</ScrollView>
 		</View>
 	);
 };
