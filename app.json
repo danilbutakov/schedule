@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "Schedule",
 		"slug": "Schedule",
-		"version": "1.0.2",
+		"version": "1.1.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "automatic",
@@ -32,7 +32,7 @@
 			"bundleIdentifier": "com.thirdTeam.schedule"
 		},
 		"android": {
-			"versionCode": 2,
+			"versionCode": 3,
 			"googleServicesFile": "./google-services.json",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
