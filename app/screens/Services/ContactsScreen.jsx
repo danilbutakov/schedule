@@ -1,4 +1,4 @@
-import { FlatList, View } from 'react-native';
+import { FlatList, View, RefreshControl } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import {
@@ -14,6 +14,10 @@ import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
 import ContactItem from '../../components/Contacts/ContactItem';
 
+const wait = timeout => {
+	return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 const ContactsScreen = () => {
 	const { contactUser, setContactUser } = useContext(AppContext);
 	const currentUser = auth().currentUser;
@@ -27,16 +31,25 @@ const ContactsScreen = () => {
 			where('email', '!=', currentUser.email)
 		);
 
-		const querySnapshot = await getDocs(q).then(querySnapshot => {
-			const newData = querySnapshot.docs.map(doc => ({
+		const querySnapshot = await getDocs(q).then(snapshot => {
+			const newData = snapshot.docs.map(doc => ({
 				...doc.data()
 			}));
 			setContactUser(newData);
 		});
+		return () => querySnapshot();
 	};
 
 	useEffect(() => {
 		fetchData();
+	}, []);
+
+	const [refreshing, setRefreshing] = React.useState(false);
+
+	const onRefresh = React.useCallback(() => {
+		setRefreshing(true);
+		fetchData();
+		wait(1000).then(() => setRefreshing(false));
 	}, []);
 
 	return (
@@ -51,6 +64,9 @@ const ContactsScreen = () => {
 				data={contactUser}
 				style={{ flex: 1 }}
 				keyExtractor={(_, i) => i}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+				}
 				renderItem={({ item }) => (
 					<ContactPreview contact={item} image={image} />
 				)}
@@ -62,6 +78,9 @@ const ContactsScreen = () => {
 const ContactPreview = ({ contact, image }) => {
 	const { unfilteredRooms } = useContext(AppContext);
 	const [userPreview, setUserPreview] = useState(contact);
+
+	const currentUser = auth().currentUser;
+
 	useEffect(() => {
 		const q = query(
 			collection(fs, 'users'),
@@ -75,6 +94,7 @@ const ContactPreview = ({ contact, image }) => {
 		});
 		return () => unsubscribe();
 	}, []);
+
 	return (
 		<ContactItem
 			style={{ marginTop: 7, marginBottom: 10 }}
@@ -82,7 +102,7 @@ const ContactPreview = ({ contact, image }) => {
 			user={userPreview}
 			image={image}
 			room={unfilteredRooms.find(room =>
-				room.participantsArray.includes(contact.email)
+				room.participantsArray.includes(currentUser.email)
 			)}
 		/>
 	);

@@ -14,7 +14,6 @@ import React, { useState, useEffect } from 'react';
 import { ref, set } from 'firebase/database';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import auth from '@react-native-firebase/auth';
-import { BlurView } from '@react-native-community/blur';
 
 import { db, fs } from '../../../firebase';
 import { pickImage, uploadImage } from '../../utils/Functions';
@@ -38,21 +37,21 @@ const ProfileLogoInfo = ({
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		if (profileName !== '' && image) {
+		if (profileName !== '' || image) {
 			setChangeButton(styles.conBtnActive);
 			setChangeBtnText(styles.btnTextActive);
 		} else {
 			setChangeButton(styles.conBtn);
 			setChangeBtnText(styles.btnText);
 		}
-	}, [profileName]);
+	}, [profileName, image]);
 
 	const writeToDatabase = () => {
 		set(ref(db, 'users/' + user.uid + '/' + 'userInfo'), {
 			univ: univ,
 			group: group,
 			role: role,
-			name: profileName
+			name: profileName || user.displayName
 		})
 			.then(() => {
 				//Data saved successfully
@@ -88,6 +87,8 @@ const ProfileLogoInfo = ({
 	const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
 		setIsOpenKeyboard(false);
 	});
+
+	console.log(user);
 	return (
 		<KeyboardAvoidingView style={styles.containerKeyboard}>
 			<View style={styles.con}>
@@ -102,13 +103,14 @@ const ProfileLogoInfo = ({
 							}}
 						/>
 					) : null}
-
-					<TextInput
-						value={profileName}
-						onChangeText={profileName => setProfileName(profileName)}
-						placeholder='Например Иван'
-						style={styles.inputVuz}
-					/>
+					{user.displayName === null && (
+						<TextInput
+							value={profileName}
+							onChangeText={profileName => setProfileName(profileName)}
+							placeholder='Например Иван'
+							style={styles.inputVuz}
+						/>
+					)}
 					<TouchableOpacity
 						onPress={handleProfilePicture}
 						style={{ alignSelf: 'center', marginTop: 30 }}>
@@ -152,7 +154,7 @@ const ProfileLogoInfo = ({
 							photoURL = url;
 						}
 						const userData = {
-							profileName,
+							profileName: profileName || user.displayName,
 							email: user.email
 						};
 						if (photoURL) {
@@ -176,7 +178,7 @@ const ProfileLogoInfo = ({
 							.finally(() => {
 								setIsLoading(false);
 							});
-						if (profileName !== '') {
+						if (profileName !== '' || image) {
 							writeToDatabase();
 						}
 					}}>

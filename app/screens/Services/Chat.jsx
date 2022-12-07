@@ -4,7 +4,7 @@ import { TouchableOpacity, View, Image, Text } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRoute } from '@react-navigation/native';
-import { nanoid } from 'nanoid';
+import { uid } from 'uid';
 import {
 	addDoc,
 	collection,
@@ -26,7 +26,7 @@ import ImageView from 'react-native-image-viewing';
 import { fs } from '../../../firebase';
 import { pickImage, uploadImage } from '../../utils/Functions';
 
-const randomId = nanoid();
+const randomId = uid();
 
 const Chat = () => {
 	const [roomHash, setRoomHash] = useState('');
@@ -36,9 +36,7 @@ const Chat = () => {
 
 	const currentUser = auth().currentUser;
 	const route = useRoute();
-	const room = route.params.room;
-	const selectedImage = route.params.image;
-	const userB = route.params.user;
+	const { room, image, user } = route.params;
 
 	const senderUser = currentUser.photoURL
 		? {
@@ -53,6 +51,10 @@ const Chat = () => {
 
 	const roomMessagesRef = collection(fs, 'rooms', roomId, 'messages');
 
+	// useEffect(() => {
+	// 	console.log(roomId);
+	// }, [roomId]);
+
 	useEffect(() => {
 		(async () => {
 			if (!room) {
@@ -64,15 +66,15 @@ const Chat = () => {
 					currentUserData.photoURL = currentUser.photoURL;
 				}
 				const userBData = {
-					displayName: userB.profileName || userB.displayName || '',
-					email: userB.email
+					displayName: user.displayName || user.profileName || '',
+					email: user.email
 				};
-				if (userB.photoURL) {
-					userBData.photoURL = userB.photoURL;
+				if (user.photoURL) {
+					userBData.photoURL = user.photoURL;
 				}
 				const roomData = {
 					participants: [currentUserData, userBData],
-					participantsArray: [currentUser.email, userB.email]
+					participantsArray: [currentUser.email, user.email]
 				};
 				try {
 					await setDoc(roomRef, roomData);
@@ -80,10 +82,10 @@ const Chat = () => {
 					console.log(error);
 				}
 			}
-			const emailHash = `${currentUser.email}:${userB.email}`;
+			const emailHash = `${currentUser.email}:${user.email}`;
 			setRoomHash(emailHash);
-			if (selectedImage && selectedImage.uri) {
-				await sendImage(selectedImage.uri, emailHash);
+			if (image && image.uri) {
+				await sendImage(image.uri, emailHash);
 			}
 		})();
 	}, []);
@@ -111,8 +113,6 @@ const Chat = () => {
 		},
 		[messages]
 	);
-
-	useEffect(() => {}, [messages]);
 
 	const onSend = async (messages = []) => {
 		const writes = messages.map(m => addDoc(roomMessagesRef, m));

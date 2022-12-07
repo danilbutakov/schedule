@@ -10,25 +10,36 @@ import {
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import {
+	collection,
+	query,
+	where,
+	getDocs,
+	onSnapshot
+} from 'firebase/firestore';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ant from 'react-native-vector-icons/AntDesign';
 import { BlurView } from '@react-native-community/blur';
+import auth from '@react-native-firebase/auth';
 
-import Student from '../../../assets/images/studentAvatar.svg';
-import Teacher from '../../../assets/images/teacherAvatar.svg';
 import { db } from '../../../firebase';
+import { fs } from '../../../firebase';
 
 import useAuth from '../../hooks/useAuth';
+import Avatar from '../../components/Contacts/Avatar';
 
 const { width } = Dimensions.get('screen');
 
 const MenuScreen = () => {
 	const { signOut, user, loading } = useAuth();
+	const [userInfo, setUserInfo] = useState({});
 
 	const [menuItems, setMenuItems] = useState([]);
 	const navigation = useNavigation();
+
+	const currentUser = auth().currentUser;
 
 	//read from database
 	useEffect(() => {
@@ -45,6 +56,27 @@ const MenuScreen = () => {
 		}
 	}, []);
 
+	const route = useRoute();
+
+	const fetchData = async () => {
+		const q = query(
+			collection(fs, 'users'),
+			where('email', '==', currentUser.email)
+		);
+
+		const querySnapshot = await getDocs(q).then(snapshot => {
+			const newData = snapshot.docs.map(doc => ({
+				...doc.data()
+			}));
+			setUserInfo({ ...newData });
+		});
+		return () => querySnapshot();
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, []);
+
 	return (
 		<View style={styles.mainContainer}>
 			{menuItems.map((item, key) => {
@@ -56,14 +88,23 @@ const MenuScreen = () => {
 							onPress={() => navigation.navigate('UserInfo')}>
 							<View style={styles.infoMain}>
 								<View style={styles.infoUser}>
-									<Text style={styles.role}>{item.role}</Text>
+									<Text style={styles.role}>
+										{item.role}, {''}
+										{userInfo[0]?.profileName || currentUser.displayName}
+									</Text>
 									<Text style={styles.group}>{item.group}</Text>
 									<Text style={styles.univ}>{item.univ}</Text>
 								</View>
-								{item.role === 'Студент' && (
-									<Image source={{ uri: user.photoURL }} />
-								)}
-								{item.role === 'Преподователь' && <Teacher />}
+								<Image
+									source={{
+										uri: currentUser?.photoURL
+									}}
+									style={{
+										width: 80,
+										height: 80,
+										borderRadius: 80
+									}}
+								/>
 							</View>
 						</TouchableOpacity>
 					);
@@ -217,11 +258,11 @@ const styles = StyleSheet.create({
 	},
 	infoUser: {},
 	role: {
-		fontFamily: 'Montserrat-SemiBold',
+		fontFamily: 'Montserrat-Bold',
 		color: '#1E1E1F',
-		fontSize: 13,
-		lineHeight: 16,
-		marginBottom: 9
+		fontSize: 15,
+		marginBottom: 9,
+		width: 200
 	},
 	group: {
 		fontFamily: 'Montserrat-SemiBold',
