@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, RefreshControl } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -6,6 +6,10 @@ import auth from '@react-native-firebase/auth';
 import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
 import ContactItem from '../../components/Contacts/ContactItem';
+
+const wait = timeout => {
+	return new Promise(resolve => setTimeout(resolve, timeout));
+};
 
 const Chats = () => {
 	const currentUser = auth().currentUser;
@@ -37,6 +41,13 @@ const Chats = () => {
 		return user;
 	};
 
+	const [refreshing, setRefreshing] = React.useState(false);
+
+	const onRefresh = React.useCallback(() => {
+		setRefreshing(true);
+		wait(1000).then(() => setRefreshing(false));
+	}, []);
+
 	return (
 		<View
 			style={{
@@ -45,11 +56,15 @@ const Chats = () => {
 				backgroundColor: '#F7F7F7',
 				paddingHorizontal: 10
 			}}>
-			<ScrollView style={{ flex: 1 }}>
+			<ScrollView
+				style={{ flex: 1 }}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+				}>
 				{rooms.map(room => (
 					<ContactItem
 						style={{ marginTop: 7, marginBottom: 10 }}
-						type='chats'
+						type='chat'
 						description={room.lastMessage.text}
 						key={room.id}
 						room={room}
