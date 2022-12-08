@@ -10,13 +10,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {
-	collection,
-	query,
-	where,
-	getDocs,
-	onSnapshot
-} from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
@@ -28,7 +22,6 @@ import { db } from '../../../firebase';
 import { fs } from '../../../firebase';
 
 import useAuth from '../../hooks/useAuth';
-import Avatar from '../../components/Contacts/Avatar';
 
 const { width } = Dimensions.get('screen');
 
@@ -55,8 +48,6 @@ const MenuScreen = () => {
 			});
 		}
 	}, []);
-
-	const route = useRoute();
 
 	const fetchData = async () => {
 		const q = query(

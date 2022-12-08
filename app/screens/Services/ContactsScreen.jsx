@@ -31,26 +31,28 @@ const ContactsScreen = () => {
 			where('email', '!=', currentUser.email)
 		);
 
-		const querySnapshot = await getDocs(q).then(snapshot => {
+		await getDocs(q).then(snapshot => {
 			const newData = snapshot.docs.map(doc => ({
 				...doc.data()
 			}));
 			setContactUser(newData);
+			if (refreshing) {
+				setContactUser(newData);
+			}
 		});
-		return () => querySnapshot();
 	};
 
-	useEffect(() => {
-		fetchData();
-	}, []);
-
-	const [refreshing, setRefreshing] = React.useState(false);
+	const [refreshing, setRefreshing] = useState(false);
 
 	const onRefresh = React.useCallback(() => {
 		setRefreshing(true);
 		fetchData();
 		wait(1000).then(() => setRefreshing(false));
 	}, []);
+
+	useEffect(() => {
+		fetchData();
+	}, [refreshing]);
 
 	return (
 		<View
@@ -61,26 +63,31 @@ const ContactsScreen = () => {
 				paddingHorizontal: 10
 			}}>
 			<FlatList
+				style={{ marginTop: 7, marginBottom: 10 }}
 				data={contactUser}
-				style={{ flex: 1 }}
 				keyExtractor={(_, i) => i}
+				renderItem={({ item }) => (
+					<ContactPreview
+						contact={item}
+						image={image}
+						refreshing={refreshing}
+					/>
+				)}
 				refreshControl={
 					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 				}
-				renderItem={({ item }) => (
-					<ContactPreview contact={item} image={image} />
-				)}
 			/>
 		</View>
 	);
 };
 
-const ContactPreview = ({ contact, image }) => {
+const ContactPreview = ({ contact, image, refreshing }) => {
 	const { unfilteredRooms } = useContext(AppContext);
 	const [userPreview, setUserPreview] = useState(contact);
 
-	const currentUser = auth().currentUser;
-
+	useEffect(() => {
+		setUserPreview(contact);
+	}, [refreshing]);
 	useEffect(() => {
 		const q = query(
 			collection(fs, 'users'),
@@ -102,7 +109,7 @@ const ContactPreview = ({ contact, image }) => {
 			user={userPreview}
 			image={image}
 			room={unfilteredRooms.find(room =>
-				room.participantsArray.includes(currentUser.email)
+				room.participantsArray.includes(contact.email)
 			)}
 		/>
 	);
