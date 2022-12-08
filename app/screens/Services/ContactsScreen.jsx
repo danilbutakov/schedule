@@ -1,4 +1,4 @@
-import { FlatList, View } from 'react-native';
+import { FlatList, View, RefreshControl } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import {
@@ -14,6 +14,10 @@ import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
 import ContactItem from '../../components/Contacts/ContactItem';
 
+const wait = timeout => {
+	return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 const ContactsScreen = () => {
 	const { contactUser, setContactUser } = useContext(AppContext);
 	const currentUser = auth().currentUser;
@@ -27,17 +31,28 @@ const ContactsScreen = () => {
 			where('email', '!=', currentUser.email)
 		);
 
-		const querySnapshot = await getDocs(q).then(querySnapshot => {
-			const newData = querySnapshot.docs.map(doc => ({
+		await getDocs(q).then(snapshot => {
+			const newData = snapshot.docs.map(doc => ({
 				...doc.data()
 			}));
 			setContactUser(newData);
+			if (refreshing) {
+				setContactUser(newData);
+			}
 		});
 	};
 
+	const [refreshing, setRefreshing] = useState(false);
+
+	const onRefresh = React.useCallback(() => {
+		setRefreshing(true);
+		fetchData();
+		wait(1000).then(() => setRefreshing(false));
+	}, []);
+
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [refreshing]);
 
 	return (
 		<View
@@ -48,20 +63,31 @@ const ContactsScreen = () => {
 				paddingHorizontal: 10
 			}}>
 			<FlatList
+				style={{ marginTop: 7, marginBottom: 10 }}
 				data={contactUser}
-				style={{ flex: 1 }}
 				keyExtractor={(_, i) => i}
 				renderItem={({ item }) => (
-					<ContactPreview contact={item} image={image} />
+					<ContactPreview
+						contact={item}
+						image={image}
+						refreshing={refreshing}
+					/>
 				)}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+				}
 			/>
 		</View>
 	);
 };
 
-const ContactPreview = ({ contact, image }) => {
+const ContactPreview = ({ contact, image, refreshing }) => {
 	const { unfilteredRooms } = useContext(AppContext);
 	const [userPreview, setUserPreview] = useState(contact);
+
+	useEffect(() => {
+		setUserPreview(contact);
+	}, [refreshing]);
 	useEffect(() => {
 		const q = query(
 			collection(fs, 'users'),
@@ -75,6 +101,7 @@ const ContactPreview = ({ contact, image }) => {
 		});
 		return () => unsubscribe();
 	}, []);
+
 	return (
 		<ContactItem
 			style={{ marginTop: 7, marginBottom: 10 }}
