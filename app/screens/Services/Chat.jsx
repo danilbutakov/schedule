@@ -1,10 +1,10 @@
 // @refresh reset
 import 'react-native-get-random-values';
-import { TouchableOpacity, View, Image, Text } from 'react-native';
+import { TouchableOpacity, View, Image } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useRoute } from '@react-navigation/native';
-import { nanoid } from 'nanoid';
+
 import {
 	addDoc,
 	collection,
@@ -26,8 +26,6 @@ import ImageView from 'react-native-image-viewing';
 import { fs } from '../../../firebase';
 import { pickImage, uploadImage } from '../../utils/Functions';
 
-const randomId = nanoid();
-
 const Chat = () => {
 	const [roomHash, setRoomHash] = useState('');
 	const [messages, setMessages] = useState([]);
@@ -39,6 +37,7 @@ const Chat = () => {
 	const room = route.params.room;
 	const selectedImage = route.params.image;
 	const userB = route.params.user;
+	const roomId = route.params.roomId;
 
 	const senderUser = currentUser.photoURL
 		? {
@@ -48,7 +47,6 @@ const Chat = () => {
 		  }
 		: { name: currentUser.displayName, _id: currentUser, uid };
 
-	const roomId = room ? room.id : randomId;
 	const roomRef = doc(fs, 'rooms', roomId);
 
 	const roomMessagesRef = collection(fs, 'rooms', roomId, 'messages');
@@ -112,8 +110,6 @@ const Chat = () => {
 		[messages]
 	);
 
-	useEffect(() => {}, [messages]);
-
 	const onSend = async (messages = []) => {
 		const writes = messages.map(m => addDoc(roomMessagesRef, m));
 		const lastMessage = messages[messages.length - 1];
@@ -152,9 +148,8 @@ const Chat = () => {
 			<GiftedChat
 				messages={messages}
 				user={senderUser}
+				renderAvatar={null}
 				onSend={onSend}
-				dateFormat='LL'
-				renderAvatarOnTop={true}
 				renderActions={props => (
 					<Actions
 						{...props}
@@ -163,15 +158,7 @@ const Chat = () => {
 						icon={() => <Ionicons name='camera' size={30} color={'#8E8E93'} />}
 					/>
 				)}
-				timeTextStyle={{
-					right: { color: '#CFCFCF' },
-					left: { color: '#CFCFCF' }
-				}}
-				placeholder='Сообщение'
-				shouldUpdateMessage={() => {
-					return true;
-				}}
-				isTyping={true}
+				timeTextStyle={{ right: { color: '#8E8E93' } }}
 				renderSend={props => {
 					const { text, messageIdGenerator, user, onSend } = props;
 					return (
@@ -224,13 +211,13 @@ const Chat = () => {
 						}}
 						wrapperStyle={{
 							left: { backgroundColor: '#1E1E1F', marginBottom: 15 },
-							right: { backgroundColor: '#6C6C6D', marginBottom: 15 }
+							right: { backgroundColor: '#81F2DE', marginBottom: 15 }
 						}}
 					/>
 				)}
 				renderMessageImage={props => {
 					return (
-						<View style={{ borderRadius: 15 }}>
+						<View style={{ borderRadius: 15, padding: 2 }}>
 							<TouchableOpacity
 								onPress={() => {
 									setModalVisible(true);
@@ -241,9 +228,9 @@ const Chat = () => {
 									style={{
 										width: 300,
 										height: 300,
+										padding: 6,
 										borderRadius: 15,
-										resizeMode: 'cover',
-										marginBottom: 10
+										resizeMode: 'cover'
 									}}
 									source={{ uri: props.currentMessage.image }}
 								/>

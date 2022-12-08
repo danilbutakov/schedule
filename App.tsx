@@ -7,7 +7,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import StackNavigator from './StackNavigator';
 import { AuthProvider } from './app/hooks/useAuth';
 import AppContext from './app/utils/Context';
-import useAuth from './app/hooks/useAuth.js';
 import { useFonts } from './app/hooks/useFonts';
 
 LogBox.ignoreLogs([
@@ -21,6 +20,7 @@ const App = () => {
 	const [notes, setNotes] = useState([]);
 	const [notesDataScreen, setNotesDataScreen] = useState([]);
 	const [rooms, setRooms] = useState([]);
+	const [room, setRoom] = useState();
 	const [unfilteredRooms, setUnfilteredRooms] = useState([]);
 	const [contactUser, setContactUser] = useState([]);
 
@@ -75,7 +75,9 @@ const App = () => {
 					contactUser,
 					setContactUser,
 					unfilteredRooms,
-					setUnfilteredRooms
+					setUnfilteredRooms,
+					room,
+					setRoom
 				}}>
 				<AuthProvider>
 					<NavigationContainer>
