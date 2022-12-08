@@ -1,11 +1,12 @@
-import { View, Text, ScrollView, RefreshControl } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import { View, Text, RefreshControl } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
 import ContactItem from '../../components/Contacts/ContactItem';
+import ChatItem from '../../components/Chat/ChatItem';
 
 const wait = timeout => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
@@ -25,7 +26,7 @@ const Chats = () => {
 			const parsedChats = querySnapshot.docs.map(doc => ({
 				...doc.data(),
 				id: doc.id,
-				userB: doc.data().participants.find(p => p.email !== currentUser.email)
+				userB: doc.data().participants.find(b => b.email !== currentUser.email)
 			}));
 			setUnfilteredRooms(parsedChats);
 			setRooms(parsedChats.filter(doc => doc.lastMessage));
@@ -41,10 +42,11 @@ const Chats = () => {
 		return user;
 	};
 
-	const [refreshing, setRefreshing] = React.useState(false);
+	const [refreshing, setRefreshing] = useState(false);
 
 	const onRefresh = React.useCallback(() => {
 		setRefreshing(true);
+		fetchData();
 		wait(1000).then(() => setRefreshing(false));
 	}, []);
 
@@ -54,25 +56,24 @@ const Chats = () => {
 				flex: 1,
 				paddingTop: 10,
 				backgroundColor: '#F7F7F7',
-				paddingHorizontal: 10
+				paddingHorizontal: 5
 			}}>
-			<ScrollView
-				style={{ flex: 1 }}
-				refreshControl={
-					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-				}>
+			<View>
 				{rooms.map(room => (
-					<ContactItem
-						style={{ marginTop: 7, marginBottom: 10 }}
-						type='chat'
+					<ChatItem
+						type='chats'
 						description={room.lastMessage.text}
 						key={room.id}
+						roomId={room.id}
 						room={room}
 						time={room.lastMessage.createdAt}
 						user={getUserB(room.userB, contactUser)}
+						refreshControl={
+							<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+						}
 					/>
 				))}
-			</ScrollView>
+			</View>
 		</View>
 	);
 };
