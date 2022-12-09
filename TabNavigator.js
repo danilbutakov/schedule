@@ -636,20 +636,25 @@ const TabNavigator = () => {
 	const { user, setUser } = useAuth();
 
 	const [userData, setUserData] = useState(null);
+	const [waitData, setWaitData] = useState(true);
 
 	useEffect(() => {
 		if (user) {
-			const starCountRef = ref(db, 'users/' + user.uid + '/userInfo');
+			setWaitData(false);
+			const starCountRef = ref(db, 'users/' + user.uid + '/' + 'userInfo');
 			onValue(starCountRef, snapshot => {
 				const data = snapshot.val();
 				setUserData(data);
 			});
 		}
+		if (userData) {
+			setWaitData(true);
+		}
 	}, [user]);
 
 	return (
 		<>
-			{user && userData === null && user.emailVerified === true && (
+			{user && waitData && userData === null && user.emailVerified === true && (
 				<Stack.Screen
 					name='UserData'
 					component={UserData}

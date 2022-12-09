@@ -16,42 +16,12 @@ import {
 import { fs } from '../../../firebase';
 import Avatar from './Avatar';
 
-const randomId = nanoid();
-
-const ContactItem = ({ user, room, image, type }) => {
+const ContactItem = ({ user, room, image, type, description, time }) => {
 	const navigation = useNavigation();
-	const [roomId, setRoomId] = useState('');
-	const [userRoom, setUserRoom] = useState([]);
-
-	useEffect(() => {
-		if (room) {
-			setRoomId(room.id);
-		}
-		if (!room) {
-			setRoomId(randomId);
-		}
-	}, [room, user, roomId]);
-
-	useEffect(() => {
-		(async () => {
-			const q = query(collection(fs, 'rooms'));
-
-			await getDocs(q).then(snapshot => {
-				const newData = snapshot.docs.map(doc => ({
-					...doc.data()
-				}));
-
-				// console.log(newData);
-				setUserRoom(newData);
-			});
-		})();
-	}, [user]);
-
-	console.log(user);
 
 	return (
 		<TouchableOpacity
-			onPress={() => navigation.navigate('Chat', { user, room, image, roomId })}
+			onPress={() => navigation.navigate('Chat', { user, room, image })}
 			style={{
 				paddingVertical: 10,
 				borderRadius: 20,

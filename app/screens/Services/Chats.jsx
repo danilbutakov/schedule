@@ -6,7 +6,8 @@ import auth from '@react-native-firebase/auth';
 import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
 import ContactItem from '../../components/Contacts/ContactItem';
-import ChatItem from '../../components/Chat/ChatItem';
+// import ChatItem from '../../components/Chat/ChatItem';
+import { useContacts } from '../../hooks/useContacts';
 
 const wait = timeout => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
@@ -14,8 +15,9 @@ const wait = timeout => {
 
 const Chats = () => {
 	const currentUser = auth().currentUser;
-	const { rooms, setRooms, contactUser, setUnfilteredRooms } =
-		useContext(AppContext);
+	const { rooms, setRooms, setUnfilteredRooms } = useContext(AppContext);
+
+	const contacts = useContacts();
 	const chatsQuery = query(
 		collection(fs, 'rooms'),
 		where('participantsArray', 'array-contains', currentUser.email)
@@ -23,19 +25,22 @@ const Chats = () => {
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(chatsQuery, querySnapshot => {
-			const parsedChats = querySnapshot.docs.map(doc => ({
-				...doc.data(),
-				id: doc.id,
-				userB: doc.data().participants.find(b => b.email !== currentUser.email)
-			}));
-			setUnfilteredRooms(parsedChats);
-			setRooms(parsedChats.filter(doc => doc.lastMessage));
+			const parsedChats = querySnapshot.docs
+				.filter(doc => doc.data().lastMessage)
+				.map(doc => ({
+					...doc.data(),
+					id: doc.id,
+					userB: doc
+						.data()
+						.participants.find(p => p.email !== currentUser.email)
+				}));
+			setRooms(parsedChats);
 		});
 		return () => unsubscribe();
 	}, []);
 
-	const getUserB = (user, contactUser) => {
-		const userContact = contactUser.find(c => c.email === user.email);
+	const getUserB = (user, contacts) => {
+		const userContact = contacts.find(c => c.email === user.email);
 		if (userContact && userContact.profileName) {
 			return { ...user, profileName: userContact.profileName };
 		}
@@ -60,14 +65,13 @@ const Chats = () => {
 			}}>
 			<View>
 				{rooms.map(room => (
-					<ChatItem
-						type='chats'
+					<ContactItem
+						type='chat'
 						description={room.lastMessage.text}
 						key={room.id}
-						roomId={room.id}
 						room={room}
 						time={room.lastMessage.createdAt}
-						user={getUserB(room.userB, contactUser)}
+						user={getUserB(room.userB, contacts)}
 						refreshControl={
 							<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 						}
