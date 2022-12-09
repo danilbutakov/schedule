@@ -13,46 +13,47 @@ import auth from '@react-native-firebase/auth';
 import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
 import ContactItem from '../../components/Contacts/ContactItem';
+import { useContacts } from '../../hooks/useContacts';
 
 const wait = timeout => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
 const ContactsScreen = () => {
-	const { contactUser, setContactUser } = useContext(AppContext);
-	const currentUser = auth().currentUser;
-
+	const contacts = useContacts();
 	const route = useRoute();
 	const image = route.params && route.params.image;
+	// const { contactUser, setContactUser } = useContext(AppContext);
+	// const currentUser = auth().currentUser;
 
-	const fetchData = async () => {
-		const q = query(
-			collection(fs, 'users'),
-			where('email', '!=', currentUser.email)
-		);
+	// const fetchData = async () => {
+	// 	const q = query(
+	// 		collection(fs, 'users'),
+	// 		where('email', '!=', currentUser.email)
+	// 	);
 
-		await getDocs(q).then(snapshot => {
-			const newData = snapshot.docs.map(doc => ({
-				...doc.data()
-			}));
-			setContactUser(newData);
-			if (refreshing) {
-				setContactUser(newData);
-			}
-		});
-	};
+	// 	await getDocs(q).then(snapshot => {
+	// 		const newData = snapshot.docs.map(doc => ({
+	// 			...doc.data()
+	// 		}));
+	// 		setContactUser(newData);
+	// 		if (refreshing) {
+	// 			setContactUser(newData);
+	// 		}
+	// 	});
+	// };
 
 	const [refreshing, setRefreshing] = useState(false);
 
 	const onRefresh = React.useCallback(() => {
 		setRefreshing(true);
-		fetchData();
+		// fetchData();
 		wait(1000).then(() => setRefreshing(false));
 	}, []);
 
-	useEffect(() => {
-		fetchData();
-	}, [refreshing]);
+	// useEffect(() => {
+	// 	fetchData();
+	// }, [refreshing]);
 
 	return (
 		<View
@@ -64,7 +65,7 @@ const ContactsScreen = () => {
 			}}>
 			<FlatList
 				style={{ marginTop: 7, marginBottom: 10 }}
-				data={contactUser}
+				data={contacts}
 				keyExtractor={(_, i) => i}
 				renderItem={({ item }) => (
 					<ContactPreview
@@ -82,7 +83,7 @@ const ContactsScreen = () => {
 };
 
 const ContactPreview = ({ contact, image, refreshing }) => {
-	const { unfilteredRooms } = useContext(AppContext);
+	const { rooms } = useContext(AppContext);
 	const [userPreview, setUserPreview] = useState(contact);
 
 	useEffect(() => {
@@ -108,9 +109,7 @@ const ContactPreview = ({ contact, image, refreshing }) => {
 			type='contacts'
 			user={userPreview}
 			image={image}
-			room={unfilteredRooms.find(room =>
-				room.participantsArray.includes(contact.email)
-			)}
+			room={rooms.find(room => room.participantsArray.includes(contact.email))}
 		/>
 	);
 };

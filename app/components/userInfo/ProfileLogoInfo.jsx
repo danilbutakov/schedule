@@ -93,7 +93,11 @@ const ProfileLogoInfo = ({
 		<KeyboardAvoidingView style={styles.containerKeyboard}>
 			<View style={styles.con}>
 				<View style={styles.content}>
-					<Text style={styles.title}>Введите ваше Имя</Text>
+					<Text style={styles.title}>
+						{user.displayName === null
+							? 'Введите ваши данные'
+							: 'Выберите фотографию'}
+					</Text>
 					{isLoading ? (
 						<ActivityIndicator
 							size='large'

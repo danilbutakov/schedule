@@ -22,9 +22,12 @@ import {
 import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImageView from 'react-native-image-viewing';
+import { nanoid } from 'nanoid';
 
 import { fs } from '../../../firebase';
 import { pickImage, uploadImage } from '../../utils/Functions';
+
+const randomId = nanoid();
 
 const Chat = () => {
 	const [roomHash, setRoomHash] = useState('');
@@ -37,7 +40,6 @@ const Chat = () => {
 	const room = route.params.room;
 	const selectedImage = route.params.image;
 	const userB = route.params.user;
-	const roomId = route.params.roomId;
 
 	const senderUser = currentUser.photoURL
 		? {
@@ -47,13 +49,15 @@ const Chat = () => {
 		  }
 		: { name: currentUser.displayName, _id: currentUser, uid };
 
+	const roomId = room === undefined ? randomId : room.id;
+
 	const roomRef = doc(fs, 'rooms', roomId);
 
 	const roomMessagesRef = collection(fs, 'rooms', roomId, 'messages');
 
 	useEffect(() => {
 		(async () => {
-			if (!room) {
+			if (room === undefined) {
 				const currentUserData = {
 					displayName: currentUser.displayName,
 					email: currentUser.email
