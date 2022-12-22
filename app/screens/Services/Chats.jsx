@@ -1,13 +1,12 @@
-import { View, Text, RefreshControl } from 'react-native';
+import { View, RefreshControl, TouchableOpacity, Text } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 import { fs } from '../../../firebase';
-import AppContext from '../../utils/Context';
-import ContactItem from '../../components/Contacts/ContactItem';
-// import ChatItem from '../../components/Chat/ChatItem';
-import { useContacts } from '../../hooks/useContacts';
+import ChatItem from '../../components/Chat/ChatItem';
+import Avatar from '../../components/Contacts/Avatar';
+import { ChatContext } from '../../utils/ChatContext';
 
 const wait = timeout => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
@@ -15,36 +14,22 @@ const wait = timeout => {
 
 const Chats = () => {
 	const currentUser = auth().currentUser;
-	const { rooms, setRooms, setUnfilteredRooms } = useContext(AppContext);
-
-	const contacts = useContacts();
-	const chatsQuery = query(
-		collection(fs, 'rooms'),
-		where('participantsArray', 'array-contains', currentUser.email)
-	);
+	const [chats, setChats] = useState([]);
+	const { dispatch } = useContext(ChatContext);
 
 	useEffect(() => {
-		const unsubscribe = onSnapshot(chatsQuery, querySnapshot => {
-			const parsedChats = querySnapshot.docs
-				.filter(doc => doc.data().lastMessage)
-				.map(doc => ({
-					...doc.data(),
-					id: doc.id,
-					userB: doc
-						.data()
-						.participants.find(p => p.email !== currentUser.email)
-				}));
-			setRooms(parsedChats);
-		});
-		return () => unsubscribe();
-	}, []);
+		const getChats = () => {
+			const unsub = onSnapshot(doc(fs, 'userChats', currentUser.uid), doc => {
+				setChats(doc.data());
+			});
 
-	const getUserB = (user, contacts) => {
-		const userContact = contacts.find(c => c.email === user.email);
-		if (userContact && userContact.profileName) {
-			return { ...user, profileName: userContact.profileName };
-		}
-		return user;
+			return () => unsub();
+		};
+		currentUser.uid && getChats();
+	}, [currentUser.uid]);
+
+	const handleSelect = u => {
+		dispatch({ type: 'CHANGE_USER', payload: u });
 	};
 
 	const [refreshing, setRefreshing] = useState(false);
@@ -55,6 +40,17 @@ const Chats = () => {
 		wait(1000).then(() => setRefreshing(false));
 	}, []);
 
+	// <ChatItem
+	// 					key={chat[0]}
+	// 					type='chat'
+	// 					// description={room.lastMessage.text}
+	// 					// time={room.lastMessage.createdAt}
+	// 					chat={chat}
+	// 					refreshControl={
+	// 						<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+	// 					}
+	// 				/>
+
 	return (
 		<View
 			style={{
@@ -64,19 +60,92 @@ const Chats = () => {
 				paddingHorizontal: 5
 			}}>
 			<View>
-				{rooms.map(room => (
-					<ContactItem
-						type='chat'
-						description={room.lastMessage.text}
-						key={room.id}
-						room={room}
-						time={room.lastMessage.createdAt}
-						user={getUserB(room.userB, contacts)}
-						refreshControl={
-							<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-						}
-					/>
-				))}
+				{Object.entries(chats)?.map(chat => {
+					if (chat[1].displayName) {
+						return (
+							<TouchableOpacity
+								// onPress={() => navigation.navigate('Chat', { user, room, image, roomId })}
+								onPress={() => handleSelect(chat[1])}
+								key={chat[0]}
+								style={{
+									backgroundColor: '#FFFFFF',
+									borderRadius: 150,
+									padding: 5,
+									marginBottom: 20
+								}}>
+								<View
+									style={{
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+										alignItems: 'center'
+									}}>
+									<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+										<Avatar user={chat[1]} size={50} />
+										<View
+											style={{ flexDirection: 'row', alignItems: 'center' }}>
+											<View style={{ flexDirection: 'column' }}>
+												<Text
+													style={{
+														fontFamily: 'Montserrat-SemiBold',
+														fontSize: 16
+													}}>
+													{chat[1].displayName}
+												</Text>
+												<View
+													style={{
+														flexDirection: 'row',
+														alignItems: 'center'
+													}}>
+													{chat[1]?.lastMessage && (
+														<View
+															style={{
+																flexDirection: 'row',
+																marginTop: 7
+															}}>
+															<Text
+																style={{
+																	fontSize: 14,
+																	color: '#81F2DF',
+																	fontFamily: 'Montserrat-Regular'
+																}}>
+																Вы: {''}
+															</Text>
+															<Text
+																style={{
+																	fontFamily: 'Montserrat-Regular',
+																	fontSize: 14,
+																	maxWidth: 160
+																}}
+																numberOfLines={1}
+																ellipsizeMode='tail'>
+																{/* {description} */}
+															</Text>
+														</View>
+													)}
+													{chat[1]?.date && (
+														<View style={{ marginTop: 7, marginLeft: 10 }}>
+															<Text
+																style={{
+																	fontFamily: 'Montserrat-Medium',
+																	color: '#A5A5A5'
+																}}>
+																{new Date(time.seconds * 1000)
+																	.toLocaleTimeString()
+																	.replace(/(.*)\D\d+/, '$1')}
+															</Text>
+														</View>
+													)}
+												</View>
+											</View>
+										</View>
+									</View>
+								</View>
+							</TouchableOpacity>
+						);
+					} else {
+						return null;
+					}
+				})}
 			</View>
 		</View>
 	);

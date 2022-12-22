@@ -8,6 +8,7 @@ import StackNavigator from './StackNavigator';
 import { AuthProvider } from './app/hooks/useAuth';
 import AppContext from './app/utils/Context';
 import { useFonts } from './app/hooks/useFonts';
+import { ChatContextProvider } from './app/utils/ChatContext';
 
 LogBox.ignoreLogs([
 	'Setting a timer',
@@ -80,9 +81,11 @@ const App = () => {
 					setRoom
 				}}>
 				<AuthProvider>
-					<NavigationContainer>
-						<StackNavigator />
-					</NavigationContainer>
+					<ChatContextProvider>
+						<NavigationContainer>
+							<StackNavigator />
+						</NavigationContainer>
+					</ChatContextProvider>
 				</AuthProvider>
 			</AppContext.Provider>
 			<StatusBar />

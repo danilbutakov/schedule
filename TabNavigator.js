@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { ref, onValue } from 'firebase/database';
+
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
@@ -13,7 +13,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import { images } from './assets/globalImages';
 import HomeScreen from './app/screens/Home/HomeScreen';
 import MenuScreen from './app/screens/Menu/MenuScreen';
-import { db } from './firebase';
+import { fs } from './firebase';
 import Search from './app/screens/Search/Search';
 import PairInfo from './app/screens/Home/PairInfo';
 import NotesScreen from './app/screens/NotesScreen';
@@ -30,9 +30,10 @@ import SearchTeachers from './app/screens/Search/SearchTeachers';
 import ServicesScreen from './app/screens/Services/ServicesScreen';
 import ContactsScreen from './app/screens/Services/ContactsScreen';
 import Chat from './app/screens/Services/Chat';
-import Avatar from './app/components/Contacts/Avatar';
 import ChatHeader from './app/components/Chat/ChatHeader';
-import AppContext from './app/utils/Context';
+import { doc, onSnapshot } from 'firebase/firestore';
+import ContactProfile from './app/components/Contacts/ContactProfile';
+import ContactProfileHeader from './app/components/Contacts/ContactProfileHeader';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -628,33 +629,42 @@ const ServicesStack = () => {
 				component={Chat}
 				options={{ header: props => <ChatHeader {...props} /> }}
 			/>
+			<Stack.Screen
+				name='ContactInfo'
+				component={ContactProfile}
+				options={{ header: props => <ContactProfileHeader {...props} /> }}
+			/>
 		</Stack.Navigator>
 	);
 };
 
 const TabNavigator = () => {
-	const { user, setUser } = useAuth();
+	const { user } = useAuth();
 
 	const [userData, setUserData] = useState(null);
-	const [waitData, setWaitData] = useState(true);
+
+	const fetchUserData = () => {
+		if (user) {
+			const userRef = doc(fs, 'users', user.uid);
+			const unsub = onSnapshot(userRef, doc => {
+				if (doc.data()) {
+					const docData = doc.data().userInfo;
+					setUserData(docData);
+				} else {
+					setUserData(null);
+				}
+			});
+			return unsub;
+		}
+	};
 
 	useEffect(() => {
-		if (user) {
-			setWaitData(false);
-			const starCountRef = ref(db, 'users/' + user.uid + '/' + 'userInfo');
-			onValue(starCountRef, snapshot => {
-				const data = snapshot.val();
-				setUserData(data);
-			});
-		}
-		if (userData) {
-			setWaitData(true);
-		}
+		fetchUserData();
 	}, [user]);
 
 	return (
 		<>
-			{user && waitData && userData === null && user.emailVerified === true && (
+			{user && userData === null && user.emailVerified === true && (
 				<Stack.Screen
 					name='UserData'
 					component={UserData}

@@ -1,25 +1,21 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
 import Avatar from '../Contacts/Avatar';
 import useAuth from '../../hooks/useAuth';
 
-const ChatItem = ({
-	type,
-	description,
-	style,
-	user,
-	time,
-	room,
-	image,
-	roomId
-}) => {
+const ChatItem = ({ chat, type }) => {
 	const navigation = useNavigation();
+	const [user, setUser] = useState();
+	useEffect(() => {
+		// setUser(chat[1]);
+		console.log(chat[1]);
+	}, []);
 	return (
 		<TouchableOpacity
-			onPress={() => navigation.navigate('Chat', { user, room, image, roomId })}
+			// onPress={() => navigation.navigate('Chat', { user, room, image, roomId })}
 			style={{
 				backgroundColor: '#FFFFFF',
 				borderRadius: 150,
@@ -33,14 +29,14 @@ const ChatItem = ({
 					alignItems: 'center'
 				}}>
 				<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-					<Avatar user={user} size={type === 'contacts' ? 60 : 80} />
+					{/* <Avatar user={user} size={type === 'contacts' ? 60 : 60} /> */}
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<View style={{ flexDirection: 'column' }}>
 							<Text style={{ fontFamily: 'Montserrat-SemiBold', fontSize: 16 }}>
-								{user.profileName || user.displayName}
+								{/* {user.displayName} */}
 							</Text>
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								{description && (
+								{/* {description && (
 									<View
 										style={{
 											flexDirection: 'row',
@@ -65,8 +61,8 @@ const ChatItem = ({
 											{description}
 										</Text>
 									</View>
-								)}
-								{time && (
+								)} */}
+								{/* {time && (
 									<View style={{ marginTop: 7, marginLeft: 10 }}>
 										<Text
 											style={{
@@ -78,7 +74,7 @@ const ChatItem = ({
 												.replace(/(.*)\D\d+/, '$1')}
 										</Text>
 									</View>
-								)}
+								)} */}
 							</View>
 						</View>
 					</View>

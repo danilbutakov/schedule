@@ -11,13 +11,12 @@ import {
 	ActivityIndicator
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { ref, set } from 'firebase/database';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import auth from '@react-native-firebase/auth';
 
-import { db, fs } from '../../../firebase';
+import { fs } from '../../../firebase';
 import { pickImage, uploadImage } from '../../utils/Functions';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import useAuth from '../../hooks/useAuth';
 
 const { height } = Dimensions.get('screen');
@@ -46,12 +45,15 @@ const ProfileLogoInfo = ({
 		}
 	}, [profileName, image]);
 
-	const writeToDatabase = () => {
-		set(ref(db, 'users/' + user.uid + '/' + 'userInfo'), {
-			univ: univ,
-			group: group,
-			role: role,
-			name: profileName || user.displayName
+	const writeToDatabase = async () => {
+		const docRef = doc(fs, 'users', user.uid);
+		await updateDoc(docRef, {
+			userInfo: {
+				univ: univ,
+				group: group,
+				role: role,
+				name: profileName || user.displayName
+			}
 		})
 			.then(() => {
 				//Data saved successfully
@@ -88,7 +90,6 @@ const ProfileLogoInfo = ({
 		setIsOpenKeyboard(false);
 	});
 
-	console.log(user);
 	return (
 		<KeyboardAvoidingView style={styles.containerKeyboard}>
 			<View style={styles.con}>
