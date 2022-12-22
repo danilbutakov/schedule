@@ -20,40 +20,41 @@ const wait = timeout => {
 };
 
 const ContactsScreen = () => {
-	const contacts = useContacts();
+	// const contacts = useContacts();
 	const route = useRoute();
 	const image = route.params && route.params.image;
-	// const { contactUser, setContactUser } = useContext(AppContext);
-	// const currentUser = auth().currentUser;
+	const { contactUser, setContactUser } = useContext(AppContext);
+	const [contacts, setContacts] = useState([]);
+	const currentUser = auth().currentUser;
 
-	// const fetchData = async () => {
-	// 	const q = query(
-	// 		collection(fs, 'users'),
-	// 		where('email', '!=', currentUser.email)
-	// 	);
+	const fetchData = async () => {
+		const q = query(
+			collection(fs, 'users'),
+			where('email', '!=', currentUser.email)
+		);
 
-	// 	await getDocs(q).then(snapshot => {
-	// 		const newData = snapshot.docs.map(doc => ({
-	// 			...doc.data()
-	// 		}));
-	// 		setContactUser(newData);
-	// 		if (refreshing) {
-	// 			setContactUser(newData);
-	// 		}
-	// 	});
-	// };
+		await getDocs(q).then(snapshot => {
+			const newData = snapshot.docs.map(doc => ({
+				...doc.data()
+			}));
+			setContacts(newData);
+			if (refreshing) {
+				setContacts(newData);
+			}
+		});
+	};
 
 	const [refreshing, setRefreshing] = useState(false);
 
 	const onRefresh = React.useCallback(() => {
 		setRefreshing(true);
-		// fetchData();
+		fetchData();
 		wait(1000).then(() => setRefreshing(false));
 	}, []);
 
-	// useEffect(() => {
-	// 	fetchData();
-	// }, [refreshing]);
+	useEffect(() => {
+		fetchData();
+	}, [refreshing]);
 
 	return (
 		<View
