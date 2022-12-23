@@ -1,6 +1,5 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useState, useEffect } from 'react';
 import {
 	doc,
 	setDoc,
@@ -14,7 +13,7 @@ import { fs } from '../../../firebase';
 import Avatar from './Avatar';
 import Feather from 'react-native-vector-icons/Feather';
 
-const ContactItem = ({ user, room, image, type, description, time }) => {
+const ContactItem = ({ user, type }) => {
 	const navigation = useNavigation();
 	const date = new Date();
 	const currentUser = auth().currentUser;

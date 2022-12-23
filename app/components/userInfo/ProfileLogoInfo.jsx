@@ -51,8 +51,7 @@ const ProfileLogoInfo = ({
 			userInfo: {
 				univ: univ,
 				group: group,
-				role: role,
-				name: profileName || user.displayName
+				role: role
 			}
 		})
 			.then(() => {
