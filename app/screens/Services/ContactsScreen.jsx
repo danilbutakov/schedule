@@ -20,10 +20,8 @@ const wait = timeout => {
 };
 
 const ContactsScreen = () => {
-	// const contacts = useContacts();
 	const route = useRoute();
 	const image = route.params && route.params.image;
-	const { contactUser, setContactUser } = useContext(AppContext);
 	const [contacts, setContacts] = useState([]);
 	const currentUser = auth().currentUser;
 
