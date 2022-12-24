@@ -8,46 +8,50 @@ import Avatar from '../Contacts/Avatar';
 const ChatHeader = () => {
 	const navigation = useNavigation();
 	const route = useRoute();
+
 	return (
 		<TouchableOpacity onPress={() => navigation.navigate('chats')}>
-			<View
-				style={{
-					backgroundColor: '#F7F7F7',
-					borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-					borderBottomWidth: 1,
-					marginTop: 10,
-					paddingBottom: 10,
-					paddingLeft: 20,
-					display: 'flex',
-					flexDirection: 'row',
-					alignItems: 'center'
-				}}>
-				<Image
-					source={images.arrowLeft}
-					style={{
-						width: 10,
-						height: 20
-					}}
-				/>
+			{route.params.chatUser.map((u, key) => (
 				<View
+					key={key}
 					style={{
+						backgroundColor: '#F7F7F7',
+						borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+						borderBottomWidth: 1,
+						marginTop: 10,
+						paddingBottom: 10,
+						paddingLeft: 20,
 						display: 'flex',
 						flexDirection: 'row',
-						marginLeft: 20,
 						alignItems: 'center'
 					}}>
-					<Avatar size={40} user={route.params.user} />
-					<Text
+					<Image
+						source={images.arrowLeft}
 						style={{
-							fontFamily: 'Montserrat-SemiBold',
-							fontSize: 19,
-							lineHeight: 25,
-							color: '1E1E1F'
+							width: 10,
+							height: 20
+						}}
+					/>
+					<View
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							marginLeft: 20,
+							alignItems: 'center'
 						}}>
-						{route.params.user.profileName || route.params.user.displayName}
-					</Text>
+						<Avatar size={40} user={u} />
+						<Text
+							style={{
+								fontFamily: 'Montserrat-SemiBold',
+								fontSize: 19,
+								lineHeight: 25,
+								color: '1E1E1F'
+							}}>
+							{u.displayName || u.profileName}
+						</Text>
+					</View>
 				</View>
-			</View>
+			))}
 		</TouchableOpacity>
 	);
 };

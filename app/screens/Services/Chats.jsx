@@ -1,54 +1,150 @@
-import { View, Text, RefreshControl } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import {
+	collection,
+	doc,
+	getDocs,
+	onSnapshot,
+	query,
+	where
+} from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 import { fs } from '../../../firebase';
-import AppContext from '../../utils/Context';
-import ContactItem from '../../components/Contacts/ContactItem';
-import ChatItem from '../../components/Chat/ChatItem';
-
-const wait = timeout => {
-	return new Promise(resolve => setTimeout(resolve, timeout));
-};
+import Avatar from '../../components/Contacts/Avatar';
+import { ChatContext } from '../../utils/ChatContext';
+import Chat from './Chat';
+import { useNavigation } from '@react-navigation/native';
 
 const Chats = () => {
 	const currentUser = auth().currentUser;
-	const { rooms, setRooms, contactUser, setUnfilteredRooms } =
-		useContext(AppContext);
-	const chatsQuery = query(
-		collection(fs, 'rooms'),
-		where('participantsArray', 'array-contains', currentUser.email)
-	);
+	const [chatUser, setChatUser] = useState();
 
-	useEffect(() => {
-		const unsubscribe = onSnapshot(chatsQuery, querySnapshot => {
-			const parsedChats = querySnapshot.docs.map(doc => ({
-				...doc.data(),
-				id: doc.id,
-				userB: doc.data().participants.find(b => b.email !== currentUser.email)
+	const fetchData = async () => {
+		const q = query(
+			collection(fs, 'users'),
+			where('email', '==', currentUser.email)
+		);
+
+		await getDocs(q).then(snapshot => {
+			const newData = snapshot.docs.map(doc => ({
+				...doc.data()
 			}));
-			setUnfilteredRooms(parsedChats);
-			setRooms(parsedChats.filter(doc => doc.lastMessage));
+			setChatUser(newData);
 		});
-		return () => unsubscribe();
-	}, []);
-
-	const getUserB = (user, contactUser) => {
-		const userContact = contactUser.find(c => c.email === user.email);
-		if (userContact && userContact.profileName) {
-			return { ...user, profileName: userContact.profileName };
-		}
-		return user;
 	};
 
-	const [refreshing, setRefreshing] = useState(false);
-
-	const onRefresh = React.useCallback(() => {
-		setRefreshing(true);
+	useEffect(() => {
 		fetchData();
-		wait(1000).then(() => setRefreshing(false));
-	}, []);
+	}, [currentUser]);
+
+	const [chats, setChats] = useState([]);
+	const { dispatch } = useContext(ChatContext);
+	const navigation = useNavigation();
+
+	useEffect(() => {
+		const getChats = () => {
+			const unsub = onSnapshot(doc(fs, 'userChats', currentUser.uid), doc => {
+				setChats(doc.data());
+			});
+
+			return () => unsub();
+		};
+		currentUser.uid && getChats();
+	}, [currentUser.uid]);
+
+	const handleSelect = u => {
+		dispatch({ type: 'CHANGE_USER', payload: u });
+	};
+
+	// {chats !== undefined &&
+	//    Object.entries(chats).map(chat => {
+	//       if (chat[1].displayName) {
+	//          return (
+	//             <TouchableOpacity
+	//                // onPress={() => navigation.navigate('Chat', { user, chat })}
+	//                onPress={() => handleSelect(chat[1])}
+	//                key={chat[0]}
+	//                style={{
+	//                   backgroundColor: '#FFFFFF',
+	//                   borderRadius: 150,
+	//                   padding: 5,
+	//                   marginBottom: 20
+	//                }}>
+	//                <View
+	//                   style={{
+	//                      flexDirection: 'row',
+	//                      justifyContent: 'space-between',
+	//                      alignItems: 'center'
+	//                   }}>
+	//                   <View
+	//                      style={{ flexDirection: 'row', alignItems: 'center' }}>
+	//                      <Avatar user={chat[1]} size={50} />
+	//                      <View
+	//                         style={{ flexDirection: 'row', alignItems: 'center' }}>
+	//                         <View style={{ flexDirection: 'column' }}>
+	//                            <Text
+	//                               style={{
+	//                                  fontFamily: 'Montserrat-SemiBold',
+	//                                  fontSize: 16
+	//                               }}>
+	//                               {chat[1].displayName}
+	//                            </Text>
+	//                            <View
+	//                               style={{
+	//                                  flexDirection: 'row',
+	//                                  alignItems: 'center'
+	//                               }}>
+	//                               {chat[1]?.lastMessage && (
+	//                                  <View
+	//                                     style={{
+	//                                        flexDirection: 'row',
+	//                                        marginTop: 7
+	//                                     }}>
+	//                                     <Text
+	//                                        style={{
+	//                                           fontSize: 14,
+	//                                           color: '#81F2DF',
+	//                                           fontFamily: 'Montserrat-Regular'
+	//                                        }}>
+	//                                        Вы: {''}
+	//                                     </Text>
+	//                                     <Text
+	//                                        style={{
+	//                                           fontFamily: 'Montserrat-Regular',
+	//                                           fontSize: 14,
+	//                                           maxWidth: 160
+	//                                        }}
+	//                                        numberOfLines={1}
+	//                                        ellipsizeMode='tail'>
+	//                                        {/* {description} */}
+	//                                     </Text>
+	//                                  </View>
+	//                               )}
+	//                               {chat[1]?.date && (
+	//                                  <View style={{ marginTop: 7, marginLeft: 10 }}>
+	//                                     <Text
+	//                                        style={{
+	//                                           fontFamily: 'Montserrat-Medium',
+	//                                           color: '#A5A5A5'
+	//                                        }}>
+	//                                        {new Date(time.seconds * 1000)
+	//                                           .toLocaleTimeString()
+	//                                           .replace(/(.*)\D\d+/, '$1')}
+	//                                     </Text>
+	//                                  </View>
+	//                               )}
+	//                            </View>
+	//                         </View>
+	//                      </View>
+	//                   </View>
+	//                </View>
+	//             </TouchableOpacity>
+	//          );
+	//       } else {
+	//          return null;
+	//       }
+	//    })}
 
 	return (
 		<View
@@ -56,24 +152,14 @@ const Chats = () => {
 				flex: 1,
 				paddingTop: 10,
 				backgroundColor: '#F7F7F7',
-				paddingHorizontal: 5
+				paddingHorizontal: 10
 			}}>
-			<View>
-				{rooms.map(room => (
-					<ChatItem
-						type='chats'
-						description={room.lastMessage.text}
-						key={room.id}
-						roomId={room.id}
-						room={room}
-						time={room.lastMessage.createdAt}
-						user={getUserB(room.userB, contactUser)}
-						refreshControl={
-							<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-						}
-					/>
-				))}
-			</View>
+			<TouchableOpacity
+				onPress={() => navigation.navigate('Chat', { chatUser })}>
+				<View>
+					<Text>ЧАТ</Text>
+				</View>
+			</TouchableOpacity>
 		</View>
 	);
 };
