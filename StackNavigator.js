@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import { View, Text, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, query } from 'firebase/database';
 import auth from '@react-native-firebase/auth';
 
 import TabNavigator from './TabNavigator';
@@ -11,26 +11,36 @@ import useAuth from './app/hooks/useAuth';
 import OnBoard from './app/screens/OnBoard';
 import UserData from './app/screens/UserData';
 
-import { db } from './firebase';
+import { db, fs } from './firebase';
 import Chat from './app/screens/Services/Chat';
+import { collection, doc, onSnapshot, where } from 'firebase/firestore';
 
 const Stack = createStackNavigator();
 
 const { width } = Dimensions.get('screen');
 
 const StackNavigator = () => {
-	const { user, setUser } = useAuth();
+	const { user } = useAuth();
 
 	const [userData, setUserData] = useState(null);
 
-	useEffect(() => {
+	const fetchUserData = () => {
 		if (user) {
-			const starCountRef = ref(db, 'users/' + user.uid + '/' + 'userInfo');
-			onValue(starCountRef, snapshot => {
-				const data = snapshot.val();
-				setUserData(data);
+			const userRef = doc(fs, 'users', user.uid);
+			const unsub = onSnapshot(userRef, doc => {
+				if (doc.data()) {
+					const docData = doc.data().userInfo;
+					setUserData(docData);
+				} else {
+					setUserData(null);
+				}
 			});
+			return unsub;
 		}
+	};
+
+	useEffect(() => {
+		fetchUserData();
 	}, [user]);
 
 	const navigation = useNavigation();

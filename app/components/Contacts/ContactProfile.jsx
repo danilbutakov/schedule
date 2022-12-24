@@ -1,0 +1,49 @@
+import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { useRoute } from '@react-navigation/native';
+
+const ContactProfile = () => {
+	const route = useRoute();
+	const contact = route.params.user;
+
+	return (
+		<View style={styles.main}>
+			<View style={styles.mainInfo}>
+				<Text style={styles.mainText}>{contact.userInfo.role}, </Text>
+				<Text style={styles.mainText}>{contact.email}</Text>
+			</View>
+			<View>
+				<View style={styles.mainInfo}>
+					<Text style={styles.mainText}>ВУЗ: </Text>
+					<Text style={styles.secondText}>{contact.userInfo.univ}</Text>
+				</View>
+				<View style={styles.mainInfo}>
+					<Text style={styles.mainText}>Группа: </Text>
+					<Text style={styles.secondText}>{contact.userInfo.group}</Text>
+				</View>
+			</View>
+		</View>
+	);
+};
+
+export default ContactProfile;
+
+const styles = StyleSheet.create({
+	main: {
+		padding: 10
+	},
+	mainInfo: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 15
+	},
+	mainText: {
+		fontFamily: 'Montserrat-SemiBold',
+		fontSize: 17
+	},
+	secondText: {
+		fontFamily: 'Montserrat-Medium',
+		fontSize: 15
+	}
+});

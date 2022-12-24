@@ -8,9 +8,8 @@ import {
 	Image
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { ref, onValue } from 'firebase/database';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
@@ -18,7 +17,6 @@ import Ant from 'react-native-vector-icons/AntDesign';
 import { BlurView } from '@react-native-community/blur';
 import auth from '@react-native-firebase/auth';
 
-import { db } from '../../../firebase';
 import { fs } from '../../../firebase';
 
 import useAuth from '../../hooks/useAuth';
@@ -27,45 +25,29 @@ const { width } = Dimensions.get('screen');
 
 const MenuScreen = () => {
 	const { signOut, user, loading } = useAuth();
-	const [userInfo, setUserInfo] = useState({});
 
 	const [menuItems, setMenuItems] = useState([]);
+	const [profileName, setProfileName] = useState('');
 	const navigation = useNavigation();
 
 	const currentUser = auth().currentUser;
 
-	//read from database
-	useEffect(() => {
-		if (user) {
-			onValue(ref(db, 'users/' + user.uid), snapshot => {
-				setMenuItems([]);
-				const data = snapshot.val();
-				if (data !== null) {
-					Object.values(data).map(note => {
-						setMenuItems(oldArray => [...oldArray, note]);
-					});
-				}
-			});
-		}
-	}, []);
-
-	const fetchData = async () => {
-		const q = query(
-			collection(fs, 'users'),
-			where('email', '==', currentUser.email)
-		);
-
-		const querySnapshot = await getDocs(q).then(snapshot => {
-			const newData = snapshot.docs.map(doc => ({
-				...doc.data()
-			}));
-			setUserInfo({ ...newData });
+	const fetchUserData = () => {
+		const userRef = doc(fs, 'users', user.uid);
+		const unsub = onSnapshot(userRef, doc => {
+			if (doc.data()) {
+				const docData = doc.data().userInfo;
+				setMenuItems([docData]);
+				setProfileName(doc.data().profileName);
+			} else {
+				setMenuItems(null);
+			}
 		});
-		return () => querySnapshot();
+		return unsub;
 	};
 
 	useEffect(() => {
-		fetchData();
+		fetchUserData();
 	}, []);
 
 	return (
@@ -81,7 +63,7 @@ const MenuScreen = () => {
 								<View style={styles.infoUser}>
 									<Text style={styles.role}>
 										{item.role}, {''}
-										{userInfo[0]?.profileName || currentUser.displayName}
+										{profileName}
 									</Text>
 									<Text style={styles.group}>{item.group}</Text>
 									<Text style={styles.univ}>{item.univ}</Text>

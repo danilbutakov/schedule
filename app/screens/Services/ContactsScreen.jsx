@@ -13,17 +13,17 @@ import auth from '@react-native-firebase/auth';
 import { fs } from '../../../firebase';
 import AppContext from '../../utils/Context';
 import ContactItem from '../../components/Contacts/ContactItem';
+import { useContacts } from '../../hooks/useContacts';
 
 const wait = timeout => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
 const ContactsScreen = () => {
-	const { contactUser, setContactUser } = useContext(AppContext);
-	const currentUser = auth().currentUser;
-
 	const route = useRoute();
 	const image = route.params && route.params.image;
+	const [contacts, setContacts] = useState([]);
+	const currentUser = auth().currentUser;
 
 	const fetchData = async () => {
 		const q = query(
@@ -35,9 +35,9 @@ const ContactsScreen = () => {
 			const newData = snapshot.docs.map(doc => ({
 				...doc.data()
 			}));
-			setContactUser(newData);
+			setContacts(newData);
 			if (refreshing) {
-				setContactUser(newData);
+				setContacts(newData);
 			}
 		});
 	};
@@ -64,7 +64,7 @@ const ContactsScreen = () => {
 			}}>
 			<FlatList
 				style={{ marginTop: 7, marginBottom: 10 }}
-				data={contactUser}
+				data={contacts}
 				keyExtractor={(_, i) => i}
 				renderItem={({ item }) => (
 					<ContactPreview
@@ -82,7 +82,7 @@ const ContactsScreen = () => {
 };
 
 const ContactPreview = ({ contact, image, refreshing }) => {
-	const { unfilteredRooms } = useContext(AppContext);
+	const { rooms } = useContext(AppContext);
 	const [userPreview, setUserPreview] = useState(contact);
 
 	useEffect(() => {
@@ -108,9 +108,7 @@ const ContactPreview = ({ contact, image, refreshing }) => {
 			type='contacts'
 			user={userPreview}
 			image={image}
-			room={unfilteredRooms.find(room =>
-				room.participantsArray.includes(contact.email)
-			)}
+			room={rooms.find(room => room.participantsArray.includes(contact.email))}
 		/>
 	);
 };
