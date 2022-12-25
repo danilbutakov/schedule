@@ -2,8 +2,6 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
-  Keyboard,
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
@@ -16,8 +14,9 @@ import auth from "@react-native-firebase/auth";
 
 import { fs } from "../../../firebase";
 import { pickImage, uploadImage } from "../../utils/Functions";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import useAuth from "../../hooks/useAuth";
+import { DismissKeyboardView } from "../HideKeyBoard";
 
 const { height } = Dimensions.get("screen");
 
@@ -45,33 +44,6 @@ const ProfileLogoInfo = ({
     }
   }, [profileName, image]);
 
-  const writeToDatabase = async () => {
-    const docRef = doc(fs, "users", user.uid);
-    await updateDoc(docRef, {
-      userInfo: {
-        univ: univ,
-        group: group,
-        role: role,
-      },
-    })
-      .then(() => {
-        //Data saved successfully
-        console.log("data wrote");
-        setUniv("");
-        setGroup("");
-        setRole("");
-        setProfileName("");
-      })
-      .catch((error) => {
-        //The writing failed
-        console.log(error);
-        setUniv("");
-        setGroup("");
-        setRole("");
-        setProfileName("");
-      });
-  };
-
   const handleProfilePicture = async () => {
     const result = await pickImage();
     if (!result.canceled) {
@@ -79,18 +51,8 @@ const ProfileLogoInfo = ({
     }
   };
 
-  //Обработчик появления и исчезания клавиатуры
-  const [isOpenedKeyboard, setIsOpenKeyboard] = useState(false);
-
-  const keyboardShowListener = Keyboard.addListener("keyboardDidShow", () => {
-    setIsOpenKeyboard(true);
-  });
-  const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
-    setIsOpenKeyboard(false);
-  });
-
   return (
-    <KeyboardAvoidingView style={styles.containerKeyboard}>
+    <DismissKeyboardView style={styles.containerKeyboard}>
       <View style={styles.con}>
         <View style={styles.content}>
           <Text style={styles.title}>
@@ -107,14 +69,12 @@ const ProfileLogoInfo = ({
               }}
             />
           ) : null}
-          {user.displayName === null && (
-            <TextInput
-              value={profileName}
-              onChangeText={(profileName) => setProfileName(profileName)}
-              placeholder="Например Иван"
-              style={styles.inputVuz}
-            />
-          )}
+          <TextInput
+            value={profileName}
+            onChangeText={(profileName) => setProfileName(profileName)}
+            placeholder="Например Иван"
+            style={styles.inputVuz}
+          />
           <TouchableOpacity
             onPress={handleProfilePicture}
             style={{ alignSelf: "center", marginTop: 30 }}
@@ -143,48 +103,53 @@ const ProfileLogoInfo = ({
           {}
         </View>
         <TouchableOpacity
-          style={[
-            styles.container,
-            { marginBottom: isOpenedKeyboard ? 0 : 10 },
-          ]}
+          style={styles.container}
           onPress={async () => {
-            setIsLoading(true);
-            let photoURL;
-            if (image) {
-              const { url } = await uploadImage(
-                image,
-                `images/${user.uid}`,
-                "profilePicture"
-              );
-              photoURL = url;
-            }
-            const userData = {
-              profileName: profileName || user.displayName,
-              email: user.email,
-            };
-            if (photoURL) {
-              userData.photoURL = photoURL;
-            }
-            await Promise.all([
-              auth().currentUser.updateProfile(userData),
-              setDoc(doc(fs, "users", user.uid), {
-                ...userData,
-                uid: user.uid,
-              }),
-            ])
-              .then(() => {
-                console.log("good authorizez");
-                setIsLoading(false);
-              })
-              .catch((error) => {
-                setIsLoading(false);
-                console.log(error);
-              })
-              .finally(() => {
-                setIsLoading(false);
-              });
-            if (profileName !== "" || image) {
-              writeToDatabase();
+            if (profileName !== "" && image !== null) {
+              setIsLoading(true);
+              let photoURL;
+              if (image) {
+                const { url } = await uploadImage(
+                  image,
+                  `images/${user.uid}`,
+                  "profilePicture"
+                );
+                photoURL = url;
+              }
+              const userData = {
+                profileName: profileName,
+                email: user.email,
+                univ: univ,
+                group: group,
+                role: role,
+              };
+              if (photoURL) {
+                userData.photoURL = photoURL;
+              }
+              await Promise.all([
+                auth().currentUser.updateProfile(userData),
+                setDoc(doc(fs, "users", user.uid), {
+                  ...userData,
+                  uid: user.uid,
+                }),
+              ])
+                .then(() => {
+                  console.log("good authorizez");
+                  setIsLoading(false);
+
+                  setProfileName("");
+                })
+                .catch((error) => {
+                  setIsLoading(false);
+                  console.log(error);
+
+                  setProfileName("");
+                })
+                .finally(() => {
+                  setIsLoading(false);
+
+                  setProfileName("");
+                });
             }
           }}
         >
@@ -193,7 +158,7 @@ const ProfileLogoInfo = ({
           </View>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </DismissKeyboardView>
   );
 };
 

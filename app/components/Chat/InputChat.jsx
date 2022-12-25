@@ -1,23 +1,11 @@
 import { TextInput, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const InputChat = () => {
-  // const sendImage = async (uri, roomPath) => {
-  //     const { url, fileName } = await uploadImage(
-  //         uri,
-  //         `image/rooms/${roomPath}`
-  //     );
-  // };
-  //
-  // const handlePhotoPicker = async () => {
-  //     const result = await pickImage();
-  //     if (!result.canceled) {
-  //         await sendImage(result.assets[0].uri);
-  //     }
-  // };
-
+  const [msgValue, setMsgValue] = useState("");
   return (
     <View
       style={{
@@ -31,25 +19,36 @@ const InputChat = () => {
         flexDirection: "row",
       }}
     >
-      <TextInput
-        placeholder="Введите сообщение..."
-        style={{
-          fontSize: 14,
-          fontFamily: "Montserrat-Medium",
-          lineHeight: 20,
-          flex: 2,
-          paddingRight: 10,
-        }}
-        placeholderTextColor={"#e5e5ea"}
-        multiline={true}
-      />
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        <TouchableOpacity style={{ marginRight: 15 }}>
-          <Feather name="camera" size={25} color={"#e5e5ea"} />
-        </TouchableOpacity>
-        <TouchableOpacity>
+      <View style={{ display: "flex", flexDirection: "row", flex: 2 }}>
+        <TouchableOpacity style={{ marginRight: 20 }}>
           <Entypo name="attachment" size={25} color={"#e5e5ea"} />
         </TouchableOpacity>
+        <TextInput
+          placeholder="Введите сообщение..."
+          style={{
+            fontSize: 14,
+            fontFamily: "Montserrat-Medium",
+            lineHeight: 20,
+            paddingRight: 10,
+            flex: 1,
+            color: "#e5e5ea",
+          }}
+          value={msgValue}
+          onChangeText={(text) => setMsgValue(text)}
+          placeholderTextColor={"#e5e5ea"}
+          multiline={true}
+        />
+      </View>
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        {msgValue !== "" ? (
+          <TouchableOpacity style={{ marginLeft: 15 }}>
+            <Ionicons name="ios-send" size={25} color={"#e5e5ea"} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={{ marginLeft: 15 }}>
+            <Feather name="camera" size={25} color={"#e5e5ea"} />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

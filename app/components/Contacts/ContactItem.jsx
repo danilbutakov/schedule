@@ -80,8 +80,6 @@ const ContactItem = ({ user, type }) => {
     } catch (error) {
       console.log(error);
     }
-
-    //старый навигейт на нажатие сообщения   navigation.navigate('Chat', { user, room, image })
   };
 
   return (
@@ -139,9 +137,7 @@ const ContactItem = ({ user, type }) => {
                   paddingRight: 10,
                 }}
               >
-                {/* {user.description} */}
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus,
-                esse?
+                {user.univ}, {user.group}
               </Text>
               <Text
                 style={{

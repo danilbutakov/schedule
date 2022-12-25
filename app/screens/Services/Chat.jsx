@@ -1,10 +1,10 @@
-// @refresh reset
 import "react-native-get-random-values";
 import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import Messages from "../../components/Chat/Messages";
 import InputChat from "../../components/Chat/InputChat";
 import auth from "@react-native-firebase/auth";
+import { DismissKeyboardView } from "../../components/HideKeyBoard";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -14,17 +14,12 @@ const Chat = () => {
   const currentUser = auth().currentUser;
 
   return (
-    <View style={styles.chat}>
+    <DismissKeyboardView style={styles.chat}>
       <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
-        <Messages />
-        <Messages />
-        <Messages />
-        <Messages />
-        <Messages />
         <Messages />
       </View>
       <InputChat />
-    </View>
+    </DismissKeyboardView>
   );
 };
 
