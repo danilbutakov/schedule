@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
-  Dimensions,
-  Keyboard,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -18,17 +15,7 @@ import Arrow from "../../../assets/svgUtils/Arrow.svg";
 import SearchImg from "../../../assets/svgUtils/search.svg";
 import Delete from "../../../assets/svgUtils/delete.svg";
 import { useNavigation } from "@react-navigation/native";
-
-const { height } = Dimensions.get("screen");
-
-const DismissKeyboardHOC = (Comp) => {
-  return ({ children, ...props }) => (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <Comp {...props}>{children}</Comp>
-    </TouchableWithoutFeedback>
-  );
-};
-const DismissKeyboardView = DismissKeyboardHOC(View);
+import { DismissKeyboardView } from "../../components/HideKeyBoard";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -54,16 +41,6 @@ const Search = () => {
   }, [searchValue]);
 
   const navigation = useNavigation();
-
-  //Обработчик появления и исчезания клавиатуры
-  const [isOpenedKeyboard, setIsOpenKeyboard] = useState(false);
-
-  const keyboardShowListener = Keyboard.addListener("keyboardDidShow", () => {
-    setIsOpenKeyboard(true);
-  });
-  const keyboardHideListener = Keyboard.addListener("keyboardDidHide", () => {
-    setIsOpenKeyboard(false);
-  });
 
   return (
     <DismissKeyboardView style={styles.containerSearch}>
@@ -235,7 +212,6 @@ const styles = StyleSheet.create({
   containerSearch: {
     backgroundColor: "#F7F7F7",
     alignItems: "center",
-    height,
     flex: 1,
   },
   searchCont: {

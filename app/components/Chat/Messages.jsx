@@ -1,16 +1,23 @@
-import { Text, View } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import React from "react";
+import Message from "./Message";
 
 const Messages = () => {
   return (
-    <View
-      style={{
-        backgroundColor: "#ffffff",
-        padding: 10,
-      }}
-    >
-      <Text>Messages</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView
+        style={{
+          backgroundColor: "#ffffff",
+          paddingHorizontal: 10,
+        }}
+      >
+        <Message />
+        <Message />
+        <Message />
+        <Message />
+        <Message />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

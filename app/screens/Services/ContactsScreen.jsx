@@ -53,6 +53,8 @@ const ContactsScreen = () => {
     fetchData().then(() => console.log("good"));
   }, [refreshing]);
 
+  console.log(contacts);
+
   return (
     <View
       style={{
