@@ -1,10 +1,5 @@
-import React from 'react';
+import React from "react";
 
-const AppContext = React.createContext({
-	rooms: [],
-	setRooms: () => {},
-	unfilteredRooms: [],
-	setUnfilteredRooms: () => {}
-});
+const AppContext = React.createContext({});
 
 export default AppContext;
