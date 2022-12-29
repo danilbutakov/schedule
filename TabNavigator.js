@@ -34,6 +34,7 @@ import ChatHeader from './app/components/Chat/ChatHeader';
 import { doc, onSnapshot } from 'firebase/firestore';
 import ContactProfile from './app/components/Contacts/ContactProfile';
 import ContactProfileHeader from './app/components/Contacts/ContactProfileHeader';
+import { AppContextProvider } from './app/utils/Context';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -580,8 +581,6 @@ const NotesStack = () => {
 };
 
 const ServicesStack = () => {
-	const navigation = useNavigation();
-	const route = useRoute();
 	const currentUser = auth().currentUser;
 	return (
 		<Stack.Navigator
@@ -640,27 +639,7 @@ const ServicesStack = () => {
 
 const TabNavigator = () => {
 	const { user } = useAuth();
-
-	const [userData, setUserData] = useState(null);
-
-	const fetchUserData = () => {
-		if (user) {
-			const userRef = doc(fs, 'users', user.uid);
-			const unsub = onSnapshot(userRef, doc => {
-				if (doc.data()) {
-					const docData = doc.data().userInfo;
-					setUserData(docData);
-				} else {
-					setUserData(null);
-				}
-			});
-			return unsub;
-		}
-	};
-
-	useEffect(() => {
-		fetchUserData();
-	}, [user]);
+	const { userData } = useContext(AppContextProvider);
 
 	return (
 		<>
