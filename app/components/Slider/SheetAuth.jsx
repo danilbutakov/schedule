@@ -19,7 +19,14 @@ import Apple from "../../../assets/images/Apple.svg";
 const { width } = Dimensions.get("screen");
 
 const SheetAuth = () => {
-  const { onGoogleButtonPress, setUser, loading, user, signOut } = useAuth();
+  const {
+    onGoogleButtonPress,
+    setUser,
+    loading,
+    user,
+    signOut,
+    fetchUserData,
+  } = useAuth();
   const currentUser = auth().currentUser;
 
   const [register, setRegister] = useState(false);
@@ -121,7 +128,6 @@ const SheetAuth = () => {
             })
             .then(() => {
               setUserWithEmail(userSignUp);
-              console.log("verification email send");
               Alert.alert("Письмо с подтверждением почты успешно отправлено");
               setShowEmailVerified(true);
               setShowAuth(false);
@@ -163,7 +169,7 @@ const SheetAuth = () => {
     }
   };
 
-  const signIn = () => {
+  const signIn = async () => {
     if (
       email === "" &&
       email === " " &&
@@ -187,9 +193,8 @@ const SheetAuth = () => {
     ) {
       auth()
         .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          setUser();
-          console.log("Login successfully");
+        .then(async () => {
+          await setUser();
         })
         .catch((error) => {
           console.log(error);

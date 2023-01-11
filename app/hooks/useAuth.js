@@ -1,99 +1,95 @@
 import React, {
-	createContext,
-	useContext,
-	useEffect,
-	useMemo,
-	useState
-} from 'react';
-import { Alert } from 'react-native';
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { Alert } from "react-native";
 
-import 'expo-dev-client';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
+import "expo-dev-client";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import auth from "@react-native-firebase/auth";
+import { doc, onSnapshot } from "firebase/firestore";
+import { fs } from "../../firebase";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-	// Set an initializing state whilst Firebase connects
-	const [initializing, setInitializing] = useState(true);
-	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(false);
-	const [userWithGoggle, setUserWithGoogle] = useState();
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [userWithGoggle, setUserWithGoogle] = useState();
+  const [userData, setUserData] = useState(null);
 
-	GoogleSignin.configure({
-		webClientId:
-			'676713652988-tkn7efgb8i2gng0ut42kkcb6a8ch3aoh.apps.googleusercontent.com'
-	});
+  GoogleSignin.configure({
+    webClientId:
+      "676713652988-tkn7efgb8i2gng0ut42kkcb6a8ch3aoh.apps.googleusercontent.com",
+  });
 
-	// Handle user state changes
-	function onAuthStateChanged(user) {
-		setUser(user);
-		if (initializing) setInitializing(false);
-	}
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
 
-	useEffect(() => {
-		const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-		return subscriber; // unsubscribe on unmount
-	}, []);
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
-	const onGoogleButtonPress = async () => {
-		setLoading(true);
-		// Check if your device supports Google Play
-		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-		// Get the users ID token
-		const { idToken } = await GoogleSignin.signIn();
+  const onGoogleButtonPress = async () => {
+    setLoading(true);
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    // Sign-in the user with the credential
+    const userSignIn = auth().signInWithCredential(googleCredential);
+    userSignIn
+      .then((user) => {
+        setUserWithGoogle(userSignIn);
+      })
+      .catch((error) => {
+        Alert.alert(error.message);
+      })
+      .finally(() => setLoading(false));
+  };
 
-		// Create a Google credential with the token
-		const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+  const signOut = async () => {
+    setLoading(true);
+    try {
+      GoogleSignin?.revokeAccess();
+      await auth().signOut();
+    } catch (error) {
+      console.log(error.message, "exit not work");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-		// Sign-in the user with the credential
-		// return auth().signInWithCredential(googleCredential);
-		const userSignIn = auth().signInWithCredential(googleCredential);
-		userSignIn
-			.then(user => {
-				setUserWithGoogle(userSignIn);
-				console.log(user);
-			})
-			.catch(error => {
-				Alert.alert(error.message);
-				console.log('error');
-			})
-			.finally(() => setLoading(false));
-	};
+  const memoValue = useMemo(
+    () => ({
+      onGoogleButtonPress,
+      user,
+      setUser,
+      signOut,
+      userWithGoggle,
+      loading,
+    }),
+    [user, loading]
+  );
 
-	const signOut = async () => {
-		setLoading(true);
+  if (initializing) return null;
 
-		try {
-			GoogleSignin?.revokeAccess();
-			await auth().signOut();
-			console.log('Cool exit');
-		} catch (error) {
-			console.log(error.message, 'exit not work');
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	const memoedValue = useMemo(
-		() => ({
-			onGoogleButtonPress,
-			user,
-			setUser,
-			signOut,
-			userWithGoggle,
-			loading
-		}),
-		[user, loading]
-	);
-
-	if (initializing) return null;
-
-	return (
-		<AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>
-	);
+  return (
+    <AuthContext.Provider value={memoValue}>{children}</AuthContext.Provider>
+  );
 };
 
 export default function useAuth() {
-	return useContext(AuthContext);
+  return useContext(AuthContext);
 }

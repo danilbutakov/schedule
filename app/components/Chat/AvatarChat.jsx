@@ -1,18 +1,30 @@
-import { View, Image } from "react-native";
-import React from "react";
+import { Image, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
+import auth from "@react-native-firebase/auth";
 
-const Avatar = ({ size, user }) => {
+const AvatarChat = ({ size, image }) => {
+  const currentUser = auth().currentUser;
+  const [filteredImage, setFilteredImage] = useState(null);
+
+  useEffect(() => {
+    if (image.length >= 1) {
+      image.filter((i) =>
+        i !== currentUser.photoURL ? setFilteredImage(i) : null
+      );
+    }
+  }, [image]);
+
   return (
     <View style={{ marginRight: 10 }}>
-      {user.photoURL ? (
+      {image ? (
         <Image
           style={{
             borderRadius: size,
             width: size,
             height: size,
           }}
-          source={{ uri: user.photoURL }}
+          source={{ uri: filteredImage }}
           resizeMode="cover"
         />
       ) : (
@@ -38,4 +50,4 @@ const Avatar = ({ size, user }) => {
   );
 };
 
-export default Avatar;
+export default AvatarChat;

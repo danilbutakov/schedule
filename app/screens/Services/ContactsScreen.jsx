@@ -11,8 +11,8 @@ import {
 import auth from "@react-native-firebase/auth";
 
 import { fs } from "../../../firebase";
-import ContactItem from "../../components/Contacts/ContactItem";
 import SearchContacts from "../../components/Contacts/SearchContacts";
+import ContactItem from "../../components/Contacts/ContactItem";
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -45,15 +45,13 @@ const ContactsScreen = () => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    fetchData().then(() => console.log("good"));
+    fetchData();
     wait(1000).then(() => setRefreshing(false));
   }, []);
 
   useEffect(() => {
-    fetchData().then(() => console.log("good"));
+    fetchData();
   }, [refreshing]);
-
-  console.log(contacts);
 
   return (
     <View
@@ -97,10 +95,13 @@ const ContactPreview = ({ contact, image, refreshing }) => {
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
       if (snapshot.docs.length) {
-        const userDoc = snapshot.docs[0].data();
+        const userDoc = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+        }));
         setUserPreview((prevUser) => ({ ...prevUser, userDoc }));
       }
     });
+
     return () => unsubscribe();
   }, []);
 

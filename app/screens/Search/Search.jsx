@@ -15,7 +15,7 @@ import Arrow from "../../../assets/svgUtils/Arrow.svg";
 import SearchImg from "../../../assets/svgUtils/search.svg";
 import Delete from "../../../assets/svgUtils/delete.svg";
 import { useNavigation } from "@react-navigation/native";
-import { DismissKeyboardView } from "../../components/HideKeyBoard";
+import { DismissKeyboardView } from "../../hooks/HideKeyBoard";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -208,6 +208,8 @@ const Search = () => {
   );
 };
 
+export default Search;
+
 const styles = StyleSheet.create({
   containerSearch: {
     backgroundColor: "#F7F7F7",
@@ -282,5 +284,3 @@ const styles = StyleSheet.create({
   },
   infoAboutSearch: {},
 });
-
-export default Search;

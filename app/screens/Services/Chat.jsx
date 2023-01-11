@@ -3,20 +3,19 @@ import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import Messages from "../../components/Chat/Messages";
 import InputChat from "../../components/Chat/InputChat";
-import auth from "@react-native-firebase/auth";
-import { DismissKeyboardView } from "../../components/HideKeyBoard";
+import { DismissKeyboardView } from "../../hooks/HideKeyBoard";
+import { useRoute } from "@react-navigation/native";
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImageView, setSelectedImageView] = useState("");
 
-  const currentUser = auth().currentUser;
-
+  const route = useRoute();
+  const chat = route.params.chat;
   return (
     <DismissKeyboardView style={styles.chat}>
       <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
-        <Messages />
+        <Messages chat={chat} />
       </View>
       <InputChat />
     </DismissKeyboardView>

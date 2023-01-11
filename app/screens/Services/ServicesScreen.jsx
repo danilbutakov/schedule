@@ -35,7 +35,7 @@ const ServicesScreen = () => {
                     fontSize: 15,
                   }}
                 >
-                  ЧАТЫ
+                  Чаты
                 </Text>
               );
             }

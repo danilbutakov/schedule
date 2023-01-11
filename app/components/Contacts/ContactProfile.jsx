@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   mainText: {
     fontFamily: "Montserrat-SemiBold",
-    fontSize: 17,
+    fontSize: 16,
   },
   secondText: {
     fontFamily: "Montserrat-Medium",

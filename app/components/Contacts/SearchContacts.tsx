@@ -23,8 +23,8 @@ import {
 import { fs } from "../../../firebase";
 import auth from "@react-native-firebase/auth";
 import Avatar from "./Avatar";
-import Feather from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const SearchContacts = () => {
   const currentUser = auth().currentUser;
@@ -231,10 +231,14 @@ const SearchContacts = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    handleSelect(user).then((r) => console.log(r));
+                    handleSelect(user);
                   }}
                 >
-                  <Feather size={40} name="message-circle" color={"#3eb59f"} />
+                  <Ionicons
+                    size={35}
+                    name="md-chatbubbles-sharp"
+                    color={"#3eb59f"}
+                  />
                 </TouchableOpacity>
               </View>
               <View
