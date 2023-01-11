@@ -16,7 +16,7 @@ import { fs } from "../../../firebase";
 import { pickImage, uploadImage } from "../../utils/Functions";
 import { doc, setDoc } from "firebase/firestore";
 import useAuth from "../../hooks/useAuth";
-import { DismissKeyboardView } from "../HideKeyBoard";
+import { DismissKeyboardView } from "../../hooks/HideKeyBoard";
 
 const { height } = Dimensions.get("screen");
 

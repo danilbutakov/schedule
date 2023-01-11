@@ -1,22 +1,43 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
+  collection,
   doc,
   getDoc,
+  getDocs,
+  query,
   serverTimestamp,
   setDoc,
-  updateDoc,
+  where,
 } from "firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import { useEffect, useState } from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { fs } from "../../../firebase";
 import Avatar from "./Avatar";
-import Feather from "react-native-vector-icons/Feather";
 
 const ContactItem = ({ user, type }) => {
   const navigation = useNavigation();
   const date = new Date();
   const currentUser = auth().currentUser;
+  const [curUser, setCurUser] = useState(null);
+
+  const fetchCurrentUser = async () => {
+    const q = query(
+      collection(fs, "users"),
+      where("email", "==", currentUser.email)
+    );
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setCurUser(doc.data());
+    });
+  };
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, [currentUser]);
 
   const handleSelect = async () => {
     // создаем комбо id двух юзеров в чате
@@ -26,56 +47,19 @@ const ContactItem = ({ user, type }) => {
         : user.uid + currentUser.uid;
     try {
       const res = await getDoc(doc(fs, "chats", combinedId));
-      const resUserChats = await getDoc(doc(fs, "userChats", combinedId));
-      const resCurrentUserChats = await getDoc(
-        doc(fs, "userChats", combinedId)
-      );
-      //создаем чат в коллекции чатов
+      // const resUserChats = await getDoc(doc(fs, "userChats", combinedId));
 
+      //создаем чаты юзеров
       if (!res.exists()) {
+        //создаем чат в коллекции чатов
         await setDoc(doc(fs, "chats", combinedId), {
           messages: [],
+          uids: [currentUser.uid, user.uid],
+          names: [user.displayName || user.profileName, curUser.profileName],
+          photos: [user.photoURL, currentUser.photoURL],
+          date: serverTimestamp(),
+          combinedId: combinedId,
         });
-
-        //создаем чаты юзеров
-        if (!resUserChats.exists() && !resCurrentUserChats.exists()) {
-          await setDoc(doc(fs, "userChats", currentUser.uid), {
-            [combinedId + ".userInfo"]: {
-              uid: user.uid,
-              displayName: user.displayName || user.profileName,
-              photoURL: user.photoURL,
-            },
-            [combinedId + ".date"]: serverTimestamp(),
-          });
-          await setDoc(doc(fs, "userChats", user.uid), {
-            [combinedId + ".userInfo"]: {
-              uid: currentUser.uid,
-              displayName: currentUser.displayName || currentUser.profileName,
-              photoURL: currentUser.photoURL,
-            },
-            [combinedId + ".date"]: serverTimestamp(),
-          });
-        } else {
-          //для текущего юзера
-          await updateDoc(doc(fs, "userChats", currentUser.uid), {
-            [combinedId + ".userInfo"]: {
-              uid: user.uid,
-              displayName: user.displayName || user.profileName,
-              photoURL: user.photoURL,
-            },
-            [combinedId + ".date"]: serverTimestamp(),
-          });
-
-          //для другого юзера
-          await updateDoc(doc(fs, "userChats", user.uid), {
-            [combinedId + ".userInfo"]: {
-              uid: currentUser.uid,
-              displayName: currentUser.displayName || currentUser.profileName,
-              photoURL: currentUser.photoURL,
-            },
-            [combinedId + ".date"]: serverTimestamp(),
-          });
-        }
       }
     } catch (error) {
       console.log(error);
@@ -155,7 +139,7 @@ const ContactItem = ({ user, type }) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSelect}>
-          <Feather size={40} name="message-circle" color={"#3eb59f"} />
+          <Ionicons size={35} name="md-chatbubbles-sharp" color={"#3eb59f"} />
         </TouchableOpacity>
       </View>
     </View>

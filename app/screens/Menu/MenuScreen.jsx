@@ -33,7 +33,7 @@ const MenuScreen = () => {
 
   const fetchUserData = () => {
     const userRef = doc(fs, "users", user.uid);
-    const unsub = onSnapshot(userRef, (doc) => {
+    return onSnapshot(userRef, (doc) => {
       if (doc.data()) {
         const docData = doc.data();
         setMenuItems([docData]);
@@ -41,7 +41,6 @@ const MenuScreen = () => {
         setMenuItems(null);
       }
     });
-    return unsub;
   };
 
   useEffect(() => {

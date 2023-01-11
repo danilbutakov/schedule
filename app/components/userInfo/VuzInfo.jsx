@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { DismissKeyboardView } from "../HideKeyBoard";
+import { DismissKeyboardView } from "../../hooks/HideKeyBoard";
 
 const { height } = Dimensions.get("screen");
 

@@ -1,8 +1,27 @@
 import { SafeAreaView, ScrollView } from "react-native";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Message from "./Message";
+import { ChatContext } from "../../utils/ChatContext";
+import {
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import { fs } from "../../../firebase";
 
-const Messages = () => {
+const Messages = ({ chat }) => {
+  const [messages, setMessages] = useState(chat.messages);
+  const chatCombinedId = chat.combinedId;
+
+  useEffect(() => {
+    onSnapshot(doc(fs, "chats", chatCombinedId), (doc) => {
+      doc.exists() && setMessages(doc.data());
+    });
+  }, [chatCombinedId]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
@@ -11,11 +30,7 @@ const Messages = () => {
           paddingHorizontal: 10,
         }}
       >
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
+        <Message messages={messages.messages} />
       </ScrollView>
     </SafeAreaView>
   );
