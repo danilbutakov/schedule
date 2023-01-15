@@ -18,7 +18,7 @@ const PremiumScreen = () => {
 					lineHeight: 20,
 					marginTop: 20
 				}}>
-				В скором будущем здесь вы сможете оформить подписку :D
+				В разработке
 			</Text>
 		</View>
 	);
