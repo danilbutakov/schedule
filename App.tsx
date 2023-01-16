@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { LogBox, StatusBar, View } from 'react-native';
 import 'expo-dev-client';
 import * as SplashScreen from 'expo-splash-screen';
 
-import StackNavigator from './StackNavigator';
 import { AuthProvider } from './app/hooks/useAuth';
 import { useFonts } from './app/hooks/useFonts';
 import { ChatContextProvider } from './app/utils/ChatContext';
 import { AppContextProvider } from './app/utils/Context';
+import TabNavigator from './TabNavigator';
+import StackNavigator from './StackNavigator';
 
 LogBox.ignoreLogs([
 	'Setting a timer',

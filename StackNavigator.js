@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Text, TouchableOpacity, View, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as CardStyleInterpolates from '@react-navigation/stack/src/TransitionConfigs/CardStyleInterpolators';
 
@@ -9,8 +8,6 @@ import useAuth from './app/hooks/useAuth';
 import OnBoard from './app/screens/OnBoard';
 import UserData from './app/screens/UserData';
 import { images } from './assets/globalImages';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { fs } from './firebase';
 
 const Stack = createStackNavigator();
 const { width } = Dimensions.get('screen');
@@ -41,7 +38,7 @@ const StackNavigator = () => {
 			{user && userData !== null && user.emailVerified === true && (
 				<>
 					<Stack.Screen
-						name='Main'
+						name='Stack'
 						component={TabNavigator}
 						options={{
 							headerShown: false
@@ -170,7 +167,7 @@ const StackNavigator = () => {
 						}}
 					/>
 					<Stack.Screen
-						name='UserInfo'
+						name='UserInfoStack'
 						component={TabNavigator}
 						options={{
 							header: () => (

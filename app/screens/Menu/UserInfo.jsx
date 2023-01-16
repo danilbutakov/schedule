@@ -3,7 +3,6 @@ import {
 	Dimensions,
 	FlatList,
 	Image,
-	ScrollView,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -16,7 +15,6 @@ import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
 import { fs } from '../../../firebase';
-import Feather from 'react-native-vector-icons/Feather';
 
 const { height } = Dimensions.get('screen');
 
