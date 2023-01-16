@@ -4,11 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
 import Octicons from 'react-native-vector-icons/Octicons';
+import * as CardStyleInterpolates from '@react-navigation/stack/src/TransitionConfigs/CardStyleInterpolators';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 import { images } from './assets/globalImages';
 import HomeScreen from './app/screens/Home/HomeScreen';
@@ -31,10 +32,8 @@ import Chat from './app/screens/Services/Chat';
 import ChatHeader from './app/components/Chat/ChatHeader';
 import ContactProfile from './app/components/Contacts/ContactProfile';
 import ContactProfileHeader from './app/components/Contacts/ContactProfileHeader';
-import * as CardStyleInterpolates from '@react-navigation/stack/src/TransitionConfigs/CardStyleInterpolators';
-import { AppContext } from './app/utils/Context';
-import { doc, onSnapshot } from 'firebase/firestore';
 import { fs } from './firebase';
+import OnBoard from './app/screens/OnBoard';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -590,6 +589,25 @@ const NotesStack = () => {
 
 const ServicesStack = () => {
 	const currentUser = auth().currentUser;
+	const navigation = useNavigation();
+	const [curUser, setCurUser] = useState({});
+
+	const fetchCurrentUser = async () => {
+		const q = query(
+			collection(fs, 'users'),
+			where('email', '==', currentUser.email)
+		);
+
+		const querySnapshot = await getDocs(q);
+		querySnapshot.forEach(doc => {
+			setCurUser(doc.data());
+		});
+	};
+
+	useEffect(() => {
+		fetchCurrentUser();
+	}, [currentUser]);
+
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -600,14 +618,17 @@ const ServicesStack = () => {
 				component={ServicesScreen}
 				options={{
 					header: () => (
-						<View
+						<TouchableOpacity
 							style={{
 								backgroundColor: '#F7F7F7',
 								flexDirection: 'row',
 								alignItems: 'center',
 								paddingLeft: 15,
 								paddingVertical: 10
-							}}>
+							}}
+							onPress={() =>
+								navigation.navigate('ContactInfo', { user: curUser })
+							}>
 							<Image
 								style={{
 									width: 35,
@@ -627,7 +648,7 @@ const ServicesStack = () => {
 								}}>
 								Сервисы
 							</Text>
-						</View>
+						</TouchableOpacity>
 					)
 				}}
 			/>
@@ -650,106 +671,95 @@ const TabNavigator = () => {
 
 	return (
 		<>
-			{user && userData === null && user.emailVerified === true && (
-				<Stack.Screen
-					name='UserData'
-					component={UserData}
+			<Tab.Navigator
+				initialRouteName='HomeStack'
+				screenOptions={{
+					tabBarStyle: { backgroundColor: '#F7F7F7' },
+					tabBarShowLabel: false,
+					tabBarInactiveTintColor: '#979797',
+					tabBarActiveTintColor: '#3eb59f'
+				}}>
+				<Tab.Screen
+					name='NotesStack'
+					component={NotesStack}
 					options={{
+						tabBarIcon: ({ color, size }) => (
+							<Feather
+								name='bookmark'
+								size={size}
+								color={color}
+								width={23}
+								height={23}
+							/>
+						),
 						headerShown: false
 					}}
 				/>
-			)}
-			{user && userData !== null && user.emailVerified === true && (
-				<Tab.Navigator
-					initialRouteName='HomeStack'
-					screenOptions={{
-						tabBarStyle: { backgroundColor: '#F7F7F7' },
-						tabBarShowLabel: false,
-						tabBarInactiveTintColor: '#979797',
-						tabBarActiveTintColor: '#3eb59f'
-					}}>
-					<Tab.Screen
-						name='NotesStack'
-						component={NotesStack}
-						options={{
-							tabBarIcon: ({ color, size }) => (
-								<Feather
-									name='bookmark'
-									size={size}
-									color={color}
-									width={23}
-									height={23}
-								/>
-							),
-							headerShown: false
-						}}
-					/>
-					<Tab.Screen
-						name='ServicesStack'
-						component={ServicesStack}
-						options={{
-							tabBarIcon: ({ color, size }) => (
-								<Octicons
-									name='apps'
-									size={size}
-									color={color}
-									width={23}
-									height={23}
-								/>
-							),
-							headerShown: false
-						}}
-					/>
-					<Tab.Screen
-						name='HomeStack'
-						component={HomeStack}
-						options={{
-							headerShown: false,
-							tabBarIcon: ({ color, size }) => (
-								<Feather
-									name='calendar'
-									size={size}
-									color={color}
-									width={23}
-									height={23}
-								/>
-							)
-						}}
-					/>
-					<Tab.Screen
-						name='SearchStack'
-						component={SearchStack}
-						options={{
-							headerShown: false,
-							tabBarIcon: ({ color, size }) => (
-								<Ionicons
-									name='search'
-									size={size}
-									color={color}
-									width={23}
-									height={23}
-								/>
-							)
-						}}
-					/>
-					<Tab.Screen
-						name='MenuStack'
-						component={MenuStack}
-						options={{
-							headerShown: false,
-							tabBarIcon: ({ color, size }) => (
-								<Feather
-									name='menu'
-									size={size}
-									color={color}
-									width={23}
-									height={23}
-								/>
-							)
-						}}
-					/>
-				</Tab.Navigator>
-			)}
+				<Tab.Screen
+					name='ServicesStack'
+					component={ServicesStack}
+					options={{
+						tabBarIcon: ({ color, size }) => (
+							<Octicons
+								name='apps'
+								size={size}
+								color={color}
+								width={23}
+								height={23}
+							/>
+						),
+						headerShown: false
+					}}
+				/>
+				<Tab.Screen
+					name='HomeStack'
+					component={HomeStack}
+					options={{
+						headerShown: false,
+						tabBarIcon: ({ color, size }) => (
+							<Feather
+								name='calendar'
+								size={size}
+								color={color}
+								width={23}
+								height={23}
+							/>
+						)
+					}}
+				/>
+				<Tab.Screen
+					name='SearchStack'
+					component={SearchStack}
+					options={{
+						headerShown: false,
+						tabBarIcon: ({ color, size }) => (
+							<Ionicons
+								name='search'
+								size={size}
+								color={color}
+								width={23}
+								height={23}
+							/>
+						)
+					}}
+				/>
+				<Tab.Screen
+					name='MenuStack'
+					component={MenuStack}
+					options={{
+						headerShown: false,
+						tabBarIcon: ({ color, size }) => (
+							<Feather
+								name='menu'
+								size={size}
+								color={color}
+								width={23}
+								height={23}
+							/>
+						)
+					}}
+				/>
+			</Tab.Navigator>
 		</>
 	);
 };

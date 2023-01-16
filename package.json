@@ -41,7 +41,7 @@
 		"nanoid": "^4.0.0",
 		"react": "18.1.0",
 		"react-dom": "18.1.0",
-		"react-native": "0.70.5",
+		"react-native": "0.70.8",
 		"react-native-animated-splash-screen": "^2.0.5",
 		"react-native-calendars": "^1.1292.0",
 		"react-native-easy-grid": "^0.2.2",

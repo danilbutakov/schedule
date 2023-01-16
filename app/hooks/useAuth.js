@@ -6,11 +6,11 @@ import React, {
 	useState
 } from 'react';
 import { Alert } from 'react-native';
-
 import 'expo-dev-client';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
+
 import { fs } from '../../firebase';
 
 const AuthContext = createContext({});

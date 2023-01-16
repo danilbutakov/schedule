@@ -60,7 +60,7 @@ const ContactItem = ({ user, type }) => {
 			});
 			const chat = res.data();
 			const chatUserUid = await chat?.uids.filter(
-				uid => uid !== currentUser?.uid
+				(uid: string | number) => uid !== currentUser?.uid
 			);
 
 			const filteredUser = await usersB?.find(
@@ -91,7 +91,7 @@ const ContactItem = ({ user, type }) => {
 					});
 					const chat = res.data();
 					const chatUserUid = await chat.uids.filter(
-						uid => uid !== currentUser?.uid
+						(uid: string) => uid !== currentUser?.uid
 					);
 
 					const filteredUser = await usersB.find(

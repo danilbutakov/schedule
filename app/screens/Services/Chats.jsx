@@ -121,42 +121,44 @@ const Chats = () => {
 														flexDirection: 'row',
 														alignItems: 'center'
 													}}>
-													{chat?.lastMessage && (
-														<View
+													{/* {chat?.lastMessage && ( */}
+													<View
+														style={{
+															flexDirection: 'row',
+															marginTop: 7
+														}}>
+														<Text
 															style={{
-																flexDirection: 'row',
-																marginTop: 7
+																fontSize: 14,
+																color: '#81F2DF',
+																fontFamily: 'Montserrat-Regular'
 															}}>
-															<Text
-																style={{
-																	fontSize: 14,
-																	color: '#81F2DF',
-																	fontFamily: 'Montserrat-Regular'
-																}}>
-																Вы: {''}
-															</Text>
-															<Text
-																style={{
-																	fontFamily: 'Montserrat-Regular',
-																	fontSize: 14,
-																	maxWidth: 160
-																}}
-																numberOfLines={1}
-																ellipsizeMode='tail'>
-																{/* {description} */}
-															</Text>
-														</View>
-													)}
+															Вы: {''}
+														</Text>
+														<Text
+															style={{
+																fontFamily: 'Montserrat-Regular',
+																fontSize: 14,
+																maxWidth: 160
+															}}
+															numberOfLines={1}
+															ellipsizeMode='tail'>
+															{/* {description} */}
+															ваше сообщение
+														</Text>
+													</View>
+													{/* )} */}
 													{chat?.date && (
-														<View style={{ marginTop: 7, marginLeft: 10 }}>
+														<View style={{ marginTop: 7, marginLeft: 5 }}>
 															<Text
 																style={{
 																	fontFamily: 'Montserrat-Medium',
 																	color: '#A5A5A5'
 																}}>
-																{new Date()
-																	.toLocaleTimeString()
-																	.replace(/(.*)\D\d+/, '$1')}
+																{'• ' +
+																	new Date()
+																		.toLocaleTimeString()
+																		.replace(/(.*)\D\d+/, '$1')}
 															</Text>
 														</View>
 													)}
