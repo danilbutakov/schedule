@@ -667,8 +667,6 @@ const ServicesStack = () => {
 };
 
 const TabNavigator = () => {
-	const { user, userData } = useAuth();
-
 	return (
 		<>
 			<Tab.Navigator

@@ -1,5 +1,5 @@
 import 'react-native-get-random-values';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import React, { useState } from 'react';
 import Messages from '../../components/Chat/Messages';
 import InputChat from '../../components/Chat/InputChat';
@@ -13,7 +13,7 @@ const Chat = () => {
 	const route = useRoute();
 	const chat = route.params.chat;
 	return (
-		<DismissKeyboardView style={styles.chat}>
+		<DismissKeyboardView style={{ flex: 1 }}>
 			<View style={{ flex: 1, backgroundColor: '#ffffff' }}>
 				<Messages chat={chat} />
 			</View>
@@ -23,9 +23,3 @@ const Chat = () => {
 };
 
 export default Chat;
-
-const styles = StyleSheet.create({
-	chat: {
-		flex: 1
-	}
-});
