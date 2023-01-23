@@ -9,6 +9,7 @@ import {
 } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
 
 import { fs } from '../../../firebase';
 import AvatarChat from '../../components/Chat/AvatarChat';
@@ -91,7 +92,10 @@ const Chats = () => {
 									padding: 5,
 									marginBottom: 20
 								}}>
-								<View
+								<Animatable.View
+									animation='fadeIn'
+									duration={300}
+									useNativeDriver
 									style={{
 										flexDirection: 'row',
 										justifyContent: 'space-between',
@@ -166,7 +170,7 @@ const Chats = () => {
 											</View>
 										</View>
 									</View>
-								</View>
+								</Animatable.View>
 							</TouchableOpacity>
 						);
 					})}

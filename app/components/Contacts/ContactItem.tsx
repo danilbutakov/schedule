@@ -13,6 +13,7 @@ import {
 import auth from '@react-native-firebase/auth';
 import { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as Animatable from 'react-native-animatable';
 
 import { fs } from '../../../firebase';
 import Avatar from './Avatar';
@@ -108,13 +109,16 @@ const ContactItem = ({ user, type }) => {
 	};
 
 	return (
-		<View
+		<Animatable.View
 			style={{
 				paddingVertical: 10,
 				borderRadius: 20,
 				marginBottom: 20,
 				flex: 1
-			}}>
+			}}
+			animation='fadeIn'
+			duration={1000}
+			useNativeDriver>
 			<View
 				style={{
 					display: 'flex',
@@ -176,7 +180,7 @@ const ContactItem = ({ user, type }) => {
 					<Ionicons size={35} name='md-chatbubbles-sharp' color={'#3eb59f'} />
 				</TouchableOpacity>
 			</View>
-		</View>
+		</Animatable.View>
 	);
 };
 

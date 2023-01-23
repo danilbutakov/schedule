@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import * as Animatable from 'react-native-animatable';
 
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
@@ -79,19 +80,16 @@ const UserInfo = () => {
 				backgroundColor: '#F7F7F7'
 			}}>
 			<View style={{ display: 'flex', flex: 1 }}>
-				{/* {menuItems.map((item, key) => {
-					if (item.group || item.univ) {
-						return (
-							
-						);
-					}
-				})} */}
 				<FlatList
 					style={{ marginTop: 7, marginBottom: 10 }}
 					data={menuItems}
 					keyExtractor={(_, i) => i}
 					renderItem={({ item }) => (
-						<View style={styles.infoCon}>
+						<Animatable.View
+							style={styles.infoCon}
+							animation='fadeIn'
+							duration={1000}
+							useNativeDriver>
 							<View style={styles.infoMain}>
 								<View style={styles.infoUser}>
 									<Text
@@ -306,7 +304,7 @@ const UserInfo = () => {
 									</View>
 								</View>
 							</View>
-						</View>
+						</Animatable.View>
 					)}
 				/>
 			</View>
@@ -319,7 +317,7 @@ export default UserInfo;
 const styles = StyleSheet.create({
 	infoCon: {
 		marginTop: 10,
-		marginBottom: 40,
+		marginBottom: 130,
 		paddingHorizontal: 20
 	},
 	infoMain: {
@@ -332,7 +330,7 @@ const styles = StyleSheet.create({
 		width: '100%'
 	},
 	btnCon: {
-		marginBottom: 20
+		paddingBottom: 20
 	},
 	group: {
 		borderWidth: 1,

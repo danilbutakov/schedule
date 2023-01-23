@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import VuzInfo from '../components/UserInfo/VuzInfo';
-import GroupInfo from '../components/UserInfo/GroupInfo';
-import RoleInfo from '../components/UserInfo/RoleInfo';
-import ProfileLogoInfo from '../components/UserInfo/ProfileLogoInfo';
+import VuzInfo from '../components/userInfo/VuzInfo';
+import GroupInfo from '../components/userInfo/GroupInfo';
+import RoleInfo from '../components/userInfo/RoleInfo';
+import ProfileLogoInfo from '../components/userInfo/ProfileLogoInfo';
 
 const UserData = () => {
 	const [showUniv, setShowUniv] = useState(true);

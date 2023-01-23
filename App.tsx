@@ -3,13 +3,15 @@ import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { LogBox, StatusBar, View } from 'react-native';
 import 'expo-dev-client';
 import * as SplashScreen from 'expo-splash-screen';
+import auth from '@react-native-firebase/auth';
 
-import { AuthProvider } from './app/hooks/useAuth';
+import useAuth, { AuthProvider } from './app/hooks/useAuth';
 import { useFonts } from './app/hooks/useFonts';
 import { ChatContextProvider } from './app/utils/ChatContext';
 import { AppContextProvider } from './app/utils/Context';
-import TabNavigator from './TabNavigator';
 import StackNavigator from './StackNavigator';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { fs } from './firebase';
 
 LogBox.ignoreLogs([
 	'Setting a timer',
@@ -18,12 +20,35 @@ LogBox.ignoreLogs([
 
 const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
+	const [userData, setUserData] = useState(null);
+	const user = auth().currentUser;
+
+	const fetchUserData = () => {
+		if (user) {
+			const userRef = doc(fs, 'users', user.uid);
+			return onSnapshot(userRef, doc => {
+				if (doc.data()) {
+					const data = doc.data();
+					if (data?.uid === user.uid) {
+						setUserData(data);
+					}
+				} else {
+					setUserData(null);
+				}
+			});
+		}
+	};
+
+	useEffect(() => {
+		fetchUserData();
+	}, [user]);
 
 	useEffect(() => {
 		async function prepare() {
 			try {
 				await SplashScreen.preventAutoHideAsync();
 				await useFonts();
+				await fetchUserData();
 				await new Promise(resolve => setTimeout(resolve, 1000));
 			} catch (e) {
 				console.warn(e);

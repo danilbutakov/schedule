@@ -1,15 +1,7 @@
 import { SafeAreaView, ScrollView } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Message from './Message';
-import { ChatContext } from '../../utils/ChatContext';
-import {
-	collection,
-	doc,
-	getDocs,
-	onSnapshot,
-	query,
-	where
-} from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { fs } from '../../../firebase';
 
 const Messages = ({ chat }) => {
