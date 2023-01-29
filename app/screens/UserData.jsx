@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import VuzInfo from '../components/userInfo/VuzInfo';
 import GroupInfo from '../components/userInfo/GroupInfo';
 import RoleInfo from '../components/userInfo/RoleInfo';
 import ProfileLogoInfo from '../components/userInfo/ProfileLogoInfo';
+import useFetchUserData from '../hooks/useFetchUserData';
 
 const UserData = () => {
-	const [showUniv, setShowUniv] = useState(true);
 	const [showGroup, setShowGroup] = useState(false);
 	const [showRole, setShowRole] = useState(false);
 	const [showProfileLogo, setShowProfileLogo] = useState(false);
@@ -16,13 +16,14 @@ const UserData = () => {
 	const [profileName, setProfileName] = useState('');
 	const [image, setImage] = useState(null);
 
+	const { userData } = useFetchUserData();
+
 	return (
 		<>
-			{showUniv && (
+			{userData === null && (
 				<VuzInfo
 					univ={univ}
 					setUniv={setUniv}
-					setShowUniv={setShowUniv}
 					setShowGroup={setShowGroup}
 				/>
 			)}

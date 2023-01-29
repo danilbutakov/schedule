@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { NavigationContainer, useRoute } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { LogBox, StatusBar, View } from 'react-native';
 import 'expo-dev-client';
 import * as SplashScreen from 'expo-splash-screen';
 import auth from '@react-native-firebase/auth';
 
-import useAuth, { AuthProvider } from './app/hooks/useAuth';
+import { AuthProvider } from './app/hooks/useAuth';
 import { useFonts } from './app/hooks/useFonts';
 import { ChatContextProvider } from './app/utils/ChatContext';
 import { AppContextProvider } from './app/utils/Context';
 import StackNavigator from './StackNavigator';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { fs } from './firebase';
+import useFetchUserData from './app/hooks/useFetchUserData';
+import userData from './app/screens/UserData';
 
 LogBox.ignoreLogs([
 	'Setting a timer',
@@ -20,44 +20,19 @@ LogBox.ignoreLogs([
 
 const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
-	const [userData, setUserData] = useState(null);
-	const user = auth().currentUser;
-
-	const fetchUserData = () => {
-		if (user) {
-			const userRef = doc(fs, 'users', user.uid);
-			return onSnapshot(userRef, doc => {
-				if (doc.data()) {
-					const data = doc.data();
-					if (data?.uid === user.uid) {
-						setUserData(data);
-					}
-				} else {
-					setUserData(null);
-				}
-			});
-		}
-	};
 
 	useEffect(() => {
-		fetchUserData();
-	}, [user]);
-
-	useEffect(() => {
-		async function prepare() {
+		(async () => {
 			try {
 				await SplashScreen.preventAutoHideAsync();
 				await useFonts();
-				await fetchUserData();
 				await new Promise(resolve => setTimeout(resolve, 1000));
 			} catch (e) {
 				console.warn(e);
 			} finally {
 				setAppIsReady(true);
 			}
-		}
-
-		prepare();
+		})();
 	}, []);
 
 	const onLayoutRootView = useCallback(async () => {

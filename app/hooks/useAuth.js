@@ -9,9 +9,8 @@ import { Alert } from 'react-native';
 import 'expo-dev-client';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import { doc, onSnapshot } from 'firebase/firestore';
 
-import { fs } from '../../firebase';
+import useFetchUserData from './useFetchUserData';
 
 const AuthContext = createContext({});
 
@@ -21,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [userWithGoggle, setUserWithGoogle] = useState();
-	const [userData, setUserData] = useState(null);
+	const { userData, setUserData } = useFetchUserData();
 
 	GoogleSignin.configure({
 		webClientId:
@@ -36,60 +35,52 @@ export const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+
 		return subscriber; // unsubscribe on unmount
 	}, []);
 
 	const onGoogleButtonPress = async () => {
 		setLoading(true);
 		// Check if your device supports Google Play
-		await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+		await GoogleSignin.hasPlayServices({
+			showPlayServicesUpdateDialog: true
+		});
 		// Get the users ID token
 		const { idToken } = await GoogleSignin.signIn();
 		// Create a Google credential with the token
 		const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 		// Sign-in the user with the credential
 		const userSignIn = auth().signInWithCredential(googleCredential);
-		userSignIn
-			.then(() => {
-				setUserWithGoogle(userSignIn);
-			})
-			.catch(error => {
-				Alert.alert(error.message);
-			})
-			.finally(() => setLoading(false));
+
+		if (userData !== undefined || null) {
+			userSignIn
+				.then(() => {
+					setUserWithGoogle(userSignIn);
+				})
+				.catch(error => {
+					Alert.alert(error.message);
+				})
+				.finally(() => setLoading(false));
+		}
 	};
 
 	const signOut = async () => {
 		setLoading(true);
 		try {
-			GoogleSignin?.revokeAccess();
-			await auth().signOut();
+			if (userWithGoggle) {
+				await GoogleSignin?.revokeAccess();
+				await auth().signOut();
+				await setUserData(null);
+			} else {
+				await auth().signOut();
+				await setUserData(null);
+			}
 		} catch (error) {
 			console.log(error.message, 'exit not work');
 		} finally {
 			setLoading(false);
 		}
 	};
-
-	const fetchUserData = () => {
-		if (user) {
-			const userRef = doc(fs, 'users', user.uid);
-			return onSnapshot(userRef, doc => {
-				if (doc.data()) {
-					const data = doc.data();
-					if (data?.uid === user.uid) {
-						setUserData(data);
-					}
-				} else {
-					setUserData(null);
-				}
-			});
-		}
-	};
-
-	useEffect(() => {
-		fetchUserData();
-	}, [user]);
 
 	const memoValue = useMemo(
 		() => ({
@@ -99,8 +90,7 @@ export const AuthProvider = ({ children }) => {
 			signOut,
 			userWithGoggle,
 			loading,
-			userData,
-			setUserData
+			userData
 		}),
 		[user, loading, userData]
 	);
@@ -108,7 +98,9 @@ export const AuthProvider = ({ children }) => {
 	if (initializing) return null;
 
 	return (
-		<AuthContext.Provider value={memoValue}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={memoValue}>
+			{children}
+		</AuthContext.Provider>
 	);
 };
 
