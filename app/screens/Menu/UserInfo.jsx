@@ -29,7 +29,7 @@ const UserInfo = () => {
 	const [menuItems, setMenuItems] = useState([]);
 	const userRef = doc(fs, 'users', user.uid);
 
-	const fetchUserData = () => {
+	const fetchUserDataItems = () => {
 		return onSnapshot(userRef, doc => {
 			if (doc.data()) {
 				const docData = doc.data();
@@ -42,7 +42,7 @@ const UserInfo = () => {
 	};
 
 	useEffect(() => {
-		fetchUserData();
+		fetchUserDataItems();
 	}, []);
 
 	const handleUpdateGroup = async () => {
@@ -116,19 +116,34 @@ const UserInfo = () => {
 													[
 														{
 															text: 'Отменить',
-															onPress: () => console.log('Cancel Pressed'),
+															onPress: () =>
+																console.log(
+																	'Cancel Pressed'
+																),
 															style: 'cancel'
 														},
 														{
 															text: 'Изменить',
 															onPress: () => {
-																if (group !== '') {
-																	handleUpdateGroup(group);
-																	if (handleUpdateGroup) {
-																		Alert.alert('Вы успешно обновили группу');
-																		setGroup('');
+																if (
+																	group !== ''
+																) {
+																	handleUpdateGroup(
+																		group
+																	);
+																	if (
+																		handleUpdateGroup
+																	) {
+																		Alert.alert(
+																			'Вы успешно обновили группу'
+																		);
+																		setGroup(
+																			''
+																		);
 																	} else {
-																		Alert.alert('Не удалось обновить группу');
+																		Alert.alert(
+																			'Не удалось обновить группу'
+																		);
 																	}
 																} else {
 																	Alert.alert(
@@ -142,7 +157,9 @@ const UserInfo = () => {
 												);
 											}}>
 											<View style={styles.changeCon}>
-												<Text style={styles.changeText}>Изменить группу</Text>
+												<Text style={styles.changeText}>
+													Изменить группу
+												</Text>
 											</View>
 										</TouchableOpacity>
 									</View>
@@ -170,19 +187,34 @@ const UserInfo = () => {
 													[
 														{
 															text: 'Отменить',
-															onPress: () => console.log('Cancel Pressed'),
+															onPress: () =>
+																console.log(
+																	'Cancel Pressed'
+																),
 															style: 'cancel'
 														},
 														{
 															text: 'Изменить',
 															onPress: () => {
-																if (univ !== '') {
-																	handleUpdateUniv(univ);
-																	if (handleUpdateUniv) {
-																		Alert.alert('Вы успешно обновили ВУЗ');
-																		setUniv('');
+																if (
+																	univ !== ''
+																) {
+																	handleUpdateUniv(
+																		univ
+																	);
+																	if (
+																		handleUpdateUniv
+																	) {
+																		Alert.alert(
+																			'Вы успешно обновили ВУЗ'
+																		);
+																		setUniv(
+																			''
+																		);
 																	} else {
-																		Alert.alert('Не удалось обновить ВУЗ');
+																		Alert.alert(
+																			'Не удалось обновить ВУЗ'
+																		);
 																	}
 																} else {
 																	Alert.alert(
@@ -196,7 +228,9 @@ const UserInfo = () => {
 												);
 											}}>
 											<View style={styles.changeCon}>
-												<Text style={styles.changeText}>Изменить ВУЗ</Text>
+												<Text style={styles.changeText}>
+													Изменить ВУЗ
+												</Text>
 											</View>
 										</TouchableOpacity>
 									</View>
@@ -224,19 +258,35 @@ const UserInfo = () => {
 													[
 														{
 															text: 'Отменить',
-															onPress: () => console.log('Cancel Pressed'),
+															onPress: () =>
+																console.log(
+																	'Cancel Pressed'
+																),
 															style: 'cancel'
 														},
 														{
 															text: 'Изменить',
 															onPress: () => {
-																if (userName !== '') {
-																	handleUpdateName(userName);
-																	if (handleUpdateName) {
-																		Alert.alert('Вы успешно обновили имя');
-																		setUserName('');
+																if (
+																	userName !==
+																	''
+																) {
+																	handleUpdateName(
+																		userName
+																	);
+																	if (
+																		handleUpdateName
+																	) {
+																		Alert.alert(
+																			'Вы успешно обновили имя'
+																		);
+																		setUserName(
+																			''
+																		);
 																	} else {
-																		Alert.alert('Не удалось обновить имя');
+																		Alert.alert(
+																			'Не удалось обновить имя'
+																		);
 																	}
 																} else {
 																	Alert.alert(
@@ -250,7 +300,9 @@ const UserInfo = () => {
 												);
 											}}>
 											<View style={styles.changeCon}>
-												<Text style={styles.changeText}>Изменить имя</Text>
+												<Text style={styles.changeText}>
+													Изменить имя
+												</Text>
 											</View>
 										</TouchableOpacity>
 									</View>
@@ -264,11 +316,18 @@ const UserInfo = () => {
 									</Text>
 									<TouchableOpacity
 										onPress={handleProfilePicture}
-										style={{ alignSelf: 'center', marginTop: 30 }}>
+										style={{
+											alignSelf: 'center',
+											marginTop: 30
+										}}>
 										{image && (
 											<Image
 												source={{ uri: image }}
-												style={{ width: 150, height: 150, borderRadius: 100 }}
+												style={{
+													width: 150,
+													height: 150,
+													borderRadius: 100
+												}}
 											/>
 										)}
 									</TouchableOpacity>
@@ -278,27 +337,36 @@ const UserInfo = () => {
 											onPress={async () => {
 												let photoURL;
 												if (image) {
-													const { url } = await uploadImage(
-														image,
-														`images/${user.uid}`,
-														'profilePicture'
-													);
+													const { url } =
+														await uploadImage(
+															image,
+															`images/${user.uid}`,
+															'profilePicture'
+														);
 													photoURL = url;
 												}
 												if (photoURL) {
 													setImage(photoURL);
 												}
-												const userData = { photoURL: photoURL };
+												const userData = {
+													photoURL: photoURL
+												};
 												await Promise.all([
-													user.updateProfile(userData),
+													user.updateProfile(
+														userData
+													),
 													handleUpdateImage()
 												]).then(() => {
 													console.log('good update');
-													Alert.alert('Вы успешно обновили фото');
+													Alert.alert(
+														'Вы успешно обновили фото'
+													);
 												});
 											}}>
 											<View style={styles.changeCon}>
-												<Text style={styles.changeText}>Изменить фото</Text>
+												<Text style={styles.changeText}>
+													Изменить фото
+												</Text>
 											</View>
 										</TouchableOpacity>
 									</View>
