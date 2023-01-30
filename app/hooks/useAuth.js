@@ -52,33 +52,28 @@ export const AuthProvider = ({ children }) => {
 		// Sign-in the user with the credential
 		const userSignIn = auth().signInWithCredential(googleCredential);
 
-		if (userData !== undefined || null) {
-			userSignIn
-				.then(() => {
-					setUserWithGoogle(userSignIn);
-				})
-				.catch(error => {
-					Alert.alert(error.message);
-				})
-				.finally(() => setLoading(false));
-		}
+		userSignIn
+			.then(() => {
+				setUserWithGoogle(userSignIn);
+			})
+			.catch(error => {
+				Alert.alert(error.message);
+			})
+			.finally(() => setLoading(false));
 	};
 
 	const signOut = async () => {
 		setLoading(true);
 		try {
-			if (userWithGoggle) {
-				await GoogleSignin?.revokeAccess();
-				await auth().signOut();
-				await setUserData(null);
-			} else {
-				await auth().signOut();
-				await setUserData(null);
-			}
+			await GoogleSignin?.revokeAccess();
+			await auth().signOut();
+			setUserData(null);
 		} catch (error) {
 			console.log(error.message, 'exit not work');
 		} finally {
 			setLoading(false);
+			await auth().signOut();
+			setUserData(null);
 		}
 	};
 
