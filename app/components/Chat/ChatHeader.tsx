@@ -11,7 +11,6 @@ const ChatHeader = () => {
 	const currentUser = auth().currentUser;
 	const route = useRoute();
 	const [image, setImage] = useState(null);
-	const user = route.params.userB;
 
 	return (
 		<View
@@ -48,7 +47,7 @@ const ChatHeader = () => {
 					<Avatar
 						size={40}
 						image={route.params.chat.photos.filter(
-							photo => photo !== currentUser.photoURL
+							(photo: string) => photo !== currentUser.photoURL
 						)}
 					/>
 					<Text
@@ -58,7 +57,8 @@ const ChatHeader = () => {
 							lineHeight: 25,
 							color: '1E1E1F'
 						}}>
-						{user?.profileName}
+						{route.params.userB?.profileName ||
+							route.params.userB?.displayName}
 					</Text>
 				</View>
 			</TouchableOpacity>

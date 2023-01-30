@@ -6,6 +6,7 @@ import ProfileLogoInfo from '../components/userInfo/ProfileLogoInfo';
 import useFetchUserData from '../hooks/useFetchUserData';
 
 const UserData = () => {
+	const [showUniv, setShowUniv] = useState(true);
 	const [showGroup, setShowGroup] = useState(false);
 	const [showRole, setShowRole] = useState(false);
 	const [showProfileLogo, setShowProfileLogo] = useState(false);
@@ -20,8 +21,9 @@ const UserData = () => {
 
 	return (
 		<>
-			{userData === null && (
+			{userData === null && showUniv && (
 				<VuzInfo
+					setShowUniv={setShowUniv}
 					univ={univ}
 					setUniv={setUniv}
 					setShowGroup={setShowGroup}

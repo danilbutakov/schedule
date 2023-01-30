@@ -74,7 +74,10 @@ const ContactsScreen = () => {
 					/>
 				)}
 				refreshControl={
-					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+					<RefreshControl
+						refreshing={refreshing}
+						onRefresh={onRefresh}
+					/>
 				}
 			/>
 		</View>
@@ -87,6 +90,7 @@ const ContactPreview = ({ contact, image, refreshing }) => {
 	useEffect(() => {
 		setUserPreview(contact);
 	}, [refreshing]);
+
 	useEffect(() => {
 		const q = query(
 			collection(fs, 'users'),
@@ -102,12 +106,11 @@ const ContactPreview = ({ contact, image, refreshing }) => {
 		});
 
 		return () => unsubscribe();
-	}, []);
+	}, [refreshing, contact]);
 
 	return (
 		<ContactItem
 			style={{ marginTop: 7, marginBottom: 10 }}
-			type='contacts'
 			user={userPreview}
 			image={image}
 		/>
