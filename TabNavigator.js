@@ -86,7 +86,8 @@ const HomeStack = () => {
 				component={PairInfo}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Home')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -171,7 +172,8 @@ const MenuStack = () => {
 				component={SchedScreen}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Menu')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -211,7 +213,8 @@ const MenuStack = () => {
 				component={LinksScreen}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Menu')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -251,7 +254,8 @@ const MenuStack = () => {
 				component={UserInfo}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Menu')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -299,7 +303,8 @@ const MenuStack = () => {
 				component={PremiumScreen}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Menu')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -339,7 +344,8 @@ const MenuStack = () => {
 				component={FAQScreen}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Menu')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -424,7 +430,8 @@ const SearchStack = () => {
 				component={SearchGroup}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Search')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Search')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -464,7 +471,8 @@ const SearchStack = () => {
 				component={SearchAudition}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Search')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Search')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -504,7 +512,8 @@ const SearchStack = () => {
 				component={SearchTeachers}
 				options={{
 					header: () => (
-						<TouchableOpacity onPress={() => navigation.navigate('Search')}>
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Search')}>
 							<View
 								style={{
 									backgroundColor: '#F7F7F7',
@@ -627,7 +636,9 @@ const ServicesStack = () => {
 								paddingVertical: 10
 							}}
 							onPress={() =>
-								navigation.navigate('ContactInfo', { user: curUser })
+								navigation.navigate('ContactInfo', {
+									user: curUser
+								})
 							}>
 							<Image
 								style={{
@@ -635,7 +646,7 @@ const ServicesStack = () => {
 									height: 35,
 									borderRadius: 35
 								}}
-								source={{ uri: currentUser.photoURL }}
+								source={{ uri: curUser.photoURL }}
 							/>
 							<Text
 								style={{
@@ -660,7 +671,9 @@ const ServicesStack = () => {
 			<Stack.Screen
 				name='ContactInfo'
 				component={ContactProfile}
-				options={{ header: props => <ContactProfileHeader {...props} /> }}
+				options={{
+					header: props => <ContactProfileHeader {...props} />
+				}}
 			/>
 		</Stack.Navigator>
 	);

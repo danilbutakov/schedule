@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import * as Animatable from 'react-native-animatable';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
@@ -25,6 +26,8 @@ const UserInfo = () => {
 	const [univ, setUniv] = useState('');
 	const [userName, setUserName] = useState('');
 	const [image, setImage] = useState(null);
+	const [newImage, setNewImage] = useState(null);
+	const [existsParams, setExistsParams] = useState(false);
 
 	const [menuItems, setMenuItems] = useState([]);
 	const userRef = doc(fs, 'users', user.uid);
@@ -62,26 +65,192 @@ const UserInfo = () => {
 	};
 	const handleUpdateImage = async () => {
 		await updateDoc(userRef, {
-			photoURL: image
+			photoURL: newImage
 		});
 	};
 	const handleProfilePicture = async () => {
 		const result = await pickImage();
 		if (!result.canceled) {
-			setImage(result.assets[0].uri);
+			setNewImage(result.assets[0].uri);
+			setImage(null);
 		}
 	};
+
+	const handleUpdateProfile = async () => {
+		if (group !== '' && group !== ' ') {
+			handleUpdateGroup(group).then(() => setGroup(''));
+		}
+
+		if (univ !== '' && univ !== ' ') {
+			handleUpdateUniv(univ).then(() => setUniv(''));
+		}
+
+		if (userName !== '' && userName !== ' ') {
+			handleUpdateName(userName).then(() => setUserName(''));
+		}
+
+		let photoURL;
+		if (image) {
+			const { url } = await uploadImage(
+				newImage,
+				`images/${user.uid}`,
+				'profilePicture'
+			);
+			photoURL = url;
+		}
+		if (photoURL) {
+			setImage(photoURL);
+		}
+		const userData = {
+			photoURL: photoURL
+		};
+		await Promise.all([
+			user.updateProfile(userData),
+			handleUpdateImage()
+		]).then(() => {
+			console.log('good update');
+			setNewImage(null);
+		});
+	};
+
+	useEffect(() => {
+		if (
+			(group !== '') |
+			(univ !== '') |
+			(userName !== '') |
+			(newImage !== null)
+		) {
+			setExistsParams(true);
+		} else {
+			setExistsParams(false);
+		}
+	}, [group, univ, userName, newImage]);
 
 	return (
 		<View
 			style={{
-				paddingTop: 12,
 				height,
-				backgroundColor: '#F7F7F7'
+				backgroundColor: '#F7F7F7',
+				display: 'flex',
+				flexDirection: 'column'
 			}}>
-			<View style={{ display: 'flex', flex: 1 }}>
+			<View
+				style={{
+					paddingHorizontal: 20,
+					display: 'flex',
+					backgroundColor: '#ffffff',
+					borderBottomLeftRadius: 20,
+					borderBottomRightRadius: 20,
+					paddingVertical: 20
+				}}
+				elevation={2}>
+				{menuItems.map((item, key) => {
+					if (item.role || item.group || item.univ) {
+						return (
+							<View
+								key={key}
+								style={{
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center',
+									justifyContent: 'space-between'
+								}}>
+								<View
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										flexDirection: 'row'
+									}}>
+									<Image
+										source={{
+											uri: item.photoURL || user.photoURL
+										}}
+										style={{
+											width: 80,
+											height: 80,
+											borderRadius: 80
+										}}
+									/>
+									<View
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											marginLeft: 15
+										}}>
+										<Text
+											style={{
+												fontFamily: 'Montserrat-Bold',
+												fontSize: 15,
+												lineHeight: 20
+											}}>
+											{item.profileName}
+										</Text>
+										<Text
+											ellipsizeMode='tail'
+											numberOfLines={1}
+											style={{
+												fontSize: 14,
+												lineHeight: 20,
+												color: 'rgba(60, 60, 67, 0.6)',
+												fontFamily: 'Montserrat-Medium'
+											}}>
+											{item.email}
+										</Text>
+									</View>
+								</View>
+								{existsParams ? (
+									<TouchableOpacity
+										style={{
+											display: 'flex',
+											paddingLeft: 10
+										}}
+										onPress={() => {
+											handleUpdateProfile()
+												.then(() =>
+													Alert.alert(
+														'Вы успешно обновили профиль'
+													)
+												)
+												.catch(e =>
+													console.log(e.message)
+												);
+										}}>
+										<AntDesign
+											name='checkcircle'
+											size={30}
+											color={'#3eb59f'}
+										/>
+									</TouchableOpacity>
+								) : (
+									<View
+										style={{
+											display: 'flex',
+											paddingLeft: 10
+										}}>
+										<AntDesign
+											name='checkcircle'
+											size={30}
+											color={'rgba(62, 181, 159, 0.56)'}
+										/>
+									</View>
+								)}
+							</View>
+						);
+					}
+				})}
+			</View>
+			<View
+				style={{
+					display: 'flex',
+					flex: 1,
+					backgroundColor: '#ffffff',
+					marginTop: 30,
+					borderTopLeftRadius: 20,
+					borderTopRightRadius: 20
+				}}
+				elevation={3}>
 				<FlatList
-					style={{ marginTop: 7, marginBottom: 10 }}
+					style={{ marginBottom: 10 }}
 					data={menuItems}
 					keyExtractor={(_, i) => i}
 					renderItem={({ item }) => (
@@ -92,225 +261,61 @@ const UserInfo = () => {
 							useNativeDriver>
 							<View style={styles.infoMain}>
 								<View style={styles.infoUser}>
-									<Text
+									<View
 										style={{
-											fontFamily: 'Montserrat-SemiBold',
-											fontSize: 20,
-											lineHeight: 25
+											display: 'flex',
+											flexDirection: 'row',
+											justifyContent: 'space-between'
 										}}>
-										Группа
-									</Text>
+										<Text
+											style={{
+												fontFamily:
+													'Montserrat-SemiBold',
+												fontSize: 17,
+												lineHeight: 23
+											}}>
+											Группа
+										</Text>
+									</View>
 									<TextInput
-										style={styles.group}
+										style={styles.input}
 										placeholder={item.group}
 										value={group}
 										onChangeText={text => setGroup(text)}
 									/>
-									<View style={styles.btnCon}>
-										<TouchableOpacity
-											style={styles.change}
-											onPress={() => {
-												Alert.alert(
-													'Изменение группы',
-													'Вы действительно хотите изменить вашу группу?',
-													[
-														{
-															text: 'Отменить',
-															onPress: () =>
-																console.log(
-																	'Cancel Pressed'
-																),
-															style: 'cancel'
-														},
-														{
-															text: 'Изменить',
-															onPress: () => {
-																if (
-																	group !== ''
-																) {
-																	handleUpdateGroup(
-																		group
-																	);
-																	if (
-																		handleUpdateGroup
-																	) {
-																		Alert.alert(
-																			'Вы успешно обновили группу'
-																		);
-																		setGroup(
-																			''
-																		);
-																	} else {
-																		Alert.alert(
-																			'Не удалось обновить группу'
-																		);
-																	}
-																} else {
-																	Alert.alert(
-																		'Поле группы пустое.',
-																		'Пожалуйста введите значение чтобы изменить данные'
-																	);
-																}
-															}
-														}
-													]
-												);
-											}}>
-											<View style={styles.changeCon}>
-												<Text style={styles.changeText}>
-													Изменить группу
-												</Text>
-											</View>
-										</TouchableOpacity>
-									</View>
 									<Text
 										style={{
 											fontFamily: 'Montserrat-SemiBold',
-											fontSize: 20,
-											lineHeight: 25
+											fontSize: 17,
+											lineHeight: 23
 										}}>
 										ВУЗ
 									</Text>
 									<TextInput
-										style={styles.univ}
+										style={styles.input}
 										placeholder={item.univ}
 										value={univ}
 										onChangeText={text => setUniv(text)}
 									/>
-									<View style={styles.btnCon}>
-										<TouchableOpacity
-											style={styles.change}
-											onPress={() => {
-												Alert.alert(
-													'Изменение ВУЗа?',
-													'Вы действительно хотите изменить ваш ВУЗ?',
-													[
-														{
-															text: 'Отменить',
-															onPress: () =>
-																console.log(
-																	'Cancel Pressed'
-																),
-															style: 'cancel'
-														},
-														{
-															text: 'Изменить',
-															onPress: () => {
-																if (
-																	univ !== ''
-																) {
-																	handleUpdateUniv(
-																		univ
-																	);
-																	if (
-																		handleUpdateUniv
-																	) {
-																		Alert.alert(
-																			'Вы успешно обновили ВУЗ'
-																		);
-																		setUniv(
-																			''
-																		);
-																	} else {
-																		Alert.alert(
-																			'Не удалось обновить ВУЗ'
-																		);
-																	}
-																} else {
-																	Alert.alert(
-																		'Поле ВУЗа пустое.',
-																		'Пожалуйста введите значение чтобы изменить данные'
-																	);
-																}
-															}
-														}
-													]
-												);
-											}}>
-											<View style={styles.changeCon}>
-												<Text style={styles.changeText}>
-													Изменить ВУЗ
-												</Text>
-											</View>
-										</TouchableOpacity>
-									</View>
 									<Text
 										style={{
 											fontFamily: 'Montserrat-SemiBold',
-											fontSize: 20,
-											lineHeight: 25
+											fontSize: 17,
+											lineHeight: 23
 										}}>
 										Ваше имя
 									</Text>
 									<TextInput
-										style={styles.univ}
+										style={styles.input}
 										placeholder={item.profileName}
 										value={userName}
 										onChangeText={text => setUserName(text)}
 									/>
-									<View style={styles.btnCon}>
-										<TouchableOpacity
-											style={styles.change}
-											onPress={() => {
-												Alert.alert(
-													'Изменение ВУЗа?',
-													'Вы действительно хотите изменить ваше Имя?',
-													[
-														{
-															text: 'Отменить',
-															onPress: () =>
-																console.log(
-																	'Cancel Pressed'
-																),
-															style: 'cancel'
-														},
-														{
-															text: 'Изменить',
-															onPress: () => {
-																if (
-																	userName !==
-																	''
-																) {
-																	handleUpdateName(
-																		userName
-																	);
-																	if (
-																		handleUpdateName
-																	) {
-																		Alert.alert(
-																			'Вы успешно обновили имя'
-																		);
-																		setUserName(
-																			''
-																		);
-																	} else {
-																		Alert.alert(
-																			'Не удалось обновить имя'
-																		);
-																	}
-																} else {
-																	Alert.alert(
-																		'Поле имени пустое.',
-																		'Пожалуйста введите значение чтобы изменить данные'
-																	);
-																}
-															}
-														}
-													]
-												);
-											}}>
-											<View style={styles.changeCon}>
-												<Text style={styles.changeText}>
-													Изменить имя
-												</Text>
-											</View>
-										</TouchableOpacity>
-									</View>
 									<Text
 										style={{
 											fontFamily: 'Montserrat-SemiBold',
-											fontSize: 20,
-											lineHeight: 25
+											fontSize: 17,
+											lineHeight: 23
 										}}>
 										Ваше фото профиля
 									</Text>
@@ -320,7 +325,7 @@ const UserInfo = () => {
 											alignSelf: 'center',
 											marginTop: 30
 										}}>
-										{image && (
+										{image ? (
 											<Image
 												source={{ uri: image }}
 												style={{
@@ -329,47 +334,17 @@ const UserInfo = () => {
 													borderRadius: 100
 												}}
 											/>
+										) : (
+											<Image
+												source={{ uri: newImage }}
+												style={{
+													width: 150,
+													height: 150,
+													borderRadius: 100
+												}}
+											/>
 										)}
 									</TouchableOpacity>
-									<View style={styles.btnCon}>
-										<TouchableOpacity
-											style={styles.change}
-											onPress={async () => {
-												let photoURL;
-												if (image) {
-													const { url } =
-														await uploadImage(
-															image,
-															`images/${user.uid}`,
-															'profilePicture'
-														);
-													photoURL = url;
-												}
-												if (photoURL) {
-													setImage(photoURL);
-												}
-												const userData = {
-													photoURL: photoURL
-												};
-												await Promise.all([
-													user.updateProfile(
-														userData
-													),
-													handleUpdateImage()
-												]).then(() => {
-													console.log('good update');
-													Alert.alert(
-														'Вы успешно обновили фото'
-													);
-												});
-											}}>
-											<View style={styles.changeCon}>
-												<Text style={styles.changeText}>
-													Изменить фото
-												</Text>
-											</View>
-										</TouchableOpacity>
-									</View>
 								</View>
 							</View>
 						</Animatable.View>
@@ -400,29 +375,17 @@ const styles = StyleSheet.create({
 	btnCon: {
 		paddingBottom: 20
 	},
-	group: {
+	input: {
 		borderWidth: 1,
 		borderRadius: 16,
 		borderColor: 'rgba(60, 60, 67, 0.13)',
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#eeeeee',
 		padding: 10,
-		marginTop: 20,
 		fontSize: 14,
 		lineHeight: 24,
 		color: 'rgba(60, 60, 67, 0.6)',
-		fontFamily: 'Montserrat-Medium'
-	},
-	univ: {
-		borderWidth: 1,
-		borderRadius: 16,
-		borderColor: 'rgba(60, 60, 67, 0.13)',
-		backgroundColor: '#FFFFFF',
-		padding: 10,
-		marginTop: 20,
-		fontSize: 14,
-		lineHeight: 24,
-		color: 'rgba(60, 60, 67, 0.6)',
-		fontFamily: 'Montserrat-Medium'
+		fontFamily: 'Montserrat-Medium',
+		marginVertical: 15
 	},
 	change: {
 		marginTop: 20

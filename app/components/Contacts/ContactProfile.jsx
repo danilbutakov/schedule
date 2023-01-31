@@ -9,8 +9,9 @@ const ContactProfile = () => {
 	return (
 		<View style={styles.main}>
 			<View style={styles.mainInfo}>
-				<Text style={styles.mainText}>{contact.role}, </Text>
-				<Text style={styles.mainText}>{contact.email}</Text>
+				<Text style={styles.mainText}>
+					{contact.role}, {contact.email}
+				</Text>
 			</View>
 			<View>
 				<View style={styles.mainInfo}>

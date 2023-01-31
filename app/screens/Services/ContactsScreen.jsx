@@ -20,7 +20,6 @@ const wait = timeout => {
 
 const ContactsScreen = () => {
 	const route = useRoute();
-	const image = route.params && route.params.image;
 	const [contacts, setContacts] = useState([]);
 	const currentUser = auth().currentUser;
 
@@ -67,11 +66,7 @@ const ContactsScreen = () => {
 				data={contacts}
 				keyExtractor={(_, i) => i}
 				renderItem={({ item }) => (
-					<ContactPreview
-						contact={item}
-						image={image}
-						refreshing={refreshing}
-					/>
+					<ContactPreview contact={item} refreshing={refreshing} />
 				)}
 				refreshControl={
 					<RefreshControl
@@ -84,7 +79,7 @@ const ContactsScreen = () => {
 	);
 };
 
-const ContactPreview = ({ contact, image, refreshing }) => {
+const ContactPreview = ({ contact, refreshing }) => {
 	const [userPreview, setUserPreview] = useState(contact);
 
 	useEffect(() => {
@@ -112,7 +107,6 @@ const ContactPreview = ({ contact, image, refreshing }) => {
 		<ContactItem
 			style={{ marginTop: 7, marginBottom: 10 }}
 			user={userPreview}
-			image={image}
 		/>
 	);
 };

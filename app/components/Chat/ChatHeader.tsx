@@ -11,6 +11,7 @@ const ChatHeader = () => {
 	const currentUser = auth().currentUser;
 	const route = useRoute();
 	const [image, setImage] = useState(null);
+	console.log(route.params.userB);
 
 	return (
 		<View
@@ -36,7 +37,11 @@ const ChatHeader = () => {
 				/>
 			</TouchableOpacity>
 			<TouchableOpacity
-				onPress={() => navigation.navigate('ContactInfo', { user })}>
+				onPress={() =>
+					navigation.navigate('ContactInfo', {
+						user: route.params.userB
+					})
+				}>
 				<View
 					style={{
 						display: 'flex',
@@ -46,9 +51,7 @@ const ChatHeader = () => {
 					}}>
 					<Avatar
 						size={40}
-						image={route.params.chat.photos.filter(
-							(photo: string) => photo !== currentUser.photoURL
-						)}
+						image={String(route.params.userB.photoURL)}
 					/>
 					<Text
 						style={{
