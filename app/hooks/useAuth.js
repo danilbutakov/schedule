@@ -66,7 +66,6 @@ export const AuthProvider = ({ children }) => {
 		setLoading(true);
 		try {
 			await GoogleSignin?.revokeAccess();
-			await auth().signOut();
 			setUserData(null);
 		} catch (error) {
 			console.log(error.message, 'exit not work');

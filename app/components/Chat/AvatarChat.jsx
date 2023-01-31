@@ -4,19 +4,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 
 const AvatarChat = ({ size, image }) => {
-	const currentUser = auth().currentUser;
-	const [filteredImage, setFilteredImage] = useState(null);
-
-	useEffect(() => {
-		if (image.length >= 1) {
-			image.filter(i =>
-				i !== currentUser.photoURL ? setFilteredImage(i) : null
-			);
-		} else {
-			null;
-		}
-	}, [image]);
-
 	return (
 		<View style={{ marginRight: 10 }}>
 			{image ? (
@@ -26,7 +13,7 @@ const AvatarChat = ({ size, image }) => {
 						width: size,
 						height: size
 					}}
-					source={{ uri: filteredImage }}
+					source={{ uri: String(image) }}
 					resizeMode='cover'
 				/>
 			) : (

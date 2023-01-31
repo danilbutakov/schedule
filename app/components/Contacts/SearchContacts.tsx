@@ -95,7 +95,10 @@ const SearchContacts = () => {
 				await setDoc(doc(fs, 'chats', combinedId), {
 					messages: [],
 					uids: [currentUser.uid, user.uid],
-					names: [user.displayName || user.profileName, curUser.profileName],
+					names: [
+						user.displayName || user.profileName,
+						curUser.profileName
+					],
 					photos: [user.photoURL, currentUser.photoURL],
 					date: serverTimestamp(),
 					combinedId: combinedId
@@ -148,7 +151,9 @@ const SearchContacts = () => {
 			setFilteredUsers(
 				users.filter(
 					user =>
-						user.profileName.toLowerCase().includes(newSearchValue) ||
+						user.profileName
+							.toLowerCase()
+							.includes(newSearchValue) ||
 						user.email.toLowerCase().includes(newSearchValue)
 				)
 			);
@@ -166,7 +171,11 @@ const SearchContacts = () => {
 			<View style={styles.searchBlock}>
 				<View style={styles.inputBlock}>
 					<View style={styles.leftBlock}>
-						<SearchImg width={12} height={12} style={{ marginRight: 13 }} />
+						<SearchImg
+							width={12}
+							height={12}
+							style={{ marginRight: 13 }}
+						/>
 						<TextInput
 							style={styles.inputText}
 							onChangeText={text => {
@@ -209,7 +218,11 @@ const SearchContacts = () => {
 									flex: 1
 								}}>
 								<TouchableOpacity
-									onPress={() => navigation.navigate('ContactInfo', { user })}
+									onPress={() =>
+										navigation.navigate('ContactInfo', {
+											user
+										})
+									}
 									style={{
 										display: 'flex',
 										flexDirection: 'row',
@@ -236,7 +249,8 @@ const SearchContacts = () => {
 												ellipsizeMode='tail'
 												numberOfLines={1}
 												style={{
-													fontFamily: 'Montserrat-Regular',
+													fontFamily:
+														'Montserrat-Regular',
 													color: '#8E8E93',
 													fontSize: 14,
 													flex: 3.5,
@@ -249,7 +263,9 @@ const SearchContacts = () => {
 								</TouchableOpacity>
 								<TouchableOpacity
 									onPress={() => {
-										handleSelect(user);
+										handleSelect(user).then(() =>
+											setSearchValue('')
+										);
 									}}>
 									<Ionicons
 										size={35}

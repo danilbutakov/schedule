@@ -64,12 +64,14 @@ const MenuScreen = () => {
 										{item.role}, {''}
 										{item.profileName}
 									</Text>
-									<Text style={styles.group}>{item.group}</Text>
+									<Text style={styles.group}>
+										{item.group}
+									</Text>
 									<Text style={styles.univ}>{item.univ}</Text>
 								</View>
 								<Image
 									source={{
-										uri: currentUser?.photoURL
+										uri: item?.photoURL
 									}}
 									style={{
 										width: 80,
@@ -159,19 +161,23 @@ const MenuScreen = () => {
 			<TouchableOpacity
 				style={styles.faq}
 				onPress={() => {
-					Alert.alert('Выход', 'Вы уверены, что хотите выйти из аккаунта?', [
-						{
-							text: 'Отменить',
-							onPress: () => console.log('Cancel Pressed'),
-							style: 'cancel'
-						},
-						{
-							text: 'Выйти',
-							onPress: () => {
-								signOut();
+					Alert.alert(
+						'Выход',
+						'Вы уверены, что хотите выйти из аккаунта?',
+						[
+							{
+								text: 'Отменить',
+								onPress: () => console.log('Cancel Pressed'),
+								style: 'cancel'
+							},
+							{
+								text: 'Выйти',
+								onPress: () => {
+									signOut();
+								}
 							}
-						}
-					]);
+						]
+					);
 				}}>
 				<View style={styles.faqCon}>
 					<View style={styles.feather}>
@@ -188,7 +194,11 @@ const MenuScreen = () => {
 			</TouchableOpacity>
 			{loading ? (
 				<>
-					<BlurView style={styles.absolute} blurType='light' blurAmount={3} />
+					<BlurView
+						style={styles.absolute}
+						blurType='light'
+						blurAmount={3}
+					/>
 					<ActivityIndicator
 						size='large'
 						color='#1E1E1F'

@@ -23,7 +23,6 @@ const ContactItem = ({ user, type }) => {
 	const date = new Date();
 	const currentUser = auth().currentUser;
 	const [curUser, setCurUser] = useState(null);
-	const [usersB, setUsersB] = useState([]);
 
 	const fetchCurrentUser = async () => {
 		const q = query(
@@ -41,7 +40,12 @@ const ContactItem = ({ user, type }) => {
 		fetchCurrentUser();
 	}, [currentUser]);
 
-	const handleSelect = async () => {
+	const handleSelect = async (user: {
+		uid: string | number;
+		displayName: string;
+		profileName: string;
+		photoURL: string;
+	}) => {
 		// создаем комбо id двух юзеров в чате
 		const combinedId =
 			currentUser.uid > user.uid
@@ -49,24 +53,7 @@ const ContactItem = ({ user, type }) => {
 				: user.uid + currentUser.uid;
 		try {
 			const res = await getDoc(doc(fs, 'chats', combinedId));
-			const q1 = query(
-				collection(fs, 'users'),
-				where('email', '!=', currentUser.email)
-			);
-			await getDocs(q1).then(snapshot => {
-				const newData = snapshot.docs.map(doc => ({
-					...doc.data()
-				}));
-				setUsersB(newData);
-			});
 			const chat = res.data();
-			const chatUserUid = await chat?.uids.filter(
-				(uid: string | number) => uid !== currentUser?.uid
-			);
-
-			const filteredUser = await usersB?.find(
-				user => user.uid === `${chatUserUid}`
-			);
 
 			//создаем чаты юзеров
 			if (!res.exists()) {
@@ -74,34 +61,21 @@ const ContactItem = ({ user, type }) => {
 				await setDoc(doc(fs, 'chats', combinedId), {
 					messages: [],
 					uids: [currentUser.uid, user.uid],
-					names: [user.displayName || user.profileName, curUser.profileName],
+					names: [
+						user.displayName || user.profileName,
+						curUser.profileName
+					],
 					photos: [user.photoURL, currentUser.photoURL],
 					date: serverTimestamp(),
 					combinedId: combinedId
 				}).then(async () => {
 					const res = await getDoc(doc(fs, 'chats', combinedId));
-					const q1 = query(
-						collection(fs, 'users'),
-						where('email', '!=', currentUser.email)
-					);
-					await getDocs(q1).then(snapshot => {
-						const newData = snapshot.docs.map(doc => ({
-							...doc.data()
-						}));
-						setUsersB(newData);
-					});
 					const chat = res.data();
-					const chatUserUid = await chat.uids.filter(
-						(uid: string) => uid !== currentUser?.uid
-					);
 
-					const filteredUser = await usersB.find(
-						user => user.uid === `${chatUserUid}`
-					);
-					navigation.navigate('Chat', { chat, userB: filteredUser });
+					navigation.navigate('Chat', { chat, userB: user });
 				});
 			} else {
-				navigation.navigate('Chat', { chat, userB: filteredUser });
+				navigation.navigate('Chat', { chat, userB: user });
 			}
 		} catch (error) {
 			console.log(error);
@@ -176,8 +150,12 @@ const ContactItem = ({ user, type }) => {
 						</View>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity onPress={handleSelect}>
-					<Ionicons size={35} name='md-chatbubbles-sharp' color={'#3eb59f'} />
+				<TouchableOpacity onPress={() => handleSelect(user)}>
+					<Ionicons
+						size={35}
+						name='md-chatbubbles-sharp'
+						color={'#3eb59f'}
+					/>
 				</TouchableOpacity>
 			</View>
 		</Animatable.View>

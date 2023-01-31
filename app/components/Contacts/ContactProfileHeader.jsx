@@ -94,7 +94,7 @@ const ContactProfileHeader = () => {
 				{selectEdit && (
 					<Animatable.View
 						animation='fadeIn'
-						duration={500}
+						duration={400}
 						useNativeDriver
 						style={{ minWidth: 40 }}>
 						<TouchableOpacity
