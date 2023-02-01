@@ -18,7 +18,7 @@ import * as Animatable from 'react-native-animatable';
 import { fs } from '../../../firebase';
 import Avatar from './Avatar';
 
-const ContactItem = ({ user, type }) => {
+const ContactItem = ({ user }) => {
 	const navigation = useNavigation();
 	const date = new Date();
 	const currentUser = auth().currentUser;
@@ -38,7 +38,7 @@ const ContactItem = ({ user, type }) => {
 
 	useEffect(() => {
 		fetchCurrentUser();
-	}, [currentUser]);
+	}, [currentUser.uid]);
 
 	const handleSelect = async (user: {
 		uid: string | number;
@@ -78,7 +78,7 @@ const ContactItem = ({ user, type }) => {
 				navigation.navigate('Chat', { chat, userB: user });
 			}
 		} catch (error) {
-			console.log(error);
+			console.log(error.message);
 		}
 	};
 
@@ -107,7 +107,7 @@ const ContactItem = ({ user, type }) => {
 						flexDirection: 'row',
 						flex: 1
 					}}>
-					<Avatar user={user} size={type === 'contacts' ? 50 : 50} />
+					<Avatar user={user} size={50} />
 					<View style={{ flex: 1 }}>
 						<Text
 							style={{
