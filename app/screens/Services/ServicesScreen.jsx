@@ -2,7 +2,7 @@ import { Text } from 'react-native';
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import Chats from './Chats';
+import ChatsScreen from './ChatsScreen';
 import ContactsScreen from './ContactsScreen';
 
 const Tab = createMaterialTopTabNavigator();
@@ -51,7 +51,7 @@ const ServicesScreen = () => {
 				};
 			}}
 			initialRouteName='chats'>
-			<Tab.Screen name='chats' component={Chats} />
+			<Tab.Screen name='chats' component={ChatsScreen} />
 			<Tab.Screen name='contacts' component={ContactsScreen} />
 		</Tab.Navigator>
 	);

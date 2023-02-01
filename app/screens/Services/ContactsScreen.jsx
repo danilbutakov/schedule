@@ -19,7 +19,6 @@ const wait = timeout => {
 };
 
 const ContactsScreen = () => {
-	const route = useRoute();
 	const [contacts, setContacts] = useState([]);
 	const currentUser = auth().currentUser;
 
