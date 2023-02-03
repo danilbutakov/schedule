@@ -58,18 +58,18 @@ const ChatsScreen = () => {
 		const q = query(collection(fs, 'chats'));
 
 		const unsub = onSnapshot(q, snapshot => {
-				const chatDoc = snapshot.docs.map(doc => ({
-					...doc.data()
-				}));
-				setChats(chatDoc);
+			const chatDoc = snapshot.docs.map(doc => ({
+				...doc.data()
+			}));
+			setChats(chatDoc);
 		});
-		
+
 		return () => unsub();
 	};
 
 	useEffect(() => {
 		fetchChats().then(() => console.log('Чаты загружены'));
-		
+
 		return () => setChats([]);
 	}, [currentUser, curUser?.profileName]);
 
@@ -78,7 +78,7 @@ const ChatsScreen = () => {
 		if (chats.length) {
 			setChatsFiltered(fChats);
 		} else {
-			setChatsFiltered([])
+			setChatsFiltered([]);
 		}
 	}, [chats]);
 
@@ -89,9 +89,9 @@ const ChatsScreen = () => {
 	}, []);
 
 	useEffect(() => {
-		fetchChats()
+		fetchChats();
 	}, [refreshing]);
-	
+
 	return (
 		<View
 			style={{
@@ -116,11 +116,11 @@ const ChatsScreen = () => {
 								const chatUserUid = item.uids.filter(
 									uid => uid !== curUser?.uid
 								);
-								
+
 								const filteredUser = await usersB.find(
 									user => user.uid === `${chatUserUid}`
 								);
-								
+
 								navigation.navigate('Chat', {
 									chat: item,
 									userB: filteredUser
@@ -148,7 +148,8 @@ const ChatsScreen = () => {
 									}}>
 									<AvatarChat
 										image={item.photos.filter(
-											photo => photo !== currentUser.photoURL
+											photo =>
+												photo !== currentUser.photoURL
 										)}
 										size={50}
 									/>
@@ -169,7 +170,8 @@ const ChatsScreen = () => {
 												}}>
 												{item.names.filter(
 													name =>
-														name !== curUser.profileName
+														name !==
+														curUser.profileName
 												)}
 											</Text>
 											<View
@@ -237,19 +239,22 @@ const ChatsScreen = () => {
 					)}
 				/>
 			) : (
-				<View style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				height: '100%'
-			}}>
-				<Text style={{
-				fontFamily: 'Montserrat-SemiBold',
-				fontSize: 17
-			}}>Начните общение с кем нибудь
-				&#128521;</Text>
+				<View
+					style={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						height: '100%'
+					}}>
+					<Text
+						style={{
+							fontFamily: 'Montserrat-SemiBold',
+							fontSize: 17
+						}}>
+						Начните общение с кем нибудь &#128521;
+					</Text>
 				</View>
-				)}
+			)}
 		</View>
 	);
 };

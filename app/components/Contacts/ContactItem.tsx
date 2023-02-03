@@ -1,4 +1,10 @@
-import {ActivityIndicator, Text, TouchableOpacity, View, StyleSheet, ScrollView} from 'react-native';
+import {
+	ActivityIndicator,
+	Text,
+	TouchableOpacity,
+	View,
+	StyleSheet
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
 	collection,
@@ -17,7 +23,7 @@ import * as Animatable from 'react-native-animatable';
 
 import { fs } from '../../../firebase';
 import Avatar from './Avatar';
-import {BlurView} from "@react-native-community/blur";
+import { BlurView } from '@react-native-community/blur';
 
 const ContactItem = ({ user }) => {
 	const navigation = useNavigation();
@@ -40,13 +46,13 @@ const ContactItem = ({ user }) => {
 
 	useEffect(() => {
 		fetchCurrentUser().then(() => {
-			console.log(curUser.profileName)
+			console.log(curUser.profileName);
 		});
 	}, [currentUser, isLoading]);
-	
+
 	useEffect(() => {
-		fetchCurrentUser()
-	}, [curUser?.profileName])
+		fetchCurrentUser();
+	}, [curUser?.profileName]);
 
 	const handleSelect = async (user: {
 		uid: string | number;
@@ -66,8 +72,8 @@ const ContactItem = ({ user }) => {
 			//создаем чаты юзеров
 			if (!res.exists()) {
 				fetchCurrentUser().then(async () => {
-					console.log(curUser.profileName)
-					setIsLoading(true)
+					console.log(curUser.profileName);
+					setIsLoading(true);
 					//создаем чат в коллекции чатов
 					await setDoc(doc(fs, 'chats', combinedId), {
 						messages: [],
@@ -82,23 +88,25 @@ const ContactItem = ({ user }) => {
 					}).then(async () => {
 						const res = await getDoc(doc(fs, 'chats', combinedId));
 						const chat = res.data();
-						setIsLoading(false)
-						
+						setIsLoading(false);
+
+						// @ts-ignore
 						navigation.navigate('Chat', { chat, userB: user });
 					});
-				})
+				});
 			} else {
-				setIsLoading(false)
+				setIsLoading(false);
+				// @ts-ignore
 				navigation.navigate('Chat', { chat, userB: user });
 			}
 		} catch (error) {
-			setIsLoading(false)
+			setIsLoading(false);
 			console.log(error.message);
 		} finally {
-			setIsLoading(false)
+			setIsLoading(false);
 		}
 	};
-	
+
 	return (
 		<>
 			<Animatable.View
@@ -119,7 +127,10 @@ const ContactItem = ({ user }) => {
 						flex: 1
 					}}>
 					<TouchableOpacity
-						onPress={() => navigation.navigate('ContactInfo', { user })}
+						onPress={() =>
+							// @ts-ignore
+							navigation.navigate('ContactInfo', { user })
+						}
 						style={{
 							display: 'flex',
 							flexDirection: 'row',
@@ -162,7 +173,6 @@ const ContactItem = ({ user }) => {
 										marginBottom: 5,
 										flex: 1
 									}}>
-									{/* {user.time} */}
 									{date.getHours()}:{date.getMinutes()}
 								</Text>
 							</View>
@@ -202,7 +212,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		bottom: 0,
 		right: 0
-	},
-})
+	}
+});
 
 export default ContactItem;
