@@ -113,7 +113,7 @@ const ContactProfileHeader = () => {
 								alignItems: 'center'
 							}}
 							onPress={() => {
-								navigation.navigate('UserInfo');
+								navigation.navigate('MenuStack', {screen: 'UserInfo'});
 								setSelectEdit(false);
 							}}>
 							<FontAwesome5

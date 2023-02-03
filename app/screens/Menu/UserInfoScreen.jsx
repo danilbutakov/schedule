@@ -1,4 +1,5 @@
 import {
+	ActivityIndicator,
 	Alert,
 	Dimensions,
 	FlatList,
@@ -10,17 +11,18 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import {collection, doc, getDocs, onSnapshot, query, updateDoc, where, arrayRemove, arrayUnion} from 'firebase/firestore';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
 import { fs } from '../../../firebase';
+import {BlurView} from "@react-native-community/blur";
 
 const { height } = Dimensions.get('screen');
 
-const UserInfo = () => {
+const UserInfoScreen = () => {
 	const { user } = useAuth();
 	const [group, setGroup] = useState('');
 	const [univ, setUniv] = useState('');
@@ -28,10 +30,37 @@ const UserInfo = () => {
 	const [image, setImage] = useState(null);
 	const [newImage, setNewImage] = useState(null);
 	const [existsParams, setExistsParams] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	
+	const [allChats, setAllChats] = useState([]);
+	const [curUser, setCurUser] = useState();
 
 	const [menuItems, setMenuItems] = useState([]);
 	const userRef = doc(fs, 'users', user.uid);
-
+	
+	useEffect(() => {
+		(async () => {
+			const q = query(
+				collection(fs, 'users'),
+				where('email', '==', user.email)
+			);
+			
+			const querySnapshot = await getDocs(q);
+			querySnapshot.forEach(doc => {
+				setCurUser(doc.data());
+			});
+			
+			const qq = query(collection(fs, 'chats'), where('uids', 'array-contains', user.uid))
+			
+			await getDocs(qq).then(snapshot => {
+				const newData = snapshot.docs.map(doc => ({
+					...doc.data()
+				}));
+				setAllChats(newData);
+			});
+		})()
+	}, [])
+	
 	const fetchUserDataItems = () => {
 		return onSnapshot(userRef, doc => {
 			if (doc.data()) {
@@ -48,21 +77,37 @@ const UserInfo = () => {
 		fetchUserDataItems();
 	}, []);
 
-	const handleUpdateGroup = async () => {
+	const handleUpdateGroup = async (group) => {
 		await updateDoc(userRef, {
 			group: group
 		});
 	};
-	const handleUpdateUniv = async () => {
+	const handleUpdateUniv = async (univ) => {
 		await updateDoc(userRef, {
 			univ: univ
 		});
 	};
-	const handleUpdateName = async () => {
-		await updateDoc(userRef, {
-			profileName: userName
-		});
+	const handleUpdateName = async (userName) => {
+		try {
+			await updateDoc(userRef, {
+				profileName: userName
+			});
+			
+			allChats.map(async (chat) => {
+				console.log(curUser.profileName)
+				const uidsRef = doc(fs, 'chats', chat.combinedId);
+				await updateDoc(uidsRef, {
+					names: arrayRemove(curUser.profileName)
+				})
+				await updateDoc(uidsRef, {
+					names: arrayUnion(userName)
+				})
+			})
+		} catch (e) {
+			console.log(e)
+		}
 	};
+	
 	const handleUpdateImage = async () => {
 		await updateDoc(userRef, {
 			photoURL: newImage
@@ -77,6 +122,7 @@ const UserInfo = () => {
 	};
 
 	const handleUpdateProfile = async () => {
+		setIsLoading(true)
 		if (group !== '' && group !== ' ') {
 			handleUpdateGroup(group).then(() => setGroup(''));
 		}
@@ -90,7 +136,7 @@ const UserInfo = () => {
 		}
 
 		let photoURL;
-		if (image) {
+		if (newImage) {
 			const { url } = await uploadImage(
 				newImage,
 				`images/${user.uid}`,
@@ -102,17 +148,21 @@ const UserInfo = () => {
 			setImage(photoURL);
 		}
 		const userData = {
-			photoURL: photoURL
+			photoURL
 		};
 		await Promise.all([
 			user.updateProfile(userData),
-			handleUpdateImage()
+			newImage ?
+				handleUpdateImage() : null
 		]).then(() => {
 			console.log('good update');
 			setNewImage(null);
+			setIsLoading(false)
+		}).finally(() => {
+			setIsLoading(false)
 		});
 	};
-
+	
 	useEffect(() => {
 		if (
 			(group !== '') |
@@ -181,18 +231,18 @@ const UserInfo = () => {
 											style={{
 												fontFamily: 'Montserrat-Bold',
 												fontSize: 15,
-												lineHeight: 20
+												lineHeight: 20,
+												maxWidth: 200
 											}}>
 											{item.profileName}
 										</Text>
 										<Text
-											ellipsizeMode='tail'
-											numberOfLines={1}
 											style={{
 												fontSize: 14,
 												lineHeight: 20,
 												color: 'rgba(60, 60, 67, 0.6)',
-												fontFamily: 'Montserrat-Medium'
+												fontFamily: 'Montserrat-Medium',
+												maxWidth: 200
 											}}>
 											{item.email}
 										</Text>
@@ -249,6 +299,20 @@ const UserInfo = () => {
 					borderTopRightRadius: 20
 				}}
 				elevation={3}>
+				{isLoading ? (
+					<>
+						<BlurView
+							style={styles.absolute}
+							blurType='light'
+							blurAmount={3}
+						/>
+						<ActivityIndicator
+							size='large'
+							color='#1E1E1F'
+							style={{ backgroundColor: '#F7F7F7' }}
+						/>
+					</>
+				) : null}
 				<FlatList
 					style={{ marginBottom: 10 }}
 					data={menuItems}
@@ -355,7 +419,7 @@ const UserInfo = () => {
 	);
 };
 
-export default UserInfo;
+export default UserInfoScreen;
 
 const styles = StyleSheet.create({
 	infoCon: {

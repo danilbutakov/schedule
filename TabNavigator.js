@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import { CardStyleInterpolators } from '@react-navigation/stack';
+import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -17,13 +16,11 @@ import MenuScreen from './app/screens/Menu/MenuScreen';
 import Search from './app/screens/Search/Search';
 import PairInfo from './app/screens/Home/PairInfo';
 import NotesScreen from './app/screens/NotesScreen';
-import useAuth from './app/hooks/useAuth';
 import LinksScreen from './app/screens/Menu/LinksScreen';
 import SchedScreen from './app/screens/Menu/SchedScreen';
-import UserInfo from './app/screens/Menu/UserInfo';
+import UserInfo from './app/screens/Menu/UserInfoScreen';
 import PremiumScreen from './app/screens/Menu/PremiumScreen';
 import FAQScreen from './app/screens/Menu/FAQScreen';
-import UserData from './app/screens/UserData';
 import SearchGroup from './app/screens/Search/SearchGroup';
 import SearchAudition from './app/screens/Search/SearchAudition';
 import SearchTeachers from './app/screens/Search/SearchTeachers';
@@ -33,7 +30,7 @@ import ChatHeader from './app/components/Chat/ChatHeader';
 import ContactProfile from './app/components/Contacts/ContactProfile';
 import ContactProfileHeader from './app/components/Contacts/ContactProfileHeader';
 import { fs } from './firebase';
-import OnBoard from './app/screens/OnBoard';
+import UserInfoScreen from "./app/screens/Menu/UserInfoScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -130,6 +127,7 @@ const MenuStack = () => {
 	const navigation = useNavigation();
 	return (
 		<Stack.Navigator
+			initialRouteName='Menu'
 			screenOptions={{
 				cardStyleInterpolator: CardStyleInterpolates.forHorizontalIOS
 			}}>
@@ -251,7 +249,7 @@ const MenuStack = () => {
 			/>
 			<Stack.Screen
 				name='UserInfo'
-				component={UserInfo}
+				component={UserInfoScreen}
 				options={{
 					header: () => (
 						<TouchableOpacity
@@ -290,7 +288,7 @@ const MenuStack = () => {
 											color: '1E1E1F',
 											paddingLeft: 10
 										}}>
-										Профиль
+										Изменение профиля
 									</Text>
 								</View>
 							</View>
@@ -699,8 +697,8 @@ const TabNavigator = () => {
 								name='bookmark'
 								size={size}
 								color={color}
-								width={23}
-								height={23}
+								width={25}
+								height={25}
 							/>
 						),
 						headerShown: false
@@ -715,8 +713,8 @@ const TabNavigator = () => {
 								name='apps'
 								size={size}
 								color={color}
-								width={23}
-								height={23}
+								width={25}
+								height={25}
 							/>
 						),
 						headerShown: false
@@ -732,8 +730,8 @@ const TabNavigator = () => {
 								name='calendar'
 								size={size}
 								color={color}
-								width={23}
-								height={23}
+								width={25}
+								height={25}
 							/>
 						)
 					}}
@@ -748,8 +746,8 @@ const TabNavigator = () => {
 								name='search'
 								size={size}
 								color={color}
-								width={23}
-								height={23}
+								width={25}
+								height={25}
 							/>
 						)
 					}}
@@ -764,8 +762,8 @@ const TabNavigator = () => {
 								name='menu'
 								size={size}
 								color={color}
-								width={23}
-								height={23}
+								width={25}
+								height={25}
 							/>
 						)
 					}}

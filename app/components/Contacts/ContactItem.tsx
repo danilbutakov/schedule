@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from 'react-native';
+import {ActivityIndicator, Text, TouchableOpacity, View, StyleSheet, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
 	collection,
@@ -11,18 +11,20 @@ import {
 	where
 } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 
 import { fs } from '../../../firebase';
 import Avatar from './Avatar';
+import {BlurView} from "@react-native-community/blur";
 
 const ContactItem = ({ user }) => {
 	const navigation = useNavigation();
 	const date = new Date();
 	const currentUser = auth().currentUser;
 	const [curUser, setCurUser] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const fetchCurrentUser = async () => {
 		const q = query(
@@ -37,8 +39,14 @@ const ContactItem = ({ user }) => {
 	};
 
 	useEffect(() => {
-		fetchCurrentUser();
-	}, [currentUser.uid]);
+		fetchCurrentUser().then(() => {
+			console.log(curUser.profileName)
+		});
+	}, [currentUser, isLoading]);
+	
+	useEffect(() => {
+		fetchCurrentUser()
+	}, [curUser?.profileName])
 
 	const handleSelect = async (user: {
 		uid: string | number;
@@ -57,109 +65,144 @@ const ContactItem = ({ user }) => {
 
 			//создаем чаты юзеров
 			if (!res.exists()) {
-				//создаем чат в коллекции чатов
-				await setDoc(doc(fs, 'chats', combinedId), {
-					messages: [],
-					uids: [currentUser.uid, user.uid],
-					names: [
-						user.displayName || user.profileName,
-						curUser.profileName
-					],
-					photos: [user.photoURL, currentUser.photoURL],
-					date: serverTimestamp(),
-					combinedId: combinedId
-				}).then(async () => {
-					const res = await getDoc(doc(fs, 'chats', combinedId));
-					const chat = res.data();
-
-					navigation.navigate('Chat', { chat, userB: user });
-				});
+				fetchCurrentUser().then(async () => {
+					console.log(curUser.profileName)
+					setIsLoading(true)
+					//создаем чат в коллекции чатов
+					await setDoc(doc(fs, 'chats', combinedId), {
+						messages: [],
+						uids: [currentUser.uid, user.uid],
+						names: [
+							user.displayName || user.profileName,
+							curUser.profileName
+						],
+						photos: [user.photoURL, currentUser.photoURL],
+						date: serverTimestamp(),
+						combinedId: combinedId
+					}).then(async () => {
+						const res = await getDoc(doc(fs, 'chats', combinedId));
+						const chat = res.data();
+						setIsLoading(false)
+						
+						navigation.navigate('Chat', { chat, userB: user });
+					});
+				})
 			} else {
+				setIsLoading(false)
 				navigation.navigate('Chat', { chat, userB: user });
 			}
 		} catch (error) {
+			setIsLoading(false)
 			console.log(error.message);
+		} finally {
+			setIsLoading(false)
 		}
 	};
-
+	
 	return (
-		<Animatable.View
-			style={{
-				paddingVertical: 10,
-				borderRadius: 20,
-				marginBottom: 20,
-				flex: 1
-			}}
-			animation='fadeIn'
-			duration={1000}
-			useNativeDriver>
-			<View
+		<>
+			<Animatable.View
 				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
+					paddingVertical: 10,
+					borderRadius: 20,
+					marginBottom: 20,
 					flex: 1
-				}}>
-				<TouchableOpacity
-					onPress={() => navigation.navigate('ContactInfo', { user })}
+				}}
+				animation='fadeIn'
+				duration={1000}
+				useNativeDriver>
+				<View
 					style={{
 						display: 'flex',
 						flexDirection: 'row',
+						justifyContent: 'space-between',
 						flex: 1
 					}}>
-					<Avatar user={user} size={50} />
-					<View style={{ flex: 1 }}>
-						<Text
-							style={{
-								fontFamily: 'Montserrat-Bold',
-								fontSize: 14,
-								marginBottom: 5
-							}}>
-							{user.profileName || user.displayName}
-						</Text>
-						<View
-							style={{
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-								flex: 1
-							}}>
+					<TouchableOpacity
+						onPress={() => navigation.navigate('ContactInfo', { user })}
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							flex: 1
+						}}>
+						<Avatar user={user} size={50} />
+						<View style={{ flex: 1 }}>
 							<Text
-								ellipsizeMode='tail'
-								numberOfLines={1}
 								style={{
-									fontFamily: 'Montserrat-Regular',
-									color: '#8E8E93',
+									fontFamily: 'Montserrat-Bold',
 									fontSize: 14,
-									flex: 3.5,
-									paddingRight: 10
+									marginBottom: 5
 								}}>
-								{user.univ}, {user.group}
+								{user.profileName || user.displayName}
 							</Text>
-							<Text
+							<View
 								style={{
-									fontFamily: 'Montserrat-Regular',
-									color: '#b3b3b3',
-									fontSize: 13,
-									marginBottom: 5,
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'space-between',
 									flex: 1
 								}}>
-								{/* {user.time} */}
-								{date.getHours()}:{date.getMinutes()}
-							</Text>
+								<Text
+									ellipsizeMode='tail'
+									numberOfLines={1}
+									style={{
+										fontFamily: 'Montserrat-Regular',
+										color: '#8E8E93',
+										fontSize: 14,
+										flex: 3.5,
+										paddingRight: 10
+									}}>
+									{user.univ}, {user.group}
+								</Text>
+								<Text
+									style={{
+										fontFamily: 'Montserrat-Regular',
+										color: '#b3b3b3',
+										fontSize: 13,
+										marginBottom: 5,
+										flex: 1
+									}}>
+									{/* {user.time} */}
+									{date.getHours()}:{date.getMinutes()}
+								</Text>
+							</View>
 						</View>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={() => handleSelect(user)}>
-					<Ionicons
-						size={35}
-						name='md-chatbubbles-sharp'
-						color={'#3eb59f'}
+					</TouchableOpacity>
+					<TouchableOpacity onPress={() => handleSelect(user)}>
+						<Ionicons
+							size={35}
+							name='md-chatbubbles-sharp'
+							color={'#3eb59f'}
+						/>
+					</TouchableOpacity>
+				</View>
+			</Animatable.View>
+			{isLoading ? (
+				<>
+					<BlurView
+						style={styles.absolute}
+						blurType='light'
+						blurAmount={3}
 					/>
-				</TouchableOpacity>
-			</View>
-		</Animatable.View>
+					<ActivityIndicator
+						size='large'
+						color='#1E1E1F'
+						style={{ backgroundColor: '#F7F7F7' }}
+					/>
+				</>
+			) : null}
+		</>
 	);
 };
+
+const styles = StyleSheet.create({
+	absolute: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
+	},
+})
 
 export default ContactItem;

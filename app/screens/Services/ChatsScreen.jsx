@@ -31,6 +31,7 @@ const ChatsScreen = () => {
 	const navigation = useNavigation();
 	const [curUser, setCurUser] = useState(null);
 	const [usersB, setUsersB] = useState([]);
+	const [refreshing, setRefreshing] = useState(false);
 
 	const fetchChats = async () => {
 		const qU = query(
@@ -57,29 +58,29 @@ const ChatsScreen = () => {
 		const q = query(collection(fs, 'chats'));
 
 		const unsub = onSnapshot(q, snapshot => {
-			if (snapshot.docs.length) {
 				const chatDoc = snapshot.docs.map(doc => ({
 					...doc.data()
 				}));
 				setChats(chatDoc);
-			}
 		});
+		
 		return () => unsub();
 	};
 
 	useEffect(() => {
 		fetchChats().then(() => console.log('Чаты загружены'));
+		
 		return () => setChats([]);
-	}, [currentUser.uid]);
+	}, [currentUser, curUser?.profileName]);
 
 	useEffect(() => {
-		if (chats !== undefined) {
-			let fChats = chats.filter(c => c.uids.includes(currentUser.uid));
+		let fChats = chats.filter(c => c.uids.includes(currentUser.uid));
+		if (chats.length) {
 			setChatsFiltered(fChats);
+		} else {
+			setChatsFiltered([])
 		}
 	}, [chats]);
-
-	const [refreshing, setRefreshing] = useState(false);
 
 	const onRefresh = React.useCallback(() => {
 		setRefreshing(true);
@@ -88,9 +89,9 @@ const ChatsScreen = () => {
 	}, []);
 
 	useEffect(() => {
-		fetchChats().then(() => console.log('Чаты загружены'));
+		fetchChats()
 	}, [refreshing]);
-
+	
 	return (
 		<View
 			style={{
@@ -99,141 +100,156 @@ const ChatsScreen = () => {
 				backgroundColor: '#F7F7F7',
 				paddingHorizontal: 10
 			}}>
-			<FlatList
-				data={chatsFiltered}
-				keyExtractor={(_, i) => i}
-				refreshControl={
-					<RefreshControl
-						refreshing={refreshing}
-						onRefresh={onRefresh}
-					/>
-				}
-				renderItem={({ item }) => (
-					<TouchableOpacity
-						onPress={async () => {
-							const chatUserUid = item.uids.filter(
-								uid => uid !== curUser?.uid
-							);
-
-							const filteredUser = await usersB.find(
-								user => user.uid === `${chatUserUid}`
-							);
-
-							navigation.navigate('Chat', {
-								chat: item,
-								userB: filteredUser
-							});
-						}}
-						style={{
-							backgroundColor: '#FFFFFF',
-							borderRadius: 150,
-							padding: 5,
-							marginBottom: 20
-						}}>
-						<Animatable.View
-							animation='fadeIn'
-							duration={300}
-							useNativeDriver
+			{chatsFiltered.length ? (
+				<FlatList
+					data={chatsFiltered}
+					keyExtractor={(_, i) => i}
+					refreshControl={
+						<RefreshControl
+							refreshing={refreshing}
+							onRefresh={onRefresh}
+						/>
+					}
+					renderItem={({ item }) => (
+						<TouchableOpacity
+							onPress={async () => {
+								const chatUserUid = item.uids.filter(
+									uid => uid !== curUser?.uid
+								);
+								
+								const filteredUser = await usersB.find(
+									user => user.uid === `${chatUserUid}`
+								);
+								
+								navigation.navigate('Chat', {
+									chat: item,
+									userB: filteredUser
+								});
+							}}
 							style={{
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-								alignItems: 'center'
+								backgroundColor: '#FFFFFF',
+								borderRadius: 150,
+								padding: 5,
+								marginBottom: 20
 							}}>
-							<View
+							<Animatable.View
+								animation='fadeIn'
+								duration={300}
+								useNativeDriver
 								style={{
 									flexDirection: 'row',
+									justifyContent: 'space-between',
 									alignItems: 'center'
 								}}>
-								<AvatarChat
-									image={item.photos.filter(
-										photo => photo !== currentUser.photoURL
-									)}
-									size={50}
-								/>
 								<View
 									style={{
 										flexDirection: 'row',
 										alignItems: 'center'
 									}}>
+									<AvatarChat
+										image={item.photos.filter(
+											photo => photo !== currentUser.photoURL
+										)}
+										size={50}
+									/>
 									<View
 										style={{
-											flexDirection: 'column'
+											flexDirection: 'row',
+											alignItems: 'center'
 										}}>
-										<Text
-											style={{
-												fontFamily:
-													'Montserrat-SemiBold',
-												fontSize: 16
-											}}>
-											{item.names.filter(
-												name =>
-													name !== curUser.profileName
-											)}
-										</Text>
 										<View
 											style={{
-												flexDirection: 'row',
-												alignItems: 'center'
+												flexDirection: 'column'
 											}}>
-											{/* {chat?.lastMessage && ( */}
+											<Text
+												style={{
+													fontFamily:
+														'Montserrat-SemiBold',
+													fontSize: 16
+												}}>
+												{item.names.filter(
+													name =>
+														name !== curUser.profileName
+												)}
+											</Text>
 											<View
 												style={{
 													flexDirection: 'row',
-													marginTop: 7
+													alignItems: 'center'
 												}}>
-												<Text
-													style={{
-														fontSize: 14,
-														color: '#81F2DF',
-														fontFamily:
-															'Montserrat-Regular'
-													}}>
-													Вы: {''}
-												</Text>
-												<Text
-													style={{
-														fontFamily:
-															'Montserrat-Regular',
-														fontSize: 14,
-														maxWidth: 160
-													}}
-													numberOfLines={1}
-													ellipsizeMode='tail'>
-													{/* {description} */}
-													ваше сообщение
-												</Text>
-											</View>
-											{/* )} */}
-											{item?.date && (
+												{/* {chat?.lastMessage && ( */}
 												<View
 													style={{
-														marginTop: 7,
-														marginLeft: 5
+														flexDirection: 'row',
+														marginTop: 7
 													}}>
 													<Text
 														style={{
+															fontSize: 14,
+															color: '#81F2DF',
 															fontFamily:
-																'Montserrat-Medium',
-															color: '#A5A5A5'
+																'Montserrat-Regular'
 														}}>
-														{'• ' +
-															new Date()
-																.toLocaleTimeString()
-																.replace(
-																	/(.*)\D\d+/,
-																	'$1'
-																)}
+														Вы: {''}
+													</Text>
+													<Text
+														style={{
+															fontFamily:
+																'Montserrat-Regular',
+															fontSize: 14,
+															maxWidth: 160
+														}}
+														numberOfLines={1}
+														ellipsizeMode='tail'>
+														{/* {description} */}
+														ваше сообщение
 													</Text>
 												</View>
-											)}
+												{/* )} */}
+												{item?.date && (
+													<View
+														style={{
+															marginTop: 7,
+															marginLeft: 5
+														}}>
+														<Text
+															style={{
+																fontFamily:
+																	'Montserrat-Medium',
+																color: '#A5A5A5'
+															}}>
+															{'• ' +
+																new Date()
+																	.toLocaleTimeString()
+																	.replace(
+																		/(.*)\D\d+/,
+																		'$1'
+																	)}
+														</Text>
+													</View>
+												)}
+											</View>
 										</View>
 									</View>
 								</View>
-							</View>
-						</Animatable.View>
-					</TouchableOpacity>
+							</Animatable.View>
+						</TouchableOpacity>
+					)}
+				/>
+			) : (
+				<View style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				height: '100%'
+			}}>
+				<Text style={{
+				fontFamily: 'Montserrat-SemiBold',
+				fontSize: 17
+			}}>Начните общение с кем нибудь
+				&#128521;</Text>
+				</View>
 				)}
-			/>
 		</View>
 	);
 };

@@ -12,22 +12,18 @@ import auth from '@react-native-firebase/auth';
 import { TextInput } from 'react-native-gesture-handler';
 import debounce from 'lodash.debounce';
 
-import useAuth from '../../hooks/useAuth';
-import Google from '../../../assets/images/Google.svg';
-import Apple from '../../../assets/images/Apple.svg';
-import useFetchUserData from '../../hooks/useFetchUserData';
+import useAuth from '../hooks/useAuth';
+import Google from '../../assets/images/Google.svg';
+import Apple from '../../assets/images/Apple.svg';
 
 const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
 	const { onGoogleButtonPress, setUser, loading, user, signOut } = useAuth();
 	const currentUser = auth().currentUser;
-	const { userData } = useFetchUserData();
 
 	const [register, setRegister] = useState(false);
-
 	const [isErrorSignUp, setIsErrorSignUp] = useState('');
-	const [userWithEmail, setUserWithEmail] = useState();
 	const [showEmailVerified, setShowEmailVerified] = useState(false);
 	const [showAuth, setShowAuth] = useState(true);
 
@@ -125,7 +121,6 @@ const SheetAuth = () => {
 							url: 'https://schedule-11f30.firebaseapp.com'
 						})
 						.then(() => {
-							setUserWithEmail(userSignUp);
 							Alert.alert(
 								'Письмо с подтверждением почты успешно отправлено'
 							);
@@ -236,7 +231,7 @@ const SheetAuth = () => {
 								flex: 0.85
 							}}>
 							Перейдите по ссылке в отправленном письме на вашу
-							почту, чтобы подтвердить Email. {`\n`}Возможно
+							почту: {user?.email}, чтобы подтвердить Email. {`\n`}Возможно
 							письмо может оказаться в папке «Спам».
 						</Text>
 						<TouchableOpacity
