@@ -35,7 +35,7 @@ const ProfileLogoInfo = ({
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		if (profileName !== '' || image) {
+		if (profileName !== '' && image) {
 			setChangeButton(styles.conBtnActive);
 			setChangeBtnText(styles.btnTextActive);
 		} else {

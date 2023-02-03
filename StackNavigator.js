@@ -90,7 +90,7 @@ const StackNavigator = () => {
 						options={{
 							header: () => (
 								<TouchableOpacity
-									onPress={() => navigation.navigate('MenuScreen')}>
+									onPress={() => navigation.navigate('Menu')}>
 									<View
 										style={{
 											backgroundColor: '#F7F7F7',

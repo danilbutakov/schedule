@@ -1,4 +1,5 @@
 import {
+	ActivityIndicator,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -16,7 +17,6 @@ import {
 	query,
 	serverTimestamp,
 	setDoc,
-	updateDoc,
 	where
 } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -27,6 +27,7 @@ import { fs } from '../../../firebase';
 import Avatar from './Avatar';
 import SearchImg from '../../../assets/svgUtils/search.svg';
 import Delete from '../../../assets/svgUtils/delete.svg';
+import { BlurView } from "@react-native-community/blur";
 
 const SearchContacts = () => {
 	const currentUser = auth().currentUser;
@@ -37,26 +38,31 @@ const SearchContacts = () => {
 
 	const [users, setUsers] = useState([]);
 	const [filteredUsers, setFilteredUsers] = useState([]);
-	const [curUser, setCurUser] = useState({});
-
-	const [userPhoto, setUserPhoto] = useState([]);
-
+	const [curUser, setCurUser] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
+	
 	const fetchCurrentUser = async () => {
 		const q = query(
 			collection(fs, 'users'),
 			where('email', '==', currentUser.email)
 		);
-
+		
 		const querySnapshot = await getDocs(q);
 		querySnapshot.forEach(doc => {
 			setCurUser(doc.data());
 		});
 	};
-
+	
 	useEffect(() => {
-		fetchCurrentUser();
-	}, [currentUser]);
-
+		fetchCurrentUser().then(() => {
+			console.log(curUser.profileName)
+		});
+	}, [currentUser, isLoading]);
+	
+	useEffect(() => {
+		fetchCurrentUser()
+	}, [curUser?.profileName])
+	
 	const handleSelect = async (user: {
 		uid: string | number;
 		displayName: string;
@@ -70,65 +76,41 @@ const SearchContacts = () => {
 				: user.uid + currentUser.uid;
 		try {
 			const res = await getDoc(doc(fs, 'chats', combinedId));
-			const q1 = query(
-				collection(fs, 'users'),
-				where('email', '!=', currentUser.email)
-			);
-			await getDocs(q1).then(snapshot => {
-				const newData = snapshot.docs.map(doc => ({
-					...doc.data()
-				}));
-				setUsers(newData);
-			});
 			const chat = res.data();
-			const chatUserUid = await chat?.uids.filter(
-				(uid: string | number) => uid !== currentUser?.uid
-			);
-
-			const filteredUser = await users?.find(
-				user => user.uid === `${chatUserUid}`
-			);
-
+			
 			//создаем чаты юзеров
 			if (!res.exists()) {
-				//создаем чат в коллекции чатов
-				await setDoc(doc(fs, 'chats', combinedId), {
-					messages: [],
-					uids: [currentUser.uid, user.uid],
-					names: [
-						user.displayName || user.profileName,
-						curUser.profileName
-					],
-					photos: [user.photoURL, currentUser.photoURL],
-					date: serverTimestamp(),
-					combinedId: combinedId
-				}).then(async () => {
-					const res = await getDoc(doc(fs, 'chats', combinedId));
-					const q1 = query(
-						collection(fs, 'users'),
-						where('email', '!=', currentUser.email)
-					);
-					await getDocs(q1).then(snapshot => {
-						const newData = snapshot.docs.map(doc => ({
-							...doc.data()
-						}));
-						setUsers(newData);
+				fetchCurrentUser().then(async () => {
+					console.log(curUser.profileName)
+					setIsLoading(true)
+					//создаем чат в коллекции чатов
+					await setDoc(doc(fs, 'chats', combinedId), {
+						messages: [],
+						uids: [currentUser.uid, user.uid],
+						names: [
+							user.displayName || user.profileName,
+							curUser.profileName
+						],
+						photos: [user.photoURL, currentUser.photoURL],
+						date: serverTimestamp(),
+						combinedId: combinedId
+					}).then(async () => {
+						const res = await getDoc(doc(fs, 'chats', combinedId));
+						const chat = res.data();
+						setIsLoading(false)
+						
+						navigation.navigate('Chat', { chat, userB: user });
 					});
-					const chat = res.data();
-					const chatUserUid = await chat.uids.filter(
-						(uid: string) => uid !== currentUser?.uid
-					);
-
-					const filteredUser = await users.find(
-						user => user.uid === `${chatUserUid}`
-					);
-					navigation.navigate('Chat', { chat, userB: filteredUser });
-				});
+				})
 			} else {
-				navigation.navigate('Chat', { chat, userB: filteredUser });
+				setIsLoading(false)
+				navigation.navigate('Chat', { chat, userB: user });
 			}
 		} catch (error) {
-			console.log(error);
+			setIsLoading(false)
+			console.log(error.message);
+		} finally {
+			setIsLoading(false)
 		}
 	};
 
@@ -284,6 +266,20 @@ const SearchContacts = () => {
 					))}
 				</ScrollView>
 			)}
+			{isLoading ? (
+				<>
+					<BlurView
+						style={styles.absolute}
+						blurType='light'
+						blurAmount={3}
+					/>
+					<ActivityIndicator
+						size='large'
+						color='#1E1E1F'
+						style={{ backgroundColor: '#F7F7F7' }}
+					/>
+				</>
+			) : null}
 		</View>
 	);
 };
@@ -291,6 +287,13 @@ const SearchContacts = () => {
 export default SearchContacts;
 
 const styles = StyleSheet.create({
+	absolute: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
+	},
 	searchCont: {
 		width: '100%',
 		paddingHorizontal: 5,

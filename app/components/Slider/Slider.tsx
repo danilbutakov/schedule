@@ -11,7 +11,7 @@ import { slides } from '../../../assets/Slides';
 import SlideItem from './SlideItem';
 import PaginationSlider from './PaginationSlider';
 import BottomSheet from '@gorhom/bottom-sheet';
-import SheetAuth from './SheetAuth';
+import SheetAuth from '../SheetAuth';
 
 const { width } = Dimensions.get('screen');
 
