@@ -1,7 +1,10 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack';
+import {
+	createStackNavigator,
+	CardStyleInterpolators
+} from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -30,7 +33,7 @@ import ChatHeader from './app/components/Chat/ChatHeader';
 import ContactProfile from './app/components/Contacts/ContactProfile';
 import ContactProfileHeader from './app/components/Contacts/ContactProfileHeader';
 import { fs } from './firebase';
-import UserInfoScreen from "./app/screens/Menu/UserInfoScreen";
+import UserInfoScreen from './app/screens/Menu/UserInfoScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -39,7 +42,6 @@ const { width } = Dimensions.get('screen');
 
 const HomeStack = () => {
 	const navigation = useNavigation();
-
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -127,7 +129,6 @@ const MenuStack = () => {
 	const navigation = useNavigation();
 	return (
 		<Stack.Navigator
-			initialRouteName='Menu'
 			screenOptions={{
 				cardStyleInterpolator: CardStyleInterpolates.forHorizontalIOS
 			}}>
@@ -162,6 +163,55 @@ const MenuStack = () => {
 								Профиль
 							</Text>
 						</View>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name='UserInfo'
+				component={UserInfoScreen}
+				options={{
+					header: () => (
+						<TouchableOpacity
+							onPress={() => navigation.navigate('Menu')}>
+							<View
+								style={{
+									backgroundColor: '#F7F7F7',
+									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+									borderBottomWidth: 1,
+									marginTop: 10,
+									paddingBottom: 10,
+									paddingLeft: 20,
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center',
+									justifyContent: 'space-between'
+								}}>
+								<View
+									style={{
+										display: 'flex',
+										flexDirection: 'row',
+										alignItems: 'center'
+									}}>
+									<Image
+										source={images.arrowLeft}
+										style={{
+											width: 10,
+											height: 20
+										}}
+									/>
+									<Text
+										style={{
+											fontFamily: 'Montserrat-SemiBold',
+											fontSize: 17,
+											lineHeight: 25,
+											color: '1E1E1F',
+											paddingLeft: 10
+										}}>
+										Изменение профиля
+									</Text>
+								</View>
+							</View>
+						</TouchableOpacity>
 					)
 				}}
 			/>
@@ -242,55 +292,6 @@ const MenuStack = () => {
 									}}>
 									Полезные ссылки
 								</Text>
-							</View>
-						</TouchableOpacity>
-					)
-				}}
-			/>
-			<Stack.Screen
-				name='UserInfo'
-				component={UserInfoScreen}
-				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Menu')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between'
-								}}>
-								<View
-									style={{
-										display: 'flex',
-										flexDirection: 'row',
-										alignItems: 'center'
-									}}>
-									<Image
-										source={images.arrowLeft}
-										style={{
-											width: 10,
-											height: 20
-										}}
-									/>
-									<Text
-										style={{
-											fontFamily: 'Montserrat-SemiBold',
-											fontSize: 17,
-											lineHeight: 25,
-											color: '1E1E1F',
-											paddingLeft: 10
-										}}>
-										Изменение профиля
-									</Text>
-								</View>
 							</View>
 						</TouchableOpacity>
 					)
@@ -697,8 +698,6 @@ const TabNavigator = () => {
 								name='bookmark'
 								size={size}
 								color={color}
-								width={25}
-								height={25}
 							/>
 						),
 						headerShown: false
@@ -709,13 +708,7 @@ const TabNavigator = () => {
 					component={ServicesStack}
 					options={{
 						tabBarIcon: ({ color, size }) => (
-							<Octicons
-								name='apps'
-								size={size}
-								color={color}
-								width={25}
-								height={25}
-							/>
+							<Octicons name='apps' size={size} color={color} />
 						),
 						headerShown: false
 					}}
@@ -730,8 +723,6 @@ const TabNavigator = () => {
 								name='calendar'
 								size={size}
 								color={color}
-								width={25}
-								height={25}
 							/>
 						)
 					}}
@@ -742,13 +733,7 @@ const TabNavigator = () => {
 					options={{
 						headerShown: false,
 						tabBarIcon: ({ color, size }) => (
-							<Ionicons
-								name='search'
-								size={size}
-								color={color}
-								width={25}
-								height={25}
-							/>
+							<Ionicons name='search' size={size} color={color} />
 						)
 					}}
 				/>
@@ -758,13 +743,7 @@ const TabNavigator = () => {
 					options={{
 						headerShown: false,
 						tabBarIcon: ({ color, size }) => (
-							<Feather
-								name='menu'
-								size={size}
-								color={color}
-								width={25}
-								height={25}
-							/>
+							<Feather name='menu' size={size} color={color} />
 						)
 					}}
 				/>

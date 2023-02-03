@@ -1,26 +1,23 @@
-import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
-import Entypo from "react-native-vector-icons/Entypo";
-import * as Animatable from "react-native-animatable";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {doc, deleteDoc} from "firebase/firestore";
+import Entypo from 'react-native-vector-icons/Entypo';
+import * as Animatable from 'react-native-animatable';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { doc, deleteDoc } from 'firebase/firestore';
 
-import {fs} from '../../../firebase'
+import { fs } from '../../../firebase';
 import { images } from '../../../assets/globalImages';
 import Avatar from './AvatarChat';
 
 const ChatHeader = () => {
 	const navigation = useNavigation();
-	const currentUser = auth().currentUser;
 	const route = useRoute();
-	const [image, setImage] = useState(null);
 	const [selectEdit, setSelectEdit] = useState(false);
-	
+
 	const deleteChat = async () => {
-		await deleteDoc(doc(fs, 'chats', route.params.chat.combinedId));
-	}
+		await deleteDoc(doc(fs, 'chats', route.params['chat'].combinedId));
+	};
 
 	return (
 		<View
@@ -36,12 +33,13 @@ const ChatHeader = () => {
 				justifyContent: 'space-between',
 				paddingHorizontal: 20
 			}}>
-			<View style={{
-				display: 'flex',
-				flexDirection: 'row',
-				alignItems: 'center',
-				justifyContent: 'space-between'
-			}}>
+			<View
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'space-between'
+				}}>
 				<TouchableOpacity onPress={() => navigation.goBack()}>
 					<Image
 						source={images.arrowLeft}
@@ -54,8 +52,9 @@ const ChatHeader = () => {
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() =>
+						// @ts-ignore
 						navigation.navigate('ContactInfo', {
-							user: route.params.userB
+							user: route.params['userB']
 						})
 					}>
 					<View
@@ -67,7 +66,7 @@ const ChatHeader = () => {
 						}}>
 						<Avatar
 							size={40}
-							image={String(route.params.userB.photoURL)}
+							image={String(route.params['userB'].photoURL)}
 						/>
 						<Text
 							style={{
@@ -76,8 +75,8 @@ const ChatHeader = () => {
 								lineHeight: 25,
 								color: '1E1E1F'
 							}}>
-							{route.params.userB?.profileName ||
-								route.params.userB?.displayName}
+							{route.params['userB']?.profileName ||
+								route.params['userB']?.displayName}
 						</Text>
 					</View>
 				</TouchableOpacity>
@@ -89,7 +88,7 @@ const ChatHeader = () => {
 					borderRadius: 50,
 					position: 'absolute',
 					right: 15,
-					top: 5,
+					top: 5
 				}}
 				onPress={() => setSelectEdit(!selectEdit)}>
 				<Entypo name='dots-three-vertical' size={20} />
@@ -117,9 +116,10 @@ const ChatHeader = () => {
 						}}
 						onPress={() => {
 							deleteChat().then(() => {
-								navigation.navigate('chats')
-								Alert.alert('Вы успешно удалили чат')
-							})
+								// @ts-ignore
+								navigation.navigate('chats');
+								Alert.alert('Вы успешно удалили чат');
+							});
 							setSelectEdit(false);
 						}}>
 						<MaterialCommunityIcons

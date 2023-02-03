@@ -11,19 +11,32 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {collection, doc, getDocs, onSnapshot, query, updateDoc, where, arrayRemove, arrayUnion} from 'firebase/firestore';
+import {
+	collection,
+	doc,
+	getDocs,
+	onSnapshot,
+	query,
+	updateDoc,
+	where,
+	arrayRemove,
+	arrayUnion
+} from 'firebase/firestore';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
 import { fs } from '../../../firebase';
-import {BlurView} from "@react-native-community/blur";
+import { BlurView } from '@react-native-community/blur';
 
 const { height } = Dimensions.get('screen');
 
 const UserInfoScreen = () => {
 	const { user } = useAuth();
+	const auth = getAuth();
+
 	const [group, setGroup] = useState('');
 	const [univ, setUniv] = useState('');
 	const [userName, setUserName] = useState('');
@@ -31,36 +44,44 @@ const UserInfoScreen = () => {
 	const [newImage, setNewImage] = useState(null);
 	const [existsParams, setExistsParams] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	
+	const [userProvider, setUserProvider] = useState('');
+
 	const [allChats, setAllChats] = useState([]);
 	const [curUser, setCurUser] = useState();
 
 	const [menuItems, setMenuItems] = useState([]);
 	const userRef = doc(fs, 'users', user.uid);
-	
+
+	useEffect(() => {
+		setUserProvider(user.providerData.map(d => String(d.providerId)));
+	}, [user]);
+
 	useEffect(() => {
 		(async () => {
 			const q = query(
 				collection(fs, 'users'),
 				where('email', '==', user.email)
 			);
-			
+
 			const querySnapshot = await getDocs(q);
 			querySnapshot.forEach(doc => {
 				setCurUser(doc.data());
 			});
-			
-			const qq = query(collection(fs, 'chats'), where('uids', 'array-contains', user.uid))
-			
+
+			const qq = query(
+				collection(fs, 'chats'),
+				where('uids', 'array-contains', user.uid)
+			);
+
 			await getDocs(qq).then(snapshot => {
 				const newData = snapshot.docs.map(doc => ({
 					...doc.data()
 				}));
 				setAllChats(newData);
 			});
-		})()
-	}, [])
-	
+		})();
+	}, []);
+
 	const fetchUserDataItems = () => {
 		return onSnapshot(userRef, doc => {
 			if (doc.data()) {
@@ -77,42 +98,56 @@ const UserInfoScreen = () => {
 		fetchUserDataItems();
 	}, []);
 
-	const handleUpdateGroup = async (group) => {
+	const handleUpdateGroup = async group => {
 		await updateDoc(userRef, {
 			group: group
 		});
 	};
-	const handleUpdateUniv = async (univ) => {
+	const handleUpdateUniv = async univ => {
 		await updateDoc(userRef, {
 			univ: univ
 		});
 	};
-	const handleUpdateName = async (userName) => {
+
+	const handleUpdatePassword = async email => {
+		sendPasswordResetEmail(auth, email)
+			.then(() => {
+				Alert.alert('Письмо со сменой пароля успешно отправлено');
+			})
+			.catch(error => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+
+				console.log(errorCode);
+				Alert.alert(errorMessage);
+			});
+	};
+	const handleUpdateName = async userName => {
 		try {
 			await updateDoc(userRef, {
 				profileName: userName
 			});
-			
-			allChats.map(async (chat) => {
-				console.log(curUser.profileName)
+
+			allChats.map(async chat => {
 				const uidsRef = doc(fs, 'chats', chat.combinedId);
 				await updateDoc(uidsRef, {
 					names: arrayRemove(curUser.profileName)
-				})
+				});
 				await updateDoc(uidsRef, {
 					names: arrayUnion(userName)
-				})
-			})
+				});
+			});
 		} catch (e) {
-			console.log(e)
+			console.log(e);
 		}
 	};
-	
+
 	const handleUpdateImage = async () => {
 		await updateDoc(userRef, {
 			photoURL: newImage
 		});
 	};
+
 	const handleProfilePicture = async () => {
 		const result = await pickImage();
 		if (!result.canceled) {
@@ -122,7 +157,7 @@ const UserInfoScreen = () => {
 	};
 
 	const handleUpdateProfile = async () => {
-		setIsLoading(true)
+		setIsLoading(true);
 		if (group !== '' && group !== ' ') {
 			handleUpdateGroup(group).then(() => setGroup(''));
 		}
@@ -135,34 +170,53 @@ const UserInfoScreen = () => {
 			handleUpdateName(userName).then(() => setUserName(''));
 		}
 
-		let photoURL;
-		if (newImage) {
-			const { url } = await uploadImage(
-				newImage,
-				`images/${user.uid}`,
-				'profilePicture'
-			);
-			photoURL = url;
+		if (newImage !== null) {
+			let photoUrl;
+			if (newImage) {
+				const { url } = await uploadImage(
+					newImage,
+					`images/${user.uid}`,
+					'profilePicture'
+				);
+				photoUrl = url;
+			}
+			const userData = {
+				photoURL: photoUrl
+			};
+			if (photoUrl) {
+				setImage(photoUrl);
+			}
+			try {
+				allChats.map(async chat => {
+					const uidsRef = doc(fs, 'chats', chat.combinedId);
+					await updateDoc(uidsRef, {
+						photos: arrayRemove(user.photoURL)
+					});
+					await updateDoc(uidsRef, {
+						photos: arrayUnion(photoUrl)
+					});
+				});
+			} catch (e) {
+				console.log(e);
+			}
+			await Promise.all([
+				user.updateProfile({ photoURL: photoUrl }),
+				newImage ? handleUpdateImage() : null,
+				updateDoc(doc(fs, 'users', user.uid), {
+					...userData
+				})
+			])
+				.then(() => {
+					console.log('good update');
+					setNewImage(null);
+					setIsLoading(false);
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
 		}
-		if (photoURL) {
-			setImage(photoURL);
-		}
-		const userData = {
-			photoURL
-		};
-		await Promise.all([
-			user.updateProfile(userData),
-			newImage ?
-				handleUpdateImage() : null
-		]).then(() => {
-			console.log('good update');
-			setNewImage(null);
-			setIsLoading(false)
-		}).finally(() => {
-			setIsLoading(false)
-		});
 	};
-	
+
 	useEffect(() => {
 		if (
 			(group !== '') |
@@ -375,6 +429,34 @@ const UserInfoScreen = () => {
 										value={userName}
 										onChangeText={text => setUserName(text)}
 									/>
+									{userProvider.includes('password') && (
+										<TouchableOpacity
+											onPress={() => {
+												handleUpdatePassword(
+													user.email
+												);
+											}}>
+											<View
+												style={{
+													padding: 17,
+													alignItems: 'center',
+													borderRadius: 16,
+													backgroundColor: '#1E1E1F',
+													marginBottom: 30
+												}}>
+												<Text
+													style={{
+														fontSize: 17,
+														lineHeight: 20,
+														color: '#FFFFFF',
+														fontFamily:
+															'Montserrat-SemiBold'
+													}}>
+													Изменить пароль
+												</Text>
+											</View>
+										</TouchableOpacity>
+									)}
 									<Text
 										style={{
 											fontFamily: 'Montserrat-SemiBold',
