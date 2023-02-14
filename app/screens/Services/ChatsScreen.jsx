@@ -19,6 +19,7 @@ import * as Animatable from 'react-native-animatable';
 
 import { fs } from '../../../firebase';
 import AvatarChat from '../../components/Chat/AvatarChat';
+import useFetchUserData from '../../hooks/useFetchUserData';
 
 const wait = timeout => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
@@ -29,49 +30,44 @@ const ChatsScreen = () => {
 	const [chats, setChats] = useState([]);
 	const [chatsFiltered, setChatsFiltered] = useState([]);
 	const navigation = useNavigation();
-	const [curUser, setCurUser] = useState(null);
 	const [usersB, setUsersB] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
 
+	const { userData } = useFetchUserData();
+
 	const fetchChats = async () => {
-		const qU = query(
-			collection(fs, 'users'),
-			where('email', '==', currentUser.email)
-		);
+		try {
+			const q1 = query(
+				collection(fs, 'users'),
+				where('email', '!=', currentUser.email)
+			);
+			await getDocs(q1).then(snapshot => {
+				const newData = snapshot.docs.map(doc => ({
+					...doc.data()
+				}));
+				setUsersB(newData);
+			});
 
-		const querySnapshot = await getDocs(qU);
-		querySnapshot.forEach(doc => {
-			setCurUser(doc.data());
-		});
+			const q = query(collection(fs, 'chats'));
 
-		const q1 = query(
-			collection(fs, 'users'),
-			where('email', '!=', currentUser.email)
-		);
-		await getDocs(q1).then(snapshot => {
-			const newData = snapshot.docs.map(doc => ({
-				...doc.data()
-			}));
-			setUsersB(newData);
-		});
+			const unsub = onSnapshot(q, snapshot => {
+				const chatDoc = snapshot.docs.map(doc => ({
+					...doc.data()
+				}));
+				setChats(chatDoc);
+			});
 
-		const q = query(collection(fs, 'chats'));
-
-		const unsub = onSnapshot(q, snapshot => {
-			const chatDoc = snapshot.docs.map(doc => ({
-				...doc.data()
-			}));
-			setChats(chatDoc);
-		});
-
-		return () => unsub();
+			return () => unsub();
+		} catch (e) {
+			console.error(e);
+		}
 	};
 
 	useEffect(() => {
-		fetchChats().then(() => console.log('Чаты загружены'));
+		fetchChats();
 
 		return () => setChats([]);
-	}, [currentUser, curUser?.profileName]);
+	}, [currentUser, userData?.profileName]);
 
 	useEffect(() => {
 		let fChats = chats.filter(c => c.uids.includes(currentUser.uid));
@@ -114,7 +110,7 @@ const ChatsScreen = () => {
 						<TouchableOpacity
 							onPress={async () => {
 								const chatUserUid = item.uids.filter(
-									uid => uid !== curUser?.uid
+									uid => uid !== userData?.uid
 								);
 
 								const filteredUser = await usersB.find(
@@ -171,7 +167,7 @@ const ChatsScreen = () => {
 												{item.names.filter(
 													name =>
 														name !==
-														curUser.profileName
+														userData?.profileName
 												)}
 											</Text>
 											<View

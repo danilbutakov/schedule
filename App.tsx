@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { LogBox, StatusBar, View } from 'react-native';
+import { LogBox, SafeAreaView, StatusBar, View } from 'react-native';
 import 'expo-dev-client';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { AuthProvider } from './app/hooks/useAuth';
 import { useFonts } from './app/hooks/useFonts';
-import { ChatContextProvider } from './app/utils/ChatContext';
 import { AppContextProvider } from './app/utils/Context';
 import StackNavigator from './StackNavigator';
+import useFetchUserData from './app/hooks/useFetchUserData';
 
 LogBox.ignoreLogs([
 	'Setting a timer',
@@ -43,18 +43,16 @@ const App = () => {
 	}
 
 	return (
-		<View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+		<SafeAreaView onLayout={onLayoutRootView} style={{ flex: 1 }}>
 			<AuthProvider>
 				<AppContextProvider>
-					<ChatContextProvider>
-						<NavigationContainer>
-							<StackNavigator />
-						</NavigationContainer>
-					</ChatContextProvider>
+					<NavigationContainer>
+						<StackNavigator />
+					</NavigationContainer>
 				</AppContextProvider>
 			</AuthProvider>
 			<StatusBar />
-		</View>
+		</SafeAreaView>
 	);
 };
 

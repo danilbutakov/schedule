@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import VuzInfo from '../components/userInfo/VuzInfo';
-import GroupInfo from '../components/userInfo/GroupInfo';
-import RoleInfo from '../components/userInfo/RoleInfo';
-import ProfileLogoInfo from '../components/userInfo/ProfileLogoInfo';
+import VuzInfo from '../components/UserInfo/VuzInfo';
+import GroupInfo from '../components/UserInfo/GroupInfo';
+import RoleInfo from '../components/UserInfo/RoleInfo';
+import ProfileLogoInfo from '../components/UserInfo/ProfileLogoInfo';
 import useFetchUserData from '../hooks/useFetchUserData';
 
 const UserData = () => {
@@ -17,11 +17,11 @@ const UserData = () => {
 	const [profileName, setProfileName] = useState('');
 	const [image, setImage] = useState(null);
 
-	const { userData } = useFetchUserData();
+	// const { userData } = useFetchUserData();
 
 	return (
 		<>
-			{userData === null && showUniv && (
+			{showUniv && (
 				<VuzInfo
 					setShowUniv={setShowUniv}
 					univ={univ}

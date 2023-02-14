@@ -10,7 +10,10 @@ const PaginationSlider = ({ data, currentDot }) => {
 						key={idx.toString()}
 						style={[
 							styles.dotsInactive,
-							currentDot === idx ? styles.dotsActive : {}
+							{
+								backgroundColor:
+									currentDot === idx ? '#1E1E1F' : '#ccc'
+							}
 						]}
 					/>
 				);
@@ -34,14 +37,6 @@ const styles = StyleSheet.create({
 		width: 12,
 		height: 12,
 		borderRadius: 6,
-		marginHorizontal: 3,
-		backgroundColor: '#ccc'
-	},
-	dotsActive: {
-		width: 12,
-		height: 12,
-		borderRadius: 6,
-		marginHorizontal: 3,
-		backgroundColor: '#1E1E1F'
+		marginHorizontal: 3
 	}
 });

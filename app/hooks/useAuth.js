@@ -5,12 +5,9 @@ import React, {
 	useMemo,
 	useState
 } from 'react';
-import { Alert } from 'react-native';
 import 'expo-dev-client';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-
-import useFetchUserData from './useFetchUserData';
 
 const AuthContext = createContext({});
 
@@ -19,8 +16,6 @@ export const AuthProvider = ({ children }) => {
 	const [initializing, setInitializing] = useState(true);
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const [userWithGoggle, setUserWithGoogle] = useState();
-	const { userData, setUserData } = useFetchUserData();
 
 	GoogleSignin.configure({
 		webClientId:
@@ -41,38 +36,35 @@ export const AuthProvider = ({ children }) => {
 
 	const onGoogleButtonPress = async () => {
 		setLoading(true);
-		// Check if your device supports Google Play
-		await GoogleSignin.hasPlayServices({
-			showPlayServicesUpdateDialog: true
-		});
-		// Get the users ID token
-		const { idToken } = await GoogleSignin.signIn();
-		// Create a Google credential with the token
-		const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-		// Sign-in the user with the credential
-		const userSignIn = auth().signInWithCredential(googleCredential);
 
-		userSignIn
-			.then(() => {
-				setUserWithGoogle(userSignIn);
-			})
-			.catch(error => {
-				Alert.alert(error.message);
-			})
-			.finally(() => setLoading(false));
+		try {
+			// Check if your device supports Google Play
+			await GoogleSignin.hasPlayServices({
+				showPlayServicesUpdateDialog: true
+			});
+			// Get the users ID token
+			const { idToken } = await GoogleSignin.signIn();
+			// Create a Google credential with the token
+			const googleCredential =
+				auth.GoogleAuthProvider.credential(idToken);
+			// Sign-in the user with the credential
+			await auth().signInWithCredential(googleCredential);
+		} catch (e) {
+			console.error(e);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const signOut = async () => {
 		setLoading(true);
 		try {
 			await GoogleSignin?.revokeAccess();
-			setUserData(null);
 		} catch (error) {
 			console.log(error.message, 'exit not work');
 		} finally {
 			setLoading(false);
 			await auth().signOut();
-			setUserData(null);
 		}
 	};
 
@@ -82,11 +74,9 @@ export const AuthProvider = ({ children }) => {
 			user,
 			setUser,
 			signOut,
-			userWithGoggle,
-			loading,
-			userData
+			loading
 		}),
-		[user, loading, userData]
+		[user, loading]
 	);
 
 	if (initializing) return null;

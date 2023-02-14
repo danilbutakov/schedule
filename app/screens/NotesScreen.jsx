@@ -6,7 +6,7 @@ import { AppContext } from '../utils/Context';
 const NotesScreen = () => {
 	const { notesDataScreen } = useContext(AppContext);
 
-	const [showNotes, setShowNotes] = useState();
+	const [showNotes, setShowNotes] = useState(false);
 
 	useEffect(() => {
 		if (notesDataScreen !== []) {
