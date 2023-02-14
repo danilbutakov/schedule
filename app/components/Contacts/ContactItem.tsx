@@ -45,9 +45,7 @@ const ContactItem = ({ user }) => {
 	};
 
 	useEffect(() => {
-		fetchCurrentUser().then(() => {
-			console.log(curUser.profileName);
-		});
+		fetchCurrentUser();
 	}, [currentUser, isLoading]);
 
 	useEffect(() => {
@@ -72,7 +70,6 @@ const ContactItem = ({ user }) => {
 			//создаем чаты юзеров
 			if (!res.exists()) {
 				fetchCurrentUser().then(async () => {
-					console.log(curUser.profileName);
 					setIsLoading(true);
 					//создаем чат в коллекции чатов
 					await setDoc(doc(fs, 'chats', combinedId), {

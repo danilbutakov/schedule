@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import React from 'react';
 import { useRoute } from '@react-navigation/native';
 
@@ -8,21 +8,36 @@ const ContactProfile = () => {
 
 	return (
 		<View style={styles.main}>
-			<View style={styles.mainInfo}>
-				<Text style={styles.mainText}>
-					{contact.role}, {contact.email}
-				</Text>
+			<View
+				style={{
+					width: '100%',
+					height: '70%',
+					paddingBottom: 15,
+					borderRadius: 16,
+					elevation: 40
+				}}>
+				<Image
+					source={{ uri: contact.photoURL }}
+					style={{ width: '100%', height: '100%', borderRadius: 16 }}
+				/>
 			</View>
-			<View>
+			<ScrollView>
 				<View style={styles.mainInfo}>
-					<Text style={styles.mainText}>ВУЗ: </Text>
-					<Text style={styles.secondText}>{contact.univ}</Text>
+					<Text style={styles.mainText}>
+						{contact.role}, {contact.email}
+					</Text>
 				</View>
-				<View style={styles.mainInfo}>
-					<Text style={styles.mainText}>Группа: </Text>
-					<Text style={styles.secondText}>{contact.group}</Text>
+				<View>
+					<View style={styles.mainInfo}>
+						<Text style={styles.mainText}>ВУЗ: </Text>
+						<Text style={styles.secondText}>{contact.univ}</Text>
+					</View>
+					<View style={styles.mainInfo}>
+						<Text style={styles.mainText}>Группа: </Text>
+						<Text style={styles.secondText}>{contact.group}</Text>
+					</View>
 				</View>
-			</View>
+			</ScrollView>
 		</View>
 	);
 };
@@ -31,7 +46,10 @@ export default ContactProfile;
 
 const styles = StyleSheet.create({
 	main: {
-		padding: 10
+		flex: 1,
+		padding: 10,
+		width: '100%',
+		height: '100%'
 	},
 	mainInfo: {
 		display: 'flex',

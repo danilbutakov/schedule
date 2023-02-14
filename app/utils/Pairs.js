@@ -1,56 +1,59 @@
 export const pairs = [
 	{
-		dayOfWeek: 'Понедельник',
-		date: '1 Сентября',
-		timeStart: '08:30',
-		timeEnd: '10:00',
-		time: '08:30-10:00',
-		type: 'Лабораторная',
-		name: 'Программирование',
-		teacher: 'Замятин В.М.',
-		classRoom: 'Д-508',
-		group: 1
-	},
-	{
+		typeWeek: 1,
 		dayOfWeek: 'Понедельник',
 		date: '1 Сентября',
 		timeStart: '10:10',
 		timeEnd: '11:40',
-		type: 'Лекция',
-		name: 'Программирование',
-		teacher: 'Димов А.В.',
-		classRoom: 'Д-521'
+		type: 'Лабораторная',
+		name: 'Проектирование человеко-машинного интерфейса',
+		teacher: 'Тирских В.В.',
+		classRoom: 'Д-503',
+		group: 2
 	},
 	{
+		typeWeek: 1,
 		dayOfWeek: 'Понедельник',
 		date: '1 Сентября',
 		timeStart: '12:10',
 		timeEnd: '13:40',
 		type: 'Практика',
-		name: 'ООП',
-		teacher: 'Молчанова Е.И.',
-		classRoom: 'Д-518'
+		name: 'Основы управленческой деятельности',
+		teacher: 'Кириллова Т.К.',
+		classRoom: 'Д-521'
 	},
 	{
+		typeWeek: 1,
 		dayOfWeek: 'Понедельник',
-		date: '25 Сентября',
-		timeStart: '13:50',
-		timeEnd: '15:20',
+		date: '1 Сентября',
+		timeStart: '12:10',
+		timeEnd: '13:40',
 		type: 'Лабораторная',
-		name: 'ООП',
-		teacher: 'Молчанова Е.И.',
-		classRoom: 'Д-501',
-		group: 2
+		name: 'Архитектура ЭВМ',
+		teacher: 'Кашковский В.В.',
+		classRoom: 'Д-505',
+		group: 1
 	},
 	{
-		dayOfWeek: 'Понедельник',
-		date: '25 Сентября',
-		timeStart: '15:30',
-		timeEnd: '17:00',
-		type: 'Лабораторная',
-		name: 'Программирование',
-		classRoom: 'Д-508',
-		teacher: 'Замятин В.М.',
-		group: 2
+		typeWeek: 1,
+		dayOfWeek: 'Вторник',
+		date: '1 Сентября',
+		timeStart: '10:10',
+		timeEnd: '11:40',
+		type: 'Практика',
+		name: 'Общая физическая подготовка',
+		teacher: 'Тирских В.В.',
+		classRoom: 'Изумруд'
+	},
+	{
+		typeWeek: 1,
+		dayOfWeek: 'Вторник',
+		date: '1 Сентября',
+		timeStart: '12:10',
+		timeEnd: '13:40',
+		type: 'Практика',
+		name: 'Математическая логика и теория алгоритмов',
+		teacher: 'Кириллова Т.К.',
+		classRoom: 'Г-212'
 	}
 ];

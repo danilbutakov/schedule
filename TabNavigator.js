@@ -1,19 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { Dimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-	createStackNavigator,
-	CardStyleInterpolators
-} from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import auth from '@react-native-firebase/auth';
 import Octicons from 'react-native-vector-icons/Octicons';
 import * as CardStyleInterpolates from '@react-navigation/stack/src/TransitionConfigs/CardStyleInterpolators';
-import { collection, getDocs, query, where } from 'firebase/firestore';
 
-import { images } from './assets/globalImages';
 import HomeScreen from './app/screens/Home/HomeScreen';
 import MenuScreen from './app/screens/Menu/MenuScreen';
 import Search from './app/screens/Search/Search';
@@ -21,7 +13,6 @@ import PairInfo from './app/screens/Home/PairInfo';
 import NotesScreen from './app/screens/NotesScreen';
 import LinksScreen from './app/screens/Menu/LinksScreen';
 import SchedScreen from './app/screens/Menu/SchedScreen';
-import UserInfo from './app/screens/Menu/UserInfoScreen';
 import PremiumScreen from './app/screens/Menu/PremiumScreen';
 import FAQScreen from './app/screens/Menu/FAQScreen';
 import SearchGroup from './app/screens/Search/SearchGroup';
@@ -32,8 +23,22 @@ import Chat from './app/screens/Services/Chat';
 import ChatHeader from './app/components/Chat/ChatHeader';
 import ContactProfile from './app/components/Contacts/ContactProfile';
 import ContactProfileHeader from './app/components/Contacts/ContactProfileHeader';
-import { fs } from './firebase';
 import UserInfoScreen from './app/screens/Menu/UserInfoScreen';
+import HomeHeader from './app/components/ScreensHeaders/HomeStack/HomeHeader';
+import InfoHeader from './app/components/ScreensHeaders/HomeStack/InfoHeader';
+import MenuHeader from './app/components/ScreensHeaders/MenuStack/MenuHeader';
+import UserInfoHeader from './app/components/ScreensHeaders/MenuStack/UserInfoHeader';
+import SchedHeader from './app/components/ScreensHeaders/MenuStack/SchedHeader';
+import LinksHeader from './app/components/ScreensHeaders/MenuStack/LinksHeader';
+import PremiumHeader from './app/components/ScreensHeaders/MenuStack/PremiumHeader';
+import FAQHeader from './app/components/ScreensHeaders/MenuStack/FAQHeader';
+import SearchHeader from './app/components/ScreensHeaders/SearchStack/SearchHeader';
+import SearchGroupHeader from './app/components/ScreensHeaders/SearchStack/SearchGroupHeader';
+import SearchAuditionHeader from './app/components/ScreensHeaders/SearchStack/SearchAuditionHeader';
+import SearchTeachersHeader from './app/components/ScreensHeaders/SearchStack/SearchTeachersHeader';
+import NotesHeader from './app/components/ScreensHeaders/NotesStack/NotesHeader';
+import useFetchUserData from './app/hooks/useFetchUserData';
+import ServicesHeader from './app/components/ScreensHeaders/ServicesStack/ServicesHeader';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -41,7 +46,6 @@ const Stack = createStackNavigator();
 const { width } = Dimensions.get('screen');
 
 const HomeStack = () => {
-	const navigation = useNavigation();
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -51,74 +55,14 @@ const HomeStack = () => {
 				name='Home'
 				component={HomeScreen}
 				options={{
-					header: () => (
-						<View
-							style={{
-								backgroundColor: '#F7F7F7'
-							}}>
-							<Text
-								style={{
-									fontFamily: 'Bai-Jamjuree',
-									fontSize: 23,
-									lineHeight: 32,
-									alignSelf: 'center',
-									color: '1E1E1F',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									width,
-									alignItems: 'center',
-									display: 'flex',
-									justifyContent: 'center',
-									textAlign: 'center',
-									marginTop: 10,
-									marginBottom: 5,
-									paddingBottom: 10
-								}}>
-								SCHEDULE
-							</Text>
-						</View>
-					)
+					header: props => <HomeHeader {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='Info'
 				component={PairInfo}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Home')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 16,
-										lineHeight: 24,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									Расписание
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <InfoHeader {...props} />
 				}}
 			/>
 		</Stack.Navigator>
@@ -126,7 +70,6 @@ const HomeStack = () => {
 };
 
 const MenuStack = () => {
-	const navigation = useNavigation();
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -136,247 +79,42 @@ const MenuStack = () => {
 				name='Menu'
 				component={MenuScreen}
 				options={{
-					header: () => (
-						<View
-							style={{
-								backgroundColor: '#F7F7F7'
-							}}>
-							<Text
-								style={{
-									fontFamily: 'Montserrat-SemiBold',
-									fontSize: 20,
-									lineHeight: 25,
-									alignSelf: 'center',
-									color: '1E1E1F',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									width,
-									alignItems: 'center',
-									display: 'flex',
-									justifyContent: 'center',
-									textAlign: 'left',
-									marginTop: 10,
-									marginBottom: 5,
-									paddingBottom: 10,
-									paddingLeft: 20
-								}}>
-								Профиль
-							</Text>
-						</View>
-					)
+					header: props => <MenuHeader width={width} {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='UserInfo'
 				component={UserInfoScreen}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Menu')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between'
-								}}>
-								<View
-									style={{
-										display: 'flex',
-										flexDirection: 'row',
-										alignItems: 'center'
-									}}>
-									<Image
-										source={images.arrowLeft}
-										style={{
-											width: 10,
-											height: 20
-										}}
-									/>
-									<Text
-										style={{
-											fontFamily: 'Montserrat-SemiBold',
-											fontSize: 17,
-											lineHeight: 25,
-											color: '1E1E1F',
-											paddingLeft: 10
-										}}>
-										Изменение профиля
-									</Text>
-								</View>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <UserInfoHeader {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='Sched'
 				component={SchedScreen}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Menu')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									Расписание звонков
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <SchedHeader {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='Links'
 				component={LinksScreen}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Menu')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									Полезные ссылки
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <LinksHeader {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='Premium'
 				component={PremiumScreen}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Menu')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									Schedule Premium
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <PremiumHeader {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='FAQ'
 				component={FAQScreen}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Menu')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									FAQ
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <FAQHeader {...props} />
 				}}
 			/>
 		</Stack.Navigator>
@@ -384,167 +122,37 @@ const MenuStack = () => {
 };
 
 const SearchStack = () => {
-	const navigation = useNavigation();
 	return (
 		<Stack.Navigator
 			screenOptions={{
-				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+				cardStyleInterpolator: CardStyleInterpolates.forHorizontalIOS
 			}}>
 			<Stack.Screen
 				name='Search'
 				component={Search}
 				options={{
-					header: () => (
-						<View
-							style={{
-								backgroundColor: '#F7F7F7'
-							}}>
-							<Text
-								style={{
-									fontFamily: 'Montserrat-SemiBold',
-									fontSize: 20,
-									lineHeight: 25,
-									alignSelf: 'center',
-									color: '1E1E1F',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									width,
-									alignItems: 'center',
-									display: 'flex',
-									justifyContent: 'center',
-									textAlign: 'left',
-									marginTop: 10,
-									marginBottom: 5,
-									paddingBottom: 10,
-									paddingLeft: 20
-								}}>
-								Поиск
-							</Text>
-						</View>
-					)
+					header: props => <SearchHeader width={width} {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='SearchGroup'
 				component={SearchGroup}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Search')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									Поиск
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <SearchGroupHeader {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='SearchAudition'
 				component={SearchAudition}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Search')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									Поиск
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <SearchAuditionHeader {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='SearchTeachers'
 				component={SearchTeachers}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							onPress={() => navigation.navigate('Search')}>
-							<View
-								style={{
-									backgroundColor: '#F7F7F7',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									marginTop: 10,
-									paddingBottom: 10,
-									paddingLeft: 20,
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center'
-								}}>
-								<Image
-									source={images.arrowLeft}
-									style={{
-										width: 10,
-										height: 20
-									}}
-								/>
-								<Text
-									style={{
-										fontFamily: 'Montserrat-SemiBold',
-										fontSize: 17,
-										lineHeight: 25,
-										color: '1E1E1F',
-										paddingLeft: 10
-									}}>
-									Поиск
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)
+					header: props => <SearchTeachersHeader {...props} />
 				}}
 			/>
 		</Stack.Navigator>
@@ -555,40 +163,13 @@ const NotesStack = () => {
 	return (
 		<Stack.Navigator
 			screenOptions={{
-				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+				cardStyleInterpolator: CardStyleInterpolates.forHorizontalIOS
 			}}>
 			<Stack.Screen
 				name='Notes'
 				component={NotesScreen}
 				options={{
-					header: () => (
-						<View
-							style={{
-								backgroundColor: '#F7F7F7'
-							}}>
-							<Text
-								style={{
-									fontFamily: 'Montserrat-SemiBold',
-									fontSize: 20,
-									lineHeight: 25,
-									alignSelf: 'center',
-									color: '1E1E1F',
-									borderBottomColor: 'rgba(60, 60, 67, 0.13)',
-									borderBottomWidth: 1,
-									width,
-									alignItems: 'center',
-									display: 'flex',
-									justifyContent: 'center',
-									textAlign: 'left',
-									marginTop: 10,
-									marginBottom: 5,
-									paddingBottom: 10,
-									paddingLeft: 20
-								}}>
-								Заметки
-							</Text>
-						</View>
-					)
+					header: props => <NotesHeader width={width} {...props} />
 				}}
 			/>
 		</Stack.Navigator>
@@ -596,26 +177,6 @@ const NotesStack = () => {
 };
 
 const ServicesStack = () => {
-	const currentUser = auth().currentUser;
-	const navigation = useNavigation();
-	const [curUser, setCurUser] = useState({});
-
-	const fetchCurrentUser = async () => {
-		const q = query(
-			collection(fs, 'users'),
-			where('email', '==', currentUser.email)
-		);
-
-		const querySnapshot = await getDocs(q);
-		querySnapshot.forEach(doc => {
-			setCurUser(doc.data());
-		});
-	};
-
-	useEffect(() => {
-		fetchCurrentUser();
-	}, [currentUser]);
-
 	return (
 		<Stack.Navigator
 			screenOptions={{
@@ -625,47 +186,15 @@ const ServicesStack = () => {
 				name='Services'
 				component={ServicesScreen}
 				options={{
-					header: () => (
-						<TouchableOpacity
-							style={{
-								backgroundColor: '#F7F7F7',
-								flexDirection: 'row',
-								alignItems: 'center',
-								paddingLeft: 15,
-								paddingVertical: 10
-							}}
-							onPress={() =>
-								navigation.navigate('ContactInfo', {
-									user: curUser
-								})
-							}>
-							<Image
-								style={{
-									width: 35,
-									height: 35,
-									borderRadius: 35
-								}}
-								source={{ uri: curUser.photoURL }}
-							/>
-							<Text
-								style={{
-									fontFamily: 'Montserrat-SemiBold',
-									fontSize: 20,
-									alignSelf: 'center',
-									color: '1E1E1F',
-									width,
-									paddingLeft: 15
-								}}>
-								Сервисы
-							</Text>
-						</TouchableOpacity>
-					)
+					header: props => <ServicesHeader width={width} {...props} />
 				}}
 			/>
 			<Stack.Screen
 				name='Chat'
 				component={Chat}
-				options={{ header: props => <ChatHeader {...props} /> }}
+				options={{
+					header: props => <ChatHeader {...props} />
+				}}
 			/>
 			<Stack.Screen
 				name='ContactInfo'

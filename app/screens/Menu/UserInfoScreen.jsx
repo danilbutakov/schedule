@@ -30,12 +30,14 @@ import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
 import { fs } from '../../../firebase';
 import { BlurView } from '@react-native-community/blur';
+import useFetchUserData from '../../hooks/useFetchUserData';
 
 const { height } = Dimensions.get('screen');
 
 const UserInfoScreen = () => {
 	const { user } = useAuth();
 	const auth = getAuth();
+	const { userData } = useFetchUserData();
 
 	const [group, setGroup] = useState('');
 	const [univ, setUniv] = useState('');
@@ -47,7 +49,6 @@ const UserInfoScreen = () => {
 	const [userProvider, setUserProvider] = useState('');
 
 	const [allChats, setAllChats] = useState([]);
-	const [curUser, setCurUser] = useState();
 
 	const [menuItems, setMenuItems] = useState([]);
 	const userRef = doc(fs, 'users', user.uid);
@@ -59,21 +60,11 @@ const UserInfoScreen = () => {
 	useEffect(() => {
 		(async () => {
 			const q = query(
-				collection(fs, 'users'),
-				where('email', '==', user.email)
-			);
-
-			const querySnapshot = await getDocs(q);
-			querySnapshot.forEach(doc => {
-				setCurUser(doc.data());
-			});
-
-			const qq = query(
 				collection(fs, 'chats'),
 				where('uids', 'array-contains', user.uid)
 			);
 
-			await getDocs(qq).then(snapshot => {
+			await getDocs(q).then(snapshot => {
 				const newData = snapshot.docs.map(doc => ({
 					...doc.data()
 				}));
@@ -131,7 +122,7 @@ const UserInfoScreen = () => {
 			allChats.map(async chat => {
 				const uidsRef = doc(fs, 'chats', chat.combinedId);
 				await updateDoc(uidsRef, {
-					names: arrayRemove(curUser.profileName)
+					names: arrayRemove(userData.profileName)
 				});
 				await updateDoc(uidsRef, {
 					names: arrayUnion(userName)
@@ -158,35 +149,45 @@ const UserInfoScreen = () => {
 
 	const handleUpdateProfile = async () => {
 		setIsLoading(true);
-		if (group !== '' && group !== ' ') {
-			handleUpdateGroup(group).then(() => setGroup(''));
-		}
-
-		if (univ !== '' && univ !== ' ') {
-			handleUpdateUniv(univ).then(() => setUniv(''));
-		}
-
-		if (userName !== '' && userName !== ' ') {
-			handleUpdateName(userName).then(() => setUserName(''));
-		}
-
-		if (newImage !== null) {
-			let photoUrl;
-			if (newImage) {
-				const { url } = await uploadImage(
-					newImage,
-					`images/${user.uid}`,
-					'profilePicture'
-				);
-				photoUrl = url;
+		try {
+			if (group !== '' && group !== ' ') {
+				handleUpdateGroup(group).then(() => {
+					setGroup('');
+				});
 			}
-			const userData = {
-				photoURL: photoUrl
-			};
-			if (photoUrl) {
-				setImage(photoUrl);
+
+			if (univ !== '' && univ !== ' ') {
+				handleUpdateUniv(univ).then(() => {
+					setUniv('');
+				});
 			}
-			try {
+
+			if (userName !== '' && userName !== ' ') {
+				handleUpdateName(userName)
+					.then(() => {
+						setUserName('');
+					})
+					.then(() => {
+						setIsLoading(false);
+					});
+			}
+
+			if (newImage !== null) {
+				let photoUrl;
+				if (newImage) {
+					const { url } = await uploadImage(
+						newImage,
+						`images/${user.uid}`,
+						'profilePicture'
+					);
+					photoUrl = url;
+				}
+				const userData = {
+					photoURL: photoUrl
+				};
+				if (photoUrl) {
+					setImage(photoUrl);
+				}
 				allChats.map(async chat => {
 					const uidsRef = doc(fs, 'chats', chat.combinedId);
 					await updateDoc(uidsRef, {
@@ -196,27 +197,22 @@ const UserInfoScreen = () => {
 						photos: arrayUnion(photoUrl)
 					});
 				});
-			} catch (e) {
-				console.log(e);
-			}
-			await Promise.all([
-				user.updateProfile({ photoURL: photoUrl }),
-				newImage ? handleUpdateImage() : null,
-				updateDoc(doc(fs, 'users', user.uid), {
-					...userData
-				})
-			])
-				.then(() => {
+				await Promise.all([
+					user.updateProfile({ photoURL: photoUrl }),
+					newImage ? handleUpdateImage() : null,
+					updateDoc(doc(fs, 'users', user.uid), {
+						...userData
+					})
+				]).then(() => {
 					console.log('good update');
 					setNewImage(null);
 					setIsLoading(false);
-				})
-				.finally(() => {
-					setIsLoading(false);
 				});
+			}
+		} catch (e) {
+			console.log(e);
 		}
 	};
-
 	useEffect(() => {
 		if (
 			(group !== '') |
@@ -308,16 +304,14 @@ const UserInfoScreen = () => {
 											display: 'flex',
 											paddingLeft: 10
 										}}
-										onPress={() => {
-											handleUpdateProfile()
-												.then(() =>
+										onPress={async () => {
+											await handleUpdateProfile().then(
+												() => {
 													Alert.alert(
 														'Вы успешно обновили профиль'
-													)
-												)
-												.catch(e =>
-													console.log(e.message)
-												);
+													);
+												}
+											);
 										}}>
 										<AntDesign
 											name='checkcircle'
@@ -501,8 +495,6 @@ const UserInfoScreen = () => {
 	);
 };
 
-export default UserInfoScreen;
-
 const styles = StyleSheet.create({
 	infoCon: {
 		marginTop: 10,
@@ -550,3 +542,4 @@ const styles = StyleSheet.create({
 		fontFamily: 'Montserrat-SemiBold'
 	}
 });
+export default UserInfoScreen;
