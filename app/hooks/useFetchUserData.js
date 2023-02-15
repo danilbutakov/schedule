@@ -8,27 +8,25 @@ const useFetchUserData = () => {
 	const [userData, setUserData] = useState(null);
 	const user = auth().currentUser;
 
-	useMemo(() => {
-		if (user) {
-			const userRef = doc(fs, 'users', user.uid);
-			return onSnapshot(userRef, doc => {
-				if (doc.data()) {
-					const data = doc.data();
-					if (data.uid === user.uid) {
-						setUserData(data);
-					}
-				} else {
-					setUserData(null);
+	const fetchData = async () => {
+		const userRef = await doc(fs, 'users', user.uid);
+		await onSnapshot(userRef, doc => {
+			if (doc.data()) {
+				const data = doc.data();
+				if (data.uid === user.uid) {
+					setUserData(data);
 				}
-			});
-		} else {
-			setUserData(null);
-		}
-	}, [user.uid]);
+			}
+		});
+	};
 
-	const saveUserDataToDevice = async userData => {
+	useMemo(() => {
+		fetchData();
+	}, [user]);
+
+	const saveUserDataToDevice = async data => {
 		try {
-			const stringifyUserData = JSON.stringify(userData);
+			const stringifyUserData = JSON.stringify(data);
 			await AsyncStorage.setItem('userData', stringifyUserData);
 		} catch (e) {
 			console.error(e);
@@ -37,9 +35,9 @@ const useFetchUserData = () => {
 
 	const getUserDataFromUserDevice = async () => {
 		try {
-			const userTodos = await AsyncStorage.getItem('userData');
-			if (userTodos !== null) {
-				setUserData(JSON.parse(userTodos));
+			const userDeviceData = await AsyncStorage.getItem('userData');
+			if (userDeviceData !== null) {
+				setUserData(JSON.parse(userDeviceData));
 			}
 		} catch (e) {
 			console.error(e);
@@ -47,12 +45,12 @@ const useFetchUserData = () => {
 	};
 
 	useEffect(() => {
-		getUserDataFromUserDevice();
-	}, []);
-
-	useEffect(() => {
 		saveUserDataToDevice(userData);
 	}, [userData]);
+
+	useEffect(() => {
+		getUserDataFromUserDevice();
+	}, []);
 
 	return { userData, setUserData };
 };

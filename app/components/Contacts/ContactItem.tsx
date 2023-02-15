@@ -24,33 +24,14 @@ import * as Animatable from 'react-native-animatable';
 import { fs } from '../../../firebase';
 import Avatar from './Avatar';
 import { BlurView } from '@react-native-community/blur';
+import useFetchUserData from '../../hooks/useFetchUserData';
 
 const ContactItem = ({ user }) => {
 	const navigation = useNavigation();
 	const date = new Date();
 	const currentUser = auth().currentUser;
-	const [curUser, setCurUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
-
-	const fetchCurrentUser = async () => {
-		const q = query(
-			collection(fs, 'users'),
-			where('email', '==', currentUser.email)
-		);
-
-		const querySnapshot = await getDocs(q);
-		querySnapshot.forEach(doc => {
-			setCurUser(doc.data());
-		});
-	};
-
-	useEffect(() => {
-		fetchCurrentUser();
-	}, [currentUser, isLoading]);
-
-	useEffect(() => {
-		fetchCurrentUser();
-	}, [curUser?.profileName]);
+	const { userData } = useFetchUserData();
 
 	const handleSelect = async (user: {
 		uid: string | number;
@@ -69,30 +50,23 @@ const ContactItem = ({ user }) => {
 
 			//создаем чаты юзеров
 			if (!res.exists()) {
-				fetchCurrentUser().then(async () => {
-					setIsLoading(true);
-					//создаем чат в коллекции чатов
-					await setDoc(doc(fs, 'chats', combinedId), {
-						messages: [],
-						uids: [currentUser.uid, user.uid],
-						names: [
-							user.displayName || user.profileName,
-							curUser.profileName
-						],
-						photos: [user.photoURL, currentUser.photoURL],
-						date: serverTimestamp(),
-						combinedId: combinedId
-					}).then(async () => {
-						const res = await getDoc(doc(fs, 'chats', combinedId));
-						const chat = res.data();
-						setIsLoading(false);
-
-						// @ts-ignore
-						navigation.navigate('Chat', { chat, userB: user });
-					});
+				setIsLoading(true);
+				//создаем чат в коллекции чатов
+				await setDoc(doc(fs, 'chats', combinedId), {
+					messages: [],
+					uids: [currentUser.uid, user.uid],
+					names: [user.profileName, userData?.profileName],
+					photos: [user.photoURL, currentUser.photoURL],
+					date: serverTimestamp(),
+					combinedId: combinedId
 				});
+
+				const res = await getDoc(doc(fs, 'chats', combinedId));
+				const chat = res.data();
+
+				// @ts-ignore
+				navigation.navigate('Chat', { chat, userB: user });
 			} else {
-				setIsLoading(false);
 				// @ts-ignore
 				navigation.navigate('Chat', { chat, userB: user });
 			}
