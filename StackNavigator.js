@@ -1,16 +1,18 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as CardStyleInterpolates from '@react-navigation/stack/src/TransitionConfigs/CardStyleInterpolators';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import TabNavigator from './TabNavigator';
 import useAuth from './app/hooks/useAuth';
 import OnBoard from './app/screens/OnBoard';
 import UserData from './app/screens/UserData';
+import useFetchUserData from './app/hooks/useFetchUserData';
 
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
-	const { user, userData } = useAuth();
+	const { user } = useAuth();
+	const { userData } = useFetchUserData();
+	console.log(userData);
 
 	return (
 		<Stack.Navigator

@@ -29,8 +29,6 @@ const MenuScreen = () => {
 	const [menuItems, setMenuItems] = useState([]);
 	const navigation = useNavigation();
 
-	const currentUser = auth().currentUser;
-
 	const fetchUserData = () => {
 		const userRef = doc(fs, 'users', user.uid);
 		return onSnapshot(userRef, doc => {

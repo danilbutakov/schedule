@@ -29,8 +29,8 @@ import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
 import { fs } from '../../../firebase';
-import { BlurView } from '@react-native-community/blur';
 import useFetchUserData from '../../hooks/useFetchUserData';
+import { BlurView } from '@react-native-community/blur';
 
 const { height } = Dimensions.get('screen');
 
@@ -119,15 +119,15 @@ const UserInfoScreen = () => {
 				profileName: userName
 			});
 
-			allChats.map(async chat => {
-				const uidsRef = doc(fs, 'chats', chat.combinedId);
+			for (const element of allChats) {
+				const uidsRef = doc(fs, 'chats', element.combinedId);
 				await updateDoc(uidsRef, {
 					names: arrayRemove(userData.profileName)
 				});
 				await updateDoc(uidsRef, {
 					names: arrayUnion(userName)
 				});
-			});
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -153,12 +153,14 @@ const UserInfoScreen = () => {
 			if (group !== '' && group !== ' ') {
 				handleUpdateGroup(group).then(() => {
 					setGroup('');
+					setIsLoading(false);
 				});
 			}
 
 			if (univ !== '' && univ !== ' ') {
 				handleUpdateUniv(univ).then(() => {
 					setUniv('');
+					setIsLoading(false);
 				});
 			}
 
@@ -169,10 +171,11 @@ const UserInfoScreen = () => {
 					})
 					.then(() => {
 						setIsLoading(false);
+						Alert.alert('Вы успешно обновили профиль');
 					});
 			}
 
-			if (newImage !== null) {
+			if (newImage !== null && newImage !== userData.photoURL) {
 				let photoUrl;
 				if (newImage) {
 					const { url } = await uploadImage(
@@ -188,15 +191,17 @@ const UserInfoScreen = () => {
 				if (photoUrl) {
 					setImage(photoUrl);
 				}
-				allChats.map(async chat => {
-					const uidsRef = doc(fs, 'chats', chat.combinedId);
+
+				for (const element of allChats) {
+					const uidsRef = doc(fs, 'chats', element.combinedId);
 					await updateDoc(uidsRef, {
 						photos: arrayRemove(user.photoURL)
 					});
 					await updateDoc(uidsRef, {
 						photos: arrayUnion(photoUrl)
 					});
-				});
+				}
+
 				await Promise.all([
 					user.updateProfile({ photoURL: photoUrl }),
 					newImage ? handleUpdateImage() : null,
@@ -207,12 +212,14 @@ const UserInfoScreen = () => {
 					console.log('good update');
 					setNewImage(null);
 					setIsLoading(false);
+					Alert.alert('Вы успешно обновили профиль');
 				});
 			}
 		} catch (e) {
 			console.log(e);
 		}
 	};
+
 	useEffect(() => {
 		if (
 			(group !== '') |
@@ -232,7 +239,8 @@ const UserInfoScreen = () => {
 				height,
 				backgroundColor: '#F7F7F7',
 				display: 'flex',
-				flexDirection: 'column'
+				flexDirection: 'column',
+				width: '100%'
 			}}>
 			<View
 				style={{
@@ -305,13 +313,11 @@ const UserInfoScreen = () => {
 											paddingLeft: 10
 										}}
 										onPress={async () => {
-											await handleUpdateProfile().then(
-												() => {
-													Alert.alert(
-														'Вы успешно обновили профиль'
-													);
-												}
-											);
+											try {
+												await handleUpdateProfile();
+											} catch (e) {
+												console.error(e);
+											}
 										}}>
 										<AntDesign
 											name='checkcircle'
@@ -347,20 +353,6 @@ const UserInfoScreen = () => {
 					borderTopRightRadius: 20
 				}}
 				elevation={3}>
-				{isLoading ? (
-					<>
-						<BlurView
-							style={styles.absolute}
-							blurType='light'
-							blurAmount={3}
-						/>
-						<ActivityIndicator
-							size='large'
-							color='#1E1E1F'
-							style={{ backgroundColor: '#F7F7F7' }}
-						/>
-					</>
-				) : null}
 				<FlatList
 					style={{ marginBottom: 10 }}
 					data={menuItems}
@@ -491,6 +483,20 @@ const UserInfoScreen = () => {
 					)}
 				/>
 			</View>
+			{isLoading ? (
+				<>
+					<BlurView
+						style={styles.absolute}
+						blurType='light'
+						blurAmount={1}>
+						<ActivityIndicator
+							size='large'
+							color='#1E1E1F'
+							style={{ backgroundColor: '#F7F7F710' }}
+						/>
+					</BlurView>
+				</>
+			) : null}
 		</View>
 	);
 };
@@ -540,6 +546,13 @@ const styles = StyleSheet.create({
 		lineHeight: 20,
 		color: '#FFFFFF',
 		fontFamily: 'Montserrat-SemiBold'
+	},
+	absolute: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
 	}
 });
 export default UserInfoScreen;

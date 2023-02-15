@@ -59,7 +59,6 @@ const ContactProfileHeader = () => {
 							marginLeft: 20,
 							alignItems: 'center'
 						}}>
-						<Avatar size={40} user={user} />
 						<Text
 							style={{
 								fontFamily: 'Montserrat-SemiBold',
