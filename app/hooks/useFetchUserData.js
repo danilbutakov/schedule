@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { fs } from '../../firebase';
 import auth from '@react-native-firebase/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { fs } from '../../firebase';
 
 const useFetchUserData = () => {
 	const [userData, setUserData] = useState(null);
@@ -13,46 +13,17 @@ const useFetchUserData = () => {
 		await onSnapshot(userRef, doc => {
 			if (doc.data()) {
 				const data = doc.data();
-				if (data.uid === user.uid) {
-					setUserData(data);
-				}
+				setUserData(data);
 			}
 		});
+		console.log('GOOD fetch DATA', userData);
 	};
 
 	useMemo(() => {
 		fetchData();
-	}, [user]);
-
-	const saveUserDataToDevice = async data => {
-		try {
-			const stringifyUserData = JSON.stringify(data);
-			await AsyncStorage.setItem('userData', stringifyUserData);
-		} catch (e) {
-			console.error(e);
-		}
-	};
-
-	const getUserDataFromUserDevice = async () => {
-		try {
-			const userDeviceData = await AsyncStorage.getItem('userData');
-			if (userDeviceData !== null) {
-				setUserData(JSON.parse(userDeviceData));
-			}
-		} catch (e) {
-			console.error(e);
-		}
-	};
-
-	useEffect(() => {
-		saveUserDataToDevice(userData);
-	}, [userData]);
-
-	useEffect(() => {
-		getUserDataFromUserDevice();
 	}, []);
 
-	return { userData, setUserData };
+	return { userData, setUserData, fetchData };
 };
 
 export default useFetchUserData;

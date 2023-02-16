@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { LogBox, SafeAreaView, StatusBar, View } from 'react-native';
+import { LogBox, SafeAreaView, StatusBar } from 'react-native';
 import 'expo-dev-client';
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -9,6 +9,7 @@ import { useFonts } from './app/hooks/useFonts';
 import { AppContextProvider } from './app/utils/Context';
 import StackNavigator from './StackNavigator';
 import useFetchUserData from './app/hooks/useFetchUserData';
+import { NativeBaseProvider } from 'native-base';
 
 LogBox.ignoreLogs([
 	'Setting a timer',
@@ -17,12 +18,14 @@ LogBox.ignoreLogs([
 
 const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
+	const { fetchData } = useFetchUserData();
 
 	useEffect(() => {
 		(async () => {
 			try {
 				await SplashScreen.preventAutoHideAsync();
 				await useFonts();
+				await fetchData();
 				await new Promise(resolve => setTimeout(resolve, 1000));
 			} catch (e) {
 				console.warn(e);
@@ -44,14 +47,16 @@ const App = () => {
 
 	return (
 		<SafeAreaView onLayout={onLayoutRootView} style={{ flex: 1 }}>
+			<StatusBar />
 			<AuthProvider>
 				<AppContextProvider>
 					<NavigationContainer>
-						<StackNavigator />
+						<NativeBaseProvider>
+							<StackNavigator />
+						</NativeBaseProvider>
 					</NavigationContainer>
 				</AppContextProvider>
 			</AuthProvider>
-			<StatusBar />
 		</SafeAreaView>
 	);
 };

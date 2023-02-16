@@ -51,6 +51,56 @@ const ProfileLogoInfo = ({
 		}
 	};
 
+	const createProfile = async () => {
+		if (profileName !== '' && image !== null) {
+			setIsLoading(true);
+			let photoURL;
+			if (image) {
+				const { url } = await uploadImage(
+					image,
+					`images/${user.uid}`,
+					'profilePicture'
+				);
+				photoURL = url;
+			}
+			const userData = {
+				profileName: profileName,
+				email: user.email,
+				univ: univ,
+				group: group,
+				role: role,
+				weekType: ''
+			};
+			if (photoURL) {
+				userData.photoURL = photoURL;
+			}
+			await Promise.all([
+				auth().currentUser.updateProfile(userData),
+				setDoc(doc(fs, 'users', user.uid), {
+					...userData,
+					uid: user.uid
+				})
+			])
+				.then(() => {
+					console.log('good authorized');
+					setIsLoading(false);
+
+					setProfileName('');
+				})
+				.catch(error => {
+					setIsLoading(false);
+					console.log(error);
+
+					setProfileName('');
+				})
+				.finally(() => {
+					setIsLoading(false);
+
+					setProfileName('');
+				});
+		}
+	};
+
 	return (
 		<DismissKeyboardView style={styles.containerKeyboard}>
 			<View style={styles.con}>
@@ -71,7 +121,9 @@ const ProfileLogoInfo = ({
 					) : null}
 					<TextInput
 						value={profileName}
-						onChangeText={profileName => setProfileName(profileName)}
+						onChangeText={profileName =>
+							setProfileName(profileName)
+						}
 						placeholder='Например Иван'
 						style={styles.inputVuz}
 					/>
@@ -94,7 +146,11 @@ const ProfileLogoInfo = ({
 							{image && (
 								<Image
 									source={{ uri: image }}
-									style={{ width: 150, height: 150, borderRadius: 100 }}
+									style={{
+										width: 150,
+										height: 150,
+										borderRadius: 100
+									}}
 								/>
 							)}
 						</View>
@@ -103,54 +159,7 @@ const ProfileLogoInfo = ({
 				</View>
 				<TouchableOpacity
 					style={styles.container}
-					onPress={async () => {
-						if (profileName !== '' && image !== null) {
-							setIsLoading(true);
-							let photoURL;
-							if (image) {
-								const { url } = await uploadImage(
-									image,
-									`images/${user.uid}`,
-									'profilePicture'
-								);
-								photoURL = url;
-							}
-							const userData = {
-								profileName: profileName,
-								email: user.email,
-								univ: univ,
-								group: group,
-								role: role
-							};
-							if (photoURL) {
-								userData.photoURL = photoURL;
-							}
-							await Promise.all([
-								auth().currentUser.updateProfile(userData),
-								setDoc(doc(fs, 'users', user.uid), {
-									...userData,
-									uid: user.uid
-								})
-							])
-								.then(() => {
-									console.log('good authorizez');
-									setIsLoading(false);
-
-									setProfileName('');
-								})
-								.catch(error => {
-									setIsLoading(false);
-									console.log(error);
-
-									setProfileName('');
-								})
-								.finally(() => {
-									setIsLoading(false);
-
-									setProfileName('');
-								});
-						}
-					}}>
+					onPress={createProfile}>
 					<View style={changeButton}>
 						<Text style={changeBtnText}>Продолжить</Text>
 					</View>
