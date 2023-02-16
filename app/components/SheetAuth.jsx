@@ -19,7 +19,8 @@ import Apple from '../../assets/images/Apple.svg';
 const { width } = Dimensions.get('screen');
 
 const SheetAuth = () => {
-	const { onGoogleButtonPress, setUser, loading, user, signOut } = useAuth();
+	const { onGoogleButtonPress, setUser, loading, user, signOut, setLoading } =
+		useAuth();
 	const currentUser = auth().currentUser;
 
 	const [register, setRegister] = useState(false);
@@ -169,6 +170,7 @@ const SheetAuth = () => {
 	};
 
 	const signIn = async () => {
+		setLoading(true);
 		if (
 			email === '' &&
 			email === ' ' &&
@@ -181,6 +183,7 @@ const SheetAuth = () => {
 			setTimeout(() => {
 				setIsError(false);
 			}, 3000);
+			setLoading(false);
 		}
 		if (
 			email !== '' &&
@@ -190,17 +193,20 @@ const SheetAuth = () => {
 			password !== ' ' &&
 			password.length >= 5
 		) {
-			auth()
-				.signInWithEmailAndPassword(email, password)
-				.catch(error => {
-					console.log(error);
-					Alert.alert('Неверный email или пароль');
-				});
+			try {
+				await auth().signInWithEmailAndPassword(email, password);
+			} catch (error) {
+				console.log(error);
+				Alert.alert('Неверный email или пароль');
+			} finally {
+				setLoading(false);
+			}
 		} else {
 			setIsError(true);
 			setTimeout(() => {
 				setIsError(false);
 			}, 3000);
+			setLoading(false);
 		}
 	};
 
@@ -231,8 +237,9 @@ const SheetAuth = () => {
 								flex: 0.85
 							}}>
 							Перейдите по ссылке в отправленном письме на вашу
-							почту: {user?.email}, чтобы подтвердить Email. {`\n`}Возможно
-							письмо может оказаться в папке «Спам».
+							почту: {user?.email}, чтобы подтвердить Email.{' '}
+							{`\n`}Возможно письмо может оказаться в папке
+							«Спам».
 						</Text>
 						<TouchableOpacity
 							onPress={() => {
