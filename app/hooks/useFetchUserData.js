@@ -16,7 +16,7 @@ const useFetchUserData = () => {
 				setUserData(data);
 			}
 		});
-		console.log('GOOD fetch DATA', userData);
+		// console.log('GOOD fetch DATA', userData);
 	};
 
 	useMemo(() => {

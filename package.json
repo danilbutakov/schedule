@@ -59,6 +59,7 @@
 		"react-native-reanimated": "^2.12.0",
 		"react-native-safe-area-context": "^4.4.1",
 		"react-native-screens": "^3.18.2",
+		"react-native-scroll-to-element": "^1.0.1",
 		"react-native-status-bar-height": "^2.6.0",
 		"react-native-svg": "^13.5.0",
 		"react-native-svg-transformer": "^1.0.0",
