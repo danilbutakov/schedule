@@ -41,3 +41,5 @@ export const uploadImage = async (uri, path, fName) => {
 
 	return { url, fileName };
 };
+
+export default new Refs();
