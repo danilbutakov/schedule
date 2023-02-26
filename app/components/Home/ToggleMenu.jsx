@@ -8,14 +8,10 @@ const ToggleMenu = ({ weekType, setWeekType, setToggleType }) => {
 		<Animated.View
 			entering={FadeInLeft}
 			exiting={FadeOutLeft.duration(300)}>
-			<View
-				style={[
-					styles.toggleAbsolute,
-					{ width: weekType === 'Знаменатель' ? 295 : 275 }
-				]}>
+			<View style={styles.toggleAbsolute}>
 				<TouchableOpacity
-					onPress={() => {
-						setWeekType('Числитель');
+					onPress={async () => {
+						await setWeekType('Числитель');
 						setToggleType(false);
 					}}
 					style={{
@@ -41,8 +37,8 @@ const ToggleMenu = ({ weekType, setWeekType, setToggleType }) => {
 						height: 1
 					}}></View>
 				<TouchableOpacity
-					onPress={() => {
-						setWeekType('Знаменатель');
+					onPress={async () => {
+						await setWeekType('Знаменатель');
 						setToggleType(false);
 					}}
 					style={{
@@ -76,7 +72,7 @@ const styles = StyleSheet.create({
 		left: 11,
 		top: -190,
 		backgroundColor: '#d1d1d1',
-		width: 275,
+		width: 300,
 		borderRadius: 10,
 		display: 'flex',
 		flexDirection: 'column'

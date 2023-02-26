@@ -17,6 +17,7 @@ import { pickImage, uploadImage } from '../../utils/Functions';
 import { doc, setDoc } from 'firebase/firestore';
 import useAuth from '../../hooks/useAuth';
 import { DismissKeyboardView } from '../../hooks/HideKeyBoard';
+import { useNavigation } from '@react-navigation/native';
 
 const { height } = Dimensions.get('screen');
 
@@ -33,6 +34,7 @@ const ProfileLogoInfo = ({
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
 	const [isLoading, setIsLoading] = useState(false);
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		if (profileName !== '' && image) {
@@ -84,7 +86,7 @@ const ProfileLogoInfo = ({
 				.then(() => {
 					console.log('good authorized');
 					setIsLoading(false);
-
+					navigation.navigate('Home');
 					setProfileName('');
 				})
 				.catch(error => {
