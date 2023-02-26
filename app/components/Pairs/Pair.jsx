@@ -1,12 +1,21 @@
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+	Text,
+	TouchableOpacity,
+	View,
+	StyleSheet,
+	Dimensions
+} from 'react-native';
 import React, { useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { AppContext } from '../../utils/Context';
+export const SLIDER_WIDTH = Dimensions.get('window').width + 80;
+export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
 
 const Pair = ({ pair, index, pairs }) => {
 	const navigation = useNavigation();
 	const { setHandleClickPair } = useContext(AppContext);
+
 	return (
 		<TouchableOpacity
 			key={index}

@@ -13,6 +13,8 @@ const StackNavigator = () => {
 	const { user } = useAuth();
 	const { userData } = useFetchUserData();
 
+	console.log(userData);
+
 	return (
 		<Stack.Navigator
 			screenOptions={{

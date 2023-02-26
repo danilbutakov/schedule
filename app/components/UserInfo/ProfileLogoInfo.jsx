@@ -18,6 +18,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import useAuth from '../../hooks/useAuth';
 import { DismissKeyboardView } from '../../hooks/HideKeyBoard';
 import { useNavigation } from '@react-navigation/native';
+import useFetchUserData from '../../hooks/useFetchUserData';
 
 const { height } = Dimensions.get('screen');
 
@@ -34,7 +35,7 @@ const ProfileLogoInfo = ({
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
 	const [isLoading, setIsLoading] = useState(false);
-	const navigation = useNavigation();
+	const { fetchData } = useFetchUserData();
 
 	useEffect(() => {
 		if (profileName !== '' && image) {
@@ -70,36 +71,34 @@ const ProfileLogoInfo = ({
 				email: user.email,
 				univ: univ,
 				group: group,
-				role: role,
-				weekType: ''
+				role: role
 			};
 			if (photoURL) {
 				userData.photoURL = photoURL;
 			}
-			await Promise.all([
-				auth().currentUser.updateProfile(userData),
-				setDoc(doc(fs, 'users', user.uid), {
+			try {
+				await auth().currentUser.updateProfile(userData);
+				await setDoc(doc(fs, 'users', user.uid), {
 					...userData,
 					uid: user.uid
-				})
-			])
-				.then(() => {
+				}).then(() => {
 					console.log('good authorized');
-					setIsLoading(false);
-					navigation.navigate('Home');
-					setProfileName('');
-				})
-				.catch(error => {
-					setIsLoading(false);
-					console.log(error);
-
-					setProfileName('');
-				})
-				.finally(() => {
 					setIsLoading(false);
 
 					setProfileName('');
 				});
+			} catch (e) {
+				console.error(e);
+				setIsLoading(false);
+				console.log(error);
+
+				setProfileName('');
+			} finally {
+				setIsLoading(false);
+				fetchData();
+
+				setProfileName('');
+			}
 		}
 	};
 
