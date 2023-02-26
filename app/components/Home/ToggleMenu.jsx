@@ -5,9 +5,7 @@ import React from 'react';
 
 const ToggleMenu = ({ weekType, setWeekType, setToggleType }) => {
 	return (
-		<Animated.View
-			entering={FadeInLeft}
-			exiting={FadeOutLeft.duration(300)}>
+		<Animated.View entering={FadeInLeft} exiting={FadeOutLeft}>
 			<View style={styles.toggleAbsolute}>
 				<TouchableOpacity
 					onPress={async () => {
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
 		left: 11,
 		top: -190,
 		backgroundColor: '#d1d1d1',
-		width: 300,
+		width: 320,
 		borderRadius: 10,
 		display: 'flex',
 		flexDirection: 'column'

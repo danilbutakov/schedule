@@ -1,7 +1,7 @@
 import { FlatList, View, Text, Image } from 'react-native';
 
-import Pair from './Pair';
 import { images } from '../../../assets/globalImages';
+import Pair from '../../components/Pairs/Pair';
 
 const Pairs = ({ pairs }) => {
 	return (

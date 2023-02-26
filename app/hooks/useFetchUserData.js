@@ -14,6 +14,8 @@ const useFetchUserData = () => {
 			if (doc.data()) {
 				const data = doc.data();
 				setUserData(data);
+			} else {
+				setUserData(null);
 			}
 		});
 		// console.log('GOOD fetch DATA', userData);

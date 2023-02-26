@@ -4,7 +4,8 @@ import {
 	SafeAreaView,
 	Text,
 	TouchableOpacity,
-	FlatList
+	FlatList,
+	Dimensions
 } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,6 +14,11 @@ import Pairs from '../../components/Pairs/Pairs';
 import { pairs } from '../../utils/Pairs';
 import { MemoizedToggleMenu } from '../../components/Home/ToggleMenu';
 import { weekTabs } from '../../utils/WeekDays';
+import Carousel from 'react-native-snap-carousel';
+
+export const SCREEN_WIDTH = Dimensions.get('window').width;
+export const CAROUSEL_VERTICAL_OUTPUT = 30;
+export const CAROUSEL_ITEM_WIDTH = SCREEN_WIDTH - CAROUSEL_VERTICAL_OUTPUT;
 
 const HomeScreen = () => {
 	const [toggleType, setToggleType] = useState(null);
@@ -24,29 +30,7 @@ const HomeScreen = () => {
 
 	const ref = useRef(null);
 
-	const getWeekDay = () => {
-		const d = new Date();
-		let day = d.getDay();
-
-		let currentDate = new Date();
-		let startDate = new Date(currentDate.getFullYear(), 0, 1);
-		let days = Math.floor(
-			// @ts-ignore
-			(currentDate - startDate) / (24 * 60 * 60 * 1000)
-		);
-		let weekNumber = Math.ceil(days / 7);
-
-		if (weekNumber % 2) {
-			setWeekType('Числитель');
-			setActiveWeekType('Числитель');
-		} else {
-			setWeekType('Знаменатель');
-			setActiveWeekType('Знаменатель');
-		}
-
-		setActive(day);
-		setIndex(day);
-
+	const handleActiveDay = index => {
 		if (index === 1) {
 			setActiveDay('Понедельник');
 		} else if (index === 2) {
@@ -64,6 +48,35 @@ const HomeScreen = () => {
 		}
 	};
 
+	const getWeekDay = async () => {
+		try {
+			const d = new Date();
+			let day = d.getDay();
+
+			let currentDate = new Date();
+			let startDate = new Date(currentDate.getFullYear(), 0, 1);
+			let days = Math.floor(
+				// @ts-ignore
+				(currentDate - startDate) / (24 * 60 * 60 * 1000)
+			);
+			let weekNumber = Math.ceil(days / 7);
+
+			if (weekNumber % 2) {
+				setWeekType('Числитель');
+				setActiveWeekType('Числитель');
+			} else {
+				setWeekType('Знаменатель');
+				setActiveWeekType('Знаменатель');
+			}
+
+			setActive(day);
+			setIndex(day);
+			handleActiveDay(day);
+		} catch (e) {
+			console.error(e);
+		}
+	};
+
 	const onClickDay = id => {
 		setActive(id);
 	};
@@ -78,7 +91,16 @@ const HomeScreen = () => {
 			animated: true,
 			viewPosition: 1
 		});
-	}, [index]);
+	}, [index, activeDay, active]);
+
+	const renderItem = () => (
+		<Pairs
+			pairs={pairs.filter(
+				pair =>
+					pair.dayOfWeek === activeDay && weekType === pair.typeWeek
+			)}
+		/>
+	);
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
@@ -94,7 +116,9 @@ const HomeScreen = () => {
 							marginBottom: 10,
 							height: 50
 						}}
-						initialScrollIndex={index === 0 ? 6 : index}
+						initialScrollIndex={
+							index === 0 ? 6 : index === 1 ? 0 : index
+						}
 						onScrollToIndexFailed={() => {
 							return 0;
 						}}
@@ -114,12 +138,23 @@ const HomeScreen = () => {
 				</View>
 			</View>
 			<View style={styles.main}>
-				<Pairs
-					pairs={pairs.filter(
-						pair =>
-							pair.dayOfWeek === activeDay &&
-							weekType === pair.typeWeek
-					)}
+				<Carousel
+					data={weekTabs}
+					renderItem={renderItem}
+					onScrollIndexChanged={index => {
+						if (index === 6) {
+							setActive(0);
+							setIndex(0);
+							handleActiveDay(0);
+						} else {
+							setActive(index + 1);
+							setIndex(index + 1);
+							handleActiveDay(index + 1);
+						}
+					}}
+					sliderWidth={SCREEN_WIDTH}
+					itemWidth={CAROUSEL_ITEM_WIDTH}
+					vertical={false}
 				/>
 			</View>
 			{toggleType && (
@@ -153,7 +188,8 @@ const HomeScreen = () => {
 							: weekType}
 					</Text>
 					<Text style={styles.textLength}>
-						{pairs.filter(day => weekType === day.typeWeek).length}
+						({pairs.filter(day => weekType === day.typeWeek).length}{' '}
+						пар)
 					</Text>
 				</View>
 			</TouchableOpacity>
@@ -194,7 +230,6 @@ const styles = StyleSheet.create({
 	main: {
 		display: 'flex',
 		flexDirection: 'column',
-		paddingHorizontal: 12,
 		paddingTop: 12,
 		backgroundColor: '#F7F7F7',
 		flex: 1
@@ -210,7 +245,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1F1F1E',
 		borderRadius: 8,
 		alignItems: 'center',
-		width: 300
+		width: 320
 	},
 	text: {
 		fontFamily: 'Montserrat-Medium',
