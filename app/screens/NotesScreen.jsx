@@ -14,7 +14,7 @@ const NotesScreen = () => {
 		} else {
 			setShowNotes(false);
 		}
-	});
+	}, []);
 
 	return (
 		<View style={{ backgroundColor: '#F7F7F7', height: '100%' }}>
