@@ -17,7 +17,6 @@ import { pickImage, uploadImage } from '../../utils/Functions';
 import { doc, setDoc } from 'firebase/firestore';
 import useAuth from '../../hooks/useAuth';
 import { DismissKeyboardView } from '../../hooks/HideKeyBoard';
-import { useNavigation } from '@react-navigation/native';
 import useFetchUserData from '../../hooks/useFetchUserData';
 
 const { height } = Dimensions.get('screen');
@@ -90,7 +89,6 @@ const ProfileLogoInfo = ({
 			} catch (e) {
 				console.error(e);
 				setIsLoading(false);
-				console.log(error);
 
 				setProfileName('');
 			} finally {

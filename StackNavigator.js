@@ -1,4 +1,4 @@
-import react, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as CardStyleInterpolates from '@react-navigation/stack/src/TransitionConfigs/CardStyleInterpolators';
 
@@ -16,7 +16,7 @@ const StackNavigator = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [user, userData]);
 
 	return (
 		<Stack.Navigator
@@ -28,6 +28,15 @@ const StackNavigator = () => {
 					elevation: 0
 				}
 			}}>
+			{user && userData !== null && user.emailVerified === true && (
+				<Stack.Screen
+					name='Stack'
+					component={TabNavigator}
+					options={{
+						headerShown: false
+					}}
+				/>
+			)}
 			{user && userData === null && user.emailVerified === true && (
 				<Stack.Screen
 					name='UserData'
@@ -37,23 +46,13 @@ const StackNavigator = () => {
 					}}
 				/>
 			)}
-			{user && userData !== null && user.emailVerified === true && (
-				<>
-					<Stack.Screen
-						name='Stack'
-						component={TabNavigator}
-						options={{
-							headerShown: false
-						}}
-					/>
-				</>
-			)}
 			{!user ? (
 				<Stack.Screen
 					name='OnBoard'
 					options={{
 						headerShown: false,
-						cardStyleInterpolator: CardStyleInterpolates.forHorizontalIOS
+						cardStyleInterpolator:
+							CardStyleInterpolates.forHorizontalIOS
 					}}
 					component={OnBoard}
 				/>
@@ -63,7 +62,8 @@ const StackNavigator = () => {
 					name='OnBoard'
 					options={{
 						headerShown: false,
-						cardStyleInterpolator: CardStyleInterpolates.forHorizontalIOS
+						cardStyleInterpolator:
+							CardStyleInterpolates.forHorizontalIOS
 					}}
 					component={OnBoard}
 				/>
