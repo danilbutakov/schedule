@@ -1,5 +1,4 @@
 import {
-	Alert,
 	Dimensions,
 	Keyboard,
 	StyleSheet,
@@ -7,18 +6,24 @@ import {
 	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
-	View
+	View,
+	ScrollView
 } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { onValue, ref, remove, set } from 'firebase/database';
 
 import Plus from '../../../assets/images/plus.svg';
 import Minus from '../../../assets/images/minus.svg';
-import Delete from '../../../assets/images/delete.svg';
 import { AppContext } from '../../utils/Context';
 import useAuth from '../../hooks/useAuth';
 import { db } from '../../../firebase';
+import { fs } from '../../../firebase';
+import {
+	collection,
+	getDocs,
+	setDoc,
+	doc,
+	updateDoc
+} from 'firebase/firestore';
 
 const { height } = Dimensions.get('screen');
 
@@ -32,8 +37,7 @@ const DismissKeyboardHOC = Comp => {
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 const PairInfo = () => {
-	const { handleClickPair, notes, setNotes, setNotesDataScreen } =
-		useContext(AppContext);
+	const { handleClickPair, notes, setNotes } = useContext(AppContext);
 
 	const [showNotes, setShowNotes] = useState(false);
 	const [showInfo, setShowInfo] = useState(true);
@@ -42,81 +46,50 @@ const PairInfo = () => {
 
 	const [note, setNote] = useState('');
 
+	console.log(notes);
+
 	//read from database
 	useEffect(() => {
-		if (user) {
-			onValue(
-				ref(
-					db,
-					'users/' +
-						user.uid +
-						'/' +
-						'notes/' +
-						handleClickPair.pair.date +
-						'/' +
-						handleClickPair.pair.dayOfWeek +
-						'/' +
-						handleClickPair.pair.type +
-						'/' +
-						handleClickPair.pair.name +
-						'/' +
-						handleClickPair.pair.group +
-						` group/`
-				),
-				snapshot => {
-					setNotes([]);
-					setNotesDataScreen([]);
-					const data = snapshot.val();
-					if (data !== null) {
-						Object.values(data).map(note => {
-							setNotes(oldArray => [...oldArray, note]);
-							setNotesDataScreen(oldArray => [...oldArray, note]);
-						});
-					}
-				}
-			);
-		}
-	}, []);
+		(async () => {
+			const querySnapshot = await getDocs(collection(fs, 'notes'));
+			querySnapshot.forEach(doc => {
+				setNotes([doc.data()]);
+			});
+		})();
+	}, [note]);
 
 	const createdAt = Date.now();
 
 	//write to database
-	const writeToDataBase = () => {
-		set(
-			ref(
-				db,
-				'users/' +
-					user.uid +
-					'/' +
-					'notes/' +
-					handleClickPair.pair.date +
-					'/' +
-					handleClickPair.pair.dayOfWeek +
-					'/' +
-					handleClickPair.pair.type +
-					'/' +
-					handleClickPair.pair.name +
-					'/' +
-					handleClickPair.pair.group +
-					` group/${createdAt}`
-			),
-			{
-				date: handleClickPair.pair.date,
-				createdAt: createdAt,
-				noteData: {
-					type: handleClickPair.pair.type,
-					name: handleClickPair.pair.name,
-					noteData1: {
-						dayOfWeek: handleClickPair.pair.dayOfWeek,
-						note,
-						group: handleClickPair.pair.group
-					}
-				}
+	const writeToDataBase = async () => {
+		const data = {
+			date: handleClickPair.pair.date,
+			createdAt: createdAt,
+			noteData: {
+				type: handleClickPair.pair.type,
+				name: handleClickPair.pair.name,
+				dayOfWeek: handleClickPair.pair.dayOfWeek,
+				note
+			},
+			uid: user.uid
+		};
+		if (notes === []) {
+			try {
+				await setDoc(doc(fs, 'notes', user.uid), {
+					createdAt: [data]
+				}).then(() => {
+					console.log('good add note');
+				});
+			} catch (e) {
+				console.error(e);
+			} finally {
+				setNote('');
 			}
-		);
-
-		//clear the input
-		setNote('');
+		} else {
+			await updateDoc(doc(fs, 'notes', user.uid), {
+				createdAt: [data]
+			});
+		}
 	};
 
 	// delete from note from database
@@ -221,7 +194,7 @@ const PairInfo = () => {
 				</View>
 				{showInfo && (
 					<ScrollView style={{ flex: 1, marginBottom: 110 }}>
-						{notes.map((note, key) => (
+						{/* {notes.map((note, key) => (
 							<View style={styles.addInfoConNotes} key={key}>
 								<View style={styles.inf}>
 									<Text style={styles.infText}>
@@ -257,7 +230,7 @@ const PairInfo = () => {
 								</View>
 								<View style={styles.downLine}></View>
 							</View>
-						))}
+						))} */}
 					</ScrollView>
 				)}
 			</View>

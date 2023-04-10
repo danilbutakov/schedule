@@ -6,18 +6,9 @@ import {
 	StyleSheet
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {
-	collection,
-	doc,
-	getDoc,
-	getDocs,
-	query,
-	serverTimestamp,
-	setDoc,
-	where
-} from 'firebase/firestore';
+import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 

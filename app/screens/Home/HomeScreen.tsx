@@ -4,21 +4,15 @@ import {
 	SafeAreaView,
 	Text,
 	TouchableOpacity,
-	FlatList,
-	Dimensions
+	FlatList
 } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Pairs from '../../components/Pairs/Pairs';
 import { pairs } from '../../utils/Pairs';
 import { MemoizedToggleMenu } from '../../components/Home/ToggleMenu';
 import { weekTabs } from '../../utils/WeekDays';
-import Carousel from 'react-native-snap-carousel';
-
-export const SCREEN_WIDTH = Dimensions.get('window').width;
-export const CAROUSEL_VERTICAL_OUTPUT = 30;
-export const CAROUSEL_ITEM_WIDTH = SCREEN_WIDTH - CAROUSEL_VERTICAL_OUTPUT;
+import Pairs from '../../components/Pairs/Pairs';
 
 const HomeScreen = () => {
 	const [toggleType, setToggleType] = useState(null);
@@ -26,11 +20,12 @@ const HomeScreen = () => {
 	const [activeWeekType, setActiveWeekType] = useState('');
 	const [active, setActive] = useState(null);
 	const [activeDay, setActiveDay] = useState('');
-	const [index, setIndex] = useState(0);
+	const [index, setIndex] = useState(null);
+	const [filteredPairs, setFilteredPairs] = useState([]);
 
 	const ref = useRef(null);
 
-	const handleActiveDay = index => {
+	const handleActiveDay = (index: number) => {
 		if (index === 1) {
 			setActiveDay('Понедельник');
 		} else if (index === 2) {
@@ -43,7 +38,7 @@ const HomeScreen = () => {
 			setActiveDay('Пятница');
 		} else if (index === 6) {
 			setActiveDay('Суббота');
-		} else if (index === 0) {
+		} else if (index === 7) {
 			setActiveDay('Воскресенье');
 		}
 	};
@@ -72,14 +67,25 @@ const HomeScreen = () => {
 			setActive(day);
 			setIndex(day);
 			handleActiveDay(day);
+			setFilteredPairs(
+				pairs.map(arr => arr.filter(pair => pair.typeWeek === weekType))
+			);
 		} catch (e) {
 			console.error(e);
 		}
 	};
 
-	const onClickDay = id => {
+	const onClickDay = (id: number) => {
 		setActive(id);
 	};
+
+	useEffect(() => {
+		(async () => {
+			setFilteredPairs(
+				pairs.map(arr => arr.filter(pair => pair.typeWeek === weekType))
+			);
+		})();
+	}, [weekType]);
 
 	useEffect(() => {
 		getWeekDay();
@@ -87,74 +93,88 @@ const HomeScreen = () => {
 
 	useEffect(() => {
 		ref.current?.scrollToIndex({
-			index: index === 0 ? 6 : index,
+			index: index === 7 ? 6 : index,
 			animated: true,
 			viewPosition: 1
 		});
 	}, [index, activeDay, active]);
 
-	const renderItem = () => (
-		<Pairs
-			pairs={pairs.filter(
-				pair =>
-					pair.dayOfWeek === activeDay && weekType === pair.typeWeek
-			)}
-		/>
-	);
-
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<View style={{ backgroundColor: '#F7F7F7' }}>
-				<View
+				<FlatList
 					style={{
-						marginHorizontal: 15
-					}}>
-					<FlatList
-						style={{
-							flexDirection: 'row',
-							marginTop: 10,
-							marginBottom: 10,
-							height: 50
-						}}
-						initialScrollIndex={
-							index === 0 ? 6 : index === 1 ? 0 : index
-						}
-						onScrollToIndexFailed={() => {
-							return 0;
-						}}
-						ref={ref}
-						horizontal={true}
-						data={weekTabs}
-						renderItem={({ item }) => (
-							<WeekItem
-								active={active}
-								day={item}
-								onClickDay={onClickDay}
-								setIndex={setIndex}
-								setActiveDay={setActiveDay}
-							/>
-						)}
-					/>
-				</View>
+						flexDirection: 'row',
+						marginTop: 5
+					}}
+					initialScrollIndex={index}
+					onScrollToIndexFailed={() => {
+						return 0;
+					}}
+					ref={ref}
+					horizontal
+					data={weekTabs}
+					renderItem={({ item }) => (
+						<View
+							style={[
+								active === item.id
+									? styles.chosenWeekDay
+									: styles.weekDay,
+								{
+									marginRight: item.id === 0 ? 15 : 15,
+									marginLeft: item.id === 1 ? 15 : 0
+								}
+							]}
+							key={index}>
+							<TouchableOpacity
+								onPress={() => {
+									onClickDay(item.id);
+									setIndex(item.id);
+									setActiveDay(item.weekDay);
+									console.log(item.id);
+								}}
+								style={{
+									paddingHorizontal: 30,
+									paddingVertical: 15
+								}}>
+								<Text
+									style={{
+										fontFamily: 'Montserrat-Medium',
+										fontSize: 15,
+										color:
+											active === item.id
+												? 'white'
+												: 'black'
+									}}>
+									{item.weekDay}
+								</Text>
+							</TouchableOpacity>
+						</View>
+					)}
+				/>
 			</View>
 			<View style={styles.main}>
-				<Carousel
-					data={weekTabs}
-					renderItem={renderItem}
-					onScrollIndexChanged={index => {
-						if (index === 6) {
-							setActive(0);
-							setIndex(0);
-							handleActiveDay(0);
-						} else {
-							setActive(index + 1);
-							setIndex(index + 1);
-							handleActiveDay(index + 1);
-						}
+				<FlatList
+					data={filteredPairs.filter(pairs => pairs.length !== 0)}
+					initialScrollIndex={index}
+					onScrollToIndexFailed={() => {
+						return 0;
 					}}
-					sliderWidth={SCREEN_WIDTH}
-					itemWidth={CAROUSEL_ITEM_WIDTH}
-					vertical={false}
+					horizontal
+					pagingEnabled
+					snapToAlignment={'center'}
+					decelerationRate={'fast'}
+					showsHorizontalScrollIndicator={false}
+					renderItem={({ item }) => (
+						<Pairs
+							activeDay={activeDay}
+							item={item}
+							index={index}
+							setIndex={setIndex}
+							setActive={setActive}
+							handleActiveDay={handleActiveDay}
+						/>
+					)}
 				/>
 			</View>
 			{toggleType && (
@@ -162,6 +182,7 @@ const HomeScreen = () => {
 					weekType={weekType}
 					setWeekType={setWeekType}
 					setToggleType={setToggleType}
+					setFilteredPairs={setFilteredPairs}
 				/>
 			)}
 			<TouchableOpacity
@@ -187,10 +208,15 @@ const HomeScreen = () => {
 							? weekType + '-Текущая'
 							: weekType}
 					</Text>
-					<Text style={styles.textLength}>
-						({pairs.filter(day => weekType === day.typeWeek).length}{' '}
-						пар)
-					</Text>
+					{/*<Text style={styles.textLength}>*/}
+					{/*	(*/}
+					{/*	{*/}
+					{/*		filteredPairs*/}
+					{/*			.filter(pairs => pairs.length !== 0)*/}
+					{/*			.filter(p => p.typeWeek === weekType).length*/}
+					{/*	}{' '}*/}
+					{/*	пар)*/}
+					{/*</Text>*/}
 				</View>
 			</TouchableOpacity>
 		</SafeAreaView>
@@ -199,40 +225,12 @@ const HomeScreen = () => {
 
 export default HomeScreen;
 
-const WeekItem = ({ day, active, onClickDay, setIndex, setActiveDay }) => {
-	return (
-		<View
-			key={day.id}
-			style={[
-				active === day.id ? styles.chosenWeekDay : styles.weekDay,
-				{ marginRight: day.id === 0 ? 0 : 15 }
-			]}>
-			<TouchableOpacity
-				onPress={() => {
-					onClickDay(day.id);
-					setIndex(day.id);
-					setActiveDay(day.weekDay);
-				}}>
-				<Text
-					style={{
-						fontFamily: 'Montserrat-Medium',
-						fontSize: 15,
-						color: active === day.id ? 'white' : 'black'
-					}}>
-					{day.weekDay}
-				</Text>
-			</TouchableOpacity>
-		</View>
-	);
-};
-
 const styles = StyleSheet.create({
 	main: {
 		display: 'flex',
 		flexDirection: 'column',
 		paddingTop: 12,
-		backgroundColor: '#F7F7F7',
-		flex: 1
+		backgroundColor: '#F7F7F7'
 	},
 	absolute: {
 		position: 'absolute',
@@ -245,7 +243,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1F1F1E',
 		borderRadius: 8,
 		alignItems: 'center',
-		width: 320
+		width: 300
 	},
 	text: {
 		fontFamily: 'Montserrat-Medium',
@@ -262,23 +260,11 @@ const styles = StyleSheet.create({
 		paddingRight: 15
 	},
 	weekDay: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: '100%',
-		flexDirection: 'row',
-		paddingHorizontal: 15,
 		borderRadius: 4,
 		borderColor: '#81F2DE',
 		borderWidth: 1
 	},
 	chosenWeekDay: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: '100%',
-		flexDirection: 'row',
-		paddingHorizontal: 15,
 		backgroundColor: '#81F2DE',
 		borderRadius: 4
 	}

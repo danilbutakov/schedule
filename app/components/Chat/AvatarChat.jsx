@@ -1,7 +1,5 @@
 import { Image, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import auth from '@react-native-firebase/auth';
 
 const AvatarChat = ({ size, image }) => {
 	return (

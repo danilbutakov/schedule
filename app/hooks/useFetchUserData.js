@@ -9,7 +9,7 @@ const useFetchUserData = () => {
 	const user = auth().currentUser;
 
 	const fetchData = async () => {
-		const userRef = await doc(fs, 'users', user.uid);
+		const userRef = await doc(fs, 'users', user?.uid);
 		await onSnapshot(userRef, doc => {
 			if (doc.data()) {
 				const data = doc.data();
