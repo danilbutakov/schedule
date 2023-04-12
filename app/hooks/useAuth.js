@@ -9,7 +9,6 @@ import 'expo-dev-client';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import useFetchUserData from './useFetchUserData';
-import { Alert } from 'react-native';
 
 const AuthContext = createContext({});
 
@@ -32,9 +31,7 @@ export const AuthProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
-		const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-
-		return subscriber; // unsubscribe on unmount
+		return auth().onAuthStateChanged(onAuthStateChanged); // unsubscribe on unmount
 	}, []);
 
 	const onGoogleButtonPress = async () => {

@@ -6,10 +6,10 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import { AuthProvider } from './app/hooks/useAuth';
 import { useFonts } from './app/hooks/useFonts';
-import { AppContextProvider } from './app/utils/Context';
 import StackNavigator from './StackNavigator';
 import useFetchUserData from './app/hooks/useFetchUserData';
-import { NativeBaseProvider } from 'native-base';
+import { store } from './app/store/store';
+import { Provider } from 'react-redux';
 
 LogBox.ignoreLogs([
 	'Setting a timer',
@@ -19,6 +19,7 @@ LogBox.ignoreLogs([
 const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
 	const { fetchData } = useFetchUserData();
+	// @ts-ignore
 
 	useEffect(() => {
 		(async () => {
@@ -26,7 +27,7 @@ const App = () => {
 				await SplashScreen.preventAutoHideAsync();
 				await useFonts();
 				await fetchData();
-				await new Promise(resolve => setTimeout(resolve, 1000));
+				// await new Promise(resolve => setTimeout(resolve, 1000));
 			} catch (e) {
 				console.warn(e);
 			} finally {
@@ -48,15 +49,13 @@ const App = () => {
 	return (
 		<SafeAreaView onLayout={onLayoutRootView} style={{ flex: 1 }}>
 			<StatusBar />
-			<AuthProvider>
-				<AppContextProvider>
+			<Provider store={store}>
+				<AuthProvider>
 					<NavigationContainer>
-						<NativeBaseProvider>
-							<StackNavigator />
-						</NativeBaseProvider>
+						<StackNavigator />
 					</NavigationContainer>
-				</AppContextProvider>
-			</AuthProvider>
+				</AuthProvider>
+			</Provider>
 		</SafeAreaView>
 	);
 };
