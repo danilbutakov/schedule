@@ -7,23 +7,26 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
-	ScrollView
+	ScrollView,
+	Alert
 } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Plus from '../../../assets/images/plus.svg';
 import Minus from '../../../assets/images/minus.svg';
-import { AppContext } from '../../utils/Context';
+import Delete from '../../../assets/images/delete.svg';
 import useAuth from '../../hooks/useAuth';
-import { db } from '../../../firebase';
-import { fs } from '../../../firebase';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
-	collection,
-	getDocs,
-	setDoc,
-	doc,
-	updateDoc
-} from 'firebase/firestore';
+	addNote,
+	deleteFromDatabase,
+	deleteNote,
+	getNotes,
+	writeToDatabase
+} from '../../features/notes/notesSlice';
+import { nanoid } from 'nanoid';
 
 const { height } = Dimensions.get('screen');
 
@@ -37,82 +40,63 @@ const DismissKeyboardHOC = Comp => {
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
 const PairInfo = () => {
-	const { handleClickPair, notes, setNotes } = useContext(AppContext);
+	const user = useAuth();
+	const dispatch = useDispatch();
+	const { notes, status, error } = useSelector(state => state.notes);
+	const clickedPair = useSelector(state => state.pair.clickedPair);
 
 	const [showNotes, setShowNotes] = useState(false);
-	const [showInfo, setShowInfo] = useState(true);
-
-	const { user } = useAuth();
-
 	const [note, setNote] = useState('');
-
-	console.log(notes);
+	const createdAt = Date.now();
+	const noteId = nanoid();
 
 	//read from database
 	useEffect(() => {
-		(async () => {
-			const querySnapshot = await getDocs(collection(fs, 'notes'));
-			querySnapshot.forEach(doc => {
-				setNotes([doc.data()]);
-			});
-		})();
-	}, [note]);
-
-	const createdAt = Date.now();
+		dispatch(getNotes(clickedPair));
+	}, [dispatch]);
 
 	//write to database
-	const writeToDataBase = async () => {
-		const data = {
-			date: handleClickPair.pair.date,
-			createdAt: createdAt,
-			noteData: {
-				type: handleClickPair.pair.type,
-				name: handleClickPair.pair.name,
-				dayOfWeek: handleClickPair.pair.dayOfWeek,
-				note
-			},
-			uid: user.uid
-		};
-		if (notes === []) {
-			try {
-				await setDoc(doc(fs, 'notes', user.uid), {
-					createdAt: [data]
-				}).then(() => {
-					console.log('good add note');
-				});
-			} catch (e) {
-				console.error(e);
-			} finally {
-				setNote('');
-			}
-		} else {
-			await updateDoc(doc(fs, 'notes', user.uid), {
-				createdAt: [data]
-			});
+	const handleAddNote = () => {
+		try {
+			dispatch(
+				addNote({
+					createdAt: createdAt,
+					note: note,
+					noteId: noteId,
+					userUid: user.user.uid,
+					clickedPair: clickedPair
+				})
+			);
+			dispatch(
+				writeToDatabase({
+					createdAt,
+					note,
+					noteId,
+					userUid: user.user.uid,
+					clickedPair
+				})
+			);
+		} catch (e) {
+			console.error(e);
+		} finally {
+			setNote('');
+			setShowNotes(false);
+			dispatch(getNotes(clickedPair));
 		}
 	};
 
-	// delete from note from database
-	const handleDelete = createdAt => {
-		remove(
-			ref(
-				db,
-				'users/' +
-					user.uid +
-					'/' +
-					'notes/' +
-					handleClickPair.pair.date +
-					'/' +
-					handleClickPair.pair.dayOfWeek +
-					'/' +
-					handleClickPair.pair.type +
-					'/' +
-					handleClickPair.pair.name +
-					'/' +
-					handleClickPair.pair.group +
-					` group/${createdAt}`
-			)
-		);
+	console.log(notes);
+
+	// delete note
+	const handleDelete = async noteId => {
+		try {
+			dispatch(deleteNote(noteId));
+			dispatch(deleteFromDatabase(noteId));
+		} catch (e) {
+			console.log(e.message);
+		} finally {
+			dispatch(getNotes(clickedPair));
+		}
 	};
 
 	return (
@@ -120,34 +104,32 @@ const PairInfo = () => {
 			<View style={styles.infoCon}>
 				<View style={styles.titles}>
 					<Text style={styles.typeText}>
-						{handleClickPair.pair.type.toUpperCase()}
+						{clickedPair.pair.type.toUpperCase()}
 					</Text>
-					<Text style={styles.nameText}>
-						{handleClickPair.pair.name}
-					</Text>
+					<Text style={styles.nameText}>{clickedPair.pair.name}</Text>
 				</View>
 				<View style={styles.addInfoCon}>
 					<View style={styles.inf}>
 						<Text style={styles.infText}>
-							{handleClickPair.pair.dayOfWeek},{' '}
-							{handleClickPair.pair.date},{' '}
-							{handleClickPair.pair.timeStart}
+							{clickedPair.pair.dayOfWeek},{' '}
+							{clickedPair.pair.date},{' '}
+							{clickedPair.pair.timeStart}
 							{' - '}
-							{handleClickPair.pair.timeEnd}
+							{clickedPair.pair.timeEnd}
 						</Text>
 						<View style={styles.downLine}></View>
 					</View>
 					<View style={styles.downLine}></View>
 					<View style={styles.inf}>
 						<Text style={styles.infText}>
-							{handleClickPair.pair.classRoom}
+							{clickedPair.pair.classRoom}
 						</Text>
 						<View style={styles.downLine}></View>
 					</View>
 					<View style={styles.downLine}></View>
 					<View style={styles.inf}>
 						<Text style={styles.infText}>
-							{handleClickPair.pair.teacher}
+							{clickedPair.pair.teacher}
 						</Text>
 					</View>
 					<View style={styles.downLine}></View>
@@ -179,7 +161,7 @@ const PairInfo = () => {
 							<TouchableOpacity
 								onPress={() => {
 									if (note !== '' && note !== ' ') {
-										writeToDataBase();
+										handleAddNote();
 									}
 								}}>
 								<View style={styles.noteBtn}>
@@ -192,13 +174,13 @@ const PairInfo = () => {
 					)}
 					<View style={styles.downLine}></View>
 				</View>
-				{showInfo && (
+				{status !== 'rejected' && (
 					<ScrollView style={{ flex: 1, marginBottom: 110 }}>
-						{/* {notes.map((note, key) => (
+						{notes?.map((note, key) => (
 							<View style={styles.addInfoConNotes} key={key}>
 								<View style={styles.inf}>
 									<Text style={styles.infText}>
-										{note.noteData.noteData1.note}
+										{note?.note}
 									</Text>
 									<TouchableOpacity
 										onPress={() => {
@@ -218,7 +200,7 @@ const PairInfo = () => {
 														text: 'Удалить',
 														onPress: () => {
 															handleDelete(
-																note.createdAt
+																note.noteId
 															);
 														}
 													}
@@ -230,8 +212,13 @@ const PairInfo = () => {
 								</View>
 								<View style={styles.downLine}></View>
 							</View>
-						))} */}
+						))}
 					</ScrollView>
+				)}
+				{status === 'rejected' && (
+					<View>
+						<Text>{error}</Text>
+					</View>
 				)}
 			</View>
 		</DismissKeyboardView>

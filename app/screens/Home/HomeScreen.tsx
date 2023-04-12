@@ -141,16 +141,18 @@ const HomeScreen = () => {
 				<Carousel
 					data={weekTabs}
 					renderItem={renderItem}
-					onScrollIndexChanged={index => {
-						if (index === 6) {
+					onScrollIndexChanged={i => {
+						if (i === 6) {
 							setActive(0);
 							setIndex(0);
 							handleActiveDay(0);
 						} else {
-							setActive(index + 1);
-							setIndex(index + 1);
-							handleActiveDay(index + 1);
+							setActive(i + 1);
+							setIndex(i + 1);
+							handleActiveDay(i + 1);
 						}
+
+						return i === index;
 					}}
 					sliderWidth={SCREEN_WIDTH}
 					itemWidth={CAROUSEL_ITEM_WIDTH}
