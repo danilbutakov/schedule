@@ -17,7 +17,6 @@ import { pickImage, uploadImage } from '../../utils/Functions';
 import { doc, setDoc } from 'firebase/firestore';
 import useAuth from '../../hooks/useAuth';
 import { DismissKeyboardView } from '../../hooks/HideKeyBoard';
-import useFetchUserData from '../../hooks/useFetchUserData';
 
 const { height } = Dimensions.get('screen');
 
@@ -34,7 +33,6 @@ const ProfileLogoInfo = ({
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
 	const [isLoading, setIsLoading] = useState(false);
-	const { fetchData } = useFetchUserData();
 
 	useEffect(() => {
 		if (profileName !== '' && image) {
@@ -93,8 +91,6 @@ const ProfileLogoInfo = ({
 				setProfileName('');
 			} finally {
 				setIsLoading(false);
-				fetchData();
-
 				setProfileName('');
 			}
 		}

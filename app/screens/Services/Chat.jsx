@@ -1,16 +1,12 @@
 import 'react-native-get-random-values';
 import { View, StyleSheet, Text, Image, TextInput, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import Messages from '../../components/Chat/Messages';
-import InputChat from '../../components/Chat/InputChat';
-import { DismissKeyboardView } from '../../hooks/HideKeyBoard';
 import { useRoute } from '@react-navigation/native';
 import { fs } from '../../../firebase';
 import {
 	arrayUnion,
 	collection,
 	doc,
-	getDocs,
 	onSnapshot,
 	query,
 	serverTimestamp,
@@ -37,7 +33,6 @@ const Chat = () => {
 		if (!messages) {
 			await setDoc(doc(fs, 'messages', chat.combinedId), {
 				messages: [{ curName, message }],
-				images: [{ curName: image }],
 				timestamp: serverTimestamp(),
 				combinedId: chat.combinedId
 			}).then(async () => {

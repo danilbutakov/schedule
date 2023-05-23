@@ -3,56 +3,25 @@ import {
 	StyleSheet,
 	SafeAreaView,
 	Text,
-	TouchableOpacity,
-	FlatList,
-	Dimensions
+	TouchableOpacity
 } from 'react-native';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { FlashList } from '@shopify/flash-list';
 
-import Pairs from '../../components/Pairs/Pairs';
 import { pairs } from '../../utils/Pairs';
 import { MemoizedToggleMenu } from '../../components/Home/ToggleMenu';
-import { weekTabs } from '../../utils/WeekDays';
-import Carousel from 'react-native-snap-carousel';
-
-export const SCREEN_WIDTH = Dimensions.get('window').width;
-export const CAROUSEL_VERTICAL_OUTPUT = 30;
-export const CAROUSEL_ITEM_WIDTH = SCREEN_WIDTH - CAROUSEL_VERTICAL_OUTPUT;
+import Pair from '../../components/Pairs/Pair';
+import { Separator } from '../../components/Pairs/Separator';
 
 const HomeScreen = () => {
 	const [toggleType, setToggleType] = useState(null);
 	const [weekType, setWeekType] = useState('');
 	const [activeWeekType, setActiveWeekType] = useState('');
-	const [active, setActive] = useState(null);
-	const [activeDay, setActiveDay] = useState('');
-	const [index, setIndex] = useState(0);
-
-	const ref = useRef(null);
-
-	const handleActiveDay = index => {
-		if (index === 1) {
-			setActiveDay('Понедельник');
-		} else if (index === 2) {
-			setActiveDay('Вторник');
-		} else if (index === 3) {
-			setActiveDay('Среда');
-		} else if (index === 4) {
-			setActiveDay('Четверг');
-		} else if (index === 5) {
-			setActiveDay('Пятница');
-		} else if (index === 6) {
-			setActiveDay('Суббота');
-		} else if (index === 0) {
-			setActiveDay('Воскресенье');
-		}
-	};
+	const [weekLength, setWeekLength] = useState(0);
 
 	const getWeekDay = async () => {
 		try {
-			const d = new Date();
-			let day = d.getDay();
-
 			let currentDate = new Date();
 			let startDate = new Date(currentDate.getFullYear(), 0, 1);
 			let days = Math.floor(
@@ -68,17 +37,9 @@ const HomeScreen = () => {
 				setWeekType('Знаменатель');
 				setActiveWeekType('Знаменатель');
 			}
-
-			setActive(day);
-			setIndex(day);
-			handleActiveDay(day);
 		} catch (e) {
 			console.error(e);
 		}
-	};
-
-	const onClickDay = id => {
-		setActive(id);
 	};
 
 	useEffect(() => {
@@ -86,147 +47,85 @@ const HomeScreen = () => {
 	}, []);
 
 	useEffect(() => {
-		ref.current?.scrollToIndex({
-			index: index === 0 ? 6 : index,
-			animated: true,
-			viewPosition: 1
-		});
-	}, [index, activeDay, active]);
+		if (weekType === 'Числитель') {
+			setWeekLength(16);
+		} else {
+			setWeekLength(17);
+		}
+	}, [weekType]);
 
-	const renderItem = () => (
-		<Pairs
-			pairs={pairs.filter(
-				pair =>
-					pair.dayOfWeek === activeDay && weekType === pair.typeWeek
-			)}
-		/>
+	const pairsOfWeek = pairs.map(pair =>
+		pair.filter(p => p.typeWeek === weekType)
+	);
+
+	const filteredPairs = pairsOfWeek.filter(fp => fp.length !== 0);
+
+	const renderItem = useCallback(
+		({ item, index }) => (
+			<Pair {...item} pairs={filteredPairs} index={index} pair={item} />
+		),
+		[]
 	);
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
-			<View style={{ backgroundColor: '#F7F7F7' }}>
+		<View
+			style={{
+				flex: 1,
+				paddingHorizontal: 15,
+				backgroundColor: '#F7F7F7'
+			}}>
+			<View style={styles.main}>
+				<FlashList
+					data={filteredPairs}
+					renderItem={renderItem}
+					estimatedItemSize={200}
+					ItemSeparatorComponent={Separator}
+				/>
 				<View
 					style={{
-						marginHorizontal: 15
+						borderRadius: 10
 					}}>
-					<FlatList
-						style={{
-							flexDirection: 'row',
-							marginTop: 10,
-							marginBottom: 10,
-							height: 50
-						}}
-						initialScrollIndex={
-							index === 0 ? 6 : index === 1 ? 0 : index
-						}
-						onScrollToIndexFailed={() => {
-							return 0;
-						}}
-						ref={ref}
-						horizontal={true}
-						data={weekTabs}
-						renderItem={({ item }) => (
-							<WeekItem
-								active={active}
-								day={item}
-								onClickDay={onClickDay}
-								setIndex={setIndex}
-								setActiveDay={setActiveDay}
+					{toggleType && (
+						<MemoizedToggleMenu
+							setWeekType={setWeekType}
+							setToggleType={setToggleType}
+						/>
+					)}
+					<TouchableOpacity
+						style={styles.chooseWeekDay}
+						onPress={() => setToggleType(!toggleType)}>
+						<View style={styles.container}>
+							<MaterialCommunityIcons
+								name='calendar-blank-multiple'
+								size={25}
+								color={'#A5A5A5'}
+								style={{
+									padding: 15
+								}}
 							/>
-						)}
-					/>
+							<View
+								style={{
+									width: 1,
+									backgroundColor: '#A5A5A5',
+									height: '100%'
+								}}></View>
+							<Text style={styles.text}>
+								{weekType === activeWeekType
+									? weekType + '-Текущая'
+									: weekType}
+							</Text>
+							<Text style={styles.textLength}>
+								({weekLength} пар)
+							</Text>
+						</View>
+					</TouchableOpacity>
 				</View>
 			</View>
-			<View style={styles.main}>
-				<Carousel
-					data={weekTabs}
-					renderItem={renderItem}
-					onScrollIndexChanged={i => {
-						if (i === 6) {
-							setActive(0);
-							setIndex(0);
-							handleActiveDay(0);
-						} else {
-							setActive(i + 1);
-							setIndex(i + 1);
-							handleActiveDay(i + 1);
-						}
-
-						return i === index;
-					}}
-					sliderWidth={SCREEN_WIDTH}
-					itemWidth={CAROUSEL_ITEM_WIDTH}
-					vertical={false}
-				/>
-			</View>
-			{toggleType && (
-				<MemoizedToggleMenu
-					weekType={weekType}
-					setWeekType={setWeekType}
-					setToggleType={setToggleType}
-				/>
-			)}
-			<TouchableOpacity
-				style={styles.absolute}
-				onPress={() => setToggleType(!toggleType)}>
-				<View style={styles.container}>
-					<MaterialCommunityIcons
-						name='calendar-blank-multiple'
-						size={25}
-						color={'#A5A5A5'}
-						style={{
-							padding: 15
-						}}
-					/>
-					<View
-						style={{
-							width: 1,
-							backgroundColor: '#A5A5A5',
-							height: '100%'
-						}}></View>
-					<Text style={styles.text}>
-						{weekType === activeWeekType
-							? weekType + '-Текущая'
-							: weekType}
-					</Text>
-					<Text style={styles.textLength}>
-						({pairs.filter(day => weekType === day.typeWeek).length}{' '}
-						пар)
-					</Text>
-				</View>
-			</TouchableOpacity>
-		</SafeAreaView>
+		</View>
 	);
 };
 
 export default HomeScreen;
-
-const WeekItem = ({ day, active, onClickDay, setIndex, setActiveDay }) => {
-	return (
-		<View
-			key={day.id}
-			style={[
-				active === day.id ? styles.chosenWeekDay : styles.weekDay,
-				{ marginRight: day.id === 0 ? 0 : 15 }
-			]}>
-			<TouchableOpacity
-				onPress={() => {
-					onClickDay(day.id);
-					setIndex(day.id);
-					setActiveDay(day.weekDay);
-				}}>
-				<Text
-					style={{
-						fontFamily: 'Montserrat-Medium',
-						fontSize: 15,
-						color: active === day.id ? 'white' : 'black'
-					}}>
-					{day.weekDay}
-				</Text>
-			</TouchableOpacity>
-		</View>
-	);
-};
 
 const styles = StyleSheet.create({
 	main: {
@@ -236,18 +135,15 @@ const styles = StyleSheet.create({
 		backgroundColor: '#F7F7F7',
 		flex: 1
 	},
-	absolute: {
-		position: 'absolute',
-		top: 590,
-		left: 10,
-		backgroundColor: '#F7F7F7'
+	chooseWeekDay: {
+		backgroundColor: '#F7F7F7',
+		marginBottom: 10
 	},
 	container: {
 		flexDirection: 'row',
 		backgroundColor: '#1F1F1E',
-		borderRadius: 8,
-		alignItems: 'center',
-		width: 320
+		borderRadius: 10,
+		alignItems: 'center'
 	},
 	text: {
 		fontFamily: 'Montserrat-Medium',
@@ -264,24 +160,20 @@ const styles = StyleSheet.create({
 		paddingRight: 15
 	},
 	weekDay: {
-		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: '100%',
-		flexDirection: 'row',
-		paddingHorizontal: 15,
 		borderRadius: 4,
 		borderColor: '#81F2DE',
-		borderWidth: 1
+		borderWidth: 1,
+		paddingVertical: 15,
+		width: 100
 	},
 	chosenWeekDay: {
-		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: '100%',
-		flexDirection: 'row',
-		paddingHorizontal: 15,
 		backgroundColor: '#81F2DE',
-		borderRadius: 4
+		borderRadius: 4,
+		paddingVertical: 15,
+		width: 100
 	}
 });

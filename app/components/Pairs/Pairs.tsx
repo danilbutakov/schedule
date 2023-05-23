@@ -1,17 +1,17 @@
-import { FlatList, View, Text, Image } from 'react-native';
+import { View, Text, Image } from 'react-native';
+import React from 'react';
+import { FlashList } from '@shopify/flash-list';
 
 import { images } from '../../../assets/globalImages';
-import Pair from '../../components/Pairs/Pair';
 
-const Pairs = ({ pairs }) => {
+const Pairs = React.memo(({ pairs }) => {
 	return (
 		<>
 			{pairs.length ? (
-				<FlatList
+				<FlashList
+					estimatedItemSize={165}
 					data={pairs}
-					renderItem={({ item, index }) => (
-						<Pair pair={item} index={index} pairs={pairs} />
-					)}
+					renderItem={renderItem}
 				/>
 			) : (
 				<View
@@ -39,6 +39,6 @@ const Pairs = ({ pairs }) => {
 			)}
 		</>
 	);
-};
+});
 
 export default Pairs;

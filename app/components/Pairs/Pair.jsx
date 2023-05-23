@@ -1,63 +1,78 @@
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 
 import { useDispatch } from 'react-redux';
-import { setClickedPair } from '../../features/pair/pairSlice';
+import { setClickedPair } from '../../store/slices/pairSlice';
 
-const Pair = ({ pair, index, pairs }) => {
+const Pair = React.memo(({ pair }) => {
 	const navigation = useNavigation();
 	const dispatch = useDispatch();
 
 	return (
-		<TouchableOpacity
-			key={index}
-			onPress={() => {
-				navigation.navigate('Info');
-				dispatch(setClickedPair({ index, pair }));
-			}}>
-			<View
-				style={
-					index === pairs.length - 1
-						? styles.pairConLast
-						: styles.pairCon
-				}>
-				<View style={styles.headPair}>
-					<View style={styles.headLeft}>
-						<View style={styles.indexPair}>
-							<Text style={styles.indexText}>{index + 1}</Text>
+		<>
+			{pair.map((p, index) => (
+				<View key={index}>
+					{p.day ? (
+						<View style={[styles.day, styles.shadowDay]}>
+							<Text style={styles.dayText}>{p.day}</Text>
 						</View>
-						<Text style={styles.typeText}>{pair.type}</Text>
-					</View>
-					<View style={styles.headRight}>
-						<Text style={styles.rightText}>
-							{pair.timeStart} - {pair.timeEnd}
-						</Text>
-					</View>
-				</View>
-				<View style={styles.infoPair}>
-					<View style={styles.namePair}>
-						<Text style={styles.nameText}>{pair.name}</Text>
-					</View>
-					<View style={styles.teachPair}>
-						<Text style={styles.teacherText}>{pair.teacher}</Text>
-					</View>
-					<View style={styles.classRoomPair}>
-						<Text style={styles.classRoomText}>
-							{pair.classRoom}
-						</Text>
-					</View>
-					{pair.group && (
-						<View style={styles.groupPair}>
-							<Text style={styles.groupText}>
-								{pair.group} подгруппа
-							</Text>
-						</View>
+					) : (
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate('Info');
+								dispatch(setClickedPair({ index, p }));
+							}}>
+							<View style={styles.pairCon}>
+								<View style={styles.headPair}>
+									<View style={styles.headLeft}>
+										<View style={styles.indexPair}>
+											<Text style={styles.indexText}>
+												{index}
+											</Text>
+										</View>
+										<Text style={styles.typeText}>
+											{p.type}
+										</Text>
+									</View>
+									<View style={styles.headRight}>
+										<Text style={styles.rightText}>
+											{p.timeStart} - {p.timeEnd}
+										</Text>
+									</View>
+								</View>
+								<View style={styles.infoPair}>
+									<View style={styles.namePair}>
+										<Text style={styles.nameText}>
+											{p.name}
+										</Text>
+									</View>
+									<View style={styles.teachPair}>
+										<Text style={styles.teacherText}>
+											{p.teacher}
+										</Text>
+									</View>
+									<View style={styles.classRoomPair}>
+										<Text style={styles.classRoomText}>
+											{p.classRoom}
+										</Text>
+									</View>
+									{p.group && (
+										<View style={styles.groupPair}>
+											<Text style={styles.groupText}>
+												{p.group} подгруппа
+											</Text>
+										</View>
+									)}
+								</View>
+							</View>
+						</TouchableOpacity>
 					)}
 				</View>
-			</View>
-		</TouchableOpacity>
+			))}
+		</>
 	);
-};
+});
 
 export default Pair;
 
@@ -72,7 +87,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FFFFFF',
 		paddingBottom: 17,
 		borderRadius: 16,
-		marginBottom: 100
+		marginBottom: 40
 	},
 	headPair: {
 		display: 'flex',
@@ -145,5 +160,33 @@ const styles = StyleSheet.create({
 	},
 	groupPair: {
 		marginTop: 10
+	},
+	day: {
+		marginBottom: 30,
+		backgroundColor: '#FFFFFF',
+		borderRadius: 18,
+		paddingVertical: 10,
+		paddingHorizontal: 10,
+		marginHorizontal: 5,
+		marginTop: 5,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	shadowDay: {
+		shadowColor: '#3eb59f',
+		shadowOffset: {
+			width: 0,
+			height: 2
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 5
+	},
+	dayText: {
+		fontFamily: 'Montserrat-SemiBold',
+		fontSize: 15,
+		lineHeight: 32,
+		marginLeft: 12,
+		color: '#1E1E1F'
 	}
 });

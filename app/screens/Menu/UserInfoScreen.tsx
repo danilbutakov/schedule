@@ -11,17 +11,7 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {
-	collection,
-	doc,
-	getDocs,
-	onSnapshot,
-	query,
-	updateDoc,
-	where,
-	arrayRemove,
-	arrayUnion
-} from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import * as Animatable from 'react-native-animatable';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
@@ -29,15 +19,14 @@ import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
 import { fs } from '../../../firebase';
-import useFetchUserData from '../../hooks/useFetchUserData';
 import { BlurView } from '@react-native-community/blur';
 
 const { height } = Dimensions.get('screen');
 
 const UserInfoScreen = () => {
+	// @ts-ignore
 	const { user } = useAuth();
 	const auth = getAuth();
-	const { userData } = useFetchUserData();
 
 	const [group, setGroup] = useState('');
 	const [univ, setUniv] = useState('');
@@ -48,30 +37,12 @@ const UserInfoScreen = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [userProvider, setUserProvider] = useState('');
 
-	const [allChats, setAllChats] = useState([]);
-
 	const [menuItems, setMenuItems] = useState([]);
 	const userRef = doc(fs, 'users', user.uid);
 
 	useEffect(() => {
 		setUserProvider(user.providerData.map(d => String(d.providerId)));
 	}, [user]);
-
-	useEffect(() => {
-		(async () => {
-			const q = query(
-				collection(fs, 'chats'),
-				where('uids', 'array-contains', user.uid)
-			);
-
-			await getDocs(q).then(snapshot => {
-				const newData = snapshot.docs.map(doc => ({
-					...doc.data()
-				}));
-				setAllChats(newData);
-			});
-		})();
-	}, []);
 
 	const fetchUserDataItems = () => {
 		return onSnapshot(userRef, doc => {
@@ -89,17 +60,6 @@ const UserInfoScreen = () => {
 		fetchUserDataItems();
 	}, []);
 
-	const handleUpdateGroup = async group => {
-		await updateDoc(userRef, {
-			group: group
-		});
-	};
-	const handleUpdateUniv = async univ => {
-		await updateDoc(userRef, {
-			univ: univ
-		});
-	};
-
 	const handleUpdatePassword = async email => {
 		sendPasswordResetEmail(auth, email)
 			.then(() => {
@@ -113,27 +73,8 @@ const UserInfoScreen = () => {
 				Alert.alert(errorMessage);
 			});
 	};
-	const handleUpdateName = async userName => {
-		try {
-			await updateDoc(userRef, {
-				profileName: userName
-			});
 
-			for (const element of allChats) {
-				const uidsRef = doc(fs, 'chats', element.combinedId);
-				await updateDoc(uidsRef, {
-					names: arrayRemove(userData.profileName)
-				});
-				await updateDoc(uidsRef, {
-					names: arrayUnion(userName)
-				});
-			}
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
-	const handleUpdateImage = async () => {
+	const handleUpdateImage = async newImage => {
 		await updateDoc(userRef, {
 			photoURL: newImage
 		});
@@ -147,85 +88,68 @@ const UserInfoScreen = () => {
 		}
 	};
 
-	const handleUpdateProfile = async () => {
-		setIsLoading(true);
+	const handleUpdateProfile = async (
+		group: string,
+		univ: string,
+		userName: string,
+		newImage: string
+	) => {
 		try {
+			setIsLoading(true);
+
 			if (group !== '' && group !== ' ') {
-				handleUpdateGroup(group).then(() => {
-					setGroup('');
-					setIsLoading(false);
+				await updateDoc(userRef, {
+					group: group
 				});
 			}
 
 			if (univ !== '' && univ !== ' ') {
-				handleUpdateUniv(univ).then(() => {
-					setUniv('');
-					setIsLoading(false);
+				await updateDoc(userRef, {
+					univ: univ
 				});
 			}
 
 			if (userName !== '' && userName !== ' ') {
-				handleUpdateName(userName)
-					.then(() => {
-						setUserName('');
-					})
-					.then(() => {
-						setIsLoading(false);
-						Alert.alert('Вы успешно обновили профиль');
-					});
+				await updateDoc(userRef, {
+					profileName: userName
+				});
 			}
 
-			if (newImage !== null && newImage !== userData.photoURL) {
+			if (newImage) {
 				let photoUrl;
-				if (newImage) {
-					const { url } = await uploadImage(
-						newImage,
-						`images/${user.uid}`,
-						'profilePicture'
-					);
-					photoUrl = url;
-				}
-				const userData = {
-					photoURL: photoUrl
-				};
+				const { url } = await uploadImage(
+					newImage,
+					`images/${user.uid}`,
+					'profilePicture'
+				);
+				photoUrl = url;
 				if (photoUrl) {
 					setImage(photoUrl);
+					await user.updateProfile({ photoURL: photoUrl });
+					newImage ? await handleUpdateImage(newImage) : null;
 				}
-
-				for (const element of allChats) {
-					const uidsRef = doc(fs, 'chats', element.combinedId);
-					await updateDoc(uidsRef, {
-						photos: arrayRemove(user.photoURL)
-					});
-					await updateDoc(uidsRef, {
-						photos: arrayUnion(photoUrl)
-					});
-				}
-
-				await Promise.all([
-					user.updateProfile({ photoURL: photoUrl }),
-					newImage ? handleUpdateImage() : null,
-					updateDoc(doc(fs, 'users', user.uid), {
-						...userData
-					})
-				]).then(() => {
-					console.log('good update');
-					setNewImage(null);
-					setIsLoading(false);
-					Alert.alert('Вы успешно обновили профиль');
-				});
 			}
 		} catch (e) {
 			console.log(e);
+			setIsLoading(false);
+		} finally {
+			Alert.alert('Вы успешно обновили профиль');
+			setIsLoading(false);
+			setUserName('');
+			setUniv('');
+			setGroup('');
+			setNewImage(null);
+
+			fetchUserDataItems();
 		}
 	};
 
 	useEffect(() => {
 		if (
-			(group !== '') |
-			(univ !== '') |
-			(userName !== '') |
-			(newImage !== null)
+			(group !== '' && group !== ' ') ||
+			(univ !== '' && univ !== ' ') ||
+			(userName !== '' && userName !== ' ') ||
+			newImage !== null
 		) {
 			setExistsParams(true);
 		} else {
@@ -250,8 +174,7 @@ const UserInfoScreen = () => {
 					borderBottomLeftRadius: 20,
 					borderBottomRightRadius: 20,
 					paddingVertical: 20
-				}}
-				elevation={2}>
+				}}>
 				{menuItems.map((item, key) => {
 					if (item.role || item.group || item.univ) {
 						return (
@@ -312,12 +235,13 @@ const UserInfoScreen = () => {
 											display: 'flex',
 											paddingLeft: 10
 										}}
-										onPress={async () => {
-											try {
-												await handleUpdateProfile();
-											} catch (e) {
-												console.error(e);
-											}
+										onPress={() => {
+											handleUpdateProfile(
+												group,
+												univ,
+												userName,
+												newImage
+											);
 										}}>
 										<AntDesign
 											name='checkcircle'
@@ -351,12 +275,10 @@ const UserInfoScreen = () => {
 					marginTop: 30,
 					borderTopLeftRadius: 20,
 					borderTopRightRadius: 20
-				}}
-				elevation={3}>
+				}}>
 				<FlatList
 					style={{ marginBottom: 10 }}
 					data={menuItems}
-					keyExtractor={(_, i) => i}
 					renderItem={({ item }) => (
 						<Animatable.View
 							style={styles.infoCon}

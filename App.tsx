@@ -7,7 +7,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { AuthProvider } from './app/hooks/useAuth';
 import { useFonts } from './app/hooks/useFonts';
 import StackNavigator from './StackNavigator';
-import useFetchUserData from './app/hooks/useFetchUserData';
 import { store } from './app/store/store';
 import { Provider } from 'react-redux';
 
@@ -18,16 +17,12 @@ LogBox.ignoreLogs([
 
 const App = () => {
 	const [appIsReady, setAppIsReady] = useState(false);
-	const { fetchData } = useFetchUserData();
-	// @ts-ignore
 
 	useEffect(() => {
 		(async () => {
 			try {
 				await SplashScreen.preventAutoHideAsync();
 				await useFonts();
-				await fetchData();
-				// await new Promise(resolve => setTimeout(resolve, 1000));
 			} catch (e) {
 				console.warn(e);
 			} finally {

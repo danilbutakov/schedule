@@ -19,7 +19,7 @@ import * as Animatable from 'react-native-animatable';
 
 import { fs } from '../../../firebase';
 import AvatarChat from '../../components/Chat/AvatarChat';
-import useFetchUserData from '../../hooks/useFetchUserData';
+import { useFetchUserData } from '../../hooks/useFetchUserData';
 
 const wait = timeout => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
@@ -31,6 +31,8 @@ const ChatsScreen = () => {
 	const [chatsFiltered, setChatsFiltered] = useState([]);
 	const navigation = useNavigation();
 	const [usersB, setUsersB] = useState([]);
+	const [usersBPhotos, setUsersBPhotos] = useState([]);
+	const [usersBNames, setUsersBNames] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
 
 	const { userData } = useFetchUserData();
@@ -65,18 +67,35 @@ const ChatsScreen = () => {
 
 	useEffect(() => {
 		fetchChats();
-
 		return () => setChats([]);
 	}, [currentUser, userData?.profileName]);
 
 	useEffect(() => {
 		let fChats = chats.filter(c => c.uids.includes(currentUser.uid));
-		if (chats.length) {
+		if (fChats.length) {
 			setChatsFiltered(fChats);
+			const usersBUids = fChats.map(c =>
+				c.uids.filter(d => d !== currentUser.uid)
+			);
+
+			const str2 = usersBUids.map(r => r.join(''));
+			const str = usersB.filter(b => str2.includes(b.uid));
+			const photos = str.map(s => s.photoURL);
+			setUsersBPhotos(photos);
+			const names = str.map(s => s.profileName);
+			setUsersBNames(names);
 		} else {
 			setChatsFiltered([]);
 		}
 	}, [chats]);
+
+	useEffect(() => {
+		const chatUserUid = chatsFiltered.map(item =>
+			item.uids.filter(uid => uid !== userData?.uid)
+		);
+
+		const filteredUser = usersB.find(user => user.uid === `${chatUserUid}`);
+	}, [refreshing]);
 
 	const onRefresh = React.useCallback(() => {
 		setRefreshing(true);
@@ -99,140 +118,143 @@ const ChatsScreen = () => {
 			{chatsFiltered.length ? (
 				<FlatList
 					data={chatsFiltered}
-					keyExtractor={(_, i) => i}
 					refreshControl={
 						<RefreshControl
 							refreshing={refreshing}
 							onRefresh={onRefresh}
 						/>
 					}
-					renderItem={({ item }) => (
-						<TouchableOpacity
-							onPress={async () => {
-								const chatUserUid = item.uids.filter(
-									uid => uid !== userData?.uid
-								);
+					renderItem={({ item }) => {
+						const chatUserUid = item.uids.filter(
+							uid => uid !== userData?.uid
+						);
 
-								const filteredUser = await usersB.find(
-									user => user.uid === `${chatUserUid}`
-								);
+						const filteredUser = usersB.find(
+							user => user.uid === `${chatUserUid}`
+						);
 
-								navigation.navigate('Chat', {
-									chat: item,
-									userB: filteredUser
-								});
-							}}
-							style={{
-								backgroundColor: '#FFFFFF',
-								borderRadius: 150,
-								padding: 5,
-								marginBottom: 20
-							}}>
-							<Animatable.View
-								animation='fadeIn'
-								duration={300}
-								useNativeDriver
+						return (
+							<TouchableOpacity
+								onPress={() => {
+									navigation.navigate('Chat', {
+										chat: item,
+										userB: filteredUser
+									});
+								}}
 								style={{
-									flexDirection: 'row',
-									justifyContent: 'space-between',
-									alignItems: 'center'
+									backgroundColor: '#FFFFFF',
+									borderRadius: 150,
+									padding: 5,
+									marginBottom: 20
 								}}>
-								<View
+								<Animatable.View
+									animation='fadeIn'
+									duration={300}
+									useNativeDriver
 									style={{
 										flexDirection: 'row',
+										justifyContent: 'space-between',
 										alignItems: 'center'
 									}}>
-									<AvatarChat
-										image={item.photos.filter(
-											photo =>
-												photo !== currentUser.photoURL
-										)}
-										size={50}
-									/>
 									<View
 										style={{
 											flexDirection: 'row',
 											alignItems: 'center'
 										}}>
+										<AvatarChat
+											image={usersBPhotos.filter(
+												photo =>
+													photo ===
+													filteredUser.photoURL
+											)}
+											size={50}
+										/>
 										<View
 											style={{
-												flexDirection: 'column'
+												flexDirection: 'row',
+												alignItems: 'center'
 											}}>
-											<Text
-												style={{
-													fontFamily:
-														'Montserrat-SemiBold',
-													fontSize: 16
-												}}>
-												{item.names.filter(
-													name =>
-														name !==
-														userData?.profileName
-												)}
-											</Text>
 											<View
 												style={{
-													flexDirection: 'row',
-													alignItems: 'center'
+													flexDirection: 'column'
 												}}>
-												{/* {chat?.lastMessage && ( */}
+												<Text
+													style={{
+														fontFamily:
+															'Montserrat-SemiBold',
+														fontSize: 16
+													}}>
+													{usersBNames.filter(
+														name =>
+															name ===
+															filteredUser.profileName
+													)}
+												</Text>
 												<View
 													style={{
 														flexDirection: 'row',
-														marginTop: 7
+														alignItems: 'center'
 													}}>
-													<Text
-														style={{
-															fontSize: 14,
-															color: '#81F2DF',
-															fontFamily:
-																'Montserrat-Regular'
-														}}>
-														Вы: {''}
-													</Text>
-													<Text
-														style={{
-															fontFamily:
-																'Montserrat-Regular',
-															fontSize: 14,
-															maxWidth: 160
-														}}
-														numberOfLines={1}
-														ellipsizeMode='tail'>
-														{/* {description} */}
-														ваше сообщение
-													</Text>
-												</View>
-												{/* )} */}
-												{item?.date && (
+													{/* {chat?.lastMessage && ( */}
 													<View
 														style={{
-															marginTop: 7,
-															marginLeft: 5
+															flexDirection:
+																'row',
+															marginTop: 7
 														}}>
 														<Text
 															style={{
+																fontSize: 14,
+																color: '#81F2DF',
 																fontFamily:
-																	'Montserrat-Medium',
-																color: '#A5A5A5'
+																	'Montserrat-Regular'
 															}}>
-															{'• ' +
-																new Date()
-																	.toLocaleTimeString()
-																	.replace(
-																		/(.*)\D\d+/,
-																		'$1'
-																	)}
+															Вы: {''}
+														</Text>
+														<Text
+															style={{
+																fontFamily:
+																	'Montserrat-Regular',
+																fontSize: 14,
+																maxWidth: 160
+															}}
+															numberOfLines={1}
+															ellipsizeMode='tail'>
+															{/* {description} */}
+															ваше сообщение
 														</Text>
 													</View>
-												)}
+													{/* )} */}
+													{item?.date && (
+														<View
+															style={{
+																marginTop: 7,
+																marginLeft: 5
+															}}>
+															<Text
+																style={{
+																	fontFamily:
+																		'Montserrat-Medium',
+																	color: '#A5A5A5'
+																}}>
+																{'• ' +
+																	new Date()
+																		.toLocaleTimeString()
+																		.replace(
+																			/(.*)\D\d+/,
+																			'$1'
+																		)}
+															</Text>
+														</View>
+													)}
+												</View>
 											</View>
 										</View>
 									</View>
-								</View>
-							</Animatable.View>
-						</TouchableOpacity>
-					)}
+								</Animatable.View>
+							</TouchableOpacity>
+						);
+					}}
 				/>
 			) : (
 				<View

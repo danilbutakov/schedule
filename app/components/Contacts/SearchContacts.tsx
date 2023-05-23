@@ -8,16 +8,7 @@ import {
 	View
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import {
-	collection,
-	doc,
-	getDoc,
-	onSnapshot,
-	query,
-	serverTimestamp,
-	setDoc,
-	where
-} from 'firebase/firestore';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -29,69 +20,17 @@ import SearchImg from '../../../assets/svgUtils/search.svg';
 // @ts-ignore
 import Delete from '../../../assets/svgUtils/delete.svg';
 import { BlurView } from '@react-native-community/blur';
-import useFetchUserData from '../../hooks/useFetchUserData';
+import { handleSelect } from '../../../assets/Functions';
 
 const SearchContacts = () => {
 	const currentUser = auth().currentUser;
 	const navigation = useNavigation();
-	const { userData } = useFetchUserData();
 
 	const [searchValue, setSearchValue] = useState('');
 	const newSearchValue = searchValue.toLowerCase();
-
 	const [users, setUsers] = useState([]);
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-
-	const handleSelect = async (user: {
-		uid: string | number;
-		displayName: string;
-		profileName: string;
-		photoURL: string;
-	}) => {
-		// создаем комбо id двух юзеров в чате
-		const combinedId =
-			currentUser.uid > user.uid
-				? currentUser.uid + user.uid
-				: user.uid + currentUser.uid;
-		try {
-			const res = await getDoc(doc(fs, 'chats', combinedId));
-			const chat = res.data();
-
-			//создаем чаты юзеров
-			if (!res.exists()) {
-				setIsLoading(true);
-				//создаем чат в коллекции чатов
-				await setDoc(doc(fs, 'chats', combinedId), {
-					messages: [],
-					uids: [currentUser.uid, user.uid],
-					names: [
-						user.displayName || user.profileName,
-						userData?.profileName
-					],
-					photos: [user.photoURL, currentUser.photoURL],
-					date: serverTimestamp(),
-					combinedId: combinedId
-				}).then(async () => {
-					const res = await getDoc(doc(fs, 'chats', combinedId));
-					const chat = res.data();
-					setIsLoading(false);
-
-					// @ts-ignore
-					navigation.navigate('Chat', { chat, userB: user });
-				});
-			} else {
-				setIsLoading(false);
-				// @ts-ignore
-				navigation.navigate('Chat', { chat, userB: user });
-			}
-		} catch (error) {
-			setIsLoading(false);
-			console.log(error.message);
-		} finally {
-			setIsLoading(false);
-		}
-	};
 
 	const handleSearch = async () => {
 		const q = query(
@@ -225,9 +164,12 @@ const SearchContacts = () => {
 								</TouchableOpacity>
 								<TouchableOpacity
 									onPress={() => {
-										handleSelect(user).then(() =>
-											setSearchValue('')
-										);
+										handleSelect(
+											user,
+											setIsLoading,
+											currentUser,
+											navigation
+										).then(() => setSearchValue(''));
 									}}>
 									<Ionicons
 										size={35}

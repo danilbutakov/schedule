@@ -6,17 +6,15 @@ import TabNavigator from './TabNavigator';
 import useAuth from './app/hooks/useAuth';
 import OnBoard from './app/screens/OnBoard';
 import UserData from './app/screens/UserData';
-import useFetchUserData from './app/hooks/useFetchUserData';
+import { useFetchUserData } from './app/hooks/useFetchUserData';
+import { ActivityIndicator, Platform, StatusBar, View } from 'react-native';
+import IsLoading from './app/screens/IsLoading';
 
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
 	const { user } = useAuth();
-	const { userData, fetchData } = useFetchUserData();
-
-	useEffect(() => {
-		fetchData();
-	}, [user, userData]);
+	const { userData } = useFetchUserData();
 
 	return (
 		<Stack.Navigator
