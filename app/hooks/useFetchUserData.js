@@ -1,31 +1,29 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 import { fs } from '../../firebase';
 
-const useFetchUserData = () => {
+export const useFetchUserData = () => {
 	const [userData, setUserData] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
 	const user = auth().currentUser;
 
-	const fetchData = async () => {
-		const userRef = await doc(fs, 'users', user?.uid);
-		await onSnapshot(userRef, doc => {
-			if (doc.data()) {
-				const data = doc.data();
-				setUserData(data);
-			} else {
-				setUserData(null);
-			}
-		});
-		// console.log('GOOD fetch DATA', userData);
-	};
-
-	useMemo(() => {
-		fetchData();
+	useEffect(() => {
+		(async () => {
+			const userRef = await doc(fs, 'users', user?.uid);
+			await onSnapshot(userRef, doc => {
+				if (doc.data()) {
+					const data = doc.data();
+					setUserData(data);
+					setIsLoading(false);
+				} else {
+					setUserData(null);
+					setIsLoading(false);
+				}
+			});
+		})();
 	}, []);
 
-	return { userData, setUserData, fetchData };
+	return { userData, setUserData, isLoading };
 };
-
-export default useFetchUserData;

@@ -15,7 +15,6 @@ import { useNavigation } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import Ant from 'react-native-vector-icons/AntDesign';
 import { BlurView } from '@react-native-community/blur';
-import auth from '@react-native-firebase/auth';
 
 import { fs } from '../../../firebase';
 

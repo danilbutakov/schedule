@@ -6,68 +6,20 @@ import {
 	StyleSheet
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 
-import { fs } from '../../../firebase';
 import Avatar from './Avatar';
 import { BlurView } from '@react-native-community/blur';
-import useFetchUserData from '../../hooks/useFetchUserData';
+import { handleSelect } from '../../../assets/Functions';
 
 const ContactItem = ({ user }) => {
 	const navigation = useNavigation();
 	const date = new Date();
 	const currentUser = auth().currentUser;
 	const [isLoading, setIsLoading] = useState(false);
-	const { userData } = useFetchUserData();
-
-	const handleSelect = async (user: {
-		uid: string | number;
-		displayName: string;
-		profileName: string;
-		photoURL: string;
-	}) => {
-		// создаем комбо id двух юзеров в чате
-		const combinedId =
-			currentUser.uid > user.uid
-				? currentUser.uid + user.uid
-				: user.uid + currentUser.uid;
-		try {
-			const res = await getDoc(doc(fs, 'chats', combinedId));
-			const chat = res.data();
-
-			//создаем чаты юзеров
-			if (!res.exists()) {
-				setIsLoading(true);
-				//создаем чат в коллекции чатов
-				await setDoc(doc(fs, 'chats', combinedId), {
-					messages: [],
-					uids: [currentUser.uid, user.uid],
-					names: [user.profileName, userData?.profileName],
-					photos: [user.photoURL, currentUser.photoURL],
-					date: serverTimestamp(),
-					combinedId: combinedId
-				});
-
-				const res = await getDoc(doc(fs, 'chats', combinedId));
-				const chat = res.data();
-
-				// @ts-ignore
-				navigation.navigate('Chat', { chat, userB: user });
-			} else {
-				// @ts-ignore
-				navigation.navigate('Chat', { chat, userB: user });
-			}
-		} catch (error) {
-			setIsLoading(false);
-			console.log(error.message);
-		} finally {
-			setIsLoading(false);
-		}
-	};
 
 	return (
 		<>
@@ -140,7 +92,15 @@ const ContactItem = ({ user }) => {
 							</View>
 						</View>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => handleSelect(user)}>
+					<TouchableOpacity
+						onPress={() =>
+							handleSelect(
+								user,
+								setIsLoading,
+								currentUser,
+								navigation
+							)
+						}>
 						<Ionicons
 							size={35}
 							name='md-chatbubbles-sharp'

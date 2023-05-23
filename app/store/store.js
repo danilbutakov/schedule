@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import notesSlice from '../features/notes/notesSlice';
-import pairSlice from '../features/pair/pairSlice';
+import notesSlice from './slices/notesSlice';
+import pairSlice from './slices/pairSlice';
 
 export const store = configureStore({
 	reducer: {

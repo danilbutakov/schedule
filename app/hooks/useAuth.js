@@ -8,7 +8,6 @@ import React, {
 import 'expo-dev-client';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import useFetchUserData from './useFetchUserData';
 
 const AuthContext = createContext({});
 
@@ -17,7 +16,6 @@ export const AuthProvider = ({ children }) => {
 	const [initializing, setInitializing] = useState(true);
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const { fetchData } = useFetchUserData();
 
 	GoogleSignin.configure({
 		webClientId:
@@ -49,7 +47,6 @@ export const AuthProvider = ({ children }) => {
 				auth.GoogleAuthProvider.credential(idToken);
 			// Sign-in the user with the credential
 			await auth().signInWithCredential(googleCredential);
-			await fetchData();
 		} catch (e) {
 			console.error(e);
 		} finally {

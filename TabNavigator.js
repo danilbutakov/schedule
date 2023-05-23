@@ -37,7 +37,6 @@ import SearchGroupHeader from './app/components/ScreensHeaders/SearchStack/Searc
 import SearchAuditionHeader from './app/components/ScreensHeaders/SearchStack/SearchAuditionHeader';
 import SearchTeachersHeader from './app/components/ScreensHeaders/SearchStack/SearchTeachersHeader';
 import NotesHeader from './app/components/ScreensHeaders/NotesStack/NotesHeader';
-import useFetchUserData from './app/hooks/useFetchUserData';
 import ServicesHeader from './app/components/ScreensHeaders/ServicesStack/ServicesHeader';
 
 const Tab = createBottomTabNavigator();

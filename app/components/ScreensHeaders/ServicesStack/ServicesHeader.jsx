@@ -1,15 +1,11 @@
 import { Image, Text, TouchableOpacity } from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import useFetchUserData from '../../../hooks/useFetchUserData';
+import { useFetchUserData } from '../../../hooks/useFetchUserData';
 
 const ServicesHeader = ({ width }) => {
 	const navigation = useNavigation();
-	const { userData, fetchData } = useFetchUserData();
-
-	useEffect(() => {
-		fetchData();
-	}, []);
+	const { userData } = useFetchUserData();
 
 	return (
 		<TouchableOpacity

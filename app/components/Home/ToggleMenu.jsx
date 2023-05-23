@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import React from 'react';
 
-const ToggleMenu = ({ weekType, setWeekType, setToggleType }) => {
+const ToggleMenu = ({ setWeekType, setToggleType }) => {
 	return (
 		<Animated.View entering={FadeInLeft} exiting={FadeOutLeft}>
 			<View style={styles.toggleAbsolute}>
@@ -65,14 +65,10 @@ export const MemoizedToggleMenu = React.memo(ToggleMenu);
 
 const styles = StyleSheet.create({
 	toggleAbsolute: {
-		position: 'absolute',
-		right: 0,
-		left: 11,
-		top: -190,
 		backgroundColor: '#d1d1d1',
-		width: 320,
 		borderRadius: 10,
 		display: 'flex',
-		flexDirection: 'column'
+		flexDirection: 'column',
+		marginBottom: 10
 	}
 });
