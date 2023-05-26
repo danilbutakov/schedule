@@ -1,8 +1,8 @@
+import React from 'react';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-
 import { useDispatch } from 'react-redux';
+
 import { setClickedPair } from '../../store/slices/pairSlice';
 
 const Pair = React.memo(({ pair }) => {
@@ -11,8 +11,8 @@ const Pair = React.memo(({ pair }) => {
 
 	return (
 		<>
-			{pair.map((p, index) => (
-				<View key={index}>
+			{pair.map((p, key) => (
+				<View key={key}>
 					{p.day ? (
 						<View style={[styles.day, styles.shadowDay]}>
 							<Text style={styles.dayText}>{p.day}</Text>
@@ -21,14 +21,14 @@ const Pair = React.memo(({ pair }) => {
 						<TouchableOpacity
 							onPress={() => {
 								navigation.navigate('Info');
-								dispatch(setClickedPair({ index, p }));
+								dispatch(setClickedPair({ key, p }));
 							}}>
 							<View style={styles.pairCon}>
 								<View style={styles.headPair}>
 									<View style={styles.headLeft}>
 										<View style={styles.indexPair}>
 											<Text style={styles.indexText}>
-												{index}
+												{key}
 											</Text>
 										</View>
 										<Text style={styles.typeText}>
@@ -178,9 +178,9 @@ const styles = StyleSheet.create({
 			width: 0,
 			height: 2
 		},
-		shadowOpacity: 0.25,
-		shadowRadius: 3.84,
-		elevation: 5
+		shadowOpacity: 0.4,
+		shadowRadius: 7,
+		elevation: 12
 	},
 	dayText: {
 		fontFamily: 'Montserrat-SemiBold',
