@@ -1,30 +1,26 @@
 export const weekTabs = [
 	{
-		weekDay: 'Понедельник',
+		weekDay: 'Пн',
+		id: 0
+	},
+	{
+		weekDay: 'Вт',
 		id: 1
 	},
 	{
-		weekDay: 'Вторник',
+		weekDay: 'Ср',
 		id: 2
 	},
 	{
-		weekDay: 'Среда',
+		weekDay: 'Чт',
 		id: 3
 	},
 	{
-		weekDay: 'Четверг',
+		weekDay: 'Пт',
 		id: 4
 	},
 	{
-		weekDay: 'Пятница',
+		weekDay: 'Сб',
 		id: 5
-	},
-	{
-		weekDay: 'Суббота',
-		id: 6
-	},
-	{
-		weekDay: 'Воскресенье',
-		id: 0
 	}
 ];

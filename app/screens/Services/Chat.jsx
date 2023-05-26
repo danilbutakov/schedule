@@ -16,7 +16,7 @@ import {
 } from 'firebase/firestore';
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
-import useFetchUserData from '../../hooks/useFetchUserData';
+import { useFetchUserData } from '../../hooks/useFetchUserData';
 
 const Chat = () => {
 	const route = useRoute();

@@ -23,7 +23,7 @@ export const useFetchUserData = () => {
 				}
 			});
 		})();
-	}, []);
+	}, [user]);
 
 	return { userData, setUserData, isLoading };
 };

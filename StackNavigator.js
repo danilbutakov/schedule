@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as CardStyleInterpolates from '@react-navigation/stack/src/TransitionConfigs/CardStyleInterpolators';
 
@@ -7,8 +6,6 @@ import useAuth from './app/hooks/useAuth';
 import OnBoard from './app/screens/OnBoard';
 import UserData from './app/screens/UserData';
 import { useFetchUserData } from './app/hooks/useFetchUserData';
-import { ActivityIndicator, Platform, StatusBar, View } from 'react-native';
-import IsLoading from './app/screens/IsLoading';
 
 const Stack = createStackNavigator();
 

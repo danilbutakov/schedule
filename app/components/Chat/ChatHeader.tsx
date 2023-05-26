@@ -1,22 +1,28 @@
-import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import * as Animatable from 'react-native-animatable';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { doc, deleteDoc } from 'firebase/firestore';
+import { useDispatch } from 'react-redux';
 
-import { fs } from '../../../firebase';
 import { images } from '../../../assets/globalImages';
 import Avatar from './AvatarChat';
+import { deleteChat } from '../../store/slices/deletechatSlice';
 
 const ChatHeader = () => {
 	const navigation = useNavigation();
 	const route = useRoute();
+	const dispatch = useDispatch();
 	const [selectEdit, setSelectEdit] = useState(false);
 
-	const deleteChat = async () => {
-		await deleteDoc(doc(fs, 'chats', route.params['chat'].combinedId));
+	const handleDeleteChat = async () => {
+		try {
+			// @ts-ignore
+			dispatch(deleteChat(route));
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	return (
@@ -115,7 +121,7 @@ const ChatHeader = () => {
 							alignItems: 'center'
 						}}
 						onPress={() => {
-							deleteChat().then(() => {
+							handleDeleteChat().then(() => {
 								// @ts-ignore
 								navigation.navigate('chats');
 								Alert.alert('Вы успешно удалили чат');

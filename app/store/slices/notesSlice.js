@@ -85,43 +85,44 @@ export const notesSlice = createSlice({
 			);
 		}
 	},
-	extraReducers: {
-		[getNotes.pending]: state => {
-			state.status = 'loading';
-			state.error = null;
-		},
-		[getNotes.fulfilled]: (state, action) => {
-			state.status = 'resolved';
-			state.notes = action.payload;
-		},
-		[getNotes.rejected]: (state, action) => {
-			state.status = 'rejected';
-			state.writeError = action.payload;
-		},
-		[writeToDatabase.pending]: state => {
-			state.writeStatus = 'loading';
-			state.writeError = null;
-		},
-		[writeToDatabase.fulfilled]: state => {
-			state.writeStatus = 'resolved';
-			state.writeError = null;
-		},
-		[writeToDatabase.rejected]: (state, action) => {
-			state.writeStatus = 'rejected';
-			state.writeError = action.payload;
-		},
-		[deleteFromDatabase.pending]: state => {
-			state.deleteStatus = 'loading';
-			state.deleteError = null;
-		},
-		[deleteFromDatabase.fulfilled]: state => {
-			state.deleteStatus = 'resolved';
-			state.deleteError = null;
-		},
-		[deleteFromDatabase.rejected]: (state, action) => {
-			state.deleteStatus = 'rejected';
-			state.deleteError = action.payload;
-		}
+	extraReducers: builder => {
+		builder
+			.addCase(getNotes.pending, state => {
+				state.status = 'loading';
+				state.error = null;
+			})
+			.addCase(getNotes.fulfilled, (state, action) => {
+				state.status = 'resolved';
+				state.notes = action.payload;
+			})
+			.addCase(getNotes.rejected, (state, action) => {
+				state.status = 'rejected';
+				state.writeError = action.payload;
+			})
+			.addCase(writeToDatabase.pending, state => {
+				state.writeStatus = 'loading';
+				state.writeError = null;
+			})
+			.addCase(writeToDatabase.fulfilled, state => {
+				state.writeStatus = 'resolved';
+				state.writeError = null;
+			})
+			.addCase(writeToDatabase.rejected, (state, action) => {
+				state.writeStatus = 'rejected';
+				state.writeError = action.payload;
+			})
+			.addCase(deleteFromDatabase.pending, state => {
+				state.deleteStatus = 'loading';
+				state.deleteError = null;
+			})
+			.addCase(deleteFromDatabase.fulfilled, state => {
+				state.deleteStatus = 'resolved';
+				state.deleteError = null;
+			})
+			.addCase(deleteFromDatabase.rejected, (state, action) => {
+				state.deleteStatus = 'rejected';
+				state.deleteError = action.payload;
+			});
 	}
 });
 

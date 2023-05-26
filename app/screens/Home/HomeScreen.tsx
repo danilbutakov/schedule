@@ -1,27 +1,46 @@
-import {
-	View,
-	StyleSheet,
-	SafeAreaView,
-	Text,
-	TouchableOpacity
-} from 'react-native';
-import React, { useState, useEffect, useCallback } from 'react';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-
 import { pairs } from '../../utils/Pairs';
-import { MemoizedToggleMenu } from '../../components/Home/ToggleMenu';
-import Pair from '../../components/Pairs/Pair';
-import { Separator } from '../../components/Pairs/Separator';
+
+const DaysSlider = React.lazy(() => import('../../components/Home/DaysSlider'));
+const PairsSlider = React.lazy(
+	() => import('../../components/Home/PairsSlider')
+);
 
 const HomeScreen = () => {
 	const [toggleType, setToggleType] = useState(null);
 	const [weekType, setWeekType] = useState('');
 	const [activeWeekType, setActiveWeekType] = useState('');
 	const [weekLength, setWeekLength] = useState(0);
+	const [active, setActive] = useState(0);
+	const [activeDay, setActiveDay] = useState('');
+	const [index, setIndex] = useState(0);
+
+	const daysRef = useRef(null);
+	const pairsRef = useRef<FlashList<any>>(null);
+
+	const handleActiveDay = index => {
+		if (index === 0) {
+			setActiveDay('Понедельник');
+		} else if (index === 1) {
+			setActiveDay('Вторник');
+		} else if (index === 2) {
+			setActiveDay('Среда');
+		} else if (index === 3) {
+			setActiveDay('Четверг');
+		} else if (index === 4) {
+			setActiveDay('Пятница');
+		} else if (index === 5) {
+			setActiveDay('Суббота');
+		}
+	};
 
 	const getWeekDay = async () => {
 		try {
+			const d = new Date();
+			let day = d.getDay();
+
 			let currentDate = new Date();
 			let startDate = new Date(currentDate.getFullYear(), 0, 1);
 			let days = Math.floor(
@@ -37,9 +56,17 @@ const HomeScreen = () => {
 				setWeekType('Знаменатель');
 				setActiveWeekType('Знаменатель');
 			}
+
+			setActive(day - 1);
+			setIndex(day - 1);
+			handleActiveDay(day);
 		} catch (e) {
 			console.error(e);
 		}
+	};
+
+	const onClickDay = id => {
+		setActive(id);
 	};
 
 	useEffect(() => {
@@ -60,120 +87,52 @@ const HomeScreen = () => {
 
 	const filteredPairs = pairsOfWeek.filter(fp => fp.length !== 0);
 
-	const renderItem = useCallback(
-		({ item, index }) => (
-			<Pair {...item} pairs={filteredPairs} index={index} pair={item} />
-		),
-		[]
-	);
+	useEffect(() => {
+		daysRef.current?.scrollToIndex({
+			index: index,
+			animated: true,
+			viewPosition: 0.8
+		});
+	}, [index, activeDay, active]);
+
+	useEffect(() => {
+		pairsRef.current?.scrollToIndex({
+			index: index,
+			animated: true,
+			viewPosition: 0
+		});
+	}, [index, activeDay, active]);
 
 	return (
-		<View
-			style={{
-				flex: 1,
-				paddingHorizontal: 15,
-				backgroundColor: '#F7F7F7'
-			}}>
-			<View style={styles.main}>
-				<FlashList
-					data={filteredPairs}
-					renderItem={renderItem}
-					estimatedItemSize={200}
-					ItemSeparatorComponent={Separator}
+		<Suspense fallback={null}>
+			<View
+				style={{
+					paddingHorizontal: 15,
+					backgroundColor: '#F7F7F7',
+					height: '100%'
+				}}>
+				<DaysSlider
+					setActiveDay={setActiveDay}
+					daysRef={daysRef}
+					active={active}
+					onClickDay={onClickDay}
+					index={index}
+					setIndex={setIndex}
 				/>
-				<View
-					style={{
-						borderRadius: 10
-					}}>
-					{toggleType && (
-						<MemoizedToggleMenu
-							setWeekType={setWeekType}
-							setToggleType={setToggleType}
-						/>
-					)}
-					<TouchableOpacity
-						style={styles.chooseWeekDay}
-						onPress={() => setToggleType(!toggleType)}>
-						<View style={styles.container}>
-							<MaterialCommunityIcons
-								name='calendar-blank-multiple'
-								size={25}
-								color={'#A5A5A5'}
-								style={{
-									padding: 15
-								}}
-							/>
-							<View
-								style={{
-									width: 1,
-									backgroundColor: '#A5A5A5',
-									height: '100%'
-								}}></View>
-							<Text style={styles.text}>
-								{weekType === activeWeekType
-									? weekType + '-Текущая'
-									: weekType}
-							</Text>
-							<Text style={styles.textLength}>
-								({weekLength} пар)
-							</Text>
-						</View>
-					</TouchableOpacity>
-				</View>
+				<PairsSlider
+					pairsRef={pairsRef}
+					index={index}
+					filteredPairs={filteredPairs}
+					weekLength={weekLength}
+					setWeekType={setWeekType}
+					setToggleType={setToggleType}
+					weekType={weekType}
+					toggleType={toggleType}
+					activeWeekType={activeWeekType}
+				/>
 			</View>
-		</View>
+		</Suspense>
 	);
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-	main: {
-		display: 'flex',
-		flexDirection: 'column',
-		paddingTop: 12,
-		backgroundColor: '#F7F7F7',
-		flex: 1
-	},
-	chooseWeekDay: {
-		backgroundColor: '#F7F7F7',
-		marginBottom: 10
-	},
-	container: {
-		flexDirection: 'row',
-		backgroundColor: '#1F1F1E',
-		borderRadius: 10,
-		alignItems: 'center'
-	},
-	text: {
-		fontFamily: 'Montserrat-Medium',
-		color: '#A5A5A5',
-		paddingVertical: 15,
-		fontSize: 16,
-		paddingRight: 5,
-		paddingLeft: 15
-	},
-	textLength: {
-		fontFamily: 'Montserrat-Medium',
-		color: '#A5A5A5',
-		fontSize: 16,
-		paddingRight: 15
-	},
-	weekDay: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: 4,
-		borderColor: '#81F2DE',
-		borderWidth: 1,
-		paddingVertical: 15,
-		width: 100
-	},
-	chosenWeekDay: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#81F2DE',
-		borderRadius: 4,
-		paddingVertical: 15,
-		width: 100
-	}
-});

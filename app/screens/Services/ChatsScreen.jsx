@@ -142,10 +142,8 @@ const ChatsScreen = () => {
 									});
 								}}
 								style={{
-									backgroundColor: '#FFFFFF',
-									borderRadius: 150,
-									padding: 5,
-									marginBottom: 20
+									marginBottom: 20,
+									backgroundColor: '#FFFFFF'
 								}}>
 								<Animatable.View
 									animation='fadeIn'
