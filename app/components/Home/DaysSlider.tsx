@@ -8,48 +8,50 @@ import {
 } from 'react-native';
 import { weekTabs } from '../../utils/WeekDays';
 
+const WeekItem = ({ day, onClickDay, setIndex, setActiveDay, active }) => {
+	return (
+		<TouchableOpacity
+			onPress={() => {
+				onClickDay(day.id);
+				setIndex(day.id);
+				setActiveDay(day.weekDay);
+			}}
+			key={day.id}
+			style={[
+				active === day.id ? styles.chosenWeekDay : styles.weekDay,
+				{ marginRight: day.id === 5 ? 0 : 15 }
+			]}>
+			<Text
+				style={{
+					fontFamily: 'Montserrat-Medium',
+					fontSize: 15,
+					color: active === day.id ? 'white' : 'black'
+				}}>
+				{day.weekDay}
+			</Text>
+		</TouchableOpacity>
+	);
+};
+
 const DaysSlider = ({
 	index,
 	daysRef,
-	active,
-	onClickDay,
 	setIndex,
-	setActiveDay
+	setActiveDay,
+	onClickDay,
+	active
 }) => {
-	const WeekItem = ({ day }) => {
-		return (
-			<TouchableOpacity
-				onPress={() => {
-					onClickDay(day.id);
-					setIndex(day.id);
-					setActiveDay(day.weekDay);
-				}}
-				key={day.id}
-				style={[
-					active === day.id ? styles.chosenWeekDay : styles.weekDay,
-					{ marginRight: day.id === 5 ? 0 : 15 }
-				]}>
-				<Text
-					style={{
-						fontFamily: 'Montserrat-Medium',
-						fontSize: 15,
-						color: active === day.id ? 'white' : 'black'
-					}}>
-					{day.weekDay}
-				</Text>
-			</TouchableOpacity>
-		);
-	};
 	return (
 		<View style={{ backgroundColor: '#F7F7F7' }}>
 			<View
 				style={{
-					marginHorizontal: 15
+					justifyContent: 'center',
+					alignItems: 'center'
 				}}>
 				<FlatList
 					style={{
-						paddingTop: 10,
-						paddingBottom: 10
+						paddingTop: 5,
+						paddingBottom: 5
 					}}
 					initialScrollIndex={
 						index === 1 ? 0 : index === 5 ? 4 : index
@@ -60,7 +62,15 @@ const DaysSlider = ({
 					ref={daysRef}
 					horizontal={true}
 					data={weekTabs}
-					renderItem={({ item }) => <WeekItem day={item} />}
+					renderItem={({ item }) => (
+						<WeekItem
+							day={item}
+							setActiveDay={setActiveDay}
+							active={active}
+							onClickDay={onClickDay}
+							setIndex={setIndex}
+						/>
+					)}
 				/>
 			</View>
 		</View>
@@ -71,19 +81,16 @@ const styles = StyleSheet.create({
 	weekDay: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 50,
-		borderColor: '#81F2DE',
-		borderWidth: 1,
-		paddingVertical: 15,
-		paddingHorizontal: 15
+		paddingVertical: 10,
+		paddingHorizontal: 10
 	},
 	chosenWeekDay: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#81F2DE',
+		backgroundColor: '#1E1E1F',
 		borderRadius: 50,
-		paddingVertical: 15,
-		paddingHorizontal: 15
+		paddingVertical: 10,
+		paddingHorizontal: 10
 	}
 });
 export default DaysSlider;

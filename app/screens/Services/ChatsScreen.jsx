@@ -89,14 +89,6 @@ const ChatsScreen = () => {
 		}
 	}, [chats]);
 
-	useEffect(() => {
-		const chatUserUid = chatsFiltered.map(item =>
-			item.uids.filter(uid => uid !== userData?.uid)
-		);
-
-		const filteredUser = usersB.find(user => user.uid === `${chatUserUid}`);
-	}, [refreshing]);
-
 	const onRefresh = React.useCallback(() => {
 		setRefreshing(true);
 		fetchChats();
@@ -143,7 +135,10 @@ const ChatsScreen = () => {
 								}}
 								style={{
 									marginBottom: 20,
-									backgroundColor: '#FFFFFF'
+									backgroundColor: '#FFFFFF',
+									borderRadius: 50,
+									elevation: 1,
+									marginHorizontal: 2
 								}}>
 								<Animatable.View
 									animation='fadeIn'
@@ -152,7 +147,8 @@ const ChatsScreen = () => {
 									style={{
 										flexDirection: 'row',
 										justifyContent: 'space-between',
-										alignItems: 'center'
+										alignItems: 'center',
+										padding: 5
 									}}>
 									<View
 										style={{

@@ -20,6 +20,7 @@ import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
 import { fs } from '../../../firebase';
 import { BlurView } from '@react-native-community/blur';
+import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
 
 const { height } = Dimensions.get('screen');
 
@@ -31,34 +32,18 @@ const UserInfoScreen = () => {
 	const [group, setGroup] = useState('');
 	const [univ, setUniv] = useState('');
 	const [userName, setUserName] = useState('');
-	const [image, setImage] = useState(null);
 	const [newImage, setNewImage] = useState(null);
 	const [existsParams, setExistsParams] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [userProvider, setUserProvider] = useState('');
 
-	const [menuItems, setMenuItems] = useState([]);
 	const userRef = doc(fs, 'users', user.uid);
 
 	useEffect(() => {
 		setUserProvider(user.providerData.map(d => String(d.providerId)));
 	}, [user]);
 
-	const fetchUserDataItems = () => {
-		return onSnapshot(userRef, doc => {
-			if (doc.data()) {
-				const docData = doc.data();
-				setMenuItems([docData]);
-				setImage(doc.data().photoURL);
-			} else {
-				setMenuItems(null);
-			}
-		});
-	};
-
-	useEffect(() => {
-		fetchUserDataItems();
-	}, []);
+	const { profileItems, image, setImage } = useFetchUserDataItems();
 
 	const handleUpdatePassword = async email => {
 		sendPasswordResetEmail(auth, email)
@@ -84,7 +69,7 @@ const UserInfoScreen = () => {
 		const result = await pickImage();
 		if (!result.canceled) {
 			setNewImage(result.assets[0].uri);
-			setImage(null);
+			setImage(profileItems);
 		}
 	};
 
@@ -140,7 +125,7 @@ const UserInfoScreen = () => {
 			setGroup('');
 			setNewImage(null);
 
-			fetchUserDataItems();
+			useFetchUserDataItems();
 		}
 	};
 
@@ -175,7 +160,7 @@ const UserInfoScreen = () => {
 					borderBottomRightRadius: 20,
 					paddingVertical: 20
 				}}>
-				{menuItems.map((item, key) => {
+				{profileItems.map((item, key) => {
 					if (item.role || item.group || item.univ) {
 						return (
 							<View
@@ -278,7 +263,7 @@ const UserInfoScreen = () => {
 				}}>
 				<FlatList
 					style={{ marginBottom: 10 }}
-					data={menuItems}
+					data={profileItems}
 					renderItem={({ item }) => (
 						<Animatable.View
 							style={styles.infoCon}
