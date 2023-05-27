@@ -42,3 +42,54 @@ export const uploadImage = async (uri, path, fName) => {
 
 	return { url, fileName };
 };
+
+export const handleActiveDay = (index, setActiveDay) => {
+	if (index === 0) {
+		setActiveDay('Понедельник');
+	} else if (index === 1) {
+		setActiveDay('Вторник');
+	} else if (index === 2) {
+		setActiveDay('Среда');
+	} else if (index === 3) {
+		setActiveDay('Четверг');
+	} else if (index === 4) {
+		setActiveDay('Пятница');
+	} else if (index === 5) {
+		setActiveDay('Суббота');
+	}
+};
+
+export const getWeekDay = async (
+	setWeekType,
+	setActiveWeekType,
+	setActive,
+	setIndex,
+	setActiveDay
+) => {
+	try {
+		const d = new Date();
+		let day = d.getDay();
+
+		let currentDate = new Date();
+		let startDate = new Date(currentDate.getFullYear(), 0, 1);
+		let days = Math.floor(
+			// @ts-ignore
+			(currentDate - startDate) / (24 * 60 * 60 * 1000)
+		);
+		let weekNumber = Math.ceil(days / 7);
+
+		if (weekNumber % 2) {
+			setWeekType('Числитель');
+			setActiveWeekType('Числитель');
+		} else {
+			setWeekType('Знаменатель');
+			setActiveWeekType('Знаменатель');
+		}
+
+		setActive(day - 1);
+		setIndex(day - 1);
+		handleActiveDay(day, setActiveDay);
+	} catch (e) {
+		console.error(e);
+	}
+};

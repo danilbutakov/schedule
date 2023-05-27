@@ -1,7 +1,7 @@
-import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const ToggleMenu = ({ setWeekType, setToggleType }) => {
 	return (
@@ -18,7 +18,7 @@ const ToggleMenu = ({ setWeekType, setToggleType }) => {
 						paddingHorizontal: 15,
 						paddingVertical: 15
 					}}>
-					<AntDesign name='caretup' size={25} color={'#3eb59f'} />
+					<AntDesign name='caretup' size={20} color={'#3eb59f'} />
 					<Text
 						style={{
 							fontFamily: 'Montserrat-Medium',
@@ -45,7 +45,7 @@ const ToggleMenu = ({ setWeekType, setToggleType }) => {
 						paddingHorizontal: 15,
 						paddingVertical: 15
 					}}>
-					<AntDesign name='caretdown' size={25} color={'#3eb59f'} />
+					<AntDesign name='caretdown' size={20} color={'#3eb59f'} />
 					<Text
 						style={{
 							fontFamily: 'Montserrat-Medium',

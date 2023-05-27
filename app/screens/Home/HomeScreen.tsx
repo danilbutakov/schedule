@@ -1,7 +1,8 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import { pairs } from '../../utils/Pairs';
+import { getWeekDay } from '../../utils/Functions';
+import { useFilterPairs } from '../../hooks/useFilterPairs';
 
 const DaysSlider = React.lazy(() => import('../../components/Home/DaysSlider'));
 const PairsSlider = React.lazy(
@@ -17,60 +18,23 @@ const HomeScreen = () => {
 	const [activeDay, setActiveDay] = useState('');
 	const [index, setIndex] = useState(0);
 
+	const { filteredPairs } = useFilterPairs(weekType);
+
 	const daysRef = useRef(null);
 	const pairsRef = useRef<FlashList<any>>(null);
-
-	const handleActiveDay = index => {
-		if (index === 0) {
-			setActiveDay('Понедельник');
-		} else if (index === 1) {
-			setActiveDay('Вторник');
-		} else if (index === 2) {
-			setActiveDay('Среда');
-		} else if (index === 3) {
-			setActiveDay('Четверг');
-		} else if (index === 4) {
-			setActiveDay('Пятница');
-		} else if (index === 5) {
-			setActiveDay('Суббота');
-		}
-	};
-
-	const getWeekDay = async () => {
-		try {
-			const d = new Date();
-			let day = d.getDay();
-
-			let currentDate = new Date();
-			let startDate = new Date(currentDate.getFullYear(), 0, 1);
-			let days = Math.floor(
-				// @ts-ignore
-				(currentDate - startDate) / (24 * 60 * 60 * 1000)
-			);
-			let weekNumber = Math.ceil(days / 7);
-
-			if (weekNumber % 2) {
-				setWeekType('Числитель');
-				setActiveWeekType('Числитель');
-			} else {
-				setWeekType('Знаменатель');
-				setActiveWeekType('Знаменатель');
-			}
-
-			setActive(day - 1);
-			setIndex(day - 1);
-			handleActiveDay(day);
-		} catch (e) {
-			console.error(e);
-		}
-	};
 
 	const onClickDay = id => {
 		setActive(id);
 	};
 
 	useEffect(() => {
-		getWeekDay();
+		getWeekDay(
+			setWeekType,
+			setActiveWeekType,
+			setActive,
+			setIndex,
+			setActiveDay
+		);
 	}, []);
 
 	useEffect(() => {
@@ -80,12 +44,6 @@ const HomeScreen = () => {
 			setWeekLength(17);
 		}
 	}, [weekType]);
-
-	const pairsOfWeek = pairs.map(pair =>
-		pair.filter(p => p.typeWeek === weekType)
-	);
-
-	const filteredPairs = pairsOfWeek.filter(fp => fp.length !== 0);
 
 	useEffect(() => {
 		daysRef.current?.scrollToIndex({

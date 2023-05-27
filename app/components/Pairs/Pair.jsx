@@ -81,7 +81,9 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FFFFFF',
 		marginBottom: 5,
 		paddingBottom: 17,
-		borderRadius: 16
+		borderRadius: 16,
+		elevation: 0.5,
+		marginHorizontal: 2
 	},
 	pairConLast: {
 		backgroundColor: '#FFFFFF',
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.4,
 		shadowRadius: 7,
-		elevation: 12
+		elevation: 5
 	},
 	dayText: {
 		fontFamily: 'Montserrat-SemiBold',

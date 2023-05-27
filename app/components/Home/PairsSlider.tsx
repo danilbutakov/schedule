@@ -91,7 +91,8 @@ const PairsSlider = ({
 								width: 1,
 								backgroundColor: '#A5A5A5',
 								height: '100%'
-							}}></View>
+							}}
+						/>
 						<Text style={styles.text}>
 							{weekType === activeWeekType
 								? weekType + '-Текущая'
