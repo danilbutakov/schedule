@@ -9,6 +9,7 @@ import { useFonts } from './app/hooks/useFonts';
 import StackNavigator from './StackNavigator';
 import { store } from './app/store/store';
 import { Provider } from 'react-redux';
+import { AppContextProvider } from './app/utils/Context';
 
 LogBox.ignoreLogs([
 	'Setting a timer',
@@ -46,9 +47,11 @@ const App = () => {
 			<StatusBar />
 			<Provider store={store}>
 				<AuthProvider>
-					<NavigationContainer>
-						<StackNavigator />
-					</NavigationContainer>
+					<AppContextProvider>
+						<NavigationContainer>
+							<StackNavigator />
+						</NavigationContainer>
+					</AppContextProvider>
 				</AuthProvider>
 			</Provider>
 		</SafeAreaView>

@@ -10,13 +10,11 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import auth from '@react-native-firebase/auth';
 
-import { fs } from '../../../firebase';
-import { pickImage, uploadImage } from '../../utils/Functions';
-import { doc, setDoc } from 'firebase/firestore';
 import useAuth from '../../hooks/useAuth';
 import { DismissKeyboardView } from '../../hooks/HideKeyBoard';
+import { useHandleProfilePicture } from '../../hooks/useHandleProfilePicture';
+import { createProfile, handleProfilePicture } from '../../utils/Functions';
 
 const { height } = Dimensions.get('screen');
 
@@ -25,14 +23,14 @@ const ProfileLogoInfo = ({
 	group,
 	role,
 	profileName,
-	setProfileName,
-	image,
-	setImage
+	setProfileName
 }) => {
 	const { user } = useAuth();
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
 	const [isLoading, setIsLoading] = useState(false);
+
+	const { image, setImage } = useHandleProfilePicture();
 
 	useEffect(() => {
 		if (profileName !== '' && image) {
@@ -43,58 +41,6 @@ const ProfileLogoInfo = ({
 			setChangeBtnText(styles.btnText);
 		}
 	}, [profileName, image]);
-
-	const handleProfilePicture = async () => {
-		const result = await pickImage();
-		if (!result.canceled) {
-			setImage(result.assets[0].uri);
-		}
-	};
-
-	const createProfile = async () => {
-		if (profileName !== '' && image !== null) {
-			setIsLoading(true);
-			let photoURL;
-			if (image) {
-				const { url } = await uploadImage(
-					image,
-					`images/${user.uid}`,
-					'profilePicture'
-				);
-				photoURL = url;
-			}
-			const userData = {
-				profileName: profileName,
-				email: user.email,
-				univ: univ,
-				group: group,
-				role: role
-			};
-			if (photoURL) {
-				userData.photoURL = photoURL;
-			}
-			try {
-				await auth().currentUser.updateProfile(userData);
-				await setDoc(doc(fs, 'users', user.uid), {
-					...userData,
-					uid: user.uid
-				}).then(() => {
-					console.log('good authorized');
-					setIsLoading(false);
-
-					setProfileName('');
-				});
-			} catch (e) {
-				console.error(e);
-				setIsLoading(false);
-
-				setProfileName('');
-			} finally {
-				setIsLoading(false);
-				setProfileName('');
-			}
-		}
-	};
 
 	return (
 		<DismissKeyboardView style={styles.containerKeyboard}>
@@ -123,7 +69,7 @@ const ProfileLogoInfo = ({
 						style={styles.inputVuz}
 					/>
 					<TouchableOpacity
-						onPress={handleProfilePicture}
+						onPress={() => handleProfilePicture(setImage)}
 						style={{ alignSelf: 'center', marginTop: 30 }}>
 						<View style={{}}>
 							{!image && (
@@ -154,7 +100,17 @@ const ProfileLogoInfo = ({
 				</View>
 				<TouchableOpacity
 					style={styles.container}
-					onPress={createProfile}>
+					onPress={createProfile(
+						profileName,
+						image,
+						setIsLoading,
+						user.uid,
+						user.email,
+						univ,
+						group,
+						role,
+						setProfileName
+					)}>
 					<View style={changeButton}>
 						<Text style={changeBtnText}>Продолжить</Text>
 					</View>

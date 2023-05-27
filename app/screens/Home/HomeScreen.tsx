@@ -1,10 +1,11 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
+
 import { getWeekDay } from '../../utils/Functions';
 import { useFilterPairs } from '../../hooks/useFilterPairs';
+import DaysSlider from '../../components/Home/DaysSlider';
 
-const DaysSlider = React.lazy(() => import('../../components/Home/DaysSlider'));
 const PairsSlider = React.lazy(
 	() => import('../../components/Home/PairsSlider')
 );
@@ -46,16 +47,16 @@ const HomeScreen = () => {
 	}, [weekType]);
 
 	useEffect(() => {
-		daysRef.current?.scrollToIndex({
-			index: index,
+		daysRef?.current?.scrollToIndex({
+			index: index === -1 ? 0 : index,
 			animated: true,
 			viewPosition: 0.8
 		});
 	}, [index, activeDay, active]);
 
 	useEffect(() => {
-		pairsRef.current?.scrollToIndex({
-			index: index,
+		pairsRef?.current?.scrollToIndex({
+			index: index === -1 ? 0 : index,
 			animated: true,
 			viewPosition: 0
 		});

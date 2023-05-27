@@ -206,7 +206,7 @@ const SearchContacts = () => {
 	);
 };
 
-export default SearchContacts;
+export default React.memo(SearchContacts);
 
 const styles = StyleSheet.create({
 	absolute: {

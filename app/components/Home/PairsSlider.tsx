@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import { Separator } from '../Pairs/Separator';
-import { MemoizedToggleMenu } from './ToggleMenu';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as Animatable from 'react-native-animatable';
+
+import { MemoizedToggleMenu } from './ToggleMenu';
 import Pair from '../Pairs/Pair';
+import { Separator } from '../Pairs/Separator';
 import { images } from '../../../assets/globalImages';
 
 const PairsSlider = ({
@@ -26,7 +28,10 @@ const PairsSlider = ({
 	);
 
 	return (
-		<View
+		<Animatable.View
+			animation='fadeIn'
+			duration={1000}
+			useNativeDriver
 			style={[
 				styles.main,
 				{ paddingTop: filteredPairs.length - 1 >= index ? 12 : 0 }
@@ -104,7 +109,7 @@ const PairsSlider = ({
 					</View>
 				</TouchableOpacity>
 			</View>
-		</View>
+		</Animatable.View>
 	);
 };
 

@@ -1,5 +1,5 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -7,7 +7,6 @@ import auth from '@react-native-firebase/auth';
 import * as Animatable from 'react-native-animatable';
 
 import { images } from '../../../assets/globalImages';
-import Avatar from './Avatar';
 
 const ContactProfileHeader = () => {
 	const navigation = useNavigation();
@@ -22,7 +21,7 @@ const ContactProfileHeader = () => {
 				backgroundColor: '#F7F7F7',
 				borderBottomColor: 'rgba(60, 60, 67, 0.13)',
 				borderBottomWidth: 1,
-				paddingHorizontal: 20,
+				paddingHorizontal: 15,
 				display: 'flex',
 				flexDirection: 'row',
 				alignItems: 'center',
@@ -101,12 +100,12 @@ const ContactProfileHeader = () => {
 								position: 'absolute',
 								right: 0,
 								left: -250,
-								top: 20,
+								top: 10,
 								backgroundColor: '#d1d1d1',
 								minWidth: 100,
 								borderRadius: 10,
-								paddingHorizontal: 20,
-								paddingVertical: 20,
+								paddingHorizontal: 10,
+								paddingVertical: 10,
 								display: 'flex',
 								flexDirection: 'row',
 								alignItems: 'center'

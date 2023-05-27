@@ -4,6 +4,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ant from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
+import * as Animatable from 'react-native-animatable';
+
 import useAuth from '../../hooks/useAuth';
 
 const MenuItems = () => {
@@ -11,7 +13,7 @@ const MenuItems = () => {
 	// @ts-ignore
 	const { signOut } = useAuth();
 	return (
-		<>
+		<Animatable.View animation='fadeIn' duration={1000} useNativeDriver>
 			<View style={styles.mainCon}>
 				<TouchableOpacity
 					style={styles.sched}
@@ -124,7 +126,7 @@ const MenuItems = () => {
 				</View>
 				<Feather name='chevron-right' size={25} color='#AEAEB2' />
 			</TouchableOpacity>
-		</>
+		</Animatable.View>
 	);
 };
 

@@ -2,13 +2,15 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
+
 import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
 
 const ProfileItems = () => {
 	const navigation = useNavigation();
 	const { profileItems } = useFetchUserDataItems();
 	return (
-		<>
+		<Animatable.View animation='fadeIn' duration={1000} useNativeDriver>
 			{profileItems.map((item, key) => {
 				if (item.role || item.group || item.univ) {
 					return (
@@ -45,7 +47,7 @@ const ProfileItems = () => {
 					);
 				}
 			})}
-		</>
+		</Animatable.View>
 	);
 };
 
