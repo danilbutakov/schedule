@@ -37,7 +37,7 @@ const ChatHeader = () => {
 				flexDirection: 'row',
 				alignItems: 'center',
 				justifyContent: 'space-between',
-				paddingHorizontal: 20
+				paddingHorizontal: 15
 			}}>
 			<View
 				style={{
@@ -103,8 +103,7 @@ const ChatHeader = () => {
 				<Animatable.View
 					animation='fadeIn'
 					duration={400}
-					useNativeDriver
-					style={{ minWidth: 40 }}>
+					useNativeDriver>
 					<TouchableOpacity
 						style={{
 							position: 'absolute',
@@ -112,10 +111,9 @@ const ChatHeader = () => {
 							left: -250,
 							top: 35,
 							backgroundColor: '#d1d1d1',
-							minWidth: 100,
 							borderRadius: 10,
-							paddingHorizontal: 20,
-							paddingVertical: 20,
+							paddingHorizontal: 10,
+							paddingVertical: 10,
 							display: 'flex',
 							flexDirection: 'row',
 							alignItems: 'center'
@@ -129,7 +127,7 @@ const ChatHeader = () => {
 							setSelectEdit(false);
 						}}>
 						<MaterialCommunityIcons
-							size={35}
+							size={25}
 							name='delete-forever'
 							style={{ marginRight: 10 }}
 							color={'#3eb59f'}

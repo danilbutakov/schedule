@@ -6,6 +6,8 @@ import {
 	View,
 	StyleSheet
 } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+
 import { weekTabs } from '../../utils/WeekDays';
 
 const WeekItem = ({ day, onClickDay, setIndex, setActiveDay, active }) => {
@@ -42,7 +44,11 @@ const DaysSlider = ({
 	active
 }) => {
 	return (
-		<View style={{ backgroundColor: '#F7F7F7' }}>
+		<Animatable.View
+			animation='fadeIn'
+			duration={1000}
+			useNativeDriver
+			style={{ backgroundColor: '#F7F7F7' }}>
 			<View
 				style={{
 					justifyContent: 'center',
@@ -73,7 +79,7 @@ const DaysSlider = ({
 					)}
 				/>
 			</View>
-		</View>
+		</Animatable.View>
 	);
 };
 

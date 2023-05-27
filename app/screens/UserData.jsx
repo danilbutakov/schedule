@@ -18,12 +18,13 @@ const UserData = () => {
 	const [group, setGroup] = useState('');
 	const [role, setRole] = useState('');
 	const [profileName, setProfileName] = useState('');
-	const [image, setImage] = useState(null);
+
+	const isVuzInfo = userData === null && isLoading === false && showUniv;
 
 	return (
 		<>
 			{isLoading && <IsLoading />}
-			{userData === null && isLoading === false && (
+			{isVuzInfo && (
 				<VuzInfo
 					setShowUniv={setShowUniv}
 					univ={univ}
@@ -31,14 +32,6 @@ const UserData = () => {
 					setShowGroup={setShowGroup}
 				/>
 			)}
-			{/*{showUniv && (*/}
-			{/*	<VuzInfo*/}
-			{/*		setShowUniv={setShowUniv}*/}
-			{/*		univ={univ}*/}
-			{/*		setUniv={setUniv}*/}
-			{/*		setShowGroup={setShowGroup}*/}
-			{/*	/>*/}
-			{/*)}*/}
 			{showGroup && (
 				<GroupInfo
 					group={group}
@@ -63,8 +56,6 @@ const UserData = () => {
 					role={role}
 					profileName={profileName}
 					setProfileName={setProfileName}
-					image={image}
-					setImage={setImage}
 					setShowRole={setShowRole}
 					setShowProfileLogo={setShowProfileLogo}
 				/>
