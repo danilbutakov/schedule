@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { Separator } from '../Pairs/Separator';
 import { MemoizedToggleMenu } from './ToggleMenu';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Pair from '../Pairs/Pair';
+import { images } from '../../../assets/globalImages';
 
 const PairsSlider = ({
 	filteredPairs,
@@ -25,15 +26,44 @@ const PairsSlider = ({
 	);
 
 	return (
-		<View style={styles.main}>
-			<FlashList
-				data={filteredPairs}
-				renderItem={renderItem}
-				ref={pairsRef}
-				estimatedItemSize={200}
-				ItemSeparatorComponent={Separator}
-				initialScrollIndex={index}
-			/>
+		<View
+			style={[
+				styles.main,
+				{ paddingTop: filteredPairs.length - 1 >= index ? 12 : 0 }
+			]}>
+			{filteredPairs.length - 1 >= index ? (
+				<FlashList
+					data={filteredPairs}
+					renderItem={renderItem}
+					ref={pairsRef}
+					estimatedItemSize={200}
+					ItemSeparatorComponent={Separator}
+					initialScrollIndex={index}
+				/>
+			) : (
+				<View
+					style={{
+						alignItems: 'center',
+						flex: 1,
+						justifyContent: 'center'
+					}}>
+					<Text
+						style={{
+							fontFamily: 'Montserrat-SemiBold',
+							fontSize: 16,
+							marginBottom: 10
+						}}>
+						Пар нет. Бро, иди поспи
+					</Text>
+					<Image
+						source={images.kizaru}
+						style={{
+							width: '90%',
+							height: '80%'
+						}}
+					/>
+				</View>
+			)}
 			<View
 				style={{
 					borderRadius: 10
@@ -81,7 +111,6 @@ const styles = StyleSheet.create({
 	main: {
 		display: 'flex',
 		flexDirection: 'column',
-		paddingTop: 12,
 		backgroundColor: '#F7F7F7',
 		flex: 1
 	},
