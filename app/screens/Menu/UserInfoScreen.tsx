@@ -1,10 +1,11 @@
 import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
 
 import useAuth from '../../hooks/useAuth';
 import { BlurView } from '@react-native-community/blur';
 import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
+import AppContext from '../../utils/Context';
 
 const UserInfoItem = React.lazy(
 	() => import('../../components/Menu/UserInfoItem')
@@ -16,12 +17,10 @@ const UserInfoItems = React.lazy(
 const { height } = Dimensions.get('screen');
 
 const UserInfoScreen = () => {
-	const [existsParams, setExistsParams] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
-
-	// @ts-ignore
-	const { user } = useAuth();
 	const { profileItems } = useFetchUserDataItems();
+	const { isLoading } = useContext(AppContext);
+
+	const [existsParams, setExistsParams] = useState(false);
 
 	return (
 		<View
@@ -41,11 +40,7 @@ const UserInfoScreen = () => {
 					borderBottomRightRadius: 20,
 					paddingVertical: 20
 				}}>
-				<UserInfoItems
-					user={user}
-					existsParams={existsParams}
-					setIsLoading={setIsLoading}
-				/>
+				<UserInfoItems existsParams={existsParams} />
 			</View>
 			<View
 				style={{

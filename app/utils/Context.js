@@ -6,6 +6,8 @@ export const AppContextProvider = ({ children }) => {
 	const [group, setGroup] = useState('');
 	const [univ, setUniv] = useState('');
 	const [userName, setUserName] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [newImage, setNewImage] = useState(null);
 
 	return (
 		<AppContext.Provider
@@ -15,7 +17,11 @@ export const AppContextProvider = ({ children }) => {
 				univ,
 				setUniv,
 				userName,
-				setUserName
+				setUserName,
+				isLoading,
+				setIsLoading,
+				newImage,
+				setNewImage
 			}}>
 			{children}
 		</AppContext.Provider>

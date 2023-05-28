@@ -11,7 +11,7 @@ const ProfileItems = () => {
 	const { profileItems } = useFetchUserDataItems();
 	return (
 		<Animatable.View animation='fadeIn' duration={1000} useNativeDriver>
-			{profileItems.map((item, key) => {
+			{profileItems?.map((item, key) => {
 				if (item.role || item.group || item.univ) {
 					return (
 						<TouchableOpacity

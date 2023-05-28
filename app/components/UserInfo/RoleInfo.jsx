@@ -29,7 +29,9 @@ const RoleInfo = ({ role, setRole, setShowRole, setShowProfileLogo }) => {
 		<KeyboardAvoidingView style={styles.containerKeyboard}>
 			<View style={styles.con}>
 				<View style={styles.content}>
-					<Text style={styles.title}>Вы студент или преподователь?</Text>
+					<Text style={styles.title}>
+						Вы студент или преподователь?
+					</Text>
 					<View style={styles.btnsCon}>
 						<TouchableOpacity
 							style={styles.container}
@@ -41,7 +43,9 @@ const RoleInfo = ({ role, setRole, setShowRole, setShowProfileLogo }) => {
 								start={{ x: 0, y: 0.5 }}
 								end={{ x: 1, y: 0.5 }}
 								style={styles.conBtnActive}>
-								<Text style={styles.btnTextActive}>Студент</Text>
+								<Text style={styles.btnTextActive}>
+									Студент
+								</Text>
 							</LinearGradient>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -54,14 +58,16 @@ const RoleInfo = ({ role, setRole, setShowRole, setShowProfileLogo }) => {
 								start={{ x: 1, y: 0.5 }}
 								end={{ x: 0, y: 0.5 }}
 								style={styles.conBtnActive}>
-								<Text style={styles.btnText}>Преподователь</Text>
+								<Text style={styles.btnText}>
+									Преподователь
+								</Text>
 							</LinearGradient>
 						</TouchableOpacity>
 					</View>
 					<TouchableOpacity
 						style={styles.container}
 						onPress={() => {
-							if (role !== '') {
+							if (role !== '' && role !== ' ') {
 								setShowRole(false);
 								setShowProfileLogo(true);
 							}
@@ -115,7 +121,8 @@ const styles = StyleSheet.create({
 	},
 	btnsCon: {
 		display: 'flex',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		flex: 1
 	},
 	conBtn: {
 		backgroundColor: '#1E1E1F',

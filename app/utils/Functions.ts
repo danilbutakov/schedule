@@ -9,6 +9,9 @@ import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { Alert } from 'react-native';
 import { useFetchUserDataItems } from '../hooks/useFetchDataItems';
+import { useUserInfoItemImage } from '../hooks/useUserInfoItemImage';
+import { useContext } from 'react';
+import AppContext from './Context';
 
 export const pickImage = async () => {
 	return await ImagePicker.launchImageLibraryAsync({
@@ -158,8 +161,23 @@ export const createProfile = async (
 
 export const handleProfilePicture = async setImage => {
 	const result = await pickImage();
+
 	if (!result.canceled) {
 		setImage(result.assets[0].uri);
+	}
+};
+
+export const handleUserInfoPicture = async (
+	setImage,
+	setNewImage,
+	newImage,
+	image
+) => {
+	const result = await pickImage();
+
+	if (!result.canceled) {
+		setNewImage(result.assets[0].uri);
+		setImage(null);
 	}
 };
 
@@ -177,14 +195,6 @@ export const handleUpdatePassword = async (auth, email) => {
 		});
 };
 
-export const handleUserInfoPicture = async (setNewImage, setImage) => {
-	const result = await pickImage();
-	if (!result.canceled) {
-		setNewImage(result.assets[0].uri);
-		setImage(null);
-	}
-};
-
 export const handleUpdateImage = async (userRef, newImage) => {
 	await updateDoc(userRef, {
 		photoURL: newImage
@@ -195,16 +205,17 @@ export const handleUpdateProfile = async (
 	group: string,
 	univ: string,
 	userName: string,
-	newImage: string,
-	setIsLoading,
-	userRef,
 	user,
-	setImage,
 	setUserName,
 	setUniv,
 	setGroup,
-	setNewImage
+	newImage,
+	setNewImage,
+	setImage,
+	setIsLoading
 ) => {
+	const userRef = doc(fs, 'users', user.uid);
+
 	try {
 		setIsLoading(true);
 
@@ -251,6 +262,6 @@ export const handleUpdateProfile = async (
 		setGroup('');
 		setNewImage(null);
 
-		useFetchUserDataItems();
+		// useFetchUserDataItems();
 	}
 };

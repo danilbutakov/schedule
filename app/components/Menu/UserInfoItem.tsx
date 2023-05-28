@@ -8,17 +8,24 @@ import {
 import * as Animatable from 'react-native-animatable';
 import useAuth from '../../hooks/useAuth';
 import auth from '@react-native-firebase/auth';
-import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
 import AppContext from '../../utils/Context';
+import { useUserInfoItemImage } from '../../hooks/useUserInfoItemImage';
 
 const UserInfoItem = ({ item, setExistsParams }) => {
 	const [userProvider, setUserProvider] = useState('');
-	const [newImage, setNewImage] = useState(null);
 	// @ts-ignore
 	const { user } = useAuth();
-	const { setImage, image } = useFetchUserDataItems();
-	const { group, setGroup, univ, setUniv, userName, setUserName } =
-		useContext(AppContext);
+	const {
+		group,
+		setGroup,
+		univ,
+		setUniv,
+		userName,
+		setUserName,
+		newImage,
+		setNewImage
+	} = useContext(AppContext);
+	const { image, setImage } = useUserInfoItemImage();
 
 	useEffect(() => {
 		if (
@@ -128,11 +135,16 @@ const UserInfoItem = ({ item, setExistsParams }) => {
 					</Text>
 					<TouchableOpacity
 						onPress={() =>
-							handleUserInfoPicture(setNewImage, setImage)
+							handleUserInfoPicture(
+								setImage,
+								setNewImage,
+								newImage,
+								image
+							)
 						}
 						style={{
 							alignSelf: 'center',
-							marginTop: 30
+							marginTop: 10
 						}}>
 						{image ? (
 							<Image
@@ -188,7 +200,7 @@ const styles = StyleSheet.create({
 		lineHeight: 24,
 		color: 'rgba(60, 60, 67, 0.6)',
 		fontFamily: 'Montserrat-Medium',
-		marginVertical: 15
+		marginVertical: 10
 	},
 	change: {
 		marginTop: 20

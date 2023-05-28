@@ -25,6 +25,7 @@ const ProfileLogoInfo = ({
 	profileName,
 	setProfileName
 }) => {
+	// @ts-ignore
 	const { user } = useAuth();
 	const [changeButton, setChangeButton] = useState(styles.conBtn);
 	const [changeBtnText, setChangeBtnText] = useState(styles.btnText);
@@ -96,21 +97,22 @@ const ProfileLogoInfo = ({
 							)}
 						</View>
 					</TouchableOpacity>
-					{}
 				</View>
 				<TouchableOpacity
 					style={styles.container}
-					onPress={createProfile(
-						profileName,
-						image,
-						setIsLoading,
-						user.uid,
-						user.email,
-						univ,
-						group,
-						role,
-						setProfileName
-					)}>
+					onPress={() => {
+						createProfile(
+							profileName,
+							image,
+							setIsLoading,
+							user.uid,
+							user.email,
+							univ,
+							group,
+							role,
+							setProfileName
+						);
+					}}>
 					<View style={changeButton}>
 						<Text style={changeBtnText}>Продолжить</Text>
 					</View>

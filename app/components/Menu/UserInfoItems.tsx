@@ -1,25 +1,43 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, Image, Alert } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { handleUpdateProfile } from '../../utils/Functions';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import AppContext from '../../utils/Context';
-import { doc } from 'firebase/firestore';
-import { fs } from '../../../firebase';
+
+import {
+	handleUpdateImage,
+	handleUpdateProfile,
+	uploadImage
+} from '../../utils/Functions';
 import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
+import useAuth from '../../hooks/useAuth';
+import { useUserInfoItemImage } from '../../hooks/useUserInfoItemImage';
+import AppContext from '../../utils/Context';
+import { doc, updateDoc } from 'firebase/firestore';
+import { fs } from '../../../firebase';
+import { setIsLoading } from '../../store/slices/deletechatSlice';
 
-const UserInfoItems = ({ user, existsParams, setIsLoading }) => {
-	const [newImage, setNewImage] = useState(null);
+const UserInfoItems = ({ existsParams }) => {
+	const { profileItems } = useFetchUserDataItems();
+	// @ts-ignore
+	const { user } = useAuth();
 
-	const userRef = doc(fs, 'users', user.uid);
-	const { profileItems, setImage } = useFetchUserDataItems();
+	const {
+		group,
+		univ,
+		userName,
+		setGroup,
+		setUniv,
+		setUserName,
+		setIsLoading,
+		newImage,
+		setNewImage
+	} = useContext(AppContext);
+	const { setImage } = useUserInfoItemImage();
 
-	const { group, univ, userName, setGroup, setUniv, setUserName } =
-		useContext(AppContext);
 	return (
 		<Animatable.View animation='fadeIn' duration={1000} useNativeDriver>
-			{profileItems.map((item, key) => {
+			{profileItems?.map((item, key) => {
 				if (item.role || item.group || item.univ) {
 					return (
 						<View
@@ -79,22 +97,21 @@ const UserInfoItems = ({ user, existsParams, setIsLoading }) => {
 										display: 'flex',
 										paddingLeft: 10
 									}}
-									onPress={() => {
+									onPress={() =>
 										handleUpdateProfile(
 											group,
 											univ,
 											userName,
-											newImage,
-											setNewImage,
-											setIsLoading,
-											userRef,
 											user,
-											setImage,
 											setUserName,
 											setUniv,
-											setGroup
-										);
-									}}>
+											setGroup,
+											newImage,
+											setNewImage,
+											setImage,
+											setIsLoading
+										)
+									}>
 									<AntDesign
 										name='checkcircle'
 										size={30}
