@@ -6,8 +6,8 @@ import * as Animatable from 'react-native-animatable';
 
 import { MemoizedToggleMenu } from './ToggleMenu';
 import Pair from '../Pairs/Pair';
-import { Separator } from '../Pairs/Separator';
 import { images } from '../../../assets/globalImages';
+import { Separator } from '../Separator';
 
 const PairsSlider = ({
 	filteredPairs,
@@ -42,7 +42,7 @@ const PairsSlider = ({
 					renderItem={renderItem}
 					ref={pairsRef}
 					estimatedItemSize={200}
-					ItemSeparatorComponent={Separator}
+					ItemSeparatorComponent={() => Separator('pairs')}
 					initialScrollIndex={index}
 				/>
 			) : (

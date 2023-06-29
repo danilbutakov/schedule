@@ -21,10 +21,13 @@ export const handleSelect = async (
 			setIsLoading(true);
 			//создаем чат в коллекции чатов
 			await setDoc(doc(fs, 'chats', combinedId), {
-				messages: [],
 				uids: [currentUser.uid, user.uid],
 				date: serverTimestamp(),
 				combinedId: combinedId
+			});
+			await setDoc(doc(fs, 'messages', combinedId), {
+				combinedId: combinedId,
+				uids: [currentUser.uid, user.uid]
 			});
 
 			const res = await getDoc(doc(fs, 'chats', combinedId));

@@ -1,5 +1,5 @@
 import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
 
 import useAuth from '../../hooks/useAuth';
@@ -20,7 +20,13 @@ const UserInfoScreen = () => {
 	const { profileItems } = useFetchUserDataItems();
 	const { isLoading } = useContext(AppContext);
 
-	const [existsParams, setExistsParams] = useState(false);
+	const renderItem = useCallback(({ item }) => {
+		return <UserInfoItem item={item} />;
+	}, []);
+
+	const RenderItems = useCallback(() => {
+		return <UserInfoItems />;
+	}, []);
 
 	return (
 		<View
@@ -40,7 +46,7 @@ const UserInfoScreen = () => {
 					borderBottomRightRadius: 20,
 					paddingVertical: 20
 				}}>
-				<UserInfoItems existsParams={existsParams} />
+				<RenderItems />
 			</View>
 			<View
 				style={{
@@ -54,12 +60,7 @@ const UserInfoScreen = () => {
 				<FlashList
 					contentContainerStyle={{ paddingBottom: 10 }}
 					data={profileItems}
-					renderItem={({ item }) => (
-						<UserInfoItem
-							item={item}
-							setExistsParams={setExistsParams}
-						/>
-					)}
+					renderItem={renderItem}
 					estimatedItemSize={376}
 				/>
 			</View>

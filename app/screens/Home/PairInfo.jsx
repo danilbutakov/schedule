@@ -33,7 +33,7 @@ const DismissKeyboardHOC = Comp => {
 };
 const DismissKeyboardView = DismissKeyboardHOC(View);
 
-const PairInfo = (callback, deps) => {
+const PairInfo = () => {
 	const user = useAuth();
 	const dispatch = useDispatch();
 	const { notes, status, error } = useSelector(state => state.notes);

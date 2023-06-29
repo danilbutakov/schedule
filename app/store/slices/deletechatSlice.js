@@ -5,7 +5,9 @@ import { fs } from '../../../firebase';
 const initialState = {
 	isLoading: false,
 	deleteStatus: null,
-	deleteError: null
+	deleteError: null,
+	deleteMessageStatus: null,
+	deleteMessageError: null
 };
 
 export const deleteChat = createAsyncThunk(
@@ -13,6 +15,24 @@ export const deleteChat = createAsyncThunk(
 	async (route, { rejectWithValue }) => {
 		try {
 			await deleteDoc(doc(fs, 'chats', route.params['chat'].combinedId));
+			await deleteDoc(
+				doc(fs, 'messages', route.params['chat'].combinedId)
+			);
+		} catch (e) {
+			return rejectWithValue(e.message);
+		}
+	}
+);
+
+export const deleteMessage = createAsyncThunk(
+	'chat/deleteMessage',
+	async (combinedId, messageId, { rejectWithValue }) => {
+		console.log(combinedId);
+		console.log(messageId);
+		try {
+			await deleteDoc(
+				doc(fs, `messages/${combinedId}/children/${messageId}`)
+			);
 		} catch (e) {
 			return rejectWithValue(e.message);
 		}
@@ -40,6 +60,18 @@ export const deleteChatSlice = createSlice({
 			.addCase(deleteChat.rejected, (state, action) => {
 				state.deleteStatus = 'rejected';
 				state.deleteError = action.payload;
+			})
+			.addCase(deleteMessage.pending, state => {
+				state.deleteMessageStatus = 'loading';
+				state.deleteMessageError = null;
+			})
+			.addCase(deleteMessage.fulfilled, state => {
+				state.deleteMessageStatus = 'resolved';
+				state.deleteMessageError = null;
+			})
+			.addCase(deleteMessage.rejected, (state, action) => {
+				state.deleteMessageStatus = 'rejected';
+				state.deleteMessageError = action.payload;
 			});
 	}
 });

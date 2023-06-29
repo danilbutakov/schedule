@@ -8,6 +8,7 @@ export const AppContextProvider = ({ children }) => {
 	const [userName, setUserName] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [newImage, setNewImage] = useState(null);
+	const [existsParams, setExistsParams] = useState(false);
 
 	return (
 		<AppContext.Provider
@@ -21,7 +22,9 @@ export const AppContextProvider = ({ children }) => {
 				isLoading,
 				setIsLoading,
 				newImage,
-				setNewImage
+				setNewImage,
+				existsParams,
+				setExistsParams
 			}}>
 			{children}
 		</AppContext.Provider>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 import { useFetchUserData } from '../../hooks/useFetchUserData';
@@ -10,10 +10,10 @@ const Chats = React.lazy(() => import('../../components/Chat/Chats'));
 const ChatsScreen = () => {
 	const { userData } = useFetchUserData();
 
-	const {
-		// @ts-ignore
-		chatsFiltered
-	} = useFetchChats(userData);
+	const { chatsFiltered, isLoading } = useFetchChats(userData);
+
+	const renderChats = chatsFiltered.length > 0 && isLoading === false;
+	const renderEmptyChats = chatsFiltered.length === 0 && isLoading === false;
 
 	return (
 		<Animatable.View
@@ -26,9 +26,17 @@ const ChatsScreen = () => {
 				backgroundColor: '#F7F7F7',
 				paddingHorizontal: 10
 			}}>
-			{chatsFiltered?.length ? (
-				<Chats />
-			) : (
+			{isLoading && (
+				<View
+					style={{
+						justifyContent: 'center',
+						flex: 1
+					}}>
+					<ActivityIndicator size={'large'} />
+				</View>
+			)}
+			{renderChats && <Chats />}
+			{renderEmptyChats && (
 				<View
 					style={{
 						display: 'flex',
