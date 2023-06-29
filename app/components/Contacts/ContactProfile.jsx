@@ -17,7 +17,7 @@ const ContactProfile = () => {
 					elevation: 40
 				}}>
 				<Image
-					source={{ uri: contact.photoURL }}
+					source={{ uri: contact?.photoURL }}
 					style={{ width: '100%', height: '100%', borderRadius: 16 }}
 				/>
 			</View>

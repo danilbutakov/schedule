@@ -11,7 +11,7 @@ const AvatarChat = ({ size, image }) => {
 						width: size,
 						height: size
 					}}
-					source={{ uri: String(image) }}
+					source={{ uri: image }}
 					resizeMode='cover'
 				/>
 			) : (

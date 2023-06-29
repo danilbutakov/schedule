@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { fs } from '../../firebase';
+import { User } from '../utils/Interfaces';
 
-export const useContactPreview = (contact, refreshing) => {
+export const useContactPreview = (contact: User, refreshing) => {
 	const [userPreview, setUserPreview] = useState(contact);
 
 	useEffect(() => {

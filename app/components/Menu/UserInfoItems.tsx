@@ -17,7 +17,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { fs } from '../../../firebase';
 import { setIsLoading } from '../../store/slices/deletechatSlice';
 
-const UserInfoItems = ({ existsParams }) => {
+const UserInfoItems = () => {
 	const { profileItems } = useFetchUserDataItems();
 	// @ts-ignore
 	const { user } = useAuth();
@@ -31,7 +31,8 @@ const UserInfoItems = ({ existsParams }) => {
 		setUserName,
 		setIsLoading,
 		newImage,
-		setNewImage
+		setNewImage,
+		existsParams
 	} = useContext(AppContext);
 	const { setImage } = useUserInfoItemImage();
 
@@ -139,4 +140,4 @@ const UserInfoItems = ({ existsParams }) => {
 	);
 };
 
-export default UserInfoItems;
+export default React.memo(UserInfoItems);

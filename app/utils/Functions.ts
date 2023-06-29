@@ -8,10 +8,6 @@ import auth from '@react-native-firebase/auth';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { Alert } from 'react-native';
-import { useFetchUserDataItems } from '../hooks/useFetchDataItems';
-import { useUserInfoItemImage } from '../hooks/useUserInfoItemImage';
-import { useContext } from 'react';
-import AppContext from './Context';
 
 export const pickImage = async () => {
 	return await ImagePicker.launchImageLibraryAsync({
@@ -167,12 +163,7 @@ export const handleProfilePicture = async setImage => {
 	}
 };
 
-export const handleUserInfoPicture = async (
-	setImage,
-	setNewImage,
-	newImage,
-	image
-) => {
+export const handleUserInfoPicture = async (setImage, setNewImage) => {
 	const result = await pickImage();
 
 	if (!result.canceled) {
@@ -261,7 +252,5 @@ export const handleUpdateProfile = async (
 		setUniv('');
 		setGroup('');
 		setNewImage(null);
-
-		// useFetchUserDataItems();
 	}
 };

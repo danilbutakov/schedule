@@ -41,7 +41,7 @@ const StackNavigator = () => {
 					}}
 				/>
 			)}
-			{!user ? (
+			{!user && (
 				<Stack.Screen
 					name='OnBoard'
 					options={{
@@ -51,7 +51,7 @@ const StackNavigator = () => {
 					}}
 					component={OnBoard}
 				/>
-			) : null}
+			)}
 			{user && user.emailVerified === false && (
 				<Stack.Screen
 					name='OnBoard'

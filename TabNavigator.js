@@ -38,6 +38,7 @@ import SearchAuditionHeader from './app/components/ScreensHeaders/SearchStack/Se
 import SearchTeachersHeader from './app/components/ScreensHeaders/SearchStack/SearchTeachersHeader';
 import NotesHeader from './app/components/ScreensHeaders/NotesStack/NotesHeader';
 import ServicesHeader from './app/components/ScreensHeaders/ServicesStack/ServicesHeader';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -194,6 +195,7 @@ const ServicesStack = () => {
 				options={{
 					header: props => <ChatHeader {...props} />
 				}}
+				navigationKey={'Chat'}
 			/>
 			<Stack.Screen
 				name='ContactInfo'
@@ -207,6 +209,7 @@ const ServicesStack = () => {
 };
 
 const TabNavigator = () => {
+	const navigation = useNavigation();
 	return (
 		<>
 			<Tab.Navigator
@@ -215,7 +218,8 @@ const TabNavigator = () => {
 					tabBarStyle: { backgroundColor: '#F7F7F7' },
 					tabBarShowLabel: false,
 					tabBarInactiveTintColor: '#979797',
-					tabBarActiveTintColor: '#3eb59f'
+					tabBarActiveTintColor: '#3eb59f',
+					tabBarHideOnKeyboard: true
 				}}>
 				<Tab.Screen
 					name='NotesStack'

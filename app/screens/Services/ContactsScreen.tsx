@@ -47,7 +47,10 @@ const ContactPreview = ({ contact, refreshing }) => {
 	return (
 		<ContactItem
 			// @ts-ignore
-			style={{ marginTop: 7, marginBottom: 10 }}
+			style={{
+				marginTop: 7,
+				marginBottom: 10
+			}}
 			user={userPreview}
 		/>
 	);

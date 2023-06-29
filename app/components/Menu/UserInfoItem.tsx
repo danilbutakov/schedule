@@ -11,7 +11,7 @@ import auth from '@react-native-firebase/auth';
 import AppContext from '../../utils/Context';
 import { useUserInfoItemImage } from '../../hooks/useUserInfoItemImage';
 
-const UserInfoItem = ({ item, setExistsParams }) => {
+const UserInfoItem = ({ item }) => {
 	const [userProvider, setUserProvider] = useState('');
 	// @ts-ignore
 	const { user } = useAuth();
@@ -23,7 +23,8 @@ const UserInfoItem = ({ item, setExistsParams }) => {
 		userName,
 		setUserName,
 		newImage,
-		setNewImage
+		setNewImage,
+		setExistsParams
 	} = useContext(AppContext);
 	const { image, setImage } = useUserInfoItemImage();
 
@@ -135,12 +136,7 @@ const UserInfoItem = ({ item, setExistsParams }) => {
 					</Text>
 					<TouchableOpacity
 						onPress={() =>
-							handleUserInfoPicture(
-								setImage,
-								setNewImage,
-								newImage,
-								image
-							)
+							handleUserInfoPicture(setImage, setNewImage)
 						}
 						style={{
 							alignSelf: 'center',
