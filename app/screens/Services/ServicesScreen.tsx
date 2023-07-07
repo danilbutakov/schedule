@@ -24,8 +24,7 @@ const ServicesScreen = () => {
 									Контакты
 								</Text>
 							);
-						}
-						if (route.name === 'chats') {
+						} else {
 							return (
 								<Text
 									style={{

@@ -11,7 +11,9 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+// @ts-ignore
 import Plus from '../../../assets/images/plus.svg';
+// @ts-ignore
 import Minus from '../../../assets/images/minus.svg';
 import useAuth from '../../hooks/useAuth';
 
@@ -36,7 +38,9 @@ const DismissKeyboardView = DismissKeyboardHOC(View);
 const PairInfo = () => {
 	const user = useAuth();
 	const dispatch = useDispatch();
+	// @ts-ignore
 	const { notes, status, error } = useSelector(state => state.notes);
+	// @ts-ignore
 	const clickedPair = useSelector(state => state.pair.clickedPair);
 
 	const [showNotes, setShowNotes] = useState(false);
@@ -46,6 +50,7 @@ const PairInfo = () => {
 
 	//read from database
 	useEffect(() => {
+		// @ts-ignore
 		dispatch(getNotes(clickedPair));
 	}, [dispatch]);
 
@@ -57,15 +62,18 @@ const PairInfo = () => {
 					createdAt: createdAt,
 					note: note,
 					noteId: noteId,
+					// @ts-ignore
 					userUid: user.user.uid,
 					clickedPair: clickedPair
 				})
 			);
 			dispatch(
+				// @ts-ignore
 				writeToDatabase({
 					createdAt,
 					note,
 					noteId,
+					// @ts-ignore
 					userUid: user.user.uid,
 					clickedPair
 				})
@@ -135,7 +143,6 @@ const PairInfo = () => {
 							maxLength={100}
 							multiline={true}
 							numberOfLines={2}
-							keyboardType='text'
 						/>
 						<TouchableOpacity
 							onPress={() => {

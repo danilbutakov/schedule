@@ -1,16 +1,13 @@
 import { View, Text, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
-import useAuth from '../hooks/useAuth';
-
 const NotesScreen = () => {
 	const [notes, setNotes] = useState([]);
-	const { user } = useAuth();
 
 	const [showNotes, setShowNotes] = useState(false);
 
 	useEffect(() => {
-		if (notes !== []) {
+		if (notes.length) {
 			setShowNotes(true);
 		} else {
 			setShowNotes(false);

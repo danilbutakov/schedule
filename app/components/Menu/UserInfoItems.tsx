@@ -1,21 +1,14 @@
 import React, { useContext } from 'react';
-import { View, Text, Image, Alert } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {
-	handleUpdateImage,
-	handleUpdateProfile,
-	uploadImage
-} from '../../utils/Functions';
+import { handleUpdateProfile } from '../../utils/Functions';
 import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
 import useAuth from '../../hooks/useAuth';
 import { useUserInfoItemImage } from '../../hooks/useUserInfoItemImage';
 import AppContext from '../../utils/Context';
-import { doc, updateDoc } from 'firebase/firestore';
-import { fs } from '../../../firebase';
-import { setIsLoading } from '../../store/slices/deletechatSlice';
 
 const UserInfoItems = () => {
 	const { profileItems } = useFetchUserDataItems();
