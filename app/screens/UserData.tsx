@@ -44,7 +44,6 @@ const UserData = () => {
 				<RoleInfo
 					role={role}
 					setRole={setRole}
-					setShowGroup={setShowGroup}
 					setShowRole={setShowRole}
 					setShowProfileLogo={setShowProfileLogo}
 				/>
@@ -56,8 +55,6 @@ const UserData = () => {
 					role={role}
 					profileName={profileName}
 					setProfileName={setProfileName}
-					setShowRole={setShowRole}
-					setShowProfileLogo={setShowProfileLogo}
 				/>
 			)}
 		</>

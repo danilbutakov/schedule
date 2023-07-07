@@ -19,6 +19,7 @@ export const useFetchContacts = () => {
 			const newData = snapshot.docs.map(doc => ({
 				...doc.data()
 			}));
+
 			setContacts(newData);
 			if (refreshing) {
 				setContacts(newData);

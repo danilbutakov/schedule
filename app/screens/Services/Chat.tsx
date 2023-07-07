@@ -47,19 +47,16 @@ const Chat = () => {
 				.toLocaleTimeString()
 				.replace(/(.*)\D\d+/, '$1');
 			const date = new Date().toLocaleDateString('en-GB');
-			const fullTime = new Date().getTime();
+			const timeId = new Date().getTime();
 
-			const docRef = doc(
-				fs,
-				`messages/${combinedId}/children/${fullTime}`
-			);
+			const docRef = doc(fs, `messages/${combinedId}/children/${timeId}`);
 
 			await setDoc(docRef, {
 				message: message,
 				date: date,
 				time: time,
 				senderId: user.uid,
-				messageId: fullTime
+				messageId: timeId
 			});
 			if (image !== null) {
 				let photoUrl;
@@ -79,7 +76,7 @@ const Chat = () => {
 		}
 	};
 
-	const handleUpdateMessage = async (text, fullTime) => {
+	const handleEditMessage = async (text, fullTime) => {
 		const docRef = doc(fs, `messages/${combinedId}/children/${fullTime}`);
 		await updateDoc(docRef, {
 			message: message
