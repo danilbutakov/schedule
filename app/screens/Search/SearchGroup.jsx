@@ -9,13 +9,27 @@ const SearchGroup = () => {
 		<View style={styles.searchContainer}>
 			<View style={styles.searchGroupInfo}>
 				<View style={styles.searchText}>
-					<Text style={{ paddingBottom: 8, fontFamily: 'Montserrat-Bold' }}>
+					<Text
+						style={{
+							paddingBottom: 8,
+							fontFamily: 'Montserrat-Bold',
+							color: '#F7F7F7'
+						}}>
 						ГРУППА
 					</Text>
-					<Text style={{ paddingBottom: 4, fontFamily: 'Montserrat-SemiBold' }}>
+					<Text
+						style={{
+							paddingBottom: 4,
+							fontFamily: 'Montserrat-SemiBold',
+							color: '#F7F7F7'
+						}}>
 						ПИ.1-21-1
 					</Text>
-					<Text style={{ color: '#8E8E93', fontFamily: 'Montserrat-Medium' }}>
+					<Text
+						style={{
+							color: '#8E8E93',
+							fontFamily: 'Montserrat-Medium'
+						}}>
 						Бакалавриат, 2 курс, очная форма
 					</Text>
 				</View>
@@ -24,7 +38,11 @@ const SearchGroup = () => {
 				</View>
 			</View>
 			<View style={styles.searchDate}>
-				<Text style={{ color: '#8E8E93', fontFamily: 'Montserrat-SemiBold' }}>
+				<Text
+					style={{
+						color: '#8E8E93',
+						fontFamily: 'Montserrat-SemiBold'
+					}}>
 					ЧЕТВЕРГ, 27 ОКТЯБРЯ
 				</Text>
 			</View>
@@ -32,25 +50,49 @@ const SearchGroup = () => {
 				<View style={styles.pair}>
 					<View style={styles.headPair}>
 						<View style={styles.headLeft}>
-							<Text style={{ fontFamily: 'Montserrat-Medium' }}>
+							<Text
+								style={{
+									fontFamily: 'Montserrat-Medium',
+									color: '#F7F7F7'
+								}}>
 								Лабораторная
 							</Text>
 						</View>
-						<Text style={{ fontFamily: 'Montserrat-Regular' }}>
+						<Text
+							style={{
+								fontFamily: 'Montserrat-Regular',
+								color: '#F7F7F7'
+							}}>
 							13:50 - 15:20
 						</Text>
 					</View>
 					<View style={styles.infoPair}>
 						<View style={styles.namePair}>
-							<Text style={{ fontFamily: 'Montserrat-SemiBold' }}>ООП</Text>
+							<Text
+								style={{
+									fontFamily: 'Montserrat-SemiBold',
+									color: '#F7F7F7'
+								}}>
+								ООП
+							</Text>
 						</View>
 						<View style={styles.teachPair}>
-							<Text style={{ fontFamily: 'Montserrat-Regular' }}>
+							<Text
+								style={{
+									fontFamily: 'Montserrat-Regular',
+									color: '#F7F7F7'
+								}}>
 								Молчанова Е.И.
 							</Text>
 						</View>
 						<View style={styles.classRoomPair}>
-							<Text style={{ fontFamily: 'Montserrat-Regular' }}>Д-418</Text>
+							<Text
+								style={{
+									fontFamily: 'Montserrat-Regular',
+									color: '#F7F7F7'
+								}}>
+								Д-418
+							</Text>
 						</View>
 					</View>
 				</View>
@@ -63,13 +105,11 @@ const styles = StyleSheet.create({
 	searchContainer: {
 		width: '100%',
 		height,
-		backgroundColor: '#F8F8F8',
+		backgroundColor: '#1E1E1F',
 		padding: 5
 	},
-	searchTitle: {},
-
 	searchGroupInfo: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#4B4B4B',
 		height: 120,
 		display: 'flex',
 		flexDirection: 'row',
@@ -89,8 +129,7 @@ const styles = StyleSheet.create({
 	},
 	pairsContainer: {
 		borderRadius: 16,
-		backgroundColor: '#FFFFFF',
-		height: 115,
+		backgroundColor: '#4B4B4B',
 		width: '100%'
 	},
 	pair: {

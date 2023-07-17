@@ -17,7 +17,7 @@ const ServicesScreen = () => {
 							return (
 								<Text
 									style={{
-										color: '#1E1E1F',
+										color: '#F7F7F7',
 										fontFamily: 'Montserrat-SemiBold',
 										fontSize: 15
 									}}>
@@ -28,7 +28,7 @@ const ServicesScreen = () => {
 							return (
 								<Text
 									style={{
-										color: '#1E1E1F',
+										color: '#F7F7F7',
 										fontFamily: 'Montserrat-SemiBold',
 										fontSize: 15
 									}}>
@@ -39,13 +39,13 @@ const ServicesScreen = () => {
 					},
 					tabBarShowIcon: true,
 					tabBarLabelStyle: {
-						color: '#F7F7F7'
+						color: '#1E1E1F'
 					},
 					tabBarIndicatorStyle: {
-						backgroundColor: '#1E1E1F'
+						backgroundColor: '#F7F7F7'
 					},
 					tabBarStyle: {
-						backgroundColor: '#F7F7F7'
+						backgroundColor: '#1E1E1F'
 					}
 				};
 			}}

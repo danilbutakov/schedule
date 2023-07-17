@@ -97,7 +97,7 @@ const Chat = () => {
 					styles.message,
 					{
 						backgroundColor:
-							item.senderId === user.uid ? '#3eb59f' : '#979797',
+							item.senderId === user.uid ? '#3eb59f' : '#4B4B4B',
 						alignSelf:
 							item.senderId === user.uid
 								? 'flex-end'
@@ -130,13 +130,15 @@ const Chat = () => {
 				<Feather
 					name='paperclip'
 					size={25}
+					style={{ color: '#F7F7F7' }}
 					onPress={() => handleProfilePicture()}
 				/>
 				<TextInput
 					value={message}
 					onChangeText={setMessage}
-					placeholder='Сообщение'
+					placeholder={'Сообщение'}
 					style={styles.input}
+					placeholderTextColor={'#F7F7F7'}
 					multiline={true}
 					numberOfLines={1}
 				/>
@@ -144,6 +146,7 @@ const Chat = () => {
 					<Feather
 						name='send'
 						size={25}
+						style={{ color: '#F7F7F7' }}
 						onPress={() => sendMessage()}
 					/>
 				)}
@@ -154,7 +157,8 @@ const Chat = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		backgroundColor: '#1E1E1F'
 	},
 	messages: {
 		flex: 1,
@@ -195,7 +199,8 @@ const styles = StyleSheet.create({
 		padding: 5,
 		fontSize: 16,
 		marginLeft: 10,
-		fontFamily: 'Montserrat-Medium'
+		fontFamily: 'Montserrat-Medium',
+		color: '#F7F7F7'
 	}
 });
 

@@ -39,7 +39,7 @@ const InputChat = () => {
 				/>
 			</View>
 			<View style={{ display: 'flex', flexDirection: 'row' }}>
-				{msgValue !== '' ? (
+				{msgValue !== '' && msgValue !== ' ' ? (
 					<TouchableOpacity
 						onPress={() => setMsgValue('')}
 						style={{ marginLeft: 15 }}>

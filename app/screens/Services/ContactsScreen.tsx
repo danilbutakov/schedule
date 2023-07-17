@@ -19,7 +19,7 @@ const ContactsScreen = () => {
 			style={{
 				flex: 1,
 				paddingTop: 10,
-				backgroundColor: '#F7F7F7',
+				backgroundColor: '#1E1E1F',
 				paddingHorizontal: 10
 			}}>
 			<SearchContacts />

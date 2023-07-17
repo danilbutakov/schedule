@@ -47,7 +47,7 @@ export default Note;
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#FFFFFF'
+		backgroundColor: '#1E1E1F'
 	},
 	main: {
 		display: 'flex',
@@ -59,12 +59,12 @@ const styles = StyleSheet.create({
 		fontFamily: 'Montserrat-Medium',
 		fontSize: 14,
 		lineHeight: 18,
-		color: '#1E1E1E',
+		color: '#F7F7F7',
 		paddingVertical: 12,
 		flex: 1
 	},
 	downLine: {
-		borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+		borderBottomColor: '#F7F7F7',
 		borderBottomWidth: 1
 	}
 });

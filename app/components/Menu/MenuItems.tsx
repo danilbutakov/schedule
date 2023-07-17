@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: 20,
 		paddingVertical: 7,
-		backgroundColor: '#FFFFFF'
+		backgroundColor: '#4B4B4B'
 	},
 	links: {
 		display: 'flex',
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: 20,
 		paddingVertical: 7,
-		backgroundColor: '#FFFFFF'
+		backgroundColor: '#4B4B4B'
 	},
 	faq: {
 		display: 'flex',
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: 20,
 		paddingVertical: 7,
-		backgroundColor: '#FFFFFF'
+		backgroundColor: '#4B4B4B'
 	},
 	schedCon: {
 		display: 'flex',

@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 10,
 		width: '100%',
-		height: '100%'
+		height: '100%',
+		backgroundColor: '#1E1E1F'
 	},
 	mainInfo: {
 		display: 'flex',
@@ -59,10 +60,12 @@ const styles = StyleSheet.create({
 	},
 	mainText: {
 		fontFamily: 'Montserrat-SemiBold',
-		fontSize: 16
+		fontSize: 16,
+		color: '#F7F7F7'
 	},
 	secondText: {
 		fontFamily: 'Montserrat-Medium',
-		fontSize: 15
+		fontSize: 15,
+		color: '#919191'
 	}
 });

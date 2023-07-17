@@ -5,7 +5,7 @@ const HomeHeader = () => {
 	return (
 		<View
 			style={{
-				backgroundColor: '#F7F7F7'
+				backgroundColor: '#1E1E1F'
 			}}>
 			<Text
 				style={{
@@ -13,8 +13,8 @@ const HomeHeader = () => {
 					fontSize: 23,
 					lineHeight: 32,
 					alignSelf: 'center',
-					color: '1E1E1F',
-					borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+					color: '#F7F7F7',
+					borderBottomColor: '#1E1E1F',
 					borderBottomWidth: 1,
 					width: '100%',
 					alignItems: 'center',

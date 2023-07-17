@@ -18,7 +18,7 @@ const LinksScreen = () => {
 				paddingHorizontal: 20,
 				paddingTop: 12,
 				height,
-				backgroundColor: '#F7F7F7'
+				backgroundColor: '#1E1E1F'
 			}}>
 			<Text style={styles.mainTitle}>Социальные сети</Text>
 			<TouchableOpacity
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 15,
 		lineHeight: 20,
-		color: '#1E1E1F',
+		color: '#F7F7F7',
 		marginLeft: 15
 	},
 	mainCon: {

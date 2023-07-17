@@ -2,7 +2,6 @@ import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native';
 import React, { useCallback, useContext, useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
 
-import useAuth from '../../hooks/useAuth';
 import { BlurView } from '@react-native-community/blur';
 import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
 import AppContext from '../../utils/Context';
@@ -32,7 +31,7 @@ const UserInfoScreen = () => {
 		<View
 			style={{
 				height,
-				backgroundColor: '#F7F7F7',
+				backgroundColor: '#1E1E1F',
 				display: 'flex',
 				flexDirection: 'column',
 				width: '100%'
@@ -41,7 +40,7 @@ const UserInfoScreen = () => {
 				style={{
 					paddingHorizontal: 20,
 					display: 'flex',
-					backgroundColor: '#ffffff',
+					backgroundColor: '#4B4B4B',
 					borderBottomLeftRadius: 20,
 					borderBottomRightRadius: 20,
 					paddingVertical: 20
@@ -52,7 +51,7 @@ const UserInfoScreen = () => {
 				style={{
 					display: 'flex',
 					flex: 1,
-					backgroundColor: '#ffffff',
+					backgroundColor: '#4B4B4B',
 					marginTop: 30,
 					borderTopLeftRadius: 20,
 					borderTopRightRadius: 20

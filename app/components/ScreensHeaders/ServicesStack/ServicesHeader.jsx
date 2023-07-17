@@ -10,7 +10,7 @@ const ServicesHeader = ({ width }) => {
 	return (
 		<TouchableOpacity
 			style={{
-				backgroundColor: '#F7F7F7',
+				backgroundColor: '#1E1E1F',
 				flexDirection: 'row',
 				alignItems: 'center',
 				paddingLeft: 15,
@@ -34,7 +34,7 @@ const ServicesHeader = ({ width }) => {
 					fontFamily: 'Montserrat-SemiBold',
 					fontSize: 20,
 					alignSelf: 'center',
-					color: '1E1E1F',
+					color: '#F7F7F7',
 					width,
 					paddingLeft: 15
 				}}>

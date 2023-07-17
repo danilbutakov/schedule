@@ -15,7 +15,7 @@ const SearchTeachers = () => {
 							fontFamily: 'Montserrat-SemiBold',
 							fontSize: 14,
 							lineHeight: 15,
-							color: '#1E1E1F'
+							color: '#F7F7F7'
 						}}>
 						ПРЕПОДАВАТЕЛЬ
 					</Text>
@@ -25,7 +25,7 @@ const SearchTeachers = () => {
 							fontFamily: 'Montserrat-SemiBold',
 							fontSize: 14,
 							lineHeight: 18,
-							color: '#000000'
+							color: '#F7F7F7'
 						}}>
 						Попова Наталья Сергеевна
 					</Text>
@@ -62,7 +62,8 @@ const SearchTeachers = () => {
 								style={{
 									fontFamily: 'Montserrat-Medium',
 									fontSize: 14,
-									lineHeight: 20
+									lineHeight: 20,
+									color: '#F7F7F7'
 								}}>
 								Лабораторная
 							</Text>
@@ -71,7 +72,8 @@ const SearchTeachers = () => {
 							style={{
 								fontFamily: 'Montserrat-Regular',
 								fontSize: 14,
-								lineHeight: 20
+								lineHeight: 20,
+								color: '#F7F7F7'
 							}}>
 							13:50 - 15:20
 						</Text>
@@ -82,7 +84,8 @@ const SearchTeachers = () => {
 								style={{
 									fontFamily: 'Montserrat-SemiBold',
 									fontSize: 14,
-									lineHeight: 20
+									lineHeight: 20,
+									color: '#F7F7F7'
 								}}>
 								ООП
 							</Text>
@@ -92,7 +95,8 @@ const SearchTeachers = () => {
 								style={{
 									fontFamily: 'Montserrat-Regular',
 									fontSize: 14,
-									lineHeight: 20
+									lineHeight: 20,
+									color: '#F7F7F7'
 								}}>
 								ПИ.1-20-1
 							</Text>
@@ -102,7 +106,8 @@ const SearchTeachers = () => {
 								style={{
 									fontFamily: 'Montserrat-Regular',
 									fontSize: 14,
-									lineHeight: 20
+									lineHeight: 20,
+									color: '#F7F7F7'
 								}}>
 								Д-418
 							</Text>
@@ -116,7 +121,8 @@ const SearchTeachers = () => {
 								style={{
 									fontFamily: 'Montserrat-Medium',
 									fontSize: 14,
-									lineHeight: 20
+									lineHeight: 20,
+									color: '#F7F7F7'
 								}}>
 								Лабораторная
 							</Text>
@@ -125,7 +131,8 @@ const SearchTeachers = () => {
 							style={{
 								fontFamily: 'Montserrat-Regular',
 								fontSize: 14,
-								lineHeight: 20
+								lineHeight: 20,
+								color: '#F7F7F7'
 							}}>
 							15:20 - 16:50
 						</Text>
@@ -136,7 +143,8 @@ const SearchTeachers = () => {
 								style={{
 									fontFamily: 'Montserrat-SemiBold',
 									fontSize: 14,
-									lineHeight: 20
+									lineHeight: 20,
+									color: '#F7F7F7'
 								}}>
 								Дискретная математика
 							</Text>
@@ -146,7 +154,8 @@ const SearchTeachers = () => {
 								style={{
 									fontFamily: 'Montserrat-Regular',
 									fontSize: 14,
-									lineHeight: 20
+									lineHeight: 20,
+									color: '#F7F7F7'
 								}}>
 								ПИ.1-20-1
 							</Text>
@@ -156,7 +165,8 @@ const SearchTeachers = () => {
 								style={{
 									fontFamily: 'Montserrat-Regular',
 									fontSize: 14,
-									lineHeight: 20
+									lineHeight: 20,
+									color: '#F7F7F7'
 								}}>
 								Г-218
 							</Text>
@@ -172,14 +182,13 @@ const styles = StyleSheet.create({
 	searchContainer: {
 		width: '100%',
 		height,
-		backgroundColor: '#F8F8F8',
+		backgroundColor: '#1E1E1F',
 		paddingHorizontal: 12,
-		marginTop: 5
+		paddingTop: 5
 	},
-	searchTitle: {},
 
 	searchGroupInfo: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#4B4B4B',
 		height: 120,
 		display: 'flex',
 		flexDirection: 'row',
@@ -206,7 +215,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 22,
 		paddingVertical: 13,
 		paddingRight: 10,
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#4B4B4B',
 		marginBottom: 5,
 		borderRadius: 16
 	},

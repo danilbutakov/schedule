@@ -97,7 +97,7 @@ const SearchContacts = () => {
 			{filteredUsers.length > 0 && (
 				<ScrollView
 					style={{
-						backgroundColor: '#e5e5ea',
+						backgroundColor: '#4B4B4B',
 						borderRadius: 16,
 						paddingTop: 20,
 						paddingHorizontal: 10
@@ -135,7 +135,8 @@ const SearchContacts = () => {
 											style={{
 												fontFamily: 'Montserrat-Bold',
 												fontSize: 14,
-												marginBottom: 5
+												marginBottom: 5,
+												color: '#F7F7F7'
 											}}>
 											{user.profileName}
 										</Text>
@@ -192,13 +193,13 @@ const SearchContacts = () => {
 				<>
 					<BlurView
 						style={styles.absolute}
-						blurType='light'
+						blurType='dark'
 						blurAmount={3}
 					/>
 					<ActivityIndicator
 						size='large'
 						color='#1E1E1F'
-						style={{ backgroundColor: '#F7F7F7' }}
+						style={{ backgroundColor: '#4B4B4B' }}
 					/>
 				</>
 			) : null}
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
 	searchBlock: {
 		width: '100%',
 		borderRadius: 16,
-		backgroundColor: '#e5e5ea',
+		backgroundColor: '#4B4B4B',
 		alignItems: 'center',
 		display: 'flex',
 		flexDirection: 'row',

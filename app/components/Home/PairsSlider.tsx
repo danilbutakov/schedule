@@ -56,7 +56,8 @@ const PairsSlider = ({
 						style={{
 							fontFamily: 'Montserrat-SemiBold',
 							fontSize: 16,
-							marginBottom: 10
+							marginBottom: 10,
+							color: '#F7F7F7'
 						}}>
 						Пар нет. Бро, иди поспи
 					</Text>
@@ -86,7 +87,7 @@ const PairsSlider = ({
 						<MaterialCommunityIcons
 							name='calendar-blank-multiple'
 							size={25}
-							color={'#A5A5A5'}
+							color={'#1E1E1F'}
 							style={{
 								padding: 15
 							}}
@@ -117,22 +118,22 @@ const styles = StyleSheet.create({
 	main: {
 		display: 'flex',
 		flexDirection: 'column',
-		backgroundColor: '#F7F7F7',
+		backgroundColor: '#1E1E1F',
 		flex: 1
 	},
 	chooseWeekDay: {
-		backgroundColor: '#F7F7F7',
+		backgroundColor: '#1E1E1F',
 		marginBottom: 10
 	},
 	container: {
 		flexDirection: 'row',
-		backgroundColor: '#1F1F1E',
+		backgroundColor: '#F7F7F7',
 		borderRadius: 10,
 		alignItems: 'center'
 	},
 	text: {
 		fontFamily: 'Montserrat-Medium',
-		color: '#A5A5A5',
+		color: '#1E1E1F',
 		paddingVertical: 15,
 		fontSize: 16,
 		paddingRight: 5,
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
 	},
 	textLength: {
 		fontFamily: 'Montserrat-Medium',
-		color: '#A5A5A5',
+		color: '#1E1E1F',
 		fontSize: 16,
 		paddingRight: 15
 	}

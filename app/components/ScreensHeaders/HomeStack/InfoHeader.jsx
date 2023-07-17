@@ -2,6 +2,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { images } from '../../../../assets/globalImages';
 import { useNavigation } from '@react-navigation/native';
+import Arrow from '../../../../assets/svgUtils/Arrow.svg';
 
 const InfoHeader = () => {
 	const navigation = useNavigation();
@@ -9,30 +10,32 @@ const InfoHeader = () => {
 		<TouchableOpacity onPress={() => navigation.navigate('Home')}>
 			<View
 				style={{
-					backgroundColor: '#F7F7F7',
-					borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+					backgroundColor: '#1E1E1F',
+					borderBottomColor: '#F7F7F7',
 					borderBottomWidth: 1,
-					marginTop: 10,
+					paddingTop: 10,
 					paddingBottom: 10,
 					paddingLeft: 20,
 					display: 'flex',
 					flexDirection: 'row',
-					alignItems: 'center'
+					alignItems: 'center',
+					color: '#F7F7F7'
 				}}>
-				<Image
-					source={images.arrowLeft}
+				<Arrow
 					style={{
-						width: 10,
-						height: 20
+						width: 25,
+						height: 25,
+						color: '#F7F7F7',
+						transform: [{ rotateY: '180deg' }]
 					}}
 				/>
 				<Text
 					style={{
 						fontFamily: 'Montserrat-SemiBold',
-						fontSize: 16,
-						lineHeight: 24,
-						color: '1E1E1F',
-						paddingLeft: 10
+						fontSize: 17,
+						lineHeight: 25,
+						color: '#F7F7F7',
+						marginLeft: 15
 					}}>
 					Расписание
 				</Text>

@@ -24,19 +24,22 @@ const ChatsItem = ({ item }) => {
 				navigation.setOptions({ tabBarVisible: false });
 			}}
 			style={{
-				marginHorizontal: 2
+				marginHorizontal: 2,
+				width: '100%'
 			}}>
 			<View
 				style={{
 					flexDirection: 'row',
 					justifyContent: 'space-between',
 					alignItems: 'center',
-					padding: 5
+					padding: 5,
+					width: '100%'
 				}}>
 				<View
 					style={{
 						flexDirection: 'row',
-						alignItems: 'center'
+						alignItems: 'center',
+						width: '100%'
 					}}>
 					<AvatarChat
 						image={usersBPhotos
@@ -47,7 +50,8 @@ const ChatsItem = ({ item }) => {
 					<View
 						style={{
 							flexDirection: 'row',
-							alignItems: 'center'
+							alignItems: 'center',
+							width: '100%'
 						}}>
 						<View
 							style={{
@@ -56,7 +60,8 @@ const ChatsItem = ({ item }) => {
 							<Text
 								style={{
 									fontFamily: 'Montserrat-SemiBold',
-									fontSize: 16
+									fontSize: 16,
+									color: '#F7F7F7'
 								}}>
 								{usersBNames.filter(
 									name => name === filteredUser.profileName
@@ -65,7 +70,8 @@ const ChatsItem = ({ item }) => {
 							<View
 								style={{
 									flexDirection: 'row',
-									alignItems: 'center'
+									alignItems: 'center',
+									justifyContent: 'space-between'
 								}}>
 								<View
 									style={{
@@ -76,7 +82,8 @@ const ChatsItem = ({ item }) => {
 										style={{
 											fontSize: 14,
 											color: '#3eb59f',
-											fontFamily: 'Montserrat-Regular'
+											fontFamily: 'Montserrat-Regular',
+											marginRight: 5
 										}}>
 										Вы: {''}
 									</Text>
@@ -84,7 +91,8 @@ const ChatsItem = ({ item }) => {
 										style={{
 											fontFamily: 'Montserrat-Regular',
 											fontSize: 14,
-											maxWidth: 160
+											maxWidth: 160,
+											color: '#F7F7F7'
 										}}
 										numberOfLines={1}
 										ellipsizeMode='tail'>

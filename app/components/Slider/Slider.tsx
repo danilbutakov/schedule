@@ -38,7 +38,7 @@ const Slider = () => {
 	const handleSheetChanges = useCallback((index: number) => {}, []);
 
 	return (
-		<View style={{ backgroundColor: isOpen ? '#00000030' : '#ffffff' }}>
+		<View style={{ backgroundColor: '#1E1E1F' }}>
 			<FlatList
 				data={slides}
 				renderItem={({ item }) => <SlideItem item={item} />}
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 		display: 'flex',
 		width: '90%',
-		backgroundColor: '#1E1E1F'
+		backgroundColor: '#4B4B4B'
 	},
 	btn: {
 		fontSize: 17,
