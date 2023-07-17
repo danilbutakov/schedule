@@ -67,7 +67,7 @@ const HomeScreen = () => {
 			<View
 				style={{
 					paddingHorizontal: 15,
-					backgroundColor: '#F7F7F7',
+					backgroundColor: '#1E1E1F',
 					height: '100%'
 				}}>
 				<DaysSlider

@@ -12,7 +12,7 @@ const PaginationSlider = ({ data, currentDot }) => {
 							styles.dotsInactive,
 							{
 								backgroundColor:
-									currentDot === idx ? '#1E1E1F' : '#ccc'
+									currentDot === idx ? '#F7F7F7' : '#7E7E7E'
 							}
 						]}
 					/>

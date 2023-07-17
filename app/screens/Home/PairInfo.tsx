@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'column',
 		paddingTop: 12,
-		backgroundColor: '#F7F7F7',
+		backgroundColor: '#1E1E1F',
 		flex: 1
 	},
 	titles: {
@@ -191,18 +191,20 @@ const styles = StyleSheet.create({
 	typeText: {
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 14,
-		marginBottom: 8
+		marginBottom: 8,
+		color: '#F7F7F7'
 	},
 	nameText: {
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 15,
-		lineHeight: 24
+		lineHeight: 24,
+		color: '#F7F7F7'
 	},
 	addInfoCon: {
-		backgroundColor: '#FFFFFF'
+		backgroundColor: '#1E1E1F'
 	},
 	addInfoConNotes: {
-		backgroundColor: '#FFFFFF'
+		backgroundColor: '#1E1E1F'
 	},
 	inf: {
 		display: 'flex',
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'Montserrat-Medium',
 		fontSize: 14,
 		lineHeight: 18,
-		color: '#1E1E1E',
+		color: '#F7F7F7',
 		paddingVertical: 12,
 		flex: 1
 	},
@@ -249,7 +251,7 @@ const styles = StyleSheet.create({
 	},
 	addNoteInput: {
 		borderRadius: 16,
-		backgroundColor: '#ffffff',
+		backgroundColor: '#4B4B4B',
 		paddingVertical: 13,
 		paddingHorizontal: 18,
 		fontSize: 13,
@@ -257,7 +259,7 @@ const styles = StyleSheet.create({
 		shadowColor: 'rgba(0, 0, 0, 0.3)',
 		shadowOffset: { width: 0, height: 4 },
 		elevation: 6,
-		color: 'rgba(60, 60, 67, 0.6)',
+		color: '#F7F7F7',
 		fontFamily: 'Montserrat-Regular',
 		width: '100%'
 	},
@@ -265,7 +267,7 @@ const styles = StyleSheet.create({
 		marginTop: 22
 	},
 	noteBtnText: {
-		backgroundColor: '#1E1E1F',
+		backgroundColor: '#4B4B4B',
 		borderRadius: 16,
 		padding: 15,
 		width: '100%',

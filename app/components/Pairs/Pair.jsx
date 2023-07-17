@@ -14,8 +14,10 @@ const Pair = React.memo(({ pair }) => {
 			{pair.map((p, key) => (
 				<View key={key}>
 					{p.day ? (
-						<View style={[styles.day, styles.shadowDay]}>
-							<Text style={styles.dayText}>{p.day}</Text>
+						<View style={styles.day}>
+							<Text style={styles.dayText}>
+								{p.day.toUpperCase()}
+							</Text>
 						</View>
 					) : (
 						<TouchableOpacity
@@ -78,7 +80,7 @@ export default Pair;
 
 const styles = StyleSheet.create({
 	pairCon: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#4B4B4B',
 		marginBottom: 5,
 		paddingBottom: 17,
 		borderRadius: 16,
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 2
 	},
 	pairConLast: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#1E1E1F',
 		paddingBottom: 17,
 		borderRadius: 16,
 		marginBottom: 40
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	indexText: {
-		color: '#81F2DE',
+		color: '#3eb59f',
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 14
 	},
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		lineHeight: 32,
 		marginLeft: 12,
-		color: '#1E1E1F'
+		color: '#F7F7F7'
 	},
 	headRight: {
 		paddingRight: 12,
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'Montserrat-Medium',
 		fontSize: 16,
 		lineHeight: 32,
-		color: '#1E1E1F'
+		color: '#F7F7F7'
 	},
 	infoPair: {
 		paddingHorizontal: 20
@@ -147,48 +149,31 @@ const styles = StyleSheet.create({
 	teacherText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
-		color: '#1E1E1F',
+		color: '#F7F7F7',
 		marginBottom: 8
 	},
 	classRoomText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
-		color: '#1E1E1F'
+		color: '#F7F7F7'
 	},
 	groupText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 14,
-		color: '#1E1E1F'
+		color: '#F7F7F7'
 	},
 	groupPair: {
 		marginTop: 10
 	},
 	day: {
-		marginBottom: 30,
-		backgroundColor: '#FFFFFF',
-		borderRadius: 18,
-		paddingVertical: 10,
-		paddingHorizontal: 10,
-		marginHorizontal: 5,
-		marginTop: 5,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	shadowDay: {
-		shadowColor: '#3eb59f',
-		shadowOffset: {
-			width: 0,
-			height: 2
-		},
-		shadowOpacity: 0.4,
-		shadowRadius: 7,
-		elevation: 5
+		marginBottom: 15,
+		justifyContent: 'center'
 	},
 	dayText: {
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 15,
 		lineHeight: 32,
 		marginLeft: 12,
-		color: '#1E1E1F'
+		color: '#F7F7F7'
 	}
 });

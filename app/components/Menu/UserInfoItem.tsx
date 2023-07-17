@@ -62,7 +62,8 @@ const UserInfoItem = ({ item }) => {
 							style={{
 								fontFamily: 'Montserrat-SemiBold',
 								fontSize: 17,
-								lineHeight: 23
+								lineHeight: 23,
+								color: '#F7F7F7'
 							}}>
 							Группа
 						</Text>
@@ -77,7 +78,8 @@ const UserInfoItem = ({ item }) => {
 						style={{
 							fontFamily: 'Montserrat-SemiBold',
 							fontSize: 17,
-							lineHeight: 23
+							lineHeight: 23,
+							color: '#F7F7F7'
 						}}>
 						ВУЗ
 					</Text>
@@ -91,7 +93,8 @@ const UserInfoItem = ({ item }) => {
 						style={{
 							fontFamily: 'Montserrat-SemiBold',
 							fontSize: 17,
-							lineHeight: 23
+							lineHeight: 23,
+							color: '#F7F7F7'
 						}}>
 						Ваше имя
 					</Text>
@@ -130,7 +133,8 @@ const UserInfoItem = ({ item }) => {
 						style={{
 							fontFamily: 'Montserrat-SemiBold',
 							fontSize: 17,
-							lineHeight: 23
+							lineHeight: 23,
+							color: '#F7F7F7'
 						}}>
 						Ваше фото профиля
 					</Text>

@@ -15,7 +15,7 @@ const NotesScreen = () => {
 	}, []);
 
 	return (
-		<View style={{ backgroundColor: '#F7F7F7', height: '100%' }}>
+		<View style={{ backgroundColor: '#1E1E1F', height: '100%' }}>
 			{showNotes ? (
 				<ScrollView>
 					<Text
@@ -24,13 +24,23 @@ const NotesScreen = () => {
 							fontSize: 15,
 							lineHeight: 20,
 							marginTop: 20,
-							paddingHorizontal: 20
+							paddingHorizontal: 20,
+							color: '#F7F7F7'
 						}}>
 						В разработке
 					</Text>
 				</ScrollView>
 			) : (
-				<Text>Заметок нет</Text>
+				<Text
+					style={{
+						fontFamily: 'Montserrat-SemiBold',
+						fontSize: 15,
+						lineHeight: 20,
+						paddingHorizontal: 20,
+						color: '#F7F7F7'
+					}}>
+					Заметок нет
+				</Text>
 			)}
 		</View>
 	);

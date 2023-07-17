@@ -56,7 +56,8 @@ const ContactItem = ({ user }) => {
 								style={{
 									fontFamily: 'Montserrat-Bold',
 									fontSize: 14,
-									marginBottom: 5
+									marginBottom: 5,
+									color: '#F7F7F7'
 								}}>
 								{user.profileName || user.displayName}
 							</Text>
@@ -113,13 +114,13 @@ const ContactItem = ({ user }) => {
 				<>
 					<BlurView
 						style={styles.absolute}
-						blurType='light'
+						blurType='dark'
 						blurAmount={3}
 					/>
 					<ActivityIndicator
 						size='large'
 						color='#1E1E1F'
-						style={{ backgroundColor: '#F7F7F7' }}
+						style={{ backgroundColor: '#4B4B4B' }}
 					/>
 				</>
 			) : null}

@@ -21,13 +21,13 @@ const MenuScreen = () => {
 				<>
 					<BlurView
 						style={styles.absolute}
-						blurType='light'
+						blurType='dark'
 						blurAmount={3}
 					/>
 					<ActivityIndicator
 						size='large'
 						color='#1E1E1F'
-						style={{ backgroundColor: '#F7F7F7' }}
+						style={{ backgroundColor: '#1E1E1F' }}
 					/>
 				</>
 			) : null}
@@ -39,7 +39,7 @@ export default MenuScreen;
 
 const styles = StyleSheet.create({
 	mainContainer: {
-		backgroundColor: '#F7F7F7',
+		backgroundColor: '#1E1E1F',
 		height: '100%',
 		width
 	},

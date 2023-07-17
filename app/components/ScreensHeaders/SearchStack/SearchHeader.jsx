@@ -13,18 +13,18 @@ const SearchHeader = ({ width }) => {
 					fontSize: 20,
 					lineHeight: 25,
 					alignSelf: 'center',
-					color: '1E1E1F',
-					borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+					color: '#F7F7F7',
+					borderBottomColor: '#F7F7F7',
 					borderBottomWidth: 1,
 					width,
 					alignItems: 'center',
 					display: 'flex',
 					justifyContent: 'center',
 					textAlign: 'left',
-					marginTop: 10,
-					marginBottom: 5,
-					paddingBottom: 10,
-					paddingLeft: 20
+					paddingTop: 10,
+					paddingBottom: 15,
+					paddingLeft: 20,
+					backgroundColor: '#1E1E1F'
 				}}>
 				Поиск
 			</Text>

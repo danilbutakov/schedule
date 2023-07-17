@@ -5,7 +5,7 @@ const NotesHeader = ({ width }) => {
 	return (
 		<View
 			style={{
-				backgroundColor: '#F7F7F7'
+				backgroundColor: '#1E1E1F'
 			}}>
 			<Text
 				style={{
@@ -13,7 +13,7 @@ const NotesHeader = ({ width }) => {
 					fontSize: 20,
 					lineHeight: 25,
 					alignSelf: 'center',
-					color: '1E1E1F',
+					color: '#F7F7F7',
 					borderBottomColor: 'rgba(60, 60, 67, 0.13)',
 					borderBottomWidth: 1,
 					width,

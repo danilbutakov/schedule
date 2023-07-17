@@ -18,7 +18,7 @@ const StackNavigator = () => {
 			screenOptions={{
 				cardStyleInterpolator: CardStyleInterpolates.forHorizontalIOS,
 				headerStyle: {
-					backgroundColor: '#FFFFFF',
+					backgroundColor: '#1E1E1F',
 					shadowOpacity: 0,
 					elevation: 0
 				}

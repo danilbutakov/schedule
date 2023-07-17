@@ -38,7 +38,7 @@ import SearchAuditionHeader from './app/components/ScreensHeaders/SearchStack/Se
 import SearchTeachersHeader from './app/components/ScreensHeaders/SearchStack/SearchTeachersHeader';
 import NotesHeader from './app/components/ScreensHeaders/NotesStack/NotesHeader';
 import ServicesHeader from './app/components/ScreensHeaders/ServicesStack/ServicesHeader';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -215,7 +215,7 @@ const TabNavigator = () => {
 			<Tab.Navigator
 				initialRouteName='HomeStack'
 				screenOptions={{
-					tabBarStyle: { backgroundColor: '#F7F7F7' },
+					tabBarStyle: { backgroundColor: '#1E1E1F' },
 					tabBarShowLabel: false,
 					tabBarInactiveTintColor: '#979797',
 					tabBarActiveTintColor: '#3eb59f',

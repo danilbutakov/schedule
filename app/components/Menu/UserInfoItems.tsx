@@ -69,7 +69,8 @@ const UserInfoItems = () => {
 											fontFamily: 'Montserrat-Bold',
 											fontSize: 15,
 											lineHeight: 20,
-											maxWidth: 200
+											maxWidth: 200,
+											color: '#F7F7F7'
 										}}>
 										{item.profileName}
 									</Text>
@@ -77,7 +78,7 @@ const UserInfoItems = () => {
 										style={{
 											fontSize: 14,
 											lineHeight: 20,
-											color: 'rgba(60, 60, 67, 0.6)',
+											color: '#979797',
 											fontFamily: 'Montserrat-Medium',
 											maxWidth: 200
 										}}>

@@ -42,14 +42,14 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 24,
 		textAlign: 'center',
-		color: '#1E1E1E',
+		color: '#F7F7F7',
 		marginBottom: 15,
 		fontFamily: 'Montserrat-SemiBold'
 	},
 	subTitle: {
 		fontSize: 17,
 		lineHeight: 24,
-		color: 'rgba(69, 69, 69, 0.6)',
+		color: '#7E7E7E',
 		display: 'flex',
 		alignItems: 'center',
 		textAlign: 'center',

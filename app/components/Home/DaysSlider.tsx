@@ -27,7 +27,7 @@ const WeekItem = ({ day, onClickDay, setIndex, setActiveDay, active }) => {
 				style={{
 					fontFamily: 'Montserrat-Medium',
 					fontSize: 15,
-					color: active === day.id ? 'white' : 'black'
+					color: active === day.id ? 'white' : '#87878B'
 				}}>
 				{day.weekDay}
 			</Text>
@@ -48,7 +48,7 @@ const DaysSlider = ({
 			animation='fadeIn'
 			duration={1000}
 			useNativeDriver
-			style={{ backgroundColor: '#F7F7F7' }}>
+			style={{ backgroundColor: '#1E1E1F' }}>
 			<View
 				style={{
 					justifyContent: 'center',

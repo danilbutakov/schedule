@@ -126,7 +126,7 @@ export const createProfile = async (
 			univ: univ,
 			group: group,
 			role: role,
-			photoURLы
+			photoURL
 		};
 		if (photoURL) {
 			userData.photoURL = photoURL;

@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 	infoCon: {
 		marginTop: 10,
 		marginBottom: 20,
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#1E1E1F',
 		width: '100%',
 		padding: 20
 	},
@@ -67,14 +67,14 @@ const styles = StyleSheet.create({
 	},
 	role: {
 		fontFamily: 'Montserrat-Bold',
-		color: '#1E1E1F',
+		color: '#F7F7F7',
 		fontSize: 15,
 		marginBottom: 9,
 		width: 200
 	},
 	group: {
 		fontFamily: 'Montserrat-SemiBold',
-		color: '#1E1E1F',
+		color: '#F7F7F7',
 		fontSize: 15,
 		lineHeight: 18,
 		marginBottom: 4

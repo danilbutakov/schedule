@@ -8,8 +8,7 @@ export const Separator = (type: string) => {
 				styles.default,
 				{
 					marginVertical: type === 'chats' ? 10 : 20,
-					borderBottomWidth: type === 'chats' ? 0.5 : 1,
-					borderBottomColor: type === 'chats' ? '#A5A5A5' : '#1E1E1F'
+					borderBottomColor: type === 'chats' ? '#A5A5A5' : '#F7F7F7'
 				}
 			]}
 		/>
@@ -18,8 +17,8 @@ export const Separator = (type: string) => {
 
 const styles = StyleSheet.create({
 	default: {
-		borderBottomWidth: 1,
+		borderBottomWidth: 0.5,
 		marginVertical: 20,
-		borderBottomColor: '#1E1E1F'
+		borderBottomColor: '#F7F7F7'
 	}
 });

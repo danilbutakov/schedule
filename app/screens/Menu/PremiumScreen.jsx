@@ -7,7 +7,7 @@ const PremiumScreen = () => {
 	return (
 		<View
 			style={{
-				backgroundColor: '#F7F7F7',
+				backgroundColor: '#1E1E1F',
 				height,
 				paddingHorizontal: 20
 			}}>
@@ -16,7 +16,8 @@ const PremiumScreen = () => {
 					fontFamily: 'Montserrat-SemiBold',
 					fontSize: 15,
 					lineHeight: 20,
-					marginTop: 20
+					marginTop: 20,
+					color: '#F7F7F7'
 				}}>
 				В разработке
 			</Text>

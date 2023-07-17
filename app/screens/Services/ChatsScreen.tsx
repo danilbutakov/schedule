@@ -23,7 +23,7 @@ const ChatsScreen = () => {
 			style={{
 				flex: 1,
 				paddingTop: 10,
-				backgroundColor: '#F7F7F7',
+				backgroundColor: '#1E1E1F',
 				paddingHorizontal: 10
 			}}>
 			{isLoading && (
@@ -47,7 +47,8 @@ const ChatsScreen = () => {
 					<Text
 						style={{
 							fontFamily: 'Montserrat-SemiBold',
-							fontSize: 17
+							fontSize: 17,
+							color: '#F7F7F7'
 						}}>
 						Начните общение с кем нибудь &#128521;
 					</Text>

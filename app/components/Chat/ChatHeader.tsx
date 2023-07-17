@@ -6,9 +6,10 @@ import * as Animatable from 'react-native-animatable';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
 
-import { images } from '../../../assets/globalImages';
 import Avatar from './AvatarChat';
 import { deleteChat } from '../../store/slices/deletechatSlice';
+// @ts-ignore
+import Arrow from '../../../assets/svgUtils/Arrow.svg';
 
 const ChatHeader = () => {
 	const navigation = useNavigation();
@@ -28,10 +29,10 @@ const ChatHeader = () => {
 	return (
 		<View
 			style={{
-				backgroundColor: '#F7F7F7',
-				borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+				backgroundColor: '#1E1E1F',
+				borderBottomColor: '#F7F7F7',
 				borderBottomWidth: 1,
-				marginTop: 10,
+				paddingTop: 10,
 				paddingBottom: 10,
 				display: 'flex',
 				flexDirection: 'row',
@@ -47,12 +48,12 @@ const ChatHeader = () => {
 					justifyContent: 'space-between'
 				}}>
 				<TouchableOpacity onPress={() => navigation.goBack()}>
-					<Image
-						source={images.arrowLeft}
+					<Arrow
 						style={{
-							width: 10,
-							height: 20,
-							marginRight: 5
+							width: 25,
+							height: 25,
+							color: '#F7F7F7',
+							transform: [{ rotateY: '180deg' }]
 						}}
 					/>
 				</TouchableOpacity>
@@ -79,7 +80,7 @@ const ChatHeader = () => {
 								fontFamily: 'Montserrat-SemiBold',
 								fontSize: 19,
 								lineHeight: 25,
-								color: '1E1E1F'
+								color: '#F7F7F7'
 							}}>
 							{route.params['userB']?.profileName ||
 								route.params['userB']?.displayName}
@@ -94,7 +95,7 @@ const ChatHeader = () => {
 					borderRadius: 50,
 					position: 'absolute',
 					right: 15,
-					top: 5
+					top: 14
 				}}
 				onPress={() => setSelectEdit(!selectEdit)}>
 				<Entypo name='dots-three-vertical' size={20} />

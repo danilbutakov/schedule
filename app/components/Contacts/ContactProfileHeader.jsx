@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 import * as Animatable from 'react-native-animatable';
 
 import { images } from '../../../assets/globalImages';
+import Arrow from '../../../assets/svgUtils/Arrow.svg';
 
 const ContactProfileHeader = () => {
 	const navigation = useNavigation();
@@ -18,8 +19,8 @@ const ContactProfileHeader = () => {
 	return (
 		<View
 			style={{
-				backgroundColor: '#F7F7F7',
-				borderBottomColor: 'rgba(60, 60, 67, 0.13)',
+				backgroundColor: '#1E1E1F',
+				borderBottomColor: '#F7F7F7',
 				borderBottomWidth: 1,
 				paddingHorizontal: 15,
 				display: 'flex',
@@ -29,7 +30,7 @@ const ContactProfileHeader = () => {
 			}}>
 			<TouchableOpacity
 				style={{
-					backgroundColor: '#F7F7F7',
+					backgroundColor: '#1E1E1F',
 					marginTop: 10,
 					paddingBottom: 10,
 					display: 'flex',
@@ -44,11 +45,12 @@ const ContactProfileHeader = () => {
 						display: 'flex',
 						flexDirection: 'row'
 					}}>
-					<Image
-						source={images.arrowLeft}
+					<Arrow
 						style={{
-							width: 10,
-							height: 20
+							width: 25,
+							height: 25,
+							color: '#F7F7F7',
+							transform: [{ rotateY: '180deg' }]
 						}}
 					/>
 					<View
@@ -63,7 +65,7 @@ const ContactProfileHeader = () => {
 								fontFamily: 'Montserrat-SemiBold',
 								fontSize: 19,
 								lineHeight: 25,
-								color: '1E1E1F'
+								color: '#F7F7F7'
 							}}>
 							{user.profileName || user.displayName}
 						</Text>
