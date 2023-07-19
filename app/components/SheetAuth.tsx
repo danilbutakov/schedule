@@ -238,7 +238,8 @@ const SheetAuth = () => {
 								fontSize: 23,
 								alignSelf: 'center',
 								lineHeight: 28,
-								marginBottom: 30
+								marginBottom: 30,
+								color: '#F7F7F7'
 							}}>
 							Письмо подтверждения
 						</Text>
@@ -248,7 +249,8 @@ const SheetAuth = () => {
 								fontSize: 15,
 								alignSelf: 'center',
 								lineHeight: 20,
-								flex: 0.85
+								flex: 0.85,
+								color: '#F7F7F7'
 							}}>
 							Перейдите по ссылке в отправленном письме на вашу
 							почту: {user?.email}, чтобы подтвердить Email.{' '}
@@ -295,7 +297,11 @@ const SheetAuth = () => {
 										console.log(error);
 									});
 							}}>
-							<Text>
+							<Text
+								style={{
+									fontFamily: 'Montserrat-Regular',
+									color: '#F7F7F7'
+								}}>
 								{`Не пришло письмо?`}
 								<Text
 									style={{
@@ -553,7 +559,7 @@ const styles = StyleSheet.create({
 		right: 0
 	},
 	title: {
-		color: '#1E1E1F',
+		color: '#F7F7F7',
 		fontSize: 24,
 		lineHeight: 32,
 		fontFamily: 'Montserrat-SemiBold',
@@ -563,7 +569,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		lineHeight: 18,
 		marginTop: 8,
-		color: '#1E1E1F',
+		color: '#F7F7F7',
 		fontFamily: 'Montserrat-Medium',
 		textAlign: 'left'
 	},
@@ -571,7 +577,7 @@ const styles = StyleSheet.create({
 		marginTop: 20
 	},
 	conBtnActive: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#F7F7F7',
 		borderRadius: 20,
 		borderColor: 'rgba(60, 60, 67, 0.13)',
 		borderWidth: 1,
@@ -583,7 +589,7 @@ const styles = StyleSheet.create({
 		width: '100%'
 	},
 	conBtnActiveApple: {
-		backgroundColor: '#414141',
+		backgroundColor: '#303030',
 		borderRadius: 20,
 		borderColor: 'rgba(60, 60, 67, 0.13)',
 		borderWidth: 1,
@@ -604,11 +610,11 @@ const styles = StyleSheet.create({
 	btnTextActiveApple: {
 		fontSize: 14,
 		lineHeight: 24,
-		color: '#FFFFFF',
+		color: '#F7F7F7',
 		fontFamily: 'Montserrat-SemiBold'
 	},
 	another: {
-		color: '#8A8A8E',
+		color: '#F7F7F7',
 		fontSize: 15,
 		lineHeight: 31,
 		marginBottom: 10,
@@ -619,7 +625,7 @@ const styles = StyleSheet.create({
 		marginTop: 10
 	},
 	text: {
-		color: '#1E1E1F',
+		color: '#F7F7F7',
 		fontSize: 15,
 		lineHeight: 18,
 		fontFamily: 'Montserrat-Medium'

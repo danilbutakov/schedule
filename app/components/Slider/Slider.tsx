@@ -64,8 +64,17 @@ const Slider = () => {
 					snapPoints={snapPoints}
 					onChange={handleSheetChanges}
 					enablePanDownToClose={true}
+					backgroundStyle={{
+						backgroundColor: '#4B4B4B'
+					}}
+					handleIndicatorStyle={{
+						backgroundColor: '#E5E5E5E5'
+					}}
 					onClose={() => setIsOpen(false)}>
-					<View>
+					<View
+						style={{
+							backgroundColor: '#4B4B4B'
+						}}>
 						<View style={styles.headLine}></View>
 						<View style={styles.sheetCon}>
 							<SheetAuth />
@@ -113,6 +122,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		width
+		width,
+		backgroundColor: '#4B4B4B'
 	}
 });
