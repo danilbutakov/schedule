@@ -7,10 +7,10 @@ import {
 	TouchableOpacity,
 	View
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { fs } from '../../../firebase';
@@ -21,6 +21,7 @@ import SearchImg from '../../../assets/svgUtils/search.svg';
 import Delete from '../../../assets/svgUtils/delete.svg';
 import { BlurView } from '@react-native-community/blur';
 import { handleSelect } from '../../../assets/Functions';
+import { PreferencesContext } from '../../utils/PreferencesContext';
 
 const SearchContacts = () => {
 	const currentUser = auth().currentUser;
@@ -31,6 +32,9 @@ const SearchContacts = () => {
 	const [users, setUsers] = useState([]);
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+
+	const theme = useTheme();
+	const { isThemeDark } = useContext(PreferencesContext);
 
 	const handleSearch = async () => {
 		const q = query(
@@ -68,7 +72,15 @@ const SearchContacts = () => {
 
 	return (
 		<View style={styles.searchCont}>
-			<View style={styles.searchBlock}>
+			<View
+				style={[
+					styles.searchBlock,
+					{
+						backgroundColor: isThemeDark
+							? theme.colors.gray800
+							: theme.colors.bg
+					}
+				]}>
 				<View style={styles.inputBlock}>
 					<View style={styles.leftBlock}>
 						<SearchImg
@@ -77,12 +89,16 @@ const SearchContacts = () => {
 							style={{ marginRight: 13 }}
 						/>
 						<TextInput
-							style={styles.inputText}
+							style={[
+								styles.inputText,
+								{ color: theme.colors.tertiary }
+							]}
 							onChangeText={text => {
 								setSearchValue(text);
 							}}
 							value={searchValue}
 							placeholder='Поиск по имени или e-mail'
+							placeholderTextColor={theme.colors.gray500}
 						/>
 					</View>
 					{searchValue && (
@@ -97,7 +113,9 @@ const SearchContacts = () => {
 			{filteredUsers.length > 0 && (
 				<ScrollView
 					style={{
-						backgroundColor: '#4B4B4B',
+						backgroundColor: isThemeDark
+							? theme.colors.gray800
+							: theme.colors.bg,
 						borderRadius: 16,
 						paddingTop: 20,
 						paddingHorizontal: 10
@@ -136,7 +154,7 @@ const SearchContacts = () => {
 												fontFamily: 'Montserrat-Bold',
 												fontSize: 14,
 												marginBottom: 5,
-												color: '#F7F7F7'
+												color: theme.colors.tertiary
 											}}>
 											{user.profileName}
 										</Text>
@@ -184,7 +202,8 @@ const SearchContacts = () => {
 									borderBottomWidth: 1,
 									borderBottomColor: '#7c7772',
 									paddingTop: 10
-								}}></View>
+								}}
+							/>
 						</View>
 					))}
 				</ScrollView>
@@ -226,7 +245,6 @@ const styles = StyleSheet.create({
 	searchBlock: {
 		width: '100%',
 		borderRadius: 16,
-		backgroundColor: '#4B4B4B',
 		alignItems: 'center',
 		display: 'flex',
 		flexDirection: 'row',

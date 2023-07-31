@@ -4,10 +4,12 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import ChatsScreen from './ChatsScreen';
 import ContactsScreen from './ContactsScreen';
+import { useTheme } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
 const ServicesScreen = () => {
+	const theme = useTheme();
 	return (
 		<Tab.Navigator
 			screenOptions={({ route }) => {
@@ -17,7 +19,7 @@ const ServicesScreen = () => {
 							return (
 								<Text
 									style={{
-										color: '#F7F7F7',
+										color: theme.colors.tertiary,
 										fontFamily: 'Montserrat-SemiBold',
 										fontSize: 15
 									}}>
@@ -28,7 +30,7 @@ const ServicesScreen = () => {
 							return (
 								<Text
 									style={{
-										color: '#F7F7F7',
+										color: theme.colors.tertiary,
 										fontFamily: 'Montserrat-SemiBold',
 										fontSize: 15
 									}}>
@@ -42,10 +44,10 @@ const ServicesScreen = () => {
 						color: '#1E1E1F'
 					},
 					tabBarIndicatorStyle: {
-						backgroundColor: '#F7F7F7'
+						backgroundColor: theme.colors.tertiary
 					},
 					tabBarStyle: {
-						backgroundColor: '#1E1E1F'
+						backgroundColor: theme.colors.first
 					}
 				};
 			}}

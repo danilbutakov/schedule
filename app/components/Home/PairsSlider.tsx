@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Animatable from 'react-native-animatable';
@@ -8,6 +8,7 @@ import { MemoizedToggleMenu } from './ToggleMenu';
 import Pair from '../Pairs/Pair';
 import { images } from '../../../assets/globalImages';
 import { Separator } from '../Separator';
+import { useTheme } from '@react-navigation/native';
 
 const PairsSlider = ({
 	filteredPairs,
@@ -27,6 +28,8 @@ const PairsSlider = ({
 		[]
 	);
 
+	const theme = useTheme();
+
 	return (
 		<Animatable.View
 			animation='fadeIn'
@@ -34,7 +37,10 @@ const PairsSlider = ({
 			useNativeDriver
 			style={[
 				styles.main,
-				{ paddingTop: filteredPairs.length - 1 >= index ? 12 : 0 }
+				{
+					paddingTop: filteredPairs.length - 1 >= index ? 12 : 0,
+					backgroundColor: theme.colors.first
+				}
 			]}>
 			{filteredPairs.length - 1 >= index ? (
 				<FlashList
@@ -57,7 +63,7 @@ const PairsSlider = ({
 							fontFamily: 'Montserrat-SemiBold',
 							fontSize: 16,
 							marginBottom: 10,
-							color: '#F7F7F7'
+							color: theme.colors.tertiary
 						}}>
 						Пар нет. Бро, иди поспи
 					</Text>
@@ -87,7 +93,7 @@ const PairsSlider = ({
 						<MaterialCommunityIcons
 							name='calendar-blank-multiple'
 							size={25}
-							color={'#1E1E1F'}
+							color={'#dedede'}
 							style={{
 								padding: 15
 							}}
@@ -95,7 +101,7 @@ const PairsSlider = ({
 						<View
 							style={{
 								width: 1,
-								backgroundColor: '#A5A5A5',
+								backgroundColor: '#dedede',
 								height: '100%'
 							}}
 						/>
@@ -105,7 +111,15 @@ const PairsSlider = ({
 								: weekType}
 						</Text>
 						<Text style={styles.textLength}>
-							({weekLength} пар)
+							(
+							<Text
+								style={[
+									styles.textLength,
+									{ color: '#3eb59f' }
+								]}>
+								{weekLength}
+							</Text>{' '}
+							пар)
 						</Text>
 					</View>
 				</TouchableOpacity>
@@ -118,22 +132,20 @@ const styles = StyleSheet.create({
 	main: {
 		display: 'flex',
 		flexDirection: 'column',
-		backgroundColor: '#1E1E1F',
 		flex: 1
 	},
 	chooseWeekDay: {
-		backgroundColor: '#1E1E1F',
 		marginBottom: 10
 	},
 	container: {
 		flexDirection: 'row',
-		backgroundColor: '#F7F7F7',
+		backgroundColor: '#828282',
 		borderRadius: 10,
 		alignItems: 'center'
 	},
 	text: {
 		fontFamily: 'Montserrat-Medium',
-		color: '#1E1E1F',
+		color: '#dedede',
 		paddingVertical: 15,
 		fontSize: 16,
 		paddingRight: 5,
@@ -141,7 +153,7 @@ const styles = StyleSheet.create({
 	},
 	textLength: {
 		fontFamily: 'Montserrat-Medium',
-		color: '#1E1E1F',
+		color: '#dedede',
 		fontSize: 16,
 		paddingRight: 15
 	}

@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import AvatarChat from './AvatarChat';
 import { useFetchUserData } from '../../hooks/useFetchUserData';
 import { useFetchChats } from '../../hooks/useFetchChats';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 const ChatsItem = ({ item }) => {
 	const { userData } = useFetchUserData();
@@ -12,6 +12,8 @@ const ChatsItem = ({ item }) => {
 
 	const chatUserUid = item.uids.filter(uid => uid !== userData?.uid);
 	const filteredUser = usersB.find(user => user.uid === `${chatUserUid}`);
+
+	const theme = useTheme();
 
 	return (
 		<TouchableOpacity
@@ -61,7 +63,7 @@ const ChatsItem = ({ item }) => {
 								style={{
 									fontFamily: 'Montserrat-SemiBold',
 									fontSize: 16,
-									color: '#F7F7F7'
+									color: theme.colors.tertiary
 								}}>
 								{usersBNames.filter(
 									name => name === filteredUser.profileName
@@ -92,7 +94,7 @@ const ChatsItem = ({ item }) => {
 											fontFamily: 'Montserrat-Regular',
 											fontSize: 14,
 											maxWidth: 160,
-											color: '#F7F7F7'
+											color: theme.colors.tertiary
 										}}
 										numberOfLines={1}
 										ellipsizeMode='tail'>

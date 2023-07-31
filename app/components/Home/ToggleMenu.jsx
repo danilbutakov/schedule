@@ -22,7 +22,7 @@ const ToggleMenu = ({ setWeekType, setToggleType }) => {
 					<Text
 						style={{
 							fontFamily: 'Montserrat-Medium',
-							color: '#1E1E1F',
+							color: '#dedede',
 							fontSize: 16,
 							marginLeft: 10
 						}}>
@@ -33,7 +33,8 @@ const ToggleMenu = ({ setWeekType, setToggleType }) => {
 					style={{
 						backgroundColor: '#A5A5A5',
 						height: 1
-					}}></View>
+					}}
+				/>
 				<TouchableOpacity
 					onPress={async () => {
 						await setWeekType('Знаменатель');
@@ -49,7 +50,7 @@ const ToggleMenu = ({ setWeekType, setToggleType }) => {
 					<Text
 						style={{
 							fontFamily: 'Montserrat-Medium',
-							color: '#1E1E1F',
+							color: '#dedede',
 							fontSize: 16,
 							marginLeft: 10
 						}}>
@@ -65,7 +66,7 @@ export const MemoizedToggleMenu = React.memo(ToggleMenu);
 
 const styles = StyleSheet.create({
 	toggleAbsolute: {
-		backgroundColor: '#d1d1d1',
+		backgroundColor: '#858585',
 		borderRadius: 10,
 		display: 'flex',
 		flexDirection: 'column',

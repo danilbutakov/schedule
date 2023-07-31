@@ -1,29 +1,23 @@
 import 'react-native-get-random-values';
 import {
-	View,
+	Image,
+	Pressable,
 	StyleSheet,
 	Text,
-	Image,
 	TextInput,
-	Alert,
-	Pressable
+	View
 } from 'react-native';
-import React, { useState } from 'react';
-import { useRoute } from '@react-navigation/native';
+import React, { useContext, useState } from 'react';
+import { useRoute, useTheme } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import {
-	collection,
-	deleteDoc,
-	doc,
-	setDoc,
-	updateDoc
-} from 'firebase/firestore';
+import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import Feather from 'react-native-vector-icons/Feather';
 
 import { fs } from '../../../firebase';
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
+import { PreferencesContext } from '../../utils/PreferencesContext';
 
 const Chat = () => {
 	const route = useRoute();
@@ -34,6 +28,9 @@ const Chat = () => {
 	const [message, setMessage] = useState('');
 	const [image, setImage] = useState(null);
 	const [isEdit, setIsEdit] = useState(false);
+
+	const theme = useTheme();
+	const { isThemeDark } = useContext(PreferencesContext);
 
 	const combinedId = chat.combinedId;
 
@@ -97,7 +94,9 @@ const Chat = () => {
 					styles.message,
 					{
 						backgroundColor:
-							item.senderId === user.uid ? '#3eb59f' : '#4B4B4B',
+							item.senderId === user.uid
+								? theme.colors.green
+								: theme.colors.gray800,
 						alignSelf:
 							item.senderId === user.uid
 								? 'flex-end'
@@ -115,7 +114,8 @@ const Chat = () => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<View
+			style={[styles.container, { backgroundColor: theme.colors.first }]}>
 			<View style={styles.messages}>
 				<FlashList
 					renderItem={renderItem}
@@ -123,22 +123,32 @@ const Chat = () => {
 					estimatedItemSize={100}
 				/>
 			</View>
-			<View style={styles.inputContainer}>
+			<View
+				style={[
+					styles.downLine,
+					{ borderBottomColor: theme.colors.gray500 }
+				]}
+			/>
+			<View
+				style={[
+					styles.inputContainer,
+					{ backgroundColor: theme.colors.first }
+				]}>
 				{image && (
 					<Image source={{ uri: image }} style={styles.image} />
 				)}
 				<Feather
 					name='paperclip'
 					size={25}
-					style={{ color: '#F7F7F7' }}
+					style={{ color: theme.colors.gray600 }}
 					onPress={() => handleProfilePicture()}
 				/>
 				<TextInput
 					value={message}
 					onChangeText={setMessage}
 					placeholder={'Сообщение'}
-					style={styles.input}
-					placeholderTextColor={'#F7F7F7'}
+					style={[styles.input, { color: theme.colors.tertiary }]}
+					placeholderTextColor={theme.colors.gray600}
 					multiline={true}
 					numberOfLines={1}
 				/>
@@ -146,7 +156,7 @@ const Chat = () => {
 					<Feather
 						name='send'
 						size={25}
-						style={{ color: '#F7F7F7' }}
+						style={{ color: theme.colors.gray600 }}
 						onPress={() => sendMessage()}
 					/>
 				)}
@@ -157,8 +167,7 @@ const Chat = () => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: '#1E1E1F'
+		flex: 1
 	},
 	messages: {
 		flex: 1,
@@ -199,8 +208,10 @@ const styles = StyleSheet.create({
 		padding: 5,
 		fontSize: 16,
 		marginLeft: 10,
-		fontFamily: 'Montserrat-Medium',
-		color: '#F7F7F7'
+		fontFamily: 'Montserrat-Medium'
+	},
+	downLine: {
+		borderBottomWidth: 1
 	}
 });
 

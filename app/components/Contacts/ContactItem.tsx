@@ -1,18 +1,17 @@
 import {
 	ActivityIndicator,
+	StyleSheet,
 	Text,
 	TouchableOpacity,
-	View,
-	StyleSheet
+	View
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 
 import Avatar from './Avatar';
-import { BlurView } from '@react-native-community/blur';
 import { handleSelect } from '../../../assets/Functions';
 
 const ContactItem = ({ user }) => {
@@ -20,6 +19,8 @@ const ContactItem = ({ user }) => {
 	const date = new Date();
 	const currentUser = auth().currentUser;
 	const [isLoading, setIsLoading] = useState(false);
+
+	const theme = useTheme();
 
 	return (
 		<>
@@ -57,7 +58,7 @@ const ContactItem = ({ user }) => {
 									fontFamily: 'Montserrat-Bold',
 									fontSize: 14,
 									marginBottom: 5,
-									color: '#F7F7F7'
+									color: theme.colors.tertiary
 								}}>
 								{user.profileName || user.displayName}
 							</Text>
@@ -112,15 +113,10 @@ const ContactItem = ({ user }) => {
 			</Animatable.View>
 			{isLoading ? (
 				<>
-					<BlurView
-						style={styles.absolute}
-						blurType='dark'
-						blurAmount={3}
-					/>
 					<ActivityIndicator
 						size='large'
-						color='#1E1E1F'
-						style={{ backgroundColor: '#4B4B4B' }}
+						color={theme.colors.gray800}
+						style={{ backgroundColor: theme.colors.first }}
 					/>
 				</>
 			) : null}

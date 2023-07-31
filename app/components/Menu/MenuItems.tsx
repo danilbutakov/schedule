@@ -1,22 +1,36 @@
-import React from 'react';
-import { View, Text, Alert, StyleSheet } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ant from 'react-native-vector-icons/AntDesign';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
-
+import { PreferencesContext } from '../../utils/PreferencesContext';
+import Alert from '../AlertDialog';
 import useAuth from '../../hooks/useAuth';
 
 const MenuItems = () => {
 	const navigation = useNavigation();
+	const [isOpen, setIsOpen] = useState(false);
 	// @ts-ignore
 	const { signOut } = useAuth();
+
+	const theme = useTheme();
+	const { isThemeDark } = useContext(PreferencesContext);
+
 	return (
 		<Animatable.View animation='fadeIn' duration={1000} useNativeDriver>
 			<View style={styles.mainCon}>
 				<TouchableOpacity
-					style={styles.sched}
+					style={[
+						styles.sched,
+						{
+							backgroundColor:
+								isThemeDark === true
+									? theme.colors.gray800
+									: theme.colors.fullWhite
+						}
+					]}
 					onPress={() => {
 						// @ts-ignore
 						navigation.navigate('Sched');
@@ -30,12 +44,26 @@ const MenuItems = () => {
 								color='#81F2DE'
 							/>
 						</View>
-						<Text style={styles.schedText}>Расписание звонков</Text>
+						<Text
+							style={[
+								styles.text,
+								{ color: theme.colors.tertiary }
+							]}>
+							Расписание звонков
+						</Text>
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.links}
+					style={[
+						styles.links,
+						{
+							backgroundColor:
+								isThemeDark === true
+									? theme.colors.gray800
+									: theme.colors.fullWhite
+						}
+					]}
 					onPress={() => {
 						// @ts-ignore
 						navigation.navigate('Premium');
@@ -49,12 +77,26 @@ const MenuItems = () => {
 								color='#81F2DE'
 							/>
 						</View>
-						<Text style={styles.linksText}>Подписка Premium</Text>
+						<Text
+							style={[
+								styles.text,
+								{ color: theme.colors.tertiary }
+							]}>
+							Подписка Premium
+						</Text>
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.links}
+					style={[
+						styles.links,
+						{
+							backgroundColor:
+								isThemeDark === true
+									? theme.colors.gray800
+									: theme.colors.fullWhite
+						}
+					]}
 					onPress={() => {
 						// @ts-ignore
 						navigation.navigate('Links');
@@ -68,12 +110,26 @@ const MenuItems = () => {
 								color='#81F2DE'
 							/>
 						</View>
-						<Text style={styles.linksText}>Полезные ссылки</Text>
+						<Text
+							style={[
+								styles.text,
+								{ color: theme.colors.tertiary }
+							]}>
+							Полезные ссылки
+						</Text>
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.faq}
+					style={[
+						styles.faq,
+						{
+							backgroundColor:
+								isThemeDark === true
+									? theme.colors.gray800
+									: theme.colors.fullWhite
+						}
+					]}
 					onPress={() => {
 						// @ts-ignore
 						navigation.navigate('FAQ');
@@ -87,31 +143,62 @@ const MenuItems = () => {
 								color='#81F2DE'
 							/>
 						</View>
-						<Text style={styles.faqText}>FAQ</Text>
+						<Text
+							style={[
+								styles.text,
+								{ color: theme.colors.tertiary }
+							]}>
+							FAQ
+						</Text>
+					</View>
+					<Feather name='chevron-right' size={25} color='#AEAEB2' />
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={[
+						styles.settings,
+						{
+							backgroundColor:
+								isThemeDark === true
+									? theme.colors.gray800
+									: theme.colors.fullWhite
+						}
+					]}
+					onPress={() => {
+						// @ts-ignore
+						navigation.navigate('Settings');
+					}}>
+					<View style={styles.schedCon}>
+						<View style={styles.feather}>
+							<Ant
+								style={{ padding: 7 }}
+								name='setting'
+								size={15.5}
+								color='#81F2DE'
+							/>
+						</View>
+						<Text
+							style={[
+								styles.text,
+								{ color: theme.colors.tertiary }
+							]}>
+							Настройки
+						</Text>
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
 				</TouchableOpacity>
 			</View>
 			<TouchableOpacity
-				style={styles.faq}
+				style={[
+					styles.faq,
+					{
+						backgroundColor:
+							isThemeDark === true
+								? theme.colors.gray800
+								: theme.colors.fullWhite
+					}
+				]}
 				onPress={() => {
-					Alert.alert(
-						'Выход',
-						'Вы уверены, что хотите выйти из аккаунта?',
-						[
-							{
-								text: 'Отменить',
-								onPress: () => console.log('Cancel Pressed'),
-								style: 'cancel'
-							},
-							{
-								text: 'Выйти',
-								onPress: () => {
-									signOut();
-								}
-							}
-						]
-					);
+					setIsOpen(!isOpen);
 				}}>
 				<View style={styles.faqCon}>
 					<View style={styles.feather}>
@@ -122,10 +209,22 @@ const MenuItems = () => {
 							color='#81F2DE'
 						/>
 					</View>
-					<Text style={styles.faqText}>Выйти</Text>
+					<Text
+						style={[styles.text, { color: theme.colors.tertiary }]}>
+						Выйти
+					</Text>
 				</View>
 				<Feather name='chevron-right' size={25} color='#AEAEB2' />
 			</TouchableOpacity>
+			{isOpen && (
+				<Alert
+					header={'Выход'}
+					btnText={'Выйти'}
+					isOpen={isOpen}
+					setIsOpen={setIsOpen}
+					anotherFunc={signOut}
+				/>
+			)}
 		</Animatable.View>
 	);
 };
@@ -141,8 +240,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingHorizontal: 20,
-		paddingVertical: 7,
-		backgroundColor: '#4B4B4B'
+		paddingVertical: 7
 	},
 	links: {
 		display: 'flex',
@@ -150,8 +248,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingHorizontal: 20,
-		paddingVertical: 7,
-		backgroundColor: '#4B4B4B'
+		paddingVertical: 7
 	},
 	faq: {
 		display: 'flex',
@@ -159,8 +256,16 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingHorizontal: 20,
-		paddingVertical: 7,
-		backgroundColor: '#4B4B4B'
+		paddingVertical: 7
+	},
+	settings: {
+		marginTop: 20,
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingHorizontal: 20,
+		paddingVertical: 7
 	},
 	schedCon: {
 		display: 'flex',
@@ -182,17 +287,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginRight: 15
 	},
-	schedText: {
-		fontFamily: 'Montserrat-SemiBold',
-		fontSize: 15,
-		lineHeight: 20
-	},
-	linksText: {
-		fontFamily: 'Montserrat-SemiBold',
-		fontSize: 15,
-		lineHeight: 20
-	},
-	faqText: {
+	text: {
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 15,
 		lineHeight: 20
