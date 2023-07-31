@@ -6,10 +6,12 @@ import SearchContacts from '../../components/Contacts/SearchContacts';
 import ContactItem from '../../components/Contacts/ContactItem';
 import { useFetchContacts } from '../../hooks/useFetchContacts';
 import { useContactPreview } from '../../hooks/useContactPreview';
+import { useTheme } from '@react-navigation/native';
 
 const ContactsScreen = () => {
 	// @ts-ignore
 	const { contacts, refreshing, onRefresh } = useFetchContacts();
+	const theme = useTheme();
 
 	return (
 		<Animatable.View
@@ -19,7 +21,7 @@ const ContactsScreen = () => {
 			style={{
 				flex: 1,
 				paddingTop: 10,
-				backgroundColor: '#1E1E1F',
+				backgroundColor: theme.colors.first,
 				paddingHorizontal: 10
 			}}>
 			<SearchContacts />

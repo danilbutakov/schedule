@@ -1,6 +1,6 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
-export const AppContext = createContext();
+export const AppContext = createContext(undefined);
 
 export const AppContextProvider = ({ children }) => {
 	const [group, setGroup] = useState('');

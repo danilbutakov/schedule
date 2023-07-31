@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, Image } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -9,11 +9,16 @@ import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
 import useAuth from '../../hooks/useAuth';
 import { useUserInfoItemImage } from '../../hooks/useUserInfoItemImage';
 import AppContext from '../../utils/Context';
+import { useTheme } from '@react-navigation/native';
+import { PreferencesContext } from '../../utils/PreferencesContext';
 
 const UserInfoItems = () => {
 	const { profileItems } = useFetchUserDataItems();
 	// @ts-ignore
 	const { user } = useAuth();
+
+	const theme = useTheme();
+	const { isThemeDark } = useContext(PreferencesContext);
 
 	const {
 		group,
@@ -50,7 +55,7 @@ const UserInfoItems = () => {
 								}}>
 								<Image
 									source={{
-										uri: item.photoURL || user.photoURL
+										uri: item?.photoURL
 									}}
 									style={{
 										width: 80,
@@ -65,13 +70,15 @@ const UserInfoItems = () => {
 										marginLeft: 15
 									}}>
 									<Text
-										style={{
-											fontFamily: 'Montserrat-Bold',
-											fontSize: 15,
-											lineHeight: 20,
-											maxWidth: 200,
-											color: '#F7F7F7'
-										}}>
+										style={[
+											{
+												fontFamily: 'Montserrat-Bold',
+												fontSize: 15,
+												lineHeight: 20,
+												maxWidth: 200
+											},
+											{ color: theme.colors.tertiary }
+										]}>
 										{item.profileName}
 									</Text>
 									<Text

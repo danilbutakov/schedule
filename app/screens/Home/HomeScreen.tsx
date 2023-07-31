@@ -5,6 +5,7 @@ import { FlashList } from '@shopify/flash-list';
 import { getWeekDay } from '../../utils/Functions';
 import { useFilterPairs } from '../../hooks/useFilterPairs';
 import DaysSlider from '../../components/Home/DaysSlider';
+import { useTheme } from '@react-navigation/native';
 
 const PairsSlider = React.lazy(
 	() => import('../../components/Home/PairsSlider')
@@ -21,10 +22,12 @@ const HomeScreen = () => {
 
 	const { filteredPairs } = useFilterPairs(weekType);
 
+	const theme = useTheme();
+
 	const daysRef = useRef(null);
 	const pairsRef = useRef<FlashList<any>>(null);
 
-	const onClickDay = id => {
+	const onClickDay = (id: number) => {
 		setActive(id);
 	};
 
@@ -67,7 +70,7 @@ const HomeScreen = () => {
 			<View
 				style={{
 					paddingHorizontal: 15,
-					backgroundColor: '#1E1E1F',
+					backgroundColor: theme.colors.first,
 					height: '100%'
 				}}>
 				<DaysSlider

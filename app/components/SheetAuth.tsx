@@ -228,7 +228,7 @@ const SheetAuth = () => {
 		<View>
 			<View style={styles.conMain}>
 				{loading ? (
-					<ActivityIndicator size='large' color='#1E1E1F' />
+					<ActivityIndicator size='large' color='#F7F7F7' />
 				) : null}
 				{user && user.emailVerified === false && (
 					<View style={{ marginTop: 10, flex: 1 }}>
@@ -257,6 +257,7 @@ const SheetAuth = () => {
 							{`\n`}Возможно письмо может оказаться в папке
 							«Спам».
 						</Text>
+						а
 						<TouchableOpacity
 							onPress={() => {
 								auth().onIdTokenChanged(user => {

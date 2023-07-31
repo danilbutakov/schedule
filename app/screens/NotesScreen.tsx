@@ -1,10 +1,13 @@
-import { View, Text, ScrollView } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { useTheme } from '@react-navigation/native';
 
 const NotesScreen = () => {
 	const [notes, setNotes] = useState([]);
 
 	const [showNotes, setShowNotes] = useState(false);
+
+	const theme = useTheme();
 
 	useEffect(() => {
 		if (notes.length) {
@@ -15,7 +18,12 @@ const NotesScreen = () => {
 	}, []);
 
 	return (
-		<View style={{ backgroundColor: '#1E1E1F', height: '100%' }}>
+		<View
+			style={{
+				backgroundColor: theme.colors.first,
+				height: '100%',
+				paddingTop: 10
+			}}>
 			{showNotes ? (
 				<ScrollView>
 					<Text
@@ -25,7 +33,7 @@ const NotesScreen = () => {
 							lineHeight: 20,
 							marginTop: 20,
 							paddingHorizontal: 20,
-							color: '#F7F7F7'
+							color: theme.colors.tertiary
 						}}>
 						В разработке
 					</Text>
@@ -37,7 +45,7 @@ const NotesScreen = () => {
 						fontSize: 15,
 						lineHeight: 20,
 						paddingHorizontal: 20,
-						color: '#F7F7F7'
+						color: theme.colors.tertiary
 					}}>
 					Заметок нет
 				</Text>

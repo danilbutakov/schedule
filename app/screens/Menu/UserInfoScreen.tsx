@@ -1,14 +1,14 @@
 import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { FlashList } from '@shopify/flash-list';
 
 import { BlurView } from '@react-native-community/blur';
 import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
 import AppContext from '../../utils/Context';
+import { useTheme } from '@react-navigation/native';
+import { PreferencesContext } from '../../utils/PreferencesContext';
 
-const UserInfoItem = React.lazy(
-	() => import('../../components/Menu/UserInfoItem')
-);
+const UserForm = React.lazy(() => import('../../components/Menu/UserForm'));
 const UserInfoItems = React.lazy(
 	() => import('../../components/Menu/UserInfoItems')
 );
@@ -19,47 +19,64 @@ const UserInfoScreen = () => {
 	const { profileItems } = useFetchUserDataItems();
 	const { isLoading } = useContext(AppContext);
 
-	const renderItem = useCallback(({ item }) => {
-		return <UserInfoItem item={item} />;
+	const theme = useTheme();
+	const { isThemeDark } = useContext(PreferencesContext);
+
+	const Form = useCallback(({ item }) => {
+		return <UserForm item={item} />;
 	}, []);
 
-	const RenderItems = useCallback(() => {
+	const UserItems = useCallback(() => {
 		return <UserInfoItems />;
 	}, []);
 
 	return (
 		<View
-			style={{
-				height,
-				backgroundColor: '#1E1E1F',
-				display: 'flex',
-				flexDirection: 'column',
-				width: '100%'
-			}}>
-			<View
-				style={{
-					paddingHorizontal: 20,
+			style={[
+				{
+					height,
 					display: 'flex',
-					backgroundColor: '#4B4B4B',
-					borderBottomLeftRadius: 20,
-					borderBottomRightRadius: 20,
-					paddingVertical: 20
-				}}>
-				<RenderItems />
+					flexDirection: 'column',
+					width: '100%'
+				},
+				{ backgroundColor: theme.colors.first }
+			]}>
+			<View
+				style={[
+					{
+						paddingHorizontal: 20,
+						display: 'flex',
+						borderBottomLeftRadius: 20,
+						borderBottomRightRadius: 20,
+						paddingVertical: 20
+					},
+					{
+						backgroundColor: isThemeDark
+							? theme.colors.gray800
+							: theme.colors.fullWhite
+					}
+				]}>
+				<UserItems />
 			</View>
 			<View
-				style={{
-					display: 'flex',
-					flex: 1,
-					backgroundColor: '#4B4B4B',
-					marginTop: 30,
-					borderTopLeftRadius: 20,
-					borderTopRightRadius: 20
-				}}>
+				style={[
+					{
+						display: 'flex',
+						flex: 1,
+						marginTop: 30,
+						borderTopLeftRadius: 20,
+						borderTopRightRadius: 20
+					},
+					{
+						backgroundColor: isThemeDark
+							? theme.colors.gray800
+							: theme.colors.fullWhite
+					}
+				]}>
 				<FlashList
 					contentContainerStyle={{ paddingBottom: 10 }}
 					data={profileItems}
-					renderItem={renderItem}
+					renderItem={Form}
 					estimatedItemSize={376}
 				/>
 			</View>

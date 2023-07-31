@@ -1,14 +1,18 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 
 import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
+import { PreferencesContext } from '../../utils/PreferencesContext';
 
 const ProfileItems = () => {
 	const navigation = useNavigation();
 	const { profileItems } = useFetchUserDataItems();
+	const theme = useTheme();
+	const { isThemeDark } = useContext(PreferencesContext);
+
 	return (
 		<Animatable.View animation='fadeIn' duration={1000} useNativeDriver>
 			{profileItems?.map((item, key) => {
@@ -16,18 +20,34 @@ const ProfileItems = () => {
 					return (
 						<TouchableOpacity
 							key={key}
-							style={styles.infoCon}
+							style={[
+								styles.infoCon,
+								{
+									backgroundColor:
+										isThemeDark === true
+											? theme.colors.gray800
+											: theme.colors.fullWhite
+								}
+							]}
 							onPress={() => {
 								// @ts-ignore
 								navigation.navigate('UserInfo');
 							}}>
 							<View style={styles.infoMain}>
 								<View>
-									<Text style={styles.role}>
+									<Text
+										style={[
+											styles.role,
+											{ color: theme.colors.tertiary }
+										]}>
 										{item.role}, {''}
 										{item.profileName}
 									</Text>
-									<Text style={styles.group}>
+									<Text
+										style={[
+											styles.group,
+											{ color: theme.colors.tertiary }
+										]}>
 										{item.group}
 									</Text>
 									<Text style={styles.univ}>{item.univ}</Text>
@@ -55,7 +75,6 @@ const styles = StyleSheet.create({
 	infoCon: {
 		marginTop: 10,
 		marginBottom: 20,
-		backgroundColor: '#1E1E1F',
 		width: '100%',
 		padding: 20
 	},
@@ -67,14 +86,12 @@ const styles = StyleSheet.create({
 	},
 	role: {
 		fontFamily: 'Montserrat-Bold',
-		color: '#F7F7F7',
 		fontSize: 15,
 		marginBottom: 9,
 		width: 200
 	},
 	group: {
 		fontFamily: 'Montserrat-SemiBold',
-		color: '#F7F7F7',
 		fontSize: 15,
 		lineHeight: 18,
 		marginBottom: 4

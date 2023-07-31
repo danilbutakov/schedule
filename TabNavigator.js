@@ -20,7 +20,7 @@ import SearchAudition from './app/screens/Search/SearchAudition';
 import SearchTeachers from './app/screens/Search/SearchTeachers';
 import ServicesScreen from './app/screens/Services/ServicesScreen';
 import Chat from './app/screens/Services/Chat';
-import ChatHeader from './app/components/Chat/ChatHeader';
+import ChatHeader from './app/components/ScreensHeaders/ServicesStack/ChatHeader';
 import ContactProfile from './app/components/Contacts/ContactProfile';
 import ContactProfileHeader from './app/components/Contacts/ContactProfileHeader';
 import UserInfoScreen from './app/screens/Menu/UserInfoScreen';
@@ -38,7 +38,9 @@ import SearchAuditionHeader from './app/components/ScreensHeaders/SearchStack/Se
 import SearchTeachersHeader from './app/components/ScreensHeaders/SearchStack/SearchTeachersHeader';
 import NotesHeader from './app/components/ScreensHeaders/NotesStack/NotesHeader';
 import ServicesHeader from './app/components/ScreensHeaders/ServicesStack/ServicesHeader';
-import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@react-navigation/native';
+import SettingsScreen from './app/screens/Menu/SettingsScreen';
+import SettingsHeader from './app/components/ScreensHeaders/MenuStack/SettingsHeader';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -115,6 +117,13 @@ const MenuStack = () => {
 				component={FAQScreen}
 				options={{
 					header: props => <FAQHeader {...props} />
+				}}
+			/>
+			<Stack.Screen
+				name='Settings'
+				component={SettingsScreen}
+				options={{
+					header: props => <SettingsHeader {...props} />
 				}}
 			/>
 		</Stack.Navigator>
@@ -209,16 +218,16 @@ const ServicesStack = () => {
 };
 
 const TabNavigator = () => {
-	const navigation = useNavigation();
+	const theme = useTheme();
 	return (
 		<>
 			<Tab.Navigator
 				initialRouteName='HomeStack'
 				screenOptions={{
-					tabBarStyle: { backgroundColor: '#1E1E1F' },
+					tabBarStyle: { backgroundColor: theme.colors.first },
 					tabBarShowLabel: false,
-					tabBarInactiveTintColor: '#979797',
-					tabBarActiveTintColor: '#3eb59f',
+					tabBarInactiveTintColor: theme.colors.secondary500,
+					tabBarActiveTintColor: theme.colors.green,
 					tabBarHideOnKeyboard: true
 				}}>
 				<Tab.Screen

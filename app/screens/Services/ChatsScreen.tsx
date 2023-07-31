@@ -4,11 +4,14 @@ import * as Animatable from 'react-native-animatable';
 
 import { useFetchUserData } from '../../hooks/useFetchUserData';
 import { useFetchChats } from '../../hooks/useFetchChats';
+import { useTheme } from '@react-navigation/native';
 
 const Chats = React.lazy(() => import('../../components/Chat/Chats'));
 
 const ChatsScreen = () => {
 	const { userData } = useFetchUserData();
+
+	const theme = useTheme();
 
 	const { chatsFiltered, isLoading } = useFetchChats(userData);
 
@@ -23,7 +26,7 @@ const ChatsScreen = () => {
 			style={{
 				flex: 1,
 				paddingTop: 10,
-				backgroundColor: '#1E1E1F',
+				backgroundColor: theme.colors.first,
 				paddingHorizontal: 10
 			}}>
 			{isLoading && (
@@ -48,7 +51,7 @@ const ChatsScreen = () => {
 						style={{
 							fontFamily: 'Montserrat-SemiBold',
 							fontSize: 17,
-							color: '#F7F7F7'
+							color: theme.colors.tertiary
 						}}>
 						Начните общение с кем нибудь &#128521;
 					</Text>

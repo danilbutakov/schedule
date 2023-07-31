@@ -1,14 +1,15 @@
 import React from 'react';
 import {
 	FlatList,
+	StyleSheet,
 	Text,
 	TouchableOpacity,
-	View,
-	StyleSheet
+	View
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 import { weekTabs } from '../../utils/WeekDays';
+import { useTheme } from '@react-navigation/native';
 
 const WeekItem = ({ day, onClickDay, setIndex, setActiveDay, active }) => {
 	return (
@@ -43,12 +44,14 @@ const DaysSlider = ({
 	onClickDay,
 	active
 }) => {
+	const theme = useTheme();
+
 	return (
 		<Animatable.View
 			animation='fadeIn'
 			duration={1000}
 			useNativeDriver
-			style={{ backgroundColor: '#1E1E1F' }}>
+			style={{ backgroundColor: theme.colors.first }}>
 			<View
 				style={{
 					justifyContent: 'center',
@@ -93,10 +96,10 @@ const styles = StyleSheet.create({
 	chosenWeekDay: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#1E1E1F',
+		backgroundColor: '#4B4B4B',
 		borderRadius: 50,
-		paddingVertical: 10,
-		paddingHorizontal: 10
+		paddingVertical: 5,
+		paddingHorizontal: 15
 	}
 });
 export default DaysSlider;

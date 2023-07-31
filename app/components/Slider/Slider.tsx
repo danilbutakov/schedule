@@ -68,7 +68,7 @@ const Slider = () => {
 						backgroundColor: '#4B4B4B'
 					}}
 					handleIndicatorStyle={{
-						backgroundColor: '#E5E5E5E5'
+						backgroundColor: '#bdbdbde5'
 					}}
 					onClose={() => setIsOpen(false)}>
 					<View
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 	},
 	headLine: {
 		width,
-		backgroundColor: '#E5E5E5E5',
+		backgroundColor: '#bdbdbde5',
 		height: 1,
 		marginTop: 20
 	},

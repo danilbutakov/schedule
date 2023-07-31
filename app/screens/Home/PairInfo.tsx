@@ -1,6 +1,5 @@
 import {
 	Keyboard,
-	ScrollView,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -8,7 +7,7 @@ import {
 	TouchableWithoutFeedback,
 	View
 } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // @ts-ignore
@@ -25,6 +24,8 @@ import {
 import { nanoid } from 'nanoid';
 import { FlashList } from '@shopify/flash-list';
 import Note from '../../components/Notes/Note';
+import { useTheme } from '@react-navigation/native';
+import { PreferencesContext } from '../../utils/PreferencesContext';
 
 const DismissKeyboardHOC = Comp => {
 	return ({ children, ...props }) => (
@@ -38,6 +39,10 @@ const DismissKeyboardView = DismissKeyboardHOC(View);
 const PairInfo = () => {
 	const user = useAuth();
 	const dispatch = useDispatch();
+
+	const theme = useTheme();
+	const { isThemeDark } = useContext(PreferencesContext);
+
 	// @ts-ignore
 	const { notes, status, error } = useSelector(state => state.notes);
 	// @ts-ignore
@@ -92,35 +97,79 @@ const PairInfo = () => {
 	);
 
 	return (
-		<DismissKeyboardView style={styles.infoCon}>
+		<DismissKeyboardView
+			style={[styles.infoCon, { backgroundColor: theme.colors.first }]}>
 			<View style={styles.titles}>
-				<Text style={styles.typeText}>
+				<Text
+					style={[styles.typeText, { color: theme.colors.tertiary }]}>
 					{clickedPair.p.type.toUpperCase()}
 				</Text>
-				<Text style={styles.nameText}>{clickedPair.p.name}</Text>
+				<Text
+					style={[styles.nameText, { color: theme.colors.tertiary }]}>
+					{clickedPair.p.name}
+				</Text>
 			</View>
-			<View style={styles.addInfoCon}>
+			<View style={{ backgroundColor: theme.colors.first }}>
 				<View style={styles.inf}>
-					<Text style={styles.infText}>
+					<Text
+						style={[
+							styles.infText,
+							{ color: theme.colors.tertiary }
+						]}>
 						{clickedPair.p.dayOfWeek}, {clickedPair.p.date},{' '}
 						{clickedPair.p.timeStart}
 						{' - '}
 						{clickedPair.p.timeEnd}
 					</Text>
-					<View style={styles.downLine}></View>
+					<View
+						style={[
+							styles.downLine,
+							{ borderBottomColor: theme.colors.secondary }
+						]}
+					/>
 				</View>
-				<View style={styles.downLine}></View>
+				<View
+					style={[
+						styles.downLine,
+						{ borderBottomColor: theme.colors.secondary }
+					]}
+				/>
 				<View style={styles.inf}>
-					<Text style={styles.infText}>
+					<Text
+						style={[
+							styles.infText,
+							{ color: theme.colors.tertiary }
+						]}>
 						{clickedPair.p.classRoom}
 					</Text>
-					<View style={styles.downLine}></View>
+					<View
+						style={[
+							styles.downLine,
+							{ borderBottomColor: theme.colors.secondary }
+						]}
+					/>
 				</View>
-				<View style={styles.downLine}></View>
+				<View
+					style={[
+						styles.downLine,
+						{ borderBottomColor: theme.colors.secondary }
+					]}
+				/>
 				<View style={styles.inf}>
-					<Text style={styles.infText}>{clickedPair.p.teacher}</Text>
+					<Text
+						style={[
+							styles.infText,
+							{ color: theme.colors.tertiary }
+						]}>
+						{clickedPair.p.teacher}
+					</Text>
 				</View>
-				<View style={styles.downLine}></View>
+				<View
+					style={[
+						styles.downLine,
+						{ borderBottomColor: theme.colors.secondary }
+					]}
+				/>
 			</View>
 			<View style={styles.notesContainer}>
 				<View style={styles.notesTitle}>
@@ -139,10 +188,23 @@ const PairInfo = () => {
 							placeholder='Введите текст'
 							value={note}
 							onChangeText={newNote => setNote(newNote)}
-							style={styles.addNoteInput}
+							style={[
+								styles.addNoteInput,
+								{
+									backgroundColor: isThemeDark
+										? theme.colors.gray800
+										: theme.colors.bg,
+									color: theme.colors.tertiary
+								}
+							]}
 							maxLength={100}
 							multiline={true}
 							numberOfLines={2}
+							placeholderTextColor={
+								isThemeDark
+									? theme.colors.tertiary
+									: theme.colors.gray500
+							}
 						/>
 						<TouchableOpacity
 							onPress={() => {
@@ -156,7 +218,6 @@ const PairInfo = () => {
 						</TouchableOpacity>
 					</View>
 				)}
-				<View style={styles.downLine} />
 			</View>
 			{status === 'resolved' && (
 				<FlashList
@@ -178,10 +239,8 @@ export default PairInfo;
 
 const styles = StyleSheet.create({
 	infoCon: {
-		display: 'flex',
 		flexDirection: 'column',
 		paddingTop: 12,
-		backgroundColor: '#1E1E1F',
 		flex: 1
 	},
 	titles: {
@@ -191,23 +250,17 @@ const styles = StyleSheet.create({
 	typeText: {
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 14,
-		marginBottom: 8,
-		color: '#F7F7F7'
+		marginBottom: 8
 	},
 	nameText: {
 		fontFamily: 'Montserrat-SemiBold',
 		fontSize: 15,
-		lineHeight: 24,
-		color: '#F7F7F7'
-	},
-	addInfoCon: {
-		backgroundColor: '#1E1E1F'
+		lineHeight: 24
 	},
 	addInfoConNotes: {
 		backgroundColor: '#1E1E1F'
 	},
 	inf: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingHorizontal: 20
@@ -216,12 +269,10 @@ const styles = StyleSheet.create({
 		fontFamily: 'Montserrat-Medium',
 		fontSize: 14,
 		lineHeight: 18,
-		color: '#F7F7F7',
 		paddingVertical: 12,
 		flex: 1
 	},
 	downLine: {
-		borderBottomColor: 'rgba(60, 60, 67, 0.13)',
 		borderBottomWidth: 1
 	},
 	notesContainer: {
@@ -251,7 +302,6 @@ const styles = StyleSheet.create({
 	},
 	addNoteInput: {
 		borderRadius: 16,
-		backgroundColor: '#4B4B4B',
 		paddingVertical: 13,
 		paddingHorizontal: 18,
 		fontSize: 13,
@@ -259,7 +309,6 @@ const styles = StyleSheet.create({
 		shadowColor: 'rgba(0, 0, 0, 0.3)',
 		shadowOffset: { width: 0, height: 4 },
 		elevation: 6,
-		color: '#F7F7F7',
 		fontFamily: 'Montserrat-Regular',
 		width: '100%'
 	},
