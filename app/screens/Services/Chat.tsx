@@ -7,7 +7,7 @@ import {
 	TextInput,
 	View
 } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useRoute, useTheme } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
@@ -17,7 +17,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import { fs } from '../../../firebase';
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
-import { PreferencesContext } from '../../utils/PreferencesContext';
 
 const Chat = () => {
 	const route = useRoute();
@@ -30,7 +29,6 @@ const Chat = () => {
 	const [isEdit, setIsEdit] = useState(false);
 
 	const theme = useTheme();
-	const { isThemeDark } = useContext(PreferencesContext);
 
 	const combinedId = chat.combinedId;
 

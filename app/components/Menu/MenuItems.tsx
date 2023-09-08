@@ -234,8 +234,6 @@ const styles = StyleSheet.create({
 		marginBottom: 20
 	},
 	sched: {
-		marginBottom: 20,
-		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -243,7 +241,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 7
 	},
 	links: {
-		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -251,7 +248,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 7
 	},
 	faq: {
-		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -260,7 +256,6 @@ const styles = StyleSheet.create({
 	},
 	settings: {
 		marginTop: 20,
-		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -268,17 +263,14 @@ const styles = StyleSheet.create({
 		paddingVertical: 7
 	},
 	schedCon: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center'
 	},
 	linksCon: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center'
 	},
 	faqCon: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center'
 	},
@@ -293,20 +285,17 @@ const styles = StyleSheet.create({
 		lineHeight: 20
 	},
 	btnExit: {
-		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingVertical: 7
 	},
 	btnCon: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between'
 	},
 	btn: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center'
 	},

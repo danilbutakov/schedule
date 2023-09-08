@@ -8,36 +8,36 @@ export const pairs = [
 			typeWeek: 'Знаменатель',
 			dayOfWeek: 'Понедельник',
 			date: '1 Сентября',
-			timeStart: '10:10',
-			timeEnd: '11:40',
+			timeStart: '13:50',
+			timeEnd: '15:20',
+			type: 'Лекция',
+			name: 'Теория автоматов и формальных языков',
+			teacher: 'Дмитриев А.А',
+			classRoom: 'Д-518'
+		},
+		{
+			typeWeek: 'Знаменатель',
+			dayOfWeek: 'Понедельник',
+			date: '1 Сентября',
+			timeStart: '15:30',
+			timeEnd: '17:00',
 			type: 'Лабораторная',
-			name: 'Проектирование человеко-машинного интерфейса',
-			teacher: 'Тирских В.В.',
-			classRoom: 'Д-503',
+			name: 'Теория автоматов и формальных языков',
+			teacher: 'Кузнецов П.А.',
+			classRoom: 'Д-505',
 			group: 2
 		},
 		{
 			typeWeek: 'Знаменатель',
 			dayOfWeek: 'Понедельник',
 			date: '1 Сентября',
-			timeStart: '12:10',
-			timeEnd: '13:40',
-			type: 'Практика',
-			name: 'Основы управленческой деятельности',
-			teacher: 'Кириллова Т.К.',
-			classRoom: 'Д-521'
-		},
-		{
-			typeWeek: 'Знаменатель',
-			dayOfWeek: 'Понедельник',
-			date: '1 Сентября',
-			timeStart: '12:10',
-			timeEnd: '13:40',
+			timeStart: '17:10',
+			timeEnd: '18:40',
 			type: 'Лабораторная',
 			name: 'Архитектура ЭВМ',
 			teacher: 'Кашковский В.В.',
-			classRoom: 'Д-505',
-			group: 1
+			classRoom: 'Д-514',
+			group: 2
 		}
 	],
 	[
@@ -49,12 +49,25 @@ export const pairs = [
 			typeWeek: 'Знаменатель',
 			dayOfWeek: 'Вторник',
 			date: '1 Сентября',
+			timeStart: '08:30',
+			timeEnd: '10:00',
+			type: 'Лабораторная',
+			name: 'Защита информации',
+			teacher: 'Краковский Ю.М.',
+			classRoom: 'Д-503',
+			group: 2
+		},
+		{
+			typeWeek: 'Знаменатель',
+			dayOfWeek: 'Вторник',
+			date: '1 Сентября',
 			timeStart: '10:10',
 			timeEnd: '11:40',
-			type: 'Практика',
-			name: 'Общая физическая подготовка',
+			type: 'Лабораторная',
+			name: 'Базы данных',
 			teacher: 'Тирских В.В.',
-			classRoom: 'Изумруд'
+			classRoom: 'Д-503',
+			group: 2
 		},
 		{
 			typeWeek: 'Знаменатель',
@@ -62,10 +75,10 @@ export const pairs = [
 			date: '1 Сентября',
 			timeStart: '12:10',
 			timeEnd: '13:40',
-			type: 'Практика',
-			name: 'Математическая логика и теория алгоритмов',
-			teacher: 'Кириллова Т.К.',
-			classRoom: 'Г-212'
+			type: 'Лекция',
+			name: 'Операционные системы',
+			teacher: 'Кашковский В.В.',
+			classRoom: 'Д-623'
 		},
 		{
 			typeWeek: 'Знаменатель',
@@ -74,9 +87,9 @@ export const pairs = [
 			timeStart: '13:50',
 			timeEnd: '15:20',
 			type: 'Лекция',
-			name: 'Теория вероятностей и математическая статистика',
-			teacher: 'Ширяева Н.К.',
-			classRoom: 'Г-301'
+			name: 'Архитектура ЭВМ',
+			teacher: 'Кашковский В.В.',
+			classRoom: 'Г-201'
 		}
 	],
 	[
@@ -88,35 +101,36 @@ export const pairs = [
 			typeWeek: 'Знаменатель',
 			dayOfWeek: 'Среда',
 			date: '1 Сентября',
-			timeStart: '12:10',
-			timeEnd: '13:40',
+			timeStart: '08:30',
+			timeEnd: '10:00',
 			type: 'Лабораторная',
-			name: 'Архитектура ЭВМ',
-			teacher: 'Кашковский В.В.',
-			classRoom: 'Д-503',
+			name: 'Функционально-логическое программирование',
+			teacher: 'Деканова Н.П.',
+			classRoom: 'Д-501',
 			group: 2
 		},
 		{
 			typeWeek: 'Знаменатель',
 			dayOfWeek: 'Среда',
 			date: '1 Сентября',
-			timeStart: '13:50',
-			timeEnd: '15:20',
-			type: 'Практика',
-			name: 'Русский язык и культура речи',
-			teacher: 'Чебоненко О.С.',
-			classRoom: 'Д-217'
+			timeStart: '10:10',
+			timeEnd: '11:40',
+			type: 'Лабораторная',
+			name: 'Операционные системы',
+			teacher: 'Шурховецкий Г.Н.',
+			classRoom: 'А-509',
+			group: 2
 		},
 		{
 			typeWeek: 'Знаменатель',
 			dayOfWeek: 'Среда',
 			date: '1 Сентября',
-			timeStart: '15:30',
-			timeEnd: '17:00',
-			type: 'Лабораторная',
-			name: 'Проектирование человеко-машинного интерфейса',
-			teacher: 'Тирских В.В.',
-			classRoom: 'А-516'
+			timeStart: '12:10',
+			timeEnd: '13:40',
+			type: 'Лекция',
+			name: 'Защита информации',
+			teacher: 'Краковский Ю.М.',
+			classRoom: 'Д-623'
 		}
 	],
 	[
@@ -128,24 +142,12 @@ export const pairs = [
 			typeWeek: 'Знаменатель',
 			dayOfWeek: 'Четверг',
 			date: '1 Сентября',
-			timeStart: '08:30',
-			timeEnd: '10:00',
-			type: 'Лабораторная',
-			name: 'Теория вероятностей и математическая статистика',
-			teacher: 'Ширяева Н.К.',
-			classRoom: 'Г-307',
-			group: 1
-		},
-		{
-			typeWeek: 'Знаменатель',
-			dayOfWeek: 'Четверг',
-			date: '1 Сентября',
 			timeStart: '10:10',
 			timeEnd: '11:40',
 			type: 'Практика',
-			name: 'Философия',
-			teacher: 'Яковлева Е.А.',
-			classRoom: 'Д-723'
+			name: 'Финансовая грамотность',
+			teacher: 'Михайлова Е.А.',
+			classRoom: 'Д-320'
 		},
 		{
 			typeWeek: 'Знаменатель',
@@ -153,11 +155,21 @@ export const pairs = [
 			date: '1 Сентября',
 			timeStart: '12:10',
 			timeEnd: '13:40',
-			type: 'Лабораторная',
-			name: 'Теория вероятностей и математическая статистика',
-			teacher: 'Ширяева Н.К.',
-			classRoom: 'Г-307',
-			group: 2
+			type: 'Лекция',
+			name: 'Функционально-логическое программирование',
+			teacher: 'Деканова Н.П.',
+			classRoom: 'Д-217'
+		},
+		{
+			typeWeek: 'Знаменатель',
+			dayOfWeek: 'Четверг',
+			date: '1 Сентября',
+			timeStart: '13:50',
+			timeEnd: '15:20',
+			type: 'Практика',
+			name: 'Общая физическая подготовка',
+			teacher: '?',
+			classRoom: 'Изумруд'
 		}
 	],
 	[
@@ -169,12 +181,24 @@ export const pairs = [
 			typeWeek: 'Знаменатель',
 			dayOfWeek: 'Пятница',
 			date: '1 Сентября',
+			timeStart: '08:30',
+			timeEnd: '10:00',
+			type: 'Лабораторная',
+			name: 'Машинно-зависимые языки программирования',
+			teacher: 'Смоленцев М.Ю.',
+			classRoom: 'Д-508',
+			group: 2
+		},
+		{
+			typeWeek: 'Знаменатель',
+			dayOfWeek: 'Пятница',
+			date: '1 Сентября',
 			timeStart: '10:10',
 			timeEnd: '11:40',
-			type: 'Лекция ',
-			name: 'Проектирование человеко-машинного интерфейса',
-			teacher: 'Тирских В.В.',
-			classRoom: 'Д-413'
+			type: 'Лекция',
+			name: 'Машинно-зависимые языки программирования',
+			teacher: 'Смоленцев М.Ю.',
+			classRoom: 'Д-521'
 		},
 		{
 			typeWeek: 'Знаменатель',
@@ -182,52 +206,13 @@ export const pairs = [
 			date: '1 Сентября',
 			timeStart: '12:10',
 			timeEnd: '13:40',
-			type: 'Лекция',
-			name: 'Архитектура ЭВМ',
-			teacher: 'Кашковский В.В.',
-			classRoom: 'А-211'
+			type: 'Лабораторная',
+			name: 'Управление качеством программного обеспечения',
+			teacher: 'Шедиков А.А.',
+			classRoom: 'Д-501',
+			group: 2
 		}
 	],
-	[
-		{
-			day: 'Суббота',
-			typeWeek: 'Знаменатель'
-		},
-		{
-			typeWeek: 'Знаменатель',
-			dayOfWeek: 'Суббота',
-			date: '1 Сентября',
-			timeStart: '08:30',
-			timeEnd: '10:00',
-			type: 'Практика',
-			name: 'Экономика',
-			teacher: 'Журавлева О.В.',
-			classRoom: 'Б-208'
-		},
-		{
-			typeWeek: 'Знаменатель',
-			dayOfWeek: 'Суббота',
-			date: '1 Сентября',
-			timeStart: '10:10',
-			timeEnd: '11:40',
-			type: 'Практика ',
-			name: 'Экономика',
-			teacher: 'Журавлева О.В.',
-			classRoom: 'Б-208'
-		},
-		{
-			typeWeek: 'Знаменатель',
-			dayOfWeek: 'Суббота',
-			date: '1 Сентября',
-			timeStart: '12:10',
-			timeEnd: '13:40',
-			type: 'Лекция',
-			name: 'Экономика',
-			teacher: 'Журавлева О.В.',
-			classRoom: 'Д-605'
-		}
-	],
-
 	[
 		{
 			day: 'Понедельник',
@@ -237,35 +222,12 @@ export const pairs = [
 			typeWeek: 'Числитель',
 			dayOfWeek: 'Понедельник',
 			date: '1 Сентября',
-			timeStart: '08:30',
-			timeEnd: '10:00',
-			type: 'Лабораторная',
-			name: 'Проектирование человеко-машинного интерфейса',
-			teacher: 'Тирских В.В.',
-			classRoom: 'А-516',
-			group: 1
-		},
-		{
-			typeWeek: 'Числитель',
-			dayOfWeek: 'Понедельник',
-			date: '1 Сентября',
-			timeStart: '10:10',
-			timeEnd: '11:40',
-			type: 'Лекция',
-			name: 'Основы управленческой деятельности',
-			teacher: 'Кириллова Т.К.',
-			classRoom: 'Г-121'
-		},
-		{
-			typeWeek: 'Числитель',
-			dayOfWeek: 'Понедельник',
-			date: '1 Сентября',
 			timeStart: '12:10',
 			timeEnd: '13:40',
-			type: 'Лабораторная',
-			name: 'Основы управленческой деятельности',
-			teacher: 'Кириллова Т.К.',
-			classRoom: 'Д-521'
+			type: 'Лекция',
+			name: 'Финансовая грамотность',
+			teacher: 'Михайлова Е.А.',
+			classRoom: 'А-405'
 		},
 		{
 			typeWeek: 'Числитель',
@@ -273,10 +235,32 @@ export const pairs = [
 			date: '1 Сентября',
 			timeStart: '13:50',
 			timeEnd: '15:20',
+			type: 'Лекция',
+			name: 'Теория автоматов и формальных языков',
+			teacher: 'Дмитриев А.А.',
+			classRoom: 'Д-518'
+		},
+		{
+			typeWeek: 'Числитель',
+			dayOfWeek: 'Понедельник',
+			date: '1 Сентября',
+			timeStart: '15:30',
+			timeEnd: '17:00',
+			type: 'Лабораторная',
+			name: 'Теория автоматов и формальных языков',
+			teacher: 'Кузнецов П.А.',
+			classRoom: 'А-401'
+		},
+		{
+			typeWeek: 'Числитель',
+			dayOfWeek: 'Понедельник',
+			date: '1 Сентября',
+			timeStart: '17:10',
+			timeEnd: '18:40',
 			type: 'Лабораторная',
 			name: 'Архитектура ЭВМ',
 			teacher: 'Кашковский В.В.',
-			classRoom: 'Д-505',
+			classRoom: 'Д-514',
 			group: 2
 		}
 	],
@@ -289,34 +273,23 @@ export const pairs = [
 			typeWeek: 'Числитель',
 			dayOfWeek: 'Вторник',
 			date: '1 Сентября',
-			timeStart: '10:10',
-			timeEnd: '11:40',
-			type: 'Практика',
-			name: 'Теория вероятностей и математическая статистика',
-			teacher: 'Ширяева Н.К.',
-			classRoom: 'Г-212'
-		},
-		{
-			typeWeek: 'Числитель',
-			dayOfWeek: 'Вторник',
-			date: '1 Сентября',
 			timeStart: '12:10',
 			timeEnd: '13:40',
-			type: 'Практика',
-			name: 'Математическая логика и теория алгоритмов',
-			teacher: 'Розинова Н.С.',
-			classRoom: 'Г-203'
+			type: 'Лекция',
+			name: 'Управление качеством программного обеспечения',
+			teacher: 'Массель А.Г.',
+			classRoom: 'Д-623'
 		},
 		{
 			typeWeek: 'Числитель',
 			dayOfWeek: 'Вторник',
 			date: '1 Сентября',
 			timeStart: '13:50',
-			timeEnd: '15:30',
+			timeEnd: '15:20',
 			type: 'Лекция',
-			name: 'Теория вероятностей и математическая',
-			teacher: 'Ширяева Н.К.',
-			classRoom: 'Г-301'
+			name: 'Архитектура ЭВМ',
+			teacher: 'Кашковский В.В.',
+			classRoom: 'Г-201'
 		},
 		{
 			typeWeek: 'Числитель',
@@ -324,10 +297,11 @@ export const pairs = [
 			date: '1 Сентября',
 			timeStart: '15:30',
 			timeEnd: '17:00',
-			type: 'Практика',
-			name: 'Общая физическая подготовка',
-			teacher: 'Гладышева А.А.',
-			classRoom: 'Изумруд'
+			type: 'Лабораторная',
+			name: 'Защита информации',
+			teacher: 'Краковский Ю.М.',
+			classRoom: 'А-401',
+			group: 2
 		}
 	],
 	[
@@ -339,13 +313,25 @@ export const pairs = [
 			typeWeek: 'Числитель',
 			dayOfWeek: 'Среда',
 			date: '1 Сентября',
+			timeStart: '08:30',
+			timeEnd: '10:00',
+			type: 'Лабораторная',
+			name: 'Функционально-логическое программирование',
+			teacher: 'Деканова Н.П.',
+			classRoom: 'Д-501',
+			group: 2
+		},
+		{
+			typeWeek: 'Числитель',
+			dayOfWeek: 'Среда',
+			date: '1 Сентября',
 			timeStart: '10:10',
 			timeEnd: '11:40',
 			type: 'Лабораторная',
-			name: 'Архитектура ЭВМ',
-			teacher: 'Кашковский В.В.',
-			classRoom: 'А-513',
-			group: 1
+			name: 'Операционные системы',
+			teacher: 'Шурховецкий Г.Н.',
+			classRoom: 'А-509',
+			group: 2
 		},
 		{
 			typeWeek: 'Числитель',
@@ -354,20 +340,9 @@ export const pairs = [
 			timeStart: '12:10',
 			timeEnd: '13:40',
 			type: 'Лекция',
-			name: 'Математическая логика и теория алгоритмов',
-			teacher: 'Тирских В.В.',
-			classRoom: 'Г-212'
-		},
-		{
-			typeWeek: 'Числитель',
-			dayOfWeek: 'Среда',
-			date: '1 Сентября',
-			timeStart: '13:50',
-			timeEnd: '15:20',
-			type: 'Лекция',
-			name: 'Русский язык и культура речи',
-			teacher: 'Чебоненко О.С.',
-			classRoom: 'Д-617'
+			name: 'Защита информации',
+			teacher: 'Краковский Ю.М',
+			classRoom: 'Д-623'
 		}
 	],
 	[
@@ -379,12 +354,24 @@ export const pairs = [
 			typeWeek: 'Числитель',
 			dayOfWeek: 'Четверг',
 			date: '1 Сентября',
+			timeStart: '08:30',
+			timeEnd: '10:00',
+			type: 'Лабораторная',
+			name: 'Базы данных',
+			teacher: 'Тирских В.В.',
+			classRoom: 'Д-501',
+			group: 2
+		},
+		{
+			typeWeek: 'Числитель',
+			dayOfWeek: 'Четверг',
+			date: '1 Сентября',
 			timeStart: '10:10',
 			timeEnd: '11:40',
 			type: 'Практика',
-			name: 'Философия',
-			teacher: 'Яковлева Е.А.',
-			classRoom: 'Д-723'
+			name: 'Финансовая грамотность',
+			teacher: 'Михайлова Е.А.',
+			classRoom: 'А-405'
 		},
 		{
 			typeWeek: 'Числитель',
@@ -393,9 +380,9 @@ export const pairs = [
 			timeStart: '12:10',
 			timeEnd: '13:40',
 			type: 'Лекция',
-			name: 'Философия',
-			teacher: 'Яковлева Е.А.',
-			classRoom: 'Д-605'
+			name: 'Базы данных',
+			teacher: 'Тирских В.В.',
+			classRoom: 'Д-614'
 		},
 		{
 			typeWeek: 'Числитель',
@@ -403,11 +390,10 @@ export const pairs = [
 			date: '1 Сентября',
 			timeStart: '13:50',
 			timeEnd: '15:20',
-			type: 'Лабораторная',
-			name: 'Проектирование человеко-машинного интерфейса',
-			teacher: 'Тирских В.В.',
-			classRoom: 'А-509',
-			group: 2
+			type: 'Практика',
+			name: 'Общая физическая подготовка',
+			teacher: '?',
+			classRoom: 'Изумруд'
 		}
 	],
 	[
@@ -421,10 +407,11 @@ export const pairs = [
 			date: '1 Сентября',
 			timeStart: '08:30',
 			timeEnd: '10:00',
-			type: 'Практика',
-			name: 'Русский язык и культура речи',
-			teacher: 'Чебоненко О.С.',
-			classRoom: 'Д-723'
+			type: 'Лабораторная',
+			name: 'Машинно-зависимые языки программирования',
+			teacher: 'Смоленцев М.Ю.',
+			classRoom: 'Д-508',
+			group: 2
 		},
 		{
 			typeWeek: 'Числитель',
@@ -433,9 +420,21 @@ export const pairs = [
 			timeStart: '10:10',
 			timeEnd: '11:40',
 			type: 'Лекция',
-			name: 'Проектирование человеко-машинного интерфейса',
-			teacher: 'Тирских В.В.',
-			classRoom: 'Д-413'
+			name: 'Машинно-зависимые языки программирования',
+			teacher: 'Смоленцев М.Ю.',
+			classRoom: 'Д-521'
+		},
+		{
+			typeWeek: 'Числитель',
+			dayOfWeek: 'Пятница',
+			date: '1 Сентября',
+			timeStart: '12:10',
+			timeEnd: '13:40',
+			type: 'Лабораторная',
+			name: 'Управление качеством программного обеспечения',
+			teacher: 'Шедиков А.А.',
+			classRoom: 'Д-507',
+			group: 2
 		}
 	]
 ];
