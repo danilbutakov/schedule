@@ -14,7 +14,7 @@ const { height } = Dimensions.get('screen');
 
 const SettingsScreen = () => {
 	const theme = useTheme();
-	const { toggleTheme, isThemeDark } = useContext(PreferencesContext);
+	const { toggleTheme } = useContext(PreferencesContext);
 	const scheme = useColorScheme();
 
 	const schemes = [
@@ -57,6 +57,7 @@ const SettingsScreen = () => {
 					]}>
 					Темы
 				</Text>
+
 				{schemes.map((schema, key) => (
 					<TouchableOpacity
 						key={key}
