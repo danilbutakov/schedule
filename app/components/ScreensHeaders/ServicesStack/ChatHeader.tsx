@@ -5,12 +5,16 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import * as Animatable from 'react-native-animatable';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
-import Alert from '../../AlertDialog';
 
+import Alert from '../../AlertDialog';
+import { fs } from '../../../../firebase';
 import Avatar from '../../Chat/AvatarChat';
 import { deleteChat } from '../../../store/slices/deletechatSlice';
 // @ts-ignore
 import Arrow from '../../../../assets/svgUtils/Arrow.svg';
+
+import { collection, doc, deleteDoc, setDoc } from 'firebase/firestore';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const ChatHeader = () => {
 	const navigation = useNavigation();
@@ -21,10 +25,20 @@ const ChatHeader = () => {
 
 	const theme = useTheme();
 
+	const ids = route.params['chat'].combinedId;
+	const query = collection(fs, `messages/${ids}/children`);
+	const [docs, loading, error] = useCollectionData(query);
+
 	const handleDeleteChat = async () => {
 		try {
 			// @ts-ignore
 			dispatch(deleteChat(route));
+			for (let i = 0; i <= docs?.length; i++) {
+				const document = docs[i];
+				await deleteDoc(
+					doc(fs, 'messages', `${ids}/children/${document.messageId}`)
+				);
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -70,10 +84,7 @@ const ChatHeader = () => {
 							marginLeft: 20,
 							alignItems: 'center'
 						}}>
-						<Avatar
-							size={40}
-							image={String(route.params['userB'].photoURL)}
-						/>
+						<Avatar size={40} image={String(route.params['userB'].photoURL)} />
 						<Text
 							style={{
 								fontFamily: 'Montserrat-SemiBold',
@@ -100,10 +111,7 @@ const ChatHeader = () => {
 				<Entypo name='dots-three-vertical' size={20} />
 			</TouchableOpacity>
 			{selectEdit && (
-				<Animatable.View
-					animation='fadeIn'
-					duration={400}
-					useNativeDriver>
+				<Animatable.View animation='fadeIn' duration={400} useNativeDriver>
 					<TouchableOpacity
 						style={{
 							position: 'absolute',
