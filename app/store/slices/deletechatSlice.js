@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { collection, doc, deleteDoc } from 'firebase/firestore';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { fs } from '../../../firebase';
 
 const initialState = {
@@ -16,28 +17,8 @@ export const deleteChat = createAsyncThunk(
 		try {
 			await deleteDoc(doc(fs, 'chats', route.params['chat'].combinedId));
 			await deleteDoc(
-				doc(fs, 'messages', route.params['chat'].combinedId)
+				doc(fs, 'messages', `${route.params['chat'].combinedId}`)
 			);
-
-			// async function deleteCollection(collectionRef) {
-			// 	const snapshot = await collectionRef.get();
-			// 	if (snapshot.size === 0) return;
-			//
-			// 	// Delete documents in the current collection
-			// 	const batch = fs.batch();
-			// 	snapshot.docs.forEach(doc => batch.delete(doc.ref));
-			// 	await batch.commit();
-			//
-			// 	// Recursively delete documents in subcollections
-			// 	for (const doc of snapshot.docs) {
-			// 		const subcollections = await doc.ref.listCollections();
-			// 		for (const subcollection of subcollections) {
-			// 			await deleteCollection(subcollection);
-			// 		}
-			// 	}
-			// }
-			//
-			// return () => deleteCollection(collectionRef);
 		} catch (e) {
 			return rejectWithValue(e.message);
 		}
@@ -50,9 +31,7 @@ export const deleteMessage = createAsyncThunk(
 		console.log(combinedId);
 		console.log(messageId);
 		try {
-			await deleteDoc(
-				doc(fs, `messages/${combinedId}/children/${messageId}`)
-			);
+			await deleteDoc(doc(fs, `messages/${combinedId}/children/${messageId}`));
 		} catch (e) {
 			return rejectWithValue(e.message);
 		}

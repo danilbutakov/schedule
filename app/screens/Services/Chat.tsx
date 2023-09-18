@@ -17,6 +17,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import { fs } from '../../../firebase';
 import { pickImage, uploadImage } from '../../utils/Functions';
 import useAuth from '../../hooks/useAuth';
+import Readed from '../../../assets/images/readed.svg';
+import NotReaded from '../../../assets/images/notReaded.svg';
 
 const Chat = () => {
 	const route = useRoute();
@@ -38,9 +40,7 @@ const Chat = () => {
 	const sendMessage = async () => {
 		try {
 			setMessage('');
-			const time = new Date()
-				.toLocaleTimeString()
-				.replace(/(.*)\D\d+/, '$1');
+			const time = new Date().toLocaleTimeString().replace(/(.*)\D\d+/, '$1');
 			const date = new Date().toLocaleDateString('en-GB');
 			const timeId = new Date().getTime();
 
@@ -51,7 +51,9 @@ const Chat = () => {
 				date: date,
 				time: time,
 				senderId: user.uid,
-				messageId: timeId
+				messageId: timeId,
+				isRead: false,
+				image: ''
 			});
 			if (image !== null) {
 				let photoUrl;
@@ -63,6 +65,9 @@ const Chat = () => {
 				photoUrl = url;
 				if (photoUrl) {
 					setImage(photoUrl);
+					await updateDoc(docRef, {
+						image: photoUrl
+					});
 				}
 			}
 			setImage(null);
@@ -95,46 +100,56 @@ const Chat = () => {
 							item.senderId === user.uid
 								? theme.colors.green
 								: theme.colors.gray800,
-						alignSelf:
-							item.senderId === user.uid
-								? 'flex-end'
-								: 'flex-start'
+						alignSelf: item.senderId === user.uid ? 'flex-end' : 'flex-start'
 					}
 				]}>
-				{item.images && (
+				{item.image && (
 					<Image source={{ uri: item.image }} style={styles.image} />
 				)}
-
-				<Text style={[styles.messageText]}>{item.message}</Text>
-				<Text style={styles.messageTime}>{item.time}</Text>
+				<View style={{ alignItems: 'flex-end' }}>
+					<Text style={[styles.messageText]}>{item.message}</Text>
+					<View
+						style={{
+							flexDirection: 'row',
+							marginLeft: 4,
+							alignItems: 'center'
+						}}>
+						<Text style={styles.messageTime}>{item.time}</Text>
+						<View
+							style={{
+								display: item.senderId === user.uid ? 'flex' : 'none'
+							}}>
+							{item.isRead ? (
+								<Readed />
+							) : (
+								<NotReaded style={{ color: '#d9d9d9' }} />
+							)}
+						</View>
+					</View>
+				</View>
 			</Pressable>
 		);
 	};
 
 	return (
-		<View
-			style={[styles.container, { backgroundColor: theme.colors.first }]}>
+		<View style={[styles.container, { backgroundColor: theme.colors.first }]}>
 			<View style={styles.messages}>
 				<FlashList
 					renderItem={renderItem}
 					data={docs}
 					estimatedItemSize={100}
+					initialScrollIndex={docs?.length - 1}
 				/>
 			</View>
 			<View
-				style={[
-					styles.downLine,
-					{ borderBottomColor: theme.colors.gray500 }
-				]}
+				style={[styles.downLine, { borderBottomColor: theme.colors.gray500 }]}
 			/>
 			<View
 				style={[
 					styles.inputContainer,
 					{ backgroundColor: theme.colors.first }
 				]}>
-				{image && (
-					<Image source={{ uri: image }} style={styles.image} />
-				)}
+				{image && <Image source={{ uri: image }} style={styles.image} />}
 				<Feather
 					name='paperclip'
 					size={25}
@@ -150,7 +165,7 @@ const Chat = () => {
 					multiline={true}
 					numberOfLines={1}
 				/>
-				{message.length >= 1 && (
+				{(message.length >= 1 || image) && (
 					<Feather
 						name='send'
 						size={25}
@@ -192,8 +207,8 @@ const styles = StyleSheet.create({
 		paddingTop: 5
 	},
 	image: {
-		width: 50,
-		height: 50
+		width: 280,
+		height: 350
 	},
 	inputContainer: {
 		padding: 10,
