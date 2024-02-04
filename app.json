@@ -32,7 +32,7 @@
 			"bundleIdentifier": "com.thirdTeam.schedule"
 		},
 		"android": {
-			"versionCode": 33,
+			"versionCode": 34,
 			"googleServicesFile": "./google-services.json",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
