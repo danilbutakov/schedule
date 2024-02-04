@@ -13,6 +13,8 @@ web-build/
 *.keystore
 uploadcert.pem
 *uploadcert.pem
+perk_out.zip
+*perk_out.zip
 
 # macOS
 .DS_Store
