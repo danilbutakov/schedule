@@ -90,6 +90,10 @@ export const getWeekDay = async (
 			setActiveWeekType('Знаменатель');
 		}
 
+		console.log(day);
+		console.log(days);
+		console.log(weekNumber);
+
 		setActive(day - 1);
 		setIndex(day - 1);
 		handleActiveDay(day, setActiveDay);
