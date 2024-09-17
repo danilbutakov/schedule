@@ -53,12 +53,10 @@ export const handleActiveDay = (index, setActiveDay) => {
 	} else if (index === 1) {
 		setActiveDay('Вторник');
 	} else if (index === 2) {
-		setActiveDay('Среда');
-	} else if (index === 3) {
 		setActiveDay('Четверг');
-	} else if (index === 4) {
+	} else if (index === 3) {
 		setActiveDay('Пятница');
-	} else if (index === 5) {
+	} else if (index === 4) {
 		setActiveDay('Суббота');
 	}
 };
@@ -82,7 +80,7 @@ export const getWeekDay = async (
 		);
 		let weekNumber = Math.ceil(days / 7);
 
-		if (weekNumber % 2) {
+		if ((weekNumber + 1) % 2) {
 			setWeekType('Числитель');
 			setActiveWeekType('Числитель');
 		} else {
