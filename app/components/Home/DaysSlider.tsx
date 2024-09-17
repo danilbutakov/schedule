@@ -22,7 +22,7 @@ const WeekItem = ({ day, onClickDay, setIndex, setActiveDay, active }) => {
 			key={day.id}
 			style={[
 				active === day.id ? styles.chosenWeekDay : styles.weekDay,
-				{ marginRight: day.id === 5 ? 0 : 15 }
+				{ marginRight: 15 }
 			]}>
 			<Text
 				style={{
@@ -62,9 +62,7 @@ const DaysSlider = ({
 						paddingTop: 5,
 						paddingBottom: 5
 					}}
-					initialScrollIndex={
-						index === 1 ? 0 : index === 5 ? 4 : index
-					}
+					initialScrollIndex={index === 1 ? 0 : index}
 					onScrollToIndexFailed={() => {
 						setIndex(0);
 					}}
