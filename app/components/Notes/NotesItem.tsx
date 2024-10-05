@@ -79,7 +79,7 @@ const NotesItem = ({ item, index, getNotes }) => {
 								color: theme.colors.tertiary
 							}
 						]}>
-						{pairInfo.dayOfWeek}
+						{pairInfo.dayOfWeek} | {pairInfo.typeWeek}
 					</Text>
 				</View>
 				<View

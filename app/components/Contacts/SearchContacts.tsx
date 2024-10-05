@@ -20,8 +20,8 @@ import SearchImg from '../../../assets/svgUtils/search.svg';
 // @ts-ignore
 import Delete from '../../../assets/svgUtils/delete.svg';
 import { BlurView } from '@react-native-community/blur';
-import { handleSelect } from '../../../assets/Functions';
 import { PreferencesContext } from '../../utils/PreferencesContext';
+import { handleSelect } from '../../utils/Functions';
 
 const SearchContacts = () => {
 	const currentUser = auth().currentUser;
@@ -42,9 +42,9 @@ const SearchContacts = () => {
 			where('uid', '!=', currentUser.uid)
 		);
 
-		const unsubscribe = onSnapshot(q, querySnapshot => {
+		const unsubscribe = onSnapshot(q, (querySnapshot) => {
 			setUsers(
-				querySnapshot.docs.map(doc => {
+				querySnapshot.docs.map((doc) => {
 					return { ...doc.data() };
 				})
 			);
@@ -54,10 +54,8 @@ const SearchContacts = () => {
 		if (searchValue.length > 2) {
 			setFilteredUsers(
 				users.filter(
-					user =>
-						user.profileName
-							.toLowerCase()
-							.includes(newSearchValue) ||
+					(user) =>
+						user.profileName.toLowerCase().includes(newSearchValue) ||
 						user.email.toLowerCase().includes(newSearchValue)
 				)
 			);
@@ -83,17 +81,10 @@ const SearchContacts = () => {
 				]}>
 				<View style={styles.inputBlock}>
 					<View style={styles.leftBlock}>
-						<SearchImg
-							width={12}
-							height={12}
-							style={{ marginRight: 13 }}
-						/>
+						<SearchImg width={12} height={12} style={{ marginRight: 13 }} />
 						<TextInput
-							style={[
-								styles.inputText,
-								{ color: theme.colors.tertiary }
-							]}
-							onChangeText={text => {
+							style={[styles.inputText, { color: theme.colors.tertiary }]}
+							onChangeText={(text) => {
 								setSearchValue(text);
 							}}
 							value={searchValue}
@@ -169,8 +160,7 @@ const SearchContacts = () => {
 												ellipsizeMode='tail'
 												numberOfLines={1}
 												style={{
-													fontFamily:
-														'Montserrat-Regular',
+													fontFamily: 'Montserrat-Regular',
 													color: '#8E8E93',
 													fontSize: 14,
 													flex: 3.5,
@@ -210,11 +200,7 @@ const SearchContacts = () => {
 			)}
 			{isLoading ? (
 				<>
-					<BlurView
-						style={styles.absolute}
-						blurType='dark'
-						blurAmount={3}
-					/>
+					<BlurView style={styles.absolute} blurType='dark' blurAmount={3} />
 					<ActivityIndicator
 						size='large'
 						color='#1E1E1F'
