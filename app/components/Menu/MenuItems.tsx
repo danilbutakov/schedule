@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ant from 'react-native-vector-icons/AntDesign';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
+
 import * as Animatable from 'react-native-animatable';
 import { PreferencesContext } from '../../utils/PreferencesContext';
 import Alert from '../AlertDialog';
@@ -44,17 +45,13 @@ const MenuItems = () => {
 								color='#81F2DE'
 							/>
 						</View>
-						<Text
-							style={[
-								styles.text,
-								{ color: theme.colors.tertiary }
-							]}>
+						<Text style={[styles.text, { color: theme.colors.tertiary }]}>
 							Расписание звонков
 						</Text>
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
 				</TouchableOpacity>
-				<TouchableOpacity
+				{/* <TouchableOpacity
 					style={[
 						styles.links,
 						{
@@ -86,7 +83,7 @@ const MenuItems = () => {
 						</Text>
 					</View>
 					<Feather name='chevron-right' size={25} color='#AEAEB2' />
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 				<TouchableOpacity
 					style={[
 						styles.links,
@@ -110,11 +107,7 @@ const MenuItems = () => {
 								color='#81F2DE'
 							/>
 						</View>
-						<Text
-							style={[
-								styles.text,
-								{ color: theme.colors.tertiary }
-							]}>
+						<Text style={[styles.text, { color: theme.colors.tertiary }]}>
 							Полезные ссылки
 						</Text>
 					</View>
@@ -143,11 +136,7 @@ const MenuItems = () => {
 								color='#81F2DE'
 							/>
 						</View>
-						<Text
-							style={[
-								styles.text,
-								{ color: theme.colors.tertiary }
-							]}>
+						<Text style={[styles.text, { color: theme.colors.tertiary }]}>
 							FAQ
 						</Text>
 					</View>
@@ -176,11 +165,7 @@ const MenuItems = () => {
 								color='#81F2DE'
 							/>
 						</View>
-						<Text
-							style={[
-								styles.text,
-								{ color: theme.colors.tertiary }
-							]}>
+						<Text style={[styles.text, { color: theme.colors.tertiary }]}>
 							Настройки
 						</Text>
 					</View>
@@ -209,8 +194,7 @@ const MenuItems = () => {
 							color='#81F2DE'
 						/>
 					</View>
-					<Text
-						style={[styles.text, { color: theme.colors.tertiary }]}>
+					<Text style={[styles.text, { color: theme.colors.tertiary }]}>
 						Выйти
 					</Text>
 				</View>

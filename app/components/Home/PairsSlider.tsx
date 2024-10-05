@@ -42,40 +42,14 @@ const PairsSlider = ({
 					backgroundColor: theme.colors.first
 				}
 			]}>
-			{filteredPairs.length - 1 >= index ? (
-				<FlashList
-					data={filteredPairs}
-					renderItem={renderItem}
-					ref={pairsRef}
-					estimatedItemSize={200}
-					ItemSeparatorComponent={() => Separator('pairs')}
-					initialScrollIndex={index}
-				/>
-			) : (
-				<View
-					style={{
-						alignItems: 'center',
-						flex: 1,
-						justifyContent: 'center'
-					}}>
-					<Text
-						style={{
-							fontFamily: 'Montserrat-SemiBold',
-							fontSize: 16,
-							marginBottom: 10,
-							color: theme.colors.tertiary
-						}}>
-						Пар нет. Бро, иди поспи
-					</Text>
-					<Image
-						source={images.kizaru}
-						style={{
-							width: '90%',
-							height: '80%'
-						}}
-					/>
-				</View>
-			)}
+			<FlashList
+				data={filteredPairs}
+				renderItem={renderItem}
+				ref={pairsRef}
+				estimatedItemSize={200}
+				ItemSeparatorComponent={() => Separator('pairs')}
+				initialScrollIndex={index}
+			/>
 			<View
 				style={{
 					borderRadius: 10
@@ -106,17 +80,11 @@ const PairsSlider = ({
 							}}
 						/>
 						<Text style={styles.text}>
-							{weekType === activeWeekType
-								? weekType + '-Текущая'
-								: weekType}
+							{weekType === activeWeekType ? weekType + '-Текущая' : weekType}
 						</Text>
 						<Text style={styles.textLength}>
 							(
-							<Text
-								style={[
-									styles.textLength,
-									{ color: '#3eb59f' }
-								]}>
+							<Text style={[styles.textLength, { color: '#3eb59f' }]}>
 								{weekLength}
 							</Text>{' '}
 							пар)

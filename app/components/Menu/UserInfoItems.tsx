@@ -10,7 +10,6 @@ import useAuth from '../../hooks/useAuth';
 import { useUserInfoItemImage } from '../../hooks/useUserInfoItemImage';
 import AppContext from '../../utils/Context';
 import { useTheme } from '@react-navigation/native';
-import { PreferencesContext } from '../../utils/PreferencesContext';
 
 const UserInfoItems = () => {
 	const { profileItems } = useFetchUserDataItems();
@@ -18,7 +17,6 @@ const UserInfoItems = () => {
 	const { user } = useAuth();
 
 	const theme = useTheme();
-	const { isThemeDark } = useContext(PreferencesContext);
 
 	const {
 		group,
@@ -114,11 +112,7 @@ const UserInfoItems = () => {
 											setIsLoading
 										)
 									}>
-									<AntDesign
-										name='checkcircle'
-										size={30}
-										color={'#3eb59f'}
-									/>
+									<AntDesign name='checkcircle' size={30} color={'#3eb59f'} />
 								</TouchableOpacity>
 							) : (
 								<View
