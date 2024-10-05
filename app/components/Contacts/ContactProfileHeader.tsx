@@ -5,7 +5,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import auth from '@react-native-firebase/auth';
 import * as Animatable from 'react-native-animatable';
-import Arrow from '../../../assets/svgUtils/Arrow.svg';
+import Feather from 'react-native-vector-icons/Feather';
 
 const ContactProfileHeader = () => {
 	const navigation = useNavigation();
@@ -45,11 +45,7 @@ const ContactProfileHeader = () => {
 						display: 'flex',
 						flexDirection: 'row'
 					}}>
-					<Arrow
-						style={{
-							transform: [{ rotateY: '180deg' }]
-						}}
-					/>
+					<Feather name={'chevron-left'} size={25} color={'white'} />
 					<View
 						style={{
 							display: 'flex',

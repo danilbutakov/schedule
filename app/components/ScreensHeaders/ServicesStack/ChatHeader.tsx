@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
@@ -11,7 +12,6 @@ import { fs } from '../../../../firebase';
 import Avatar from '../../Chat/AvatarChat';
 import { deleteChat } from '../../../store/slices/deletechatSlice';
 // @ts-ignore
-import Arrow from '../../../../assets/svgUtils/Arrow.svg';
 
 import { collection, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -64,11 +64,7 @@ const ChatHeader = () => {
 					justifyContent: 'space-between'
 				}}>
 				<TouchableOpacity onPress={() => navigation.goBack()}>
-					<Arrow
-						style={{
-							transform: [{ rotateY: '180deg' }]
-						}}
-					/>
+					<Feather name={'chevron-left'} size={25} color={'white'} />
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() =>

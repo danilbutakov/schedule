@@ -12,7 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 
 import Avatar from './Avatar';
-import { handleSelect } from '../../../assets/Functions';
+import { handleSelect } from '../../utils/Functions';
 
 const ContactItem = ({ user }) => {
 	const navigation = useNavigation();
@@ -96,18 +96,9 @@ const ContactItem = ({ user }) => {
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() =>
-							handleSelect(
-								user,
-								setIsLoading,
-								currentUser,
-								navigation
-							)
+							handleSelect(user, setIsLoading, currentUser, navigation)
 						}>
-						<Ionicons
-							size={35}
-							name='md-chatbubbles-sharp'
-							color={'#3eb59f'}
-						/>
+						<Ionicons size={35} name='md-chatbubbles-sharp' color={'#3eb59f'} />
 					</TouchableOpacity>
 				</View>
 			</Animatable.View>

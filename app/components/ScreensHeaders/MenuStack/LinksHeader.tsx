@@ -2,7 +2,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 // @ts-ignore
-import Arrow from '../../../../assets/svgUtils/Arrow.svg';
+import Feather from 'react-native-vector-icons/Feather';
 
 const LinksHeader = () => {
 	const navigation = useNavigation();
@@ -20,11 +20,7 @@ const LinksHeader = () => {
 					flexDirection: 'row',
 					alignItems: 'center'
 				}}>
-				<Arrow
-					style={{
-						transform: [{ rotateY: '180deg' }]
-					}}
-				/>
+				<Feather name={'chevron-left'} size={25} color={'white'} />
 				<Text
 					style={{
 						fontFamily: 'Montserrat-SemiBold',
