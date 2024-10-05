@@ -20,11 +20,7 @@ const Pair = React.memo(({ pair }) => {
 				<View key={key}>
 					{p.day ? (
 						<View style={styles.day}>
-							<Text
-								style={[
-									styles.dayText,
-									{ color: theme.colors.tertiary }
-								]}>
+							<Text style={[styles.dayText, { color: theme.colors.tertiary }]}>
 								{p.day.toUpperCase()}
 							</Text>
 						</View>
@@ -51,8 +47,7 @@ const Pair = React.memo(({ pair }) => {
 												style={[
 													styles.indexText,
 													{
-														color: theme.colors
-															.green
+														color: theme.colors.green
 													}
 												]}>
 												{key}
@@ -79,10 +74,7 @@ const Pair = React.memo(({ pair }) => {
 								<View style={styles.infoPair}>
 									<View>
 										<Text
-											style={[
-												styles.nameText,
-												{ color: theme.colors.green }
-											]}>
+											style={[styles.nameText, { color: theme.colors.green }]}>
 											{p.name}
 										</Text>
 									</View>
@@ -110,8 +102,7 @@ const Pair = React.memo(({ pair }) => {
 												style={[
 													styles.groupText,
 													{
-														color: theme.colors
-															.tertiary
+														color: theme.colors.tertiary
 													}
 												]}>
 												{p.group} подгруппа

@@ -15,7 +15,6 @@ const HomeScreen = () => {
 	const [toggleType, setToggleType] = useState(null);
 	const [weekType, setWeekType] = useState('');
 	const [activeWeekType, setActiveWeekType] = useState('');
-	const [weekLength, setWeekLength] = useState(0);
 	const [active, setActive] = useState(0);
 	const [activeDay, setActiveDay] = useState('');
 	const [index, setIndex] = useState(0);
@@ -42,16 +41,8 @@ const HomeScreen = () => {
 	}, []);
 
 	useEffect(() => {
-		if (weekType === 'Числитель') {
-			setWeekLength(16);
-		} else {
-			setWeekLength(17);
-		}
-	}, [weekType]);
-
-	useEffect(() => {
 		daysRef?.current?.scrollToIndex({
-			index: index === -1 ? 0 : index,
+			index: index,
 			animated: true,
 			viewPosition: 0.8
 		});
@@ -59,7 +50,7 @@ const HomeScreen = () => {
 
 	useEffect(() => {
 		pairsRef?.current?.scrollToIndex({
-			index: index === -1 ? 0 : index,
+			index: index,
 			animated: true,
 			viewPosition: 0
 		});
@@ -85,7 +76,7 @@ const HomeScreen = () => {
 					pairsRef={pairsRef}
 					index={index}
 					filteredPairs={filteredPairs}
-					weekLength={weekLength}
+					weekLength={13}
 					setWeekType={setWeekType}
 					setToggleType={setToggleType}
 					weekType={weekType}

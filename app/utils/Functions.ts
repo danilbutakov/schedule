@@ -23,7 +23,7 @@ export const uploadImage = async (uri, path, fName) => {
 		xhr.onload = () => {
 			resolve(xhr.response);
 		};
-		xhr.onerror = error => {
+		xhr.onerror = (error) => {
 			console.log(error);
 			reject(new TypeError('Network request failed'));
 		};
@@ -53,10 +53,12 @@ export const handleActiveDay = (index, setActiveDay) => {
 	} else if (index === 1) {
 		setActiveDay('Вторник');
 	} else if (index === 2) {
-		setActiveDay('Четверг');
+		setActiveDay('Среда');
 	} else if (index === 3) {
-		setActiveDay('Пятница');
+		setActiveDay('Четверг');
 	} else if (index === 4) {
+		setActiveDay('Пятница');
+	} else if (index === 5) {
 		setActiveDay('Суббота');
 	}
 };
@@ -80,17 +82,13 @@ export const getWeekDay = async (
 		);
 		let weekNumber = Math.ceil(days / 7);
 
-		if ((weekNumber + 1) % 2) {
+		if ((weekNumber + 2) % 2) {
 			setWeekType('Числитель');
 			setActiveWeekType('Числитель');
 		} else {
 			setWeekType('Знаменатель');
 			setActiveWeekType('Знаменатель');
 		}
-
-		console.log(day);
-		console.log(days);
-		console.log(weekNumber);
 
 		setActive(day - 1);
 		setIndex(day - 1);
@@ -157,7 +155,7 @@ export const createProfile = async (
 	}
 };
 
-export const handleProfilePicture = async setImage => {
+export const handleProfilePicture = async (setImage) => {
 	const result = await pickImage();
 
 	if (!result.canceled) {
@@ -179,7 +177,7 @@ export const handleUpdatePassword = async (auth, email) => {
 		.then(() => {
 			Alert.alert('Письмо со сменой пароля успешно отправлено');
 		})
-		.catch(error => {
+		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
 
@@ -254,5 +252,26 @@ export const handleUpdateProfile = async (
 		setUniv('');
 		setGroup('');
 		setNewImage(null);
+	}
+};
+
+export const handleUpdateNote = async (itemNote, note, getNotes) => {
+	const noteRef = doc(fs, 'notes', itemNote);
+
+	try {
+		if (note !== '' && note !== ' ') {
+			await updateDoc(noteRef, {
+				note: note
+			});
+			getNotes();
+		} else {
+			getNotes();
+		}
+	} catch (e) {
+		console.log(e);
+		getNotes();
+	} finally {
+		Alert.alert('Вы успешно обновили заметку');
+		getNotes();
 	}
 };

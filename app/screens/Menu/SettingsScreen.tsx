@@ -9,6 +9,8 @@ import {
 import React, { useContext } from 'react';
 import { useTheme } from '@react-navigation/native';
 import { PreferencesContext } from '../../utils/PreferencesContext';
+import Feather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const { height } = Dimensions.get('screen');
 
@@ -20,15 +22,39 @@ const SettingsScreen = () => {
 	const schemes = [
 		{
 			text: 'Системная',
-			type: scheme.toString()
+			type: scheme.toString(),
+			icon: (
+				<Feather
+					style={{ padding: 7 }}
+					name='smartphone'
+					size={20}
+					color='#81F2DE'
+				/>
+			)
 		},
 		{
 			text: 'Темная',
-			type: 'dark'
+			type: 'dark',
+			icon: (
+				<MaterialCommunityIcons
+					style={{ padding: 7 }}
+					name='theme-light-dark'
+					size={20}
+					color='#81F2DE'
+				/>
+			)
 		},
 		{
 			text: 'Светлая',
-			type: 'light'
+			type: 'light',
+			icon: (
+				<MaterialCommunityIcons
+					style={{ padding: 7 }}
+					name='theme-light-dark'
+					size={20}
+					color='#81F2DE'
+				/>
+			)
 		}
 	];
 
@@ -65,11 +91,8 @@ const SettingsScreen = () => {
 						onPress={() => {
 							toggleTheme(schema.type);
 						}}>
-						<Text
-							style={[
-								styles.themesText,
-								{ color: theme.colors.tertiary }
-							]}>
+						{schema.icon}
+						<Text style={[styles.themesText, { color: theme.colors.tertiary }]}>
 							{schema.text}
 						</Text>
 					</TouchableOpacity>
@@ -81,7 +104,9 @@ const SettingsScreen = () => {
 
 const styles = StyleSheet.create({
 	themesContainer: {
-		marginTop: 10
+		marginTop: 10,
+		flexDirection: 'row',
+		alignItems: 'center'
 	},
 	themesText: {
 		fontFamily: 'Montserrat-SemiBold',

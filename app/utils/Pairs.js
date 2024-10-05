@@ -66,6 +66,7 @@ export const pairs = [
 			classRoom: 'А-513'
 		}
 	],
+	[{ day: 'Среда', typeWeek: 'Знаменатель', title: 'Пар нет' }],
 	[
 		{
 			day: 'Четверг',
@@ -228,6 +229,7 @@ export const pairs = [
 			classRoom: 'Б-202'
 		}
 	],
+	[{ day: 'Среда', typeWeek: 'Числитель', title: 'Пар нет' }],
 	[
 		{
 			day: 'Четверг',
