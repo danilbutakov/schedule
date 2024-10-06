@@ -42,7 +42,7 @@ const HomeScreen = () => {
 
 	useEffect(() => {
 		daysRef?.current?.scrollToIndex({
-			index: index,
+			index: index === -1 ? 0 : index,
 			animated: true,
 			viewPosition: 0.8
 		});
@@ -50,7 +50,7 @@ const HomeScreen = () => {
 
 	useEffect(() => {
 		pairsRef?.current?.scrollToIndex({
-			index: index,
+			index: index === -1 ? 0 : index,
 			animated: true,
 			viewPosition: 0
 		});
