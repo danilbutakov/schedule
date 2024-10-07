@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "Schedulle",
 		"slug": "Schedulle",
-		"version": "1.5.2",
+		"version": "1.5.3",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "automatic",
@@ -29,10 +29,11 @@
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "com.thirdTeam.schedule"
+			"bundleIdentifier": "com.thirdTeam.schedule",
+			"expo.ios.googleServicesFile": "./GoogleService-Info.plist"
 		},
 		"android": {
-			"versionCode": 38,
+			"versionCode": 39,
 			"googleServicesFile": "./google-services.json",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
