@@ -2,9 +2,10 @@ import * as ImagePicker from 'expo-image-picker';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import 'react-native-get-random-values';
 import { nanoid } from 'nanoid';
+import moment from 'moment';
+import auth from '@react-native-firebase/auth';
 
 import { fs, storage } from '../../firebase';
-import auth from '@react-native-firebase/auth';
 import {
 	doc,
 	setDoc,
@@ -127,21 +128,13 @@ export const getWeekDay = async (
 		const d = new Date();
 		let day = d.getDay();
 
-		let currentDate = new Date();
-		let startDate = new Date(currentDate.getFullYear(), 0, 1);
-		let days = Math.floor(
-			// @ts-ignore
-			(currentDate - startDate) / (24 * 60 * 60 * 1000)
-		);
-		let weekNumber = Math.ceil(days / 7);
+		const currentDate = moment();
+		const weekNumber = currentDate.isoWeek(); // Получаем номер ISO недели
 
-		if ((weekNumber + 2) % 2) {
-			setWeekType('Числитель');
-			setActiveWeekType('Числитель');
-		} else {
-			setWeekType('Знаменатель');
-			setActiveWeekType('Знаменатель');
-		}
+		// Определяем тип недели, считая, что неделя начинается с понедельника
+		const isNumerator = weekNumber % 2 === 1;
+		setWeekType(isNumerator ? 'Числитель' : 'Знаменатель');
+		setActiveWeekType(isNumerator ? 'Числитель' : 'Знаменатель');
 
 		setActive(day - 1);
 		setIndex(day - 1);
