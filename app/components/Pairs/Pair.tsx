@@ -2,13 +2,16 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { setClickedPair } from '../../store/slices/pairSlice';
 import { PreferencesContext } from '../../utils/PreferencesContext';
+import { RootStackParamList } from '../../../@types/navigation';
 
 // @ts-ignore
 const Pair = React.memo(({ pair }) => {
-	const navigation = useNavigation();
+	const navigation =
+		useNavigation<StackNavigationProp<RootStackParamList, 'Info'>>();
 	const dispatch = useDispatch();
 
 	const theme = useTheme();

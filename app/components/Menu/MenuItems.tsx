@@ -4,14 +4,16 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ant from 'react-native-vector-icons/AntDesign';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import * as Animatable from 'react-native-animatable';
 import { PreferencesContext } from '../../utils/PreferencesContext';
 import Alert from '../AlertDialog';
 import useAuth from '../../hooks/useAuth';
+import { RootStackParamList } from '../../../@types/navigation';
 
 const MenuItems = () => {
-	const navigation = useNavigation();
+	const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 	const [isOpen, setIsOpen] = useState(false);
 	// @ts-ignore
 	const { signOut } = useAuth();

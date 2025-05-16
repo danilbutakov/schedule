@@ -4,6 +4,7 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import AvatarChat from './AvatarChat';
 import { useFetchUserData } from '../../hooks/useFetchUserData';
@@ -11,23 +12,25 @@ import { useFetchChats } from '../../hooks/useFetchChats';
 import { fs } from '../../../firebase';
 import Readed from '../../../assets/images/readed.svg';
 import NotReaded from '../../../assets/images/notReaded.svg';
+import { RootStackParamList } from '../../../@types/navigation';
 
 const ChatsItem = ({ item }) => {
 	const { userData } = useFetchUserData();
 	const { usersB, usersBPhotos, usersBNames } = useFetchChats(userData);
-	const navigation = useNavigation();
+	const navigation =
+		useNavigation<StackNavigationProp<RootStackParamList, 'Chat'>>();
 
-	const chatUserUid = item.uids.filter(uid => uid !== userData?.uid);
-	const filteredUser = usersB.find(user => user.uid === `${chatUserUid}`);
+	const chatUserUid = item.uids.filter((uid) => uid !== userData?.uid);
+	const filteredUser = usersB.find((user) => user.uid === `${chatUserUid}`);
 	const query = collection(fs, `messages/${item.combinedId}/children`);
 	const [docs, loading, error] = useCollectionData(query);
 	const theme = useTheme();
 
-	const lastMessage = docs?.map(item => item.message).pop();
-	const timeMessage = docs?.map(item => item.time).pop();
-	const senderMessage = docs?.map(item => item.senderId).pop();
-	const isRead = docs?.map(item => item.isRead).pop();
-	const isImageLast = docs?.map(item => item.image).pop();
+	const lastMessage = docs?.map((item) => item.message).pop();
+	const timeMessage = docs?.map((item) => item.time).pop();
+	const senderMessage = docs?.map((item) => item.senderId).pop();
+	const isRead = docs?.map((item) => item.isRead).pop();
+	const isImageLast = docs?.map((item) => item.image).pop();
 
 	const handleUpdateRead = async () => {
 		for (let i = 0; i <= docs?.length; i++) {
@@ -52,7 +55,6 @@ const ChatsItem = ({ item }) => {
 					chat: item,
 					userB: filteredUser
 				});
-				navigation.setOptions({ tabBarVisible: false });
 
 				if (senderMessage !== userData.uid) {
 					handleUpdateRead();
@@ -77,7 +79,7 @@ const ChatsItem = ({ item }) => {
 					}}>
 					<AvatarChat
 						image={usersBPhotos
-							.filter(photo => photo === filteredUser.photoURL)
+							.filter((photo) => photo === filteredUser.photoURL)
 							.toString()}
 						size={50}
 					/>
@@ -96,7 +98,9 @@ const ChatsItem = ({ item }) => {
 									fontSize: 16,
 									color: theme.colors.tertiary
 								}}>
-								{usersBNames.filter(name => name === filteredUser.profileName)}
+								{usersBNames.filter(
+									(name) => name === filteredUser.profileName
+								)}
 							</Text>
 							{docs?.length === 0 ? (
 								<Text

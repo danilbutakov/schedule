@@ -18,6 +18,8 @@ pepk_out.zip
 pepk.jar
 *pepk.jar
 
+/android
+
 # macOS
 .DS_Store
 

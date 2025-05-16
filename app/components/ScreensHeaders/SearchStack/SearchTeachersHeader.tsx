@@ -1,10 +1,14 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
 import Arrow from '../../../../assets/svgUtils/Arrow.svg';
+import { RootStackParamList } from '../../../../@types/navigation';
 
 const SearchTeachersHeader = () => {
-	const navigation = useNavigation();
+	const navigation =
+		useNavigation<StackNavigationProp<RootStackParamList, 'Search'>>();
 	const theme = useTheme();
 	return (
 		<TouchableOpacity onPress={() => navigation.navigate('Search')}>

@@ -12,6 +12,7 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { fs } from '../../../firebase';
 import Avatar from './Avatar';
@@ -22,10 +23,12 @@ import Delete from '../../../assets/svgUtils/delete.svg';
 import { BlurView } from '@react-native-community/blur';
 import { PreferencesContext } from '../../utils/PreferencesContext';
 import { handleSelect } from '../../utils/Functions';
+import { RootStackParamList } from '../../../@types/navigation';
 
 const SearchContacts = () => {
 	const currentUser = auth().currentUser;
-	const navigation = useNavigation();
+	const navigation =
+		useNavigation<StackNavigationProp<RootStackParamList, 'ContactInfo'>>();
 
 	const [searchValue, setSearchValue] = useState('');
 	const newSearchValue = searchValue.toLowerCase();

@@ -1,6 +1,5 @@
-import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { fs } from '../../firebase';
+import { fs } from '../utils/firebaseNative';
 import auth from '@react-native-firebase/auth';
 
 export const useFetchUserDataItems = () => {
@@ -9,18 +8,18 @@ export const useFetchUserDataItems = () => {
 	const user = auth().currentUser;
 
 	useEffect(() => {
-		(async () => {
-			const userRef = doc(fs, 'users', user.uid);
-			await onSnapshot(userRef, doc => {
-				if (doc.data()) {
-					const docData = doc.data();
-					setProfileItems([docData]);
-					setImage(doc.data().photoURL);
-				} else {
-					setProfileItems(null);
-				}
-			});
-		})();
+		if (!user?.uid) return;
+		const userRef = fs.collection('users').doc(user.uid);
+		const unsubscribe = userRef.onSnapshot((doc) => {
+			if (doc.exists) {
+				const docData = doc.data();
+				setProfileItems([docData]);
+				setImage(docData.photoURL);
+			} else {
+				setProfileItems(null);
+			}
+		});
+		return unsubscribe;
 	}, [user]);
 
 	return { profileItems, image, setImage };

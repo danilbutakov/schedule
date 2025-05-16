@@ -6,17 +6,12 @@
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "automatic",
-		"packagerOpts": {
-			"config": "metro.config.js",
-			"sourceExts": ["js", "jsx", "json", "wasm", "svg", "ts", "tsx"]
-		},
-		"resolutions": {
-			"react-native-svg": "13.0.5"
-		},
 		"plugins": [
 			"@react-native-google-signin/google-signin",
 			"@react-native-firebase/app",
-			"@react-native-firebase/auth"
+			"@react-native-firebase/auth",
+			"expo-asset",
+			"expo-font"
 		],
 		"splash": {
 			"image": "./assets/splash.png",
@@ -30,10 +25,25 @@
 		"ios": {
 			"supportsTablet": true,
 			"bundleIdentifier": "com.thirdTeam.schedule",
-			"expo.ios.googleServicesFile": "./GoogleService-Info.plist"
+			"googleServicesFile": "./GoogleService-Info.plist",
+			"infoPlist": {
+				"ITSAppUsesNonExemptEncryption": false,
+				"UIBackgroundModes": ["remote-notification"]
+			},
+			"buildNumber": "2",
+			"config": {
+				"usesNonExemptEncryption": false
+			},
+			"podfileProperties": {
+				"ios.deploymentTarget": "15.1",
+				"newArchEnabled": "false"
+			},
+			"entitlements": {}
 		},
 		"android": {
 			"versionCode": 39,
+			"userInterfaceStyle": "automatic",
+			"edgeToEdgeEnabled": true,
 			"googleServicesFile": "./google-services.json",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
@@ -45,6 +55,10 @@
 			"eas": {
 				"projectId": "aa8d8aea-1b23-44ef-b333-d100a57c8c5d"
 			}
+		},
+		"jsEngine": "hermes",
+		"developmentClient": {
+			"silentLaunch": true
 		}
 	}
 }

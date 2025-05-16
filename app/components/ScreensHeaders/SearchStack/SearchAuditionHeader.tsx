@@ -1,14 +1,16 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation, useTheme } from '@react-navigation/native';
+import { RootStackParamList } from '../../../../@types/navigation';
 // @ts-ignore
 import Arrow from '../../../../assets/svgUtils/Arrow.svg';
 
 const SearchAuditionHeader = () => {
-	const navigation = useNavigation();
+	const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 	const theme = useTheme();
 	return (
-		<TouchableOpacity onPress={() => navigation.navigate('Search')}>
+		<TouchableOpacity onPress={() => navigation.navigate('SearchStack')}>
 			<View
 				style={{
 					backgroundColor: theme.colors.first,

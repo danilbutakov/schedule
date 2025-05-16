@@ -1,10 +1,11 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useContext } from 'react';
-import { useRoute, useTheme } from '@react-navigation/native';
+import { RouteProp, useRoute, useTheme } from '@react-navigation/native';
 import { PreferencesContext } from '../../utils/PreferencesContext';
+import { RootStackParamList } from '../../../@types/navigation';
 
 const ContactProfile = () => {
-	const route = useRoute();
+	const route = useRoute<RouteProp<RootStackParamList, 'ContactInfo'>>();
 	const contact = route.params.user;
 
 	const theme = useTheme();
@@ -36,31 +37,19 @@ const ContactProfile = () => {
 					paddingVertical: 5
 				}}>
 				<View style={styles.mainInfo}>
-					<Text
-						style={[
-							styles.mainText,
-							{ color: theme.colors.tertiary }
-						]}>
+					<Text style={[styles.mainText, { color: theme.colors.tertiary }]}>
 						{contact.role}, {contact.email}
 					</Text>
 				</View>
 				<View>
 					<View style={styles.mainInfo}>
-						<Text
-							style={[
-								styles.mainText,
-								{ color: theme.colors.tertiary }
-							]}>
+						<Text style={[styles.mainText, { color: theme.colors.tertiary }]}>
 							ВУЗ:{' '}
 						</Text>
 						<Text style={styles.secondText}>{contact.univ}</Text>
 					</View>
 					<View style={styles.mainInfo}>
-						<Text
-							style={[
-								styles.mainText,
-								{ color: theme.colors.tertiary }
-							]}>
+						<Text style={[styles.mainText, { color: theme.colors.tertiary }]}>
 							Группа:{' '}
 						</Text>
 						<Text style={styles.secondText}>{contact.group}</Text>

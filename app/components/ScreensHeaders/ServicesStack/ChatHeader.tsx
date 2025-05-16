@@ -6,18 +6,21 @@ import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import Alert from '../../AlertDialog';
 import { fs } from '../../../../firebase';
 import Avatar from '../../Chat/AvatarChat';
 import { deleteChat } from '../../../store/slices/deletechatSlice';
+import { RootStackParamList } from '../../../../@types/navigation';
 // @ts-ignore
 
 import { collection, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const ChatHeader = () => {
-	const navigation = useNavigation();
+	const navigation =
+		useNavigation<StackNavigationProp<RootStackParamList, 'ContactInfo'>>();
 	const route = useRoute();
 	const dispatch = useDispatch();
 	const [selectEdit, setSelectEdit] = useState(false);

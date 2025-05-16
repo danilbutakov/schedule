@@ -3,12 +3,15 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { useFetchUserDataItems } from '../../hooks/useFetchDataItems';
 import { PreferencesContext } from '../../utils/PreferencesContext';
+import { RootStackParamList } from '../../../@types/navigation';
 
 const ProfileItems = () => {
-	const navigation = useNavigation();
+	const navigation =
+		useNavigation<StackNavigationProp<RootStackParamList, 'UserInfo'>>();
 	const { profileItems } = useFetchUserDataItems();
 	const theme = useTheme();
 	const { isThemeDark } = useContext(PreferencesContext);
@@ -35,19 +38,12 @@ const ProfileItems = () => {
 							}}>
 							<View style={styles.infoMain}>
 								<View>
-									<Text
-										style={[
-											styles.role,
-											{ color: theme.colors.tertiary }
-										]}>
+									<Text style={[styles.role, { color: theme.colors.tertiary }]}>
 										{item.role}, {''}
 										{item.profileName}
 									</Text>
 									<Text
-										style={[
-											styles.group,
-											{ color: theme.colors.tertiary }
-										]}>
+										style={[styles.group, { color: theme.colors.tertiary }]}>
 										{item.group}
 									</Text>
 									<Text style={styles.univ}>{item.univ}</Text>

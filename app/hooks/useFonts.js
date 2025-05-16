@@ -1,7 +1,7 @@
 // Rest of the import statements
 import * as Font from 'expo-font';
 
-export const useFonts = async () => {
+export const loadFonts = async () => {
 	await Font.loadAsync({
 		'Bai-Jamjuree': require('./../../assets/fonts/BaiJamjuree-SemiBold.ttf'),
 		'Montserrat-Black': require('./../../assets/fonts/Poppins-Black.ttf'), //900

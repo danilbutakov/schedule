@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
-
-import { fs } from '../../firebase';
+import { fs } from '../utils/firebaseNative';
 
 export const useFetchUserData = () => {
 	const [userData, setUserData] = useState(null);
@@ -10,19 +8,18 @@ export const useFetchUserData = () => {
 	const user = auth().currentUser;
 
 	useEffect(() => {
-		(async () => {
-			const userRef = await doc(fs, 'users', user?.uid);
-			await onSnapshot(userRef, doc => {
-				if (doc.data()) {
-					const data = doc.data();
-					setUserData(data);
-					setIsLoading(false);
-				} else {
-					setUserData(null);
-					setIsLoading(false);
-				}
-			});
-		})();
+		if (!user?.uid) return;
+		const userRef = fs.collection('users').doc(user.uid);
+		const unsubscribe = userRef.onSnapshot((doc) => {
+			if (doc.exists) {
+				setUserData(doc.data());
+				setIsLoading(false);
+			} else {
+				setUserData(null);
+				setIsLoading(false);
+			}
+		});
+		return unsubscribe;
 	}, [user]);
 
 	return { userData, setUserData, isLoading };

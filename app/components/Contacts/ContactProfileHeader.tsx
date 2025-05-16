@@ -1,15 +1,22 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
-import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
+import {
+	RouteProp,
+	useNavigation,
+	useRoute,
+	useTheme
+} from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import auth from '@react-native-firebase/auth';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
+import { RootStackParamList } from '../../../@types/navigation';
 
 const ContactProfileHeader = () => {
-	const navigation = useNavigation();
-	const route = useRoute();
+	const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+	const route = useRoute<RouteProp<RootStackParamList, 'ContactInfo'>>();
 	const user = route.params.user;
 	const currentUser = auth().currentUser;
 	const [selectEdit, setSelectEdit] = useState(false);
@@ -106,10 +113,7 @@ const ContactProfileHeader = () => {
 								alignItems: 'center'
 							}}
 							onPress={() => {
-								navigation.navigate('MenuStack', {
-									screen: 'UserInfo',
-									initial: false
-								});
+								navigation.navigate('MenuStack');
 								setSelectEdit(false);
 							}}>
 							<FontAwesome5

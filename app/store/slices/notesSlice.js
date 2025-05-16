@@ -1,14 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-	collection,
-	deleteDoc,
-	doc,
-	getDocs,
-	query,
-	setDoc,
-	where
-} from 'firebase/firestore';
-import { fs } from '../../../firebase';
+import firestore from '@react-native-firebase/firestore';
+import { fs } from '../../utils/firebaseNative';
 
 const initialState = {
 	notes: [],
@@ -25,17 +17,12 @@ export const getNotes = createAsyncThunk(
 	async (clickedPair, { rejectWithValue }) => {
 		try {
 			let data = [];
-			const q = query(
-				collection(fs, 'notes'),
-				where('clickedPair', '==', clickedPair)
-			);
-
-			await getDocs(q).then(snapshot => {
-				data = snapshot.docs.map(doc => ({
+			const q = fs.collection('notes').where('clickedPair', '==', clickedPair);
+			await q.get().then((snapshot) => {
+				data = snapshot.docs.map((doc) => ({
 					...doc.data()
 				}));
 			});
-
 			return data;
 		} catch (e) {
 			return rejectWithValue(e.message);
@@ -47,25 +34,26 @@ export const writeToDatabase = createAsyncThunk(
 	'notes/writeToDatabase',
 	async (data, { rejectWithValue }) => {
 		try {
-			await setDoc(doc(fs, 'notes', data.noteId), {
+			await fs.collection('notes').doc(data.noteId).set({
 				createdAt: data.createdAt,
 				note: data.note,
 				noteId: data.noteId,
 				userUid: data.userUid,
 				clickedPair: data.clickedPair
 			});
-			console.log('good add note');
+			return data;
 		} catch (e) {
 			return rejectWithValue(e.message);
 		}
 	}
 );
 
-export const deleteFromDatabase = createAsyncThunk(
-	'notes/deleteFromDatabase',
+export const deleteNote = createAsyncThunk(
+	'notes/deleteNote',
 	async (noteId, { rejectWithValue }) => {
 		try {
-			await deleteDoc(doc(fs, 'notes', noteId));
+			await fs.collection('notes').doc(noteId).delete();
+			return noteId;
 		} catch (e) {
 			return rejectWithValue(e.message);
 		}
@@ -81,13 +69,13 @@ export const notesSlice = createSlice({
 		},
 		deleteNote: (state, action) => {
 			state.notes = state.notes.filter(
-				note => note.noteId !== action.payload
+				(note) => note.noteId !== action.payload
 			);
 		}
 	},
-	extraReducers: builder => {
+	extraReducers: (builder) => {
 		builder
-			.addCase(getNotes.pending, state => {
+			.addCase(getNotes.pending, (state) => {
 				state.status = 'loading';
 				state.error = null;
 			})
@@ -99,11 +87,11 @@ export const notesSlice = createSlice({
 				state.status = 'rejected';
 				state.writeError = action.payload;
 			})
-			.addCase(writeToDatabase.pending, state => {
+			.addCase(writeToDatabase.pending, (state) => {
 				state.writeStatus = 'loading';
 				state.writeError = null;
 			})
-			.addCase(writeToDatabase.fulfilled, state => {
+			.addCase(writeToDatabase.fulfilled, (state) => {
 				state.writeStatus = 'resolved';
 				state.writeError = null;
 			})
@@ -111,15 +99,15 @@ export const notesSlice = createSlice({
 				state.writeStatus = 'rejected';
 				state.writeError = action.payload;
 			})
-			.addCase(deleteFromDatabase.pending, state => {
+			.addCase(deleteNote.pending, (state) => {
 				state.deleteStatus = 'loading';
 				state.deleteError = null;
 			})
-			.addCase(deleteFromDatabase.fulfilled, state => {
+			.addCase(deleteNote.fulfilled, (state, action) => {
 				state.deleteStatus = 'resolved';
 				state.deleteError = null;
 			})
-			.addCase(deleteFromDatabase.rejected, (state, action) => {
+			.addCase(deleteNote.rejected, (state, action) => {
 				state.deleteStatus = 'rejected';
 				state.deleteError = action.payload;
 			});

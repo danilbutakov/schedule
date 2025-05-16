@@ -10,12 +10,15 @@ import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import Avatar from './Avatar';
 import { handleSelect } from '../../utils/Functions';
+import { RootStackParamList } from '../../../@types/navigation';
 
 const ContactItem = ({ user }) => {
-	const navigation = useNavigation();
+	const navigation =
+		useNavigation<StackNavigationProp<RootStackParamList, 'ContactInfo'>>();
 	const date = new Date();
 	const currentUser = auth().currentUser;
 	const [isLoading, setIsLoading] = useState(false);

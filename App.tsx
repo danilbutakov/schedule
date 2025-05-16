@@ -9,7 +9,7 @@ import 'expo-dev-client';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { AuthProvider } from './app/hooks/useAuth';
-import { useFonts } from './app/hooks/useFonts';
+import { loadFonts } from './app/hooks/useFonts';
 import StackNavigator from './StackNavigator';
 import { store } from './app/store/store';
 import { Provider } from 'react-redux';
@@ -35,7 +35,7 @@ const App = () => {
 	let theme = isThemeDark ? CombinedDarkTheme : CombinedLightTheme;
 
 	const toggleTheme = React.useCallback(
-		type => {
+		(type) => {
 			if (type === 'dark') {
 				return setIsThemeDark(true);
 			} else {
@@ -57,7 +57,7 @@ const App = () => {
 		(async () => {
 			try {
 				await SplashScreen.preventAutoHideAsync();
-				await useFonts();
+				await loadFonts();
 			} catch (e) {
 				console.warn(e);
 			} finally {

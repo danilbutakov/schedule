@@ -1,17 +1,45 @@
 {
 	"cli": {
-		"version": ">= 2.7.0"
+		"appVersionSource": "remote"
 	},
 	"build": {
 		"development": {
 			"developmentClient": true,
-			"distribution": "internal"
+			"distribution": "internal",
+			"ios": {
+				"simulator": true,
+				"buildConfiguration": "Debug",
+				"env": {
+					"SWIFT_VERSION": "5.0"
+				},
+				"resourceClass": "m-medium",
+				"prebuildCommand": "./eas-prebuild.sh"
+			},
+			"env": {
+				"EXPO_APPLE_APP_DELEGATE_LANGUAGE": "objc"
+			}
 		},
 		"preview": {
-			"distribution": "internal"
+			"distribution": "internal",
+			"ios": {
+				"buildConfiguration": "Release",
+				"env": {
+					"SWIFT_VERSION": "5.0"
+				},
+				"resourceClass": "m-medium",
+				"prebuildCommand": "./eas-prebuild.sh"
+			}
 		},
 		"production": {
-			"distribution": "internal"
+			"distribution": "internal",
+			"ios": {
+				"buildConfiguration": "Release",
+				"env": {
+					"SWIFT_VERSION": "5.0"
+				},
+				"resourceClass": "m-medium",
+				"prebuildCommand": "./eas-prebuild.sh"
+			}
 		}
 	},
 	"submit": {

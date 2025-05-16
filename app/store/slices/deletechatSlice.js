@@ -46,13 +46,13 @@ export const deleteChatSlice = createSlice({
 			state.isLoading = action.payload;
 		}
 	},
-	extraReducers: builder => {
+	extraReducers: (builder) => {
 		builder
-			.addCase(deleteChat.pending, state => {
+			.addCase(deleteChat.pending, (state) => {
 				state.deleteStatus = 'loading';
 				state.deleteError = null;
 			})
-			.addCase(deleteChat.fulfilled, state => {
+			.addCase(deleteChat.fulfilled, (state) => {
 				state.deleteStatus = 'resolved';
 				state.deleteError = null;
 			})
@@ -60,11 +60,11 @@ export const deleteChatSlice = createSlice({
 				state.deleteStatus = 'rejected';
 				state.deleteError = action.payload;
 			})
-			.addCase(deleteMessage.pending, state => {
+			.addCase(deleteMessage.pending, (state) => {
 				state.deleteMessageStatus = 'loading';
 				state.deleteMessageError = null;
 			})
-			.addCase(deleteMessage.fulfilled, state => {
+			.addCase(deleteMessage.fulfilled, (state) => {
 				state.deleteMessageStatus = 'resolved';
 				state.deleteMessageError = null;
 			})

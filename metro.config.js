@@ -1,19 +1,12 @@
-const { getDefaultConfig } = require('expo/metro-config');
+const { getDefaultConfig } = require('@expo/metro-config');
 
-module.exports = (() => {
-	const config = getDefaultConfig(__dirname);
+/** @type {import('metro-config').MetroConfig} */
+const config = getDefaultConfig(__dirname);
 
-	const { transformer, resolver } = config;
+// Добавьте кастомные настройки, если нужно
+config.resolver.assetExts.push('ttf'); // Пример: поддержка шрифтов
+config.transformer.babelTransformerPath = require.resolve(
+	'react-native-svg-transformer'
+);
 
-	config.transformer = {
-		...transformer,
-		babelTransformerPath: require.resolve('react-native-svg-transformer')
-	};
-	config.resolver = {
-		...resolver,
-		assetExts: resolver.assetExts.filter(ext => ext !== 'svg'),
-		sourceExts: [...resolver.sourceExts, 'svg']
-	};
-
-	return config;
-})();
+module.exports = config;

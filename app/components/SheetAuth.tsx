@@ -7,9 +7,9 @@ import {
 	TouchableOpacity,
 	View
 } from 'react-native';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState, RefObject } from 'react';
 import auth from '@react-native-firebase/auth';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput as RNTextInput } from 'react-native';
 import debounce from 'lodash.debounce';
 
 import useAuth from '../hooks/useAuth';
@@ -38,49 +38,48 @@ const SheetAuth = () => {
 	const [passwordValue, setPasswordValue] = useState<string>('');
 
 	const [passwordConfirm, setPasswordConfirm] = useState<string>('');
-	const [passwordConfirmValue, setPasswordConfirmValue] =
-		useState<string>('');
+	const [passwordConfirmValue, setPasswordConfirmValue] = useState<string>('');
 
 	const [isError, setIsError] = useState(false);
 	const [isErrorPassword, setIsErrorPassword] = useState(false);
 	const [verifError, setVerifError] = useState(false);
 
-	const emailRef = useRef();
-	const passwordRef = useRef();
-	const passwordConfirmRef = useRef();
+	const emailRef = useRef<RNTextInput>(null);
+	const passwordRef = useRef<RNTextInput>(null);
+	const passwordConfirmRef = useRef<RNTextInput>(null);
 
 	const handleChangeEmail = useCallback(
-		debounce(str => {
+		debounce((str) => {
 			setEmail(str);
 		}, 500),
 		[]
 	);
 
 	const handleChangePassword = useCallback(
-		debounce(str => {
+		debounce((str) => {
 			setPassword(str);
 		}, 500),
 		[]
 	);
 
 	const handleChangePasswordConfirm = useCallback(
-		debounce(str => {
+		debounce((str) => {
 			setPasswordConfirm(str);
 		}, 500),
 		[]
 	);
 
-	const onChangeEmail = text => {
+	const onChangeEmail = (text) => {
 		setEmailValue(text);
 		handleChangeEmail(text);
 	};
 
-	const onChangePassword = text => {
+	const onChangePassword = (text) => {
 		setPasswordValue(text);
 		handleChangePassword(text);
 	};
 
-	const onChangePasswordConfirm = text => {
+	const onChangePasswordConfirm = (text) => {
 		setPasswordConfirmValue(text);
 		handleChangePasswordConfirm(text);
 	};
@@ -120,10 +119,7 @@ const SheetAuth = () => {
 			passwordConfirm.length >= 5 &&
 			password === passwordConfirm
 		) {
-			const userSignUp = auth().createUserWithEmailAndPassword(
-				email,
-				password
-			);
+			const userSignUp = auth().createUserWithEmailAndPassword(email, password);
 			userSignUp
 				.then(() => {
 					auth()
@@ -132,23 +128,19 @@ const SheetAuth = () => {
 							url: 'https://schedule-11f30.firebaseapp.com'
 						})
 						.then(() => {
-							Alert.alert(
-								'Письмо с подтверждением почты успешно отправлено'
-							);
+							Alert.alert('Письмо с подтверждением почты успешно отправлено');
 							setShowEmailVerified(true);
 							setShowAuth(false);
 						})
-						.catch(error => {
+						.catch((error) => {
 							console.log(error);
-							Alert.alert(
-								'Не удалось отправить письмо с подтверждением'
-							);
+							Alert.alert('Не удалось отправить письмо с подтверждением');
 							setShowEmailVerified(false);
 							setShowAuth(true);
 							signOut();
 						});
 				})
-				.catch(error => {
+				.catch((error) => {
 					setIsErrorSignUp(error.message);
 					console.log(isErrorSignUp);
 					if (
@@ -157,9 +149,7 @@ const SheetAuth = () => {
 					) {
 						Alert.alert('Неверный формат почты');
 					} else {
-						Alert.alert(
-							'Аккаунт с такой почтой уже зарегестрирован'
-						);
+						Alert.alert('Аккаунт с такой почтой уже зарегестрирован');
 					}
 					setShowEmailVerified(false);
 					setShowAuth(true);
@@ -227,9 +217,7 @@ const SheetAuth = () => {
 	return (
 		<View>
 			<View style={styles.conMain}>
-				{loading ? (
-					<ActivityIndicator size='large' color='#F7F7F7' />
-				) : null}
+				{loading ? <ActivityIndicator size='large' color='#F7F7F7' /> : null}
 				{user && user.emailVerified === false && (
 					<View style={{ marginTop: 10, flex: 1 }}>
 						<Text
@@ -252,15 +240,14 @@ const SheetAuth = () => {
 								flex: 0.85,
 								color: '#F7F7F7'
 							}}>
-							Перейдите по ссылке в отправленном письме на вашу
-							почту: {user?.email}, чтобы подтвердить Email.{' '}
-							{`\n`}Возможно письмо может оказаться в папке
-							«Спам».
+							Перейдите по ссылке в отправленном письме на вашу почту:{' '}
+							{user?.email}, чтобы подтвердить Email. {`\n`}Возможно письмо
+							может оказаться в папке «Спам».
 						</Text>
 						а
 						<TouchableOpacity
 							onPress={() => {
-								auth().onIdTokenChanged(user => {
+								auth().onIdTokenChanged((user) => {
 									if (user && user.uid) {
 										if (user.emailVerified) {
 											setUser(user);
@@ -278,9 +265,7 @@ const SheetAuth = () => {
 								});
 							}}>
 							<View style={styles.signButton}>
-								<Text style={styles.signButtonText}>
-									Продолжить
-								</Text>
+								<Text style={styles.signButtonText}>Продолжить</Text>
 							</View>
 						</TouchableOpacity>
 						{verifError === true && (
@@ -293,7 +278,7 @@ const SheetAuth = () => {
 									.then(() => {
 										setUser(null);
 									})
-									.catch(error => {
+									.catch((error) => {
 										Alert.alert('Повторите попытку выхода');
 										console.log(error);
 									});
@@ -322,16 +307,13 @@ const SheetAuth = () => {
 							{register ? 'Создать учетную запись' : 'Войти'}
 						</Text>
 						<View style={styles.bottom}>
-							<Text
-								style={styles.reg}
-								onPress={() => setRegister(!register)}>
+							<Text style={styles.reg} onPress={() => setRegister(!register)}>
 								{register && (
 									<Text>
 										Уже есть учетная запись?
 										<Text
 											style={{
-												fontFamily:
-													'Montserrat-Regular',
+												fontFamily: 'Montserrat-Regular',
 												color: '#09C0A9'
 											}}>
 											{''} Войти
@@ -343,8 +325,7 @@ const SheetAuth = () => {
 										{`Новый пользователь?\n`}
 										<Text
 											style={{
-												fontFamily:
-													'Montserrat-Regular',
+												fontFamily: 'Montserrat-Regular',
 												color: '#09C0A9'
 											}}>
 											Создать учетную запись
@@ -356,10 +337,8 @@ const SheetAuth = () => {
 						<TouchableOpacity style={styles.container}>
 							{register ? (
 								<View style={styles.conSign}>
-									<Text style={styles.text}>
-										Адрес электронной почты
-									</Text>
-									<TextInput
+									<Text style={styles.text}>Адрес электронной почты</Text>
+									<RNTextInput
 										value={emailValue}
 										ref={emailRef}
 										onChangeText={onChangeEmail}
@@ -367,7 +346,7 @@ const SheetAuth = () => {
 										style={styles.inputVuz}
 									/>
 									<Text style={styles.text}>Пароль</Text>
-									<TextInput
+									<RNTextInput
 										value={passwordValue}
 										ref={passwordRef}
 										onChangeText={onChangePassword}
@@ -375,10 +354,8 @@ const SheetAuth = () => {
 										secureTextEntry={true}
 										style={styles.inputVuz}
 									/>
-									<Text style={styles.text}>
-										Подтвердите пароль
-									</Text>
-									<TextInput
+									<Text style={styles.text}>Подтвердите пароль</Text>
+									<RNTextInput
 										value={passwordConfirmValue}
 										ref={passwordConfirmRef}
 										onChangeText={onChangePasswordConfirm}
@@ -387,15 +364,11 @@ const SheetAuth = () => {
 										style={styles.inputVuz}
 									/>
 									{isErrorPassword && (
-										<Text style={styles.error}>
-											Пароли не совпадают
-										</Text>
+										<Text style={styles.error}>Пароли не совпадают</Text>
 									)}
 									{register && isError ? (
 										<View style={styles.conSign}>
-											<Text style={styles.error}>
-												Заполнены не все поля
-											</Text>
+											<Text style={styles.error}>Заполнены не все поля</Text>
 										</View>
 									) : null}
 									{!isError && !isErrorPassword && (
@@ -404,82 +377,59 @@ const SheetAuth = () => {
 								</View>
 							) : (
 								<View style={styles.conSign}>
-									<Text style={styles.text}>
-										Адрес электронной почты
-									</Text>
-									<TextInput
+									<Text style={styles.text}>Адрес электронной почты</Text>
+									<RNTextInput
 										value={email}
-										onChangeText={email => setEmail(email)}
+										onChangeText={(email) => setEmail(email)}
 										placeholder='Введите email'
 										style={styles.inputVuz}
 									/>
 									<Text style={styles.text}>Пароль</Text>
-									<TextInput
+									<RNTextInput
 										value={password}
-										onChangeText={password =>
-											setPassword(password)
-										}
+										onChangeText={(password) => setPassword(password)}
 										placeholder='Введите пароль'
 										secureTextEntry={true}
 										style={styles.inputVuz}
 									/>
 									{isError && (
 										<View style={styles.conSign}>
-											<Text style={styles.error}>
-												Заполнены не все поля
-											</Text>
+											<Text style={styles.error}>Заполнены не все поля</Text>
 										</View>
 									)}
-									{!isError && (
-										<Text style={styles.another}>или</Text>
-									)}
+									{!isError && <Text style={styles.another}>или</Text>}
 								</View>
 							)}
 						</TouchableOpacity>
 						<View style={{ flex: 1 }}>
-							{register &&
-								isError === false &&
-								isErrorPassword === false && (
-									<>
-										<TouchableOpacity
-											onPress={() => {
-												onGoogleButtonPress();
-											}}>
-											<View style={styles.conBtnActive}>
-												<Google
-													style={{ marginRight: 7 }}
-												/>
-												<Text
-													style={
-														styles.btnTextActive
-													}>
-													Продолжить с Google
-												</Text>
-											</View>
-										</TouchableOpacity>
-										<TouchableOpacity
-											onPress={() => {
-												Alert.alert(
-													'В скором времени вход через Apple аккаунт будет доступен'
-												);
-											}}>
-											<View
-												style={
-													styles.conBtnActiveApple
-												}>
-												<Apple
-													style={{ marginRight: 7 }}
-												/>
-												<Text
-													style={
-														styles.btnTextActiveApple
-													}>
-													Продолжить с Apple
-												</Text>
-											</View>
-										</TouchableOpacity>
-									</>
-								)}
+							{register && isError === false && isErrorPassword === false && (
+								<>
+									<TouchableOpacity
+										onPress={() => {
+											onGoogleButtonPress();
+										}}>
+										<View style={styles.conBtnActive}>
+											<Google style={{ marginRight: 7 }} />
+											<Text style={styles.btnTextActive}>
+												Продолжить с Google
+											</Text>
+										</View>
+									</TouchableOpacity>
+									<TouchableOpacity
+										onPress={() => {
+											Alert.alert(
+												'В скором времени вход через Apple аккаунт будет доступен'
+											);
+										}}>
+										<View style={styles.conBtnActiveApple}>
+											<Apple style={{ marginRight: 7 }} />
+											<Text style={styles.btnTextActiveApple}>
+												Продолжить с Apple
+											</Text>
+										</View>
+									</TouchableOpacity>
+								</>
+							)}
 							{!register && !isError && (
 								<>
 									<TouchableOpacity
@@ -487,9 +437,7 @@ const SheetAuth = () => {
 											onGoogleButtonPress();
 										}}>
 										<View style={styles.conBtnActive}>
-											<Google
-												style={{ marginRight: 7 }}
-											/>
+											<Google style={{ marginRight: 7 }} />
 											<Text style={styles.btnTextActive}>
 												Продолжить с Google
 											</Text>
@@ -503,10 +451,7 @@ const SheetAuth = () => {
 										}}>
 										<View style={styles.conBtnActiveApple}>
 											<Apple style={{ marginRight: 7 }} />
-											<Text
-												style={
-													styles.btnTextActiveApple
-												}>
+											<Text style={styles.btnTextActiveApple}>
 												Продолжить с Apple
 											</Text>
 										</View>
@@ -514,26 +459,14 @@ const SheetAuth = () => {
 								</>
 							)}
 						</View>
-						{!register &&
-							isError === false &&
-							isErrorPassword === false && (
-								<TouchableOpacity
-									style={styles.signButton}
-									onPress={signIn}>
-									<Text style={styles.signButtonText}>
-										Продолжить
-									</Text>
-								</TouchableOpacity>
-							)}
-						{register &&
-						isError === false &&
-						isErrorPassword === false ? (
-							<TouchableOpacity
-								style={styles.signButton}
-								onPress={signUp}>
-								<Text style={styles.signButtonText}>
-									Регистрация
-								</Text>
+						{!register && isError === false && isErrorPassword === false && (
+							<TouchableOpacity style={styles.signButton} onPress={signIn}>
+								<Text style={styles.signButtonText}>Продолжить</Text>
+							</TouchableOpacity>
+						)}
+						{register && isError === false && isErrorPassword === false ? (
+							<TouchableOpacity style={styles.signButton} onPress={signUp}>
+								<Text style={styles.signButtonText}>Регистрация</Text>
 							</TouchableOpacity>
 						) : null}
 					</View>

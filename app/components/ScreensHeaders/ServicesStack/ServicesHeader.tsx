@@ -2,9 +2,12 @@ import { Image, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { useFetchUserData } from '../../../hooks/useFetchUserData';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../../@types/navigation';
 
 const ServicesHeader = ({ width }) => {
-	const navigation = useNavigation();
+	const navigation =
+		useNavigation<StackNavigationProp<RootStackParamList, 'ContactInfo'>>();
 	const { userData } = useFetchUserData();
 	const theme = useTheme();
 
